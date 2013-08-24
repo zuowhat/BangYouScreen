@@ -5,7 +5,7 @@
  * should not be modified by hand.
  */
 
-package org.game.bangyouscreen;
+package org.andengine;
 
 public final class R {
     public static final class attr {
