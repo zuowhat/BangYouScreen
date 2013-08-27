@@ -3,6 +3,7 @@ package org.game.bangyouscreen.Menus;
 
 
 
+
 import org.andengine.engine.handler.IUpdateHandler;
 import org.andengine.entity.IEntity;
 import org.andengine.entity.modifier.DelayModifier;
@@ -11,7 +12,6 @@ import org.andengine.entity.modifier.FadeOutModifier;
 import org.andengine.entity.modifier.ParallelEntityModifier;
 import org.andengine.entity.modifier.ScaleAtModifier;
 import org.andengine.entity.modifier.SequenceEntityModifier;
-import org.andengine.entity.scene.Scene;
 import org.andengine.entity.scene.background.Background;
 import org.andengine.entity.sprite.Sprite;
 import org.andengine.opengl.texture.TextureOptions;
@@ -20,6 +20,7 @@ import org.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlasTextureRegion
 import org.andengine.opengl.texture.region.ITextureRegion;
 import org.andengine.util.modifier.IModifier;
 import org.andengine.util.modifier.IModifier.IModifierListener;
+import org.game.bangyouscreen.Managers.ManagedScene;
 import org.game.bangyouscreen.Managers.ResourceManager;
 
 
@@ -29,7 +30,9 @@ import org.game.bangyouscreen.Managers.ResourceManager;
  * @version 1.0
  * @since 2013.08.26 
  */
-public class SplashScreen extends Scene{
+public class SplashScreen extends ManagedScene{
+	
+	public SplashScreen thisSplashScene = this;
 	
 	//图片缩放至屏幕的70%
 	private static final float mEachScaleToSize = 0.7f * ResourceManager.getInstance().cameraScaleFactorY;
@@ -109,7 +112,20 @@ public class SplashScreen extends Scene{
 			@Override
 			public void reset() {}
 		});
-		
-		
+	}
+	
+	public void onUnloadScene() {
+		ResourceManager.getInstance().engine.runOnUpdateThread(new Runnable() {
+			@Override
+			public void run() {
+				thisSplashScene.detachChildren();
+				for(int i = 0; i < thisSplashScene.getChildCount(); i++)
+					thisSplashScene.getChildByIndex(i).dispose();
+					thisSplashScene.clearEntityModifiers();
+					thisSplashScene.clearTouchAreas();
+					thisSplashScene.clearUpdateHandlers();
+					beginOneTexture.unload();
+					beginTwoTexture.unload();
+			}});
 	}
 }

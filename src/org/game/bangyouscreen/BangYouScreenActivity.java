@@ -12,6 +12,7 @@ import org.andengine.entity.scene.Scene;
 import org.andengine.ui.activity.BaseGameActivity;
 import org.game.bangyouscreen.Managers.ResourceManager;
 import org.game.bangyouscreen.Managers.SceneManager;
+import org.game.bangyouscreen.Menus.SplashScreen;
 
 import android.view.View.MeasureSpec;
 
@@ -111,7 +112,7 @@ public class BangYouScreenActivity extends BaseGameActivity {
 	@Override
 	public void onCreateScene(OnCreateSceneCallback pOnCreateSceneCallback){
 		System.out.println("onCreateScene");
-		SceneManager.getInstance().showScene();
+		SceneManager.getInstance().showScene(new SplashScreen());
 		
 		
 		pOnCreateSceneCallback.onCreateSceneFinished(mEngine.getScene());
