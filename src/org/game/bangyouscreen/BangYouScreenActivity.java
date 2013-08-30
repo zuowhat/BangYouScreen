@@ -1,13 +1,18 @@
 package org.game.bangyouscreen;
 
-import java.io.IOException;
-
-import org.andengine.engine.camera.Camera;
+import org.andengine.engine.Engine;
+import org.andengine.engine.FixedStepEngine;
+import org.andengine.engine.camera.SmoothCamera;
 import org.andengine.engine.options.EngineOptions;
+import org.andengine.engine.options.ScreenOrientation;
+import org.andengine.engine.options.WakeLockOptions;
 import org.andengine.engine.options.resolutionpolicy.FillResolutionPolicy;
 import org.andengine.engine.options.resolutionpolicy.IResolutionPolicy;
 import org.andengine.entity.scene.Scene;
 import org.andengine.ui.activity.BaseGameActivity;
+import org.game.bangyouscreen.Managers.ResourceManager;
+import org.game.bangyouscreen.Managers.SceneManager;
+import org.game.bangyouscreen.Menus.SplashScreen;
 
 import android.view.View.MeasureSpec;
 
@@ -30,10 +35,16 @@ public class BangYouScreenActivity extends BaseGameActivity {
 	public float cameraHeight;
 	public float actualWindowWidthInches;
 	public float actualWindowHeightInches;
-	public Camera mCamera;
+	public SmoothCamera mCamera;
 
-	@Override
+	
+	public Engine onCreateEngine(EngineOptions pEngineOptions) { 
+		return new FixedStepEngine(pEngineOptions, 60); 
+	}
+
+	
 	public EngineOptions onCreateEngineOptions() {
+		System.out.println("onCreateEngineOptions");
 		//重写ResolutionPolicy中的onMeasure()方法来设置镜头的大小
 		//这种方式比使用DisplayMetrics.getWidth方法好，因为它使用window来代替display
 		//This should also be better for if  the game is placed in a layout where simply measuring the display would give entirely wrong results.
@@ -49,13 +60,13 @@ public class BangYouScreenActivity extends BaseGameActivity {
 				actualWindowWidthInches = measuredWidth / getResources().getDisplayMetrics().xdpi;
 				actualWindowHeightInches = measuredHeight / getResources().getDisplayMetrics().ydpi;
 				
-				// Get an initial width for the camera, and bound it to the minimum or maximum values.
+				// 初始化镜头的宽度
 				float actualScaledWidthInPixels = DESIGN_WINDOW_WIDTH_PIXELS * (actualWindowWidthInches / DESIGN_WINDOW_WIDTH_INCHES);
 				float boundScaledWidthInPixels = Math.round(Math.max(Math.min(actualScaledWidthInPixels,MAX_WIDTH_PIXELS),MIN_WIDTH_PIXELS));
 				
-				// Get the height for the camera based on the width and the height/width ratio of the device
+				//根据设备的宽度和 高度/宽度比来获取镜头的高度
 				float boundScaledHeightInPixels = boundScaledWidthInPixels * (actualWindowHeightInches / actualWindowWidthInches);
-				// If the height is outside of the set bounds, scale the width to match it.
+				// 如果高度超出界限，则重新设置宽度值来匹配它
 				if(boundScaledHeightInPixels > MAX_HEIGHT_PIXELS) {
 					float boundAdjustmentRatio = MAX_HEIGHT_PIXELS / boundScaledHeightInPixels;
 					boundScaledWidthInPixels *= boundAdjustmentRatio;
@@ -65,40 +76,56 @@ public class BangYouScreenActivity extends BaseGameActivity {
 					boundScaledWidthInPixels *= boundAdjustmentRatio;
 					boundScaledHeightInPixels *= boundAdjustmentRatio;
 				}
-				// set the height and width variables
 				cameraHeight = boundScaledHeightInPixels;
 				cameraWidth = boundScaledWidthInPixels;
-				// apply the height and width variables
 				mCamera.set(0f, 0f, cameraWidth, cameraHeight);
 			}
 		};
-		return null;
+		mCamera = new SmoothCamera(0, 0, 320, 240, 4000f, 2000f, 0.5f);
+		EngineOptions engineOptions = new EngineOptions(true, ScreenOrientation.LANDSCAPE_SENSOR, EngineFillResolutionPolicy, mCamera);
+
+		// Enable sounds.
+		engineOptions.getAudioOptions().setNeedsSound(true);
+		// Enable music.
+		engineOptions.getAudioOptions().setNeedsMusic(true);
+		// Turn on Dithering to smooth texture gradients.打开抖动平滑纹理梯度。
+		engineOptions.getRenderOptions().setDithering(true);
+		// Turn on MultiSampling to smooth the alias of hard-edge elements.
+		engineOptions.getRenderOptions().getConfigChooserOptions().setRequestedMultiSampling(true);
+		// Set the Wake Lock options to prevent the engine from dumping textures when focus changes.
+		engineOptions.setWakeLockOptions(WakeLockOptions.SCREEN_ON);
+		
+		return engineOptions;
 	}
 
 	@Override
 	public void onCreateResources(
-			OnCreateResourcesCallback pOnCreateResourcesCallback)
-			throws IOException {
-		// TODO Auto-generated method stub
+			OnCreateResourcesCallback pOnCreateResourcesCallback){
+		ResourceManager.setup(this,  (FixedStepEngine)this.getEngine(), this.getApplicationContext(), cameraWidth, cameraHeight, cameraWidth/DESIGN_WINDOW_WIDTH_PIXELS, cameraHeight/DESIGN_WINDOW_HEIGHT_PIXELS);
+		System.out.println("onCreateResources");
 		
+		
+		
+		pOnCreateResourcesCallback.onCreateResourcesFinished();
 	}
 
 	@Override
-	public void onCreateScene(OnCreateSceneCallback pOnCreateSceneCallback)
-			throws IOException {
-		// TODO Auto-generated method stub
+	public void onCreateScene(OnCreateSceneCallback pOnCreateSceneCallback){
+		System.out.println("onCreateScene");
+		SceneManager.getInstance().showScene(new SplashScreen());
 		
+		
+		pOnCreateSceneCallback.onCreateSceneFinished(mEngine.getScene());
 	}
 
 	@Override
 	public void onPopulateScene(Scene pScene,
-			OnPopulateSceneCallback pOnPopulateSceneCallback)
-			throws IOException {
-		// TODO Auto-generated method stub
+			OnPopulateSceneCallback pOnPopulateSceneCallback) {
 		
+		pOnPopulateSceneCallback.onPopulateSceneFinished();
 	}
 
-  
+	
 
    
 }
