@@ -22,13 +22,13 @@ public class SceneManager {
 	private Engine mEngine = ResourceManager.getInstance().engine;
 	//在加载资源之间，确保加载画面显示为1帧
 	private int mNumFramesPassed = -1;
-	//用于标记mLoadingScreenHandler是否被注册
+	//用于标记mLoadingScreenHandler是否被引擎注册
 	private boolean mLoadingScreenHandlerRegistered = false;
+	
+	//用于显示加载画面的方法
 	private IUpdateHandler mLoadingScreenHandler = new IUpdateHandler() {
-
 		@Override
 		public void onUpdate(float pSecondsElapsed) {
-			
 			mNumFramesPassed++;
 			
 			//设置加载画面显示的时间
@@ -68,15 +68,37 @@ public class SceneManager {
 		public void reset() {}
 	};
 	
+	/**
+	 * 显示场景
+	 */
+	public void showScene(ManagedScene pManagedScene){
+		//初始化镜头
+		mEngine.getCamera().set(0, 0, ResourceManager.getInstance().cameraWidth, ResourceManager.getInstance().cameraHeight);
+		if(pManagedScene.hasLoadingScreen){
+			pManagedScene.setChildScene(pManagedScene.onLoadingScreenLoadAndShown(), true, true, true);
+			if(mLoadingScreenHandlerRegistered){
+				//一般情况不会进入这条if语句，但是如果使用UI线程来显示场景的话，则会进入。
+				mNumFramesPassed = -1;
+				mNextScene.clearChildScene();
+				mNextScene.onLoadingScreenUnloadAndHidden();
+			}else{
+				mEngine.registerUpdateHandler(mLoadingScreenHandler);
+				mLoadingScreenHandlerRegistered = true;
+			}
+			mNextScene = pManagedScene;
+			mEngine.setScene(pManagedScene);
+			return;
+		}
+		
+		pManagedScene.onLoadScene();
+		mEngine.setScene(pManagedScene);
+	}
 	
 	// 快速显示主菜单
 	public void showMainMenu() {
 		//showScene(MainMenu.getInstance());
 	}
 	
-	public void showScene(ManagedScene pManagedScene){
-		pManagedScene.onLoadScene();
-		mEngine.setScene(pManagedScene);
-	}
+	
 
 }

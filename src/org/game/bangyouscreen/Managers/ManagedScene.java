@@ -4,6 +4,9 @@ import org.andengine.entity.scene.Scene;
 
 public abstract class ManagedScene extends Scene{
 	
+	//是否包含加载画面
+	public final boolean hasLoadingScreen;
+	
 	//加载画面显示多长时间，在SceneManaher中设置
 	public float elapsedLoadingScreenTime = 0f;
 	

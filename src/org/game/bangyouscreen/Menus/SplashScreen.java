@@ -119,8 +119,9 @@ public class SplashScreen extends ManagedScene{
 			@Override
 			public void run() {
 				thisSplashScene.detachChildren();
-				for(int i = 0; i < thisSplashScene.getChildCount(); i++)
+				for(int i = 0; i < thisSplashScene.getChildCount(); i++){
 					thisSplashScene.getChildByIndex(i).dispose();
+				}
 					thisSplashScene.clearEntityModifiers();
 					thisSplashScene.clearTouchAreas();
 					thisSplashScene.clearUpdateHandlers();
