@@ -1,9 +1,5 @@
 package org.game.bangyouscreen.Menus;
 
-
-
-
-
 import org.andengine.engine.handler.IUpdateHandler;
 import org.andengine.entity.IEntity;
 import org.andengine.entity.modifier.DelayModifier;
@@ -23,6 +19,7 @@ import org.andengine.util.modifier.IModifier;
 import org.andengine.util.modifier.IModifier.IModifierListener;
 import org.game.bangyouscreen.Managers.ManagedScene;
 import org.game.bangyouscreen.Managers.ResourceManager;
+import org.game.bangyouscreen.Managers.SceneManager;
 
 
 /**
@@ -97,6 +94,17 @@ public class SplashScreen extends ManagedScene{
 			public void onModifierStarted(final IModifier<IEntity> pModifier, final IEntity pItem) {}
 		});
 		
+		beginTwoSequence.addModifierListener(new IModifierListener<IEntity>() {
+			@Override
+			public void onModifierFinished(final IModifier<IEntity> pModifier, final IEntity pItem) {
+				//显示主界面
+				SceneManager.getInstance().showMainMenu();
+			}
+			
+			@Override
+			public void onModifierStarted(final IModifier<IEntity> pModifier, final IEntity pItem) {}
+		});
+		
 		this.registerUpdateHandler(new IUpdateHandler() {
 			int counter = 0;
 			
@@ -107,7 +115,6 @@ public class SplashScreen extends ManagedScene{
 					beginOneSprite.registerEntityModifier(beginOneSequence);
 					unregisterUpdateHandler(this);
 				}
-				System.out.println("count--->"+counter);
 			}
 			
 			@Override
