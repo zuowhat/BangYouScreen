@@ -12,6 +12,7 @@ import org.andengine.entity.modifier.FadeOutModifier;
 import org.andengine.entity.modifier.ParallelEntityModifier;
 import org.andengine.entity.modifier.ScaleAtModifier;
 import org.andengine.entity.modifier.SequenceEntityModifier;
+import org.andengine.entity.scene.Scene;
 import org.andengine.entity.scene.background.Background;
 import org.andengine.entity.sprite.Sprite;
 import org.andengine.opengl.texture.TextureOptions;
@@ -122,11 +123,35 @@ public class SplashScreen extends ManagedScene{
 				for(int i = 0; i < thisSplashScene.getChildCount(); i++){
 					thisSplashScene.getChildByIndex(i).dispose();
 				}
-					thisSplashScene.clearEntityModifiers();
-					thisSplashScene.clearTouchAreas();
-					thisSplashScene.clearUpdateHandlers();
-					beginOneTexture.unload();
-					beginTwoTexture.unload();
+				thisSplashScene.clearEntityModifiers();
+				thisSplashScene.clearTouchAreas();
+				thisSplashScene.clearUpdateHandlers();
+				beginOneTexture.unload();
+				beginTwoTexture.unload();
 			}});
+	}
+
+	@Override
+	public Scene onLoadingScreenLoadAndShown() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void onLoadingScreenUnloadAndHidden() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void onShowScene() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void onHideScene() {
+		// TODO Auto-generated method stub
+		
 	}
 }

@@ -86,12 +86,19 @@ public class SceneManager {
 				mLoadingScreenHandlerRegistered = true;
 			}
 			mNextScene = pManagedScene;
-			mEngine.setScene(pManagedScene);
+			mEngine.setScene(mNextScene);
 			return;
 		}
-		
-		pManagedScene.onLoadScene();
-		mEngine.setScene(pManagedScene);
+		mNextScene = pManagedScene;
+		mEngine.setScene(mNextScene);
+		//卸载当前场景
+		if(mCurrentScene != null){
+			mCurrentScene.onHideManagedScene();
+			mCurrentScene.onUnloadManagedScene();
+		}
+		mNextScene.onLoadManagedScene();
+		mNextScene.onShowManagedScene();
+		mCurrentScene = mNextScene;
 	}
 	
 	// 快速显示主菜单

@@ -16,6 +16,15 @@ public abstract class ManagedScene extends Scene{
 	//场景是否被加载
 	public boolean isLoaded = false;
 	
+	public ManagedScene(){
+		this(0f);
+	}
+	
+	public ManagedScene(final float pLoadingScreenMinimumSecondsShown) {
+		minLoadingScreenTime = pLoadingScreenMinimumSecondsShown;
+		hasLoadingScreen = (minLoadingScreenTime > 0f);
+	}
+	
 	public void onShowManagedScene() {
 		this.setIgnoreUpdate(false);
 		onShowScene();
