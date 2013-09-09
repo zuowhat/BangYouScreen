@@ -37,12 +37,12 @@ public class SplashScreen extends ManagedScene{
 	
 	//启动画面1
 	private static final BitmapTextureAtlas beginOneTexture = new BitmapTextureAtlas(ResourceManager.getEngine().getTextureManager(), 200, 200, TextureOptions.BILINEAR);
-	private static final ITextureRegion beginOneTextureRegion = BitmapTextureAtlasTextureRegionFactory.createFromAsset(beginOneTexture, ResourceManager.getContext(), "gfx/begin1.png", 0, 0);
+	private static final ITextureRegion beginOneTextureRegion = BitmapTextureAtlasTextureRegionFactory.createFromAsset(beginOneTexture, ResourceManager.getContext(), "gfx/splash/begin1.png", 0, 0);
 	private static final Sprite beginOneSprite = new Sprite((ResourceManager.getInstance().cameraWidth) / 2f, (ResourceManager.getInstance().cameraHeight) / 2f, beginOneTextureRegion, ResourceManager.getEngine().getVertexBufferObjectManager());
 	
 	//启动画面2
 	private static final BitmapTextureAtlas beginTwoTexture = new BitmapTextureAtlas(ResourceManager.getEngine().getTextureManager(), 200, 200, TextureOptions.BILINEAR);
-	private static final ITextureRegion beginTwoTextureRegion = BitmapTextureAtlasTextureRegionFactory.createFromAsset(beginTwoTexture, ResourceManager.getContext(), "gfx/begin2.png", 0, 0);
+	private static final ITextureRegion beginTwoTextureRegion = BitmapTextureAtlasTextureRegionFactory.createFromAsset(beginTwoTexture, ResourceManager.getContext(), "gfx/splash/begin2.png", 0, 0);
 	private static final Sprite beginTwoSprite = new Sprite(beginOneSprite.getX(), beginOneSprite.getY(), beginTwoTextureRegion, ResourceManager.getEngine().getVertexBufferObjectManager());
 	
 	//启动画面1的实体修饰符

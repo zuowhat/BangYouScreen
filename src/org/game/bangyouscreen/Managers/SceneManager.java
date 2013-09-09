@@ -4,7 +4,7 @@ package org.game.bangyouscreen.Managers;
 
 import org.andengine.engine.Engine;
 import org.andengine.engine.handler.IUpdateHandler;
-import org.game.bangyouscreen.Menus.SplashScreen;
+import org.game.bangyouscreen.Menus.MainMenu;
 
 
 
@@ -103,7 +103,7 @@ public class SceneManager {
 	
 	// 快速显示主菜单
 	public void showMainMenu() {
-		//showScene(MainMenu.getInstance());
+		showScene(MainMenu.getInstance());
 	}
 	
 	
