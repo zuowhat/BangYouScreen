@@ -125,7 +125,6 @@ public class BangYouScreenActivity extends BaseGameActivity {
 		pOnPopulateSceneCallback.onPopulateSceneFinished();
 	}
 
-	
 
    
 }

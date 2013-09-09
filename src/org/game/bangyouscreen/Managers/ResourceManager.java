@@ -30,7 +30,7 @@ public class ResourceManager extends Object{
 	private static final TextureOptions mNormalTextureOption = TextureOptions.BILINEAR;
 	
 	public static TextureRegion mainMenuBackgroundTR;
-	public static TiledTextureRegion mainMenuButtonsTTR;
+	public static TextureRegion mainMenuButtonsTR;
 	public static TextureRegion mainMenuTitleTR;
 	public static Font mFont;
 	
@@ -68,6 +68,11 @@ public class ResourceManager extends Object{
 		getInstance().loadSharedResources();
 	}
 	
+	public static void loadGameResources(){
+		getInstance().loadGameTextures();
+		getInstance().loadSharedResources();
+	}
+	
 	private void loadSharedResources(){
 		getInstance().loadSharedTextures();
 		getInstance().loadFonts();
@@ -76,7 +81,7 @@ public class ResourceManager extends Object{
 	// ============================ 菜单纹理  ================= //
 	private void loadMenuTextures(){
 		mPreviousAssetBasePath = BitmapTextureAtlasTextureRegionFactory.getAssetBasePath();
-		BitmapTextureAtlasTextureRegionFactory.setAssetBasePath("gfx/menu");
+		BitmapTextureAtlasTextureRegionFactory.setAssetBasePath("gfx/menu/");
 		if(mainMenuBackgroundTR == null){
 			BitmapTextureAtlas mainMenuBackgroundBTA = new BitmapTextureAtlas(activity.getTextureManager(),540,480,mNormalTextureOption);
 			mainMenuBackgroundTR = BitmapTextureAtlasTextureRegionFactory.createFromAsset(mainMenuBackgroundBTA, activity, "background.png",0,0);
@@ -87,12 +92,17 @@ public class ResourceManager extends Object{
 			mainMenuTitleTR = BitmapTextureAtlasTextureRegionFactory.createFromAsset(mainMenuTitleBTA, activity, "BangYouScreenTitle.png",0,0);
 			mainMenuTitleBTA.load();
 		}
-		if(mainMenuButtonsTTR == null){
-			BitmapTextureAtlas mainMenuButtonsBTA = new BitmapTextureAtlas(activity.getTextureManager(),256,128,mNormalTextureOption);
-			mainMenuButtonsTTR = BitmapTextureAtlasTextureRegionFactory.createTiledFromAsset(mainMenuButtonsBTA, activity, "MainMenuButtons.png", 0,0,1,4);
+		if(mainMenuButtonsTR == null){
+			BitmapTextureAtlas mainMenuButtonsBTA = new BitmapTextureAtlas(activity.getTextureManager(),128,32,mNormalTextureOption);
+			mainMenuButtonsTR = BitmapTextureAtlasTextureRegionFactory.createFromAsset(mainMenuButtonsBTA, activity, "MainMenuButtons.png",0,0);
 			mainMenuButtonsBTA.load();
 		}
 		BitmapTextureAtlasTextureRegionFactory.setAssetBasePath(mPreviousAssetBasePath);
+	}
+	
+	// ============================ 游戏纹理  ================= //
+	private void loadGameTextures(){
+		
 	}
 	
 	// ============================ 公共纹理  ================= //
