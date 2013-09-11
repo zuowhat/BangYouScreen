@@ -33,7 +33,7 @@ public class SplashScreen extends ManagedScene{
 	public SplashScreen thisSplashScene = this;
 	
 	//图片缩放至屏幕的70%
-	private static final float mEachScaleToSize = 0.7f * ResourceManager.getInstance().cameraScaleFactorY;
+	private static final float mEachScaleToSize = 1.1f * ResourceManager.getInstance().cameraScaleFactorY;
 	
 	//启动画面1
 	private static final BitmapTextureAtlas beginOneTexture = new BitmapTextureAtlas(ResourceManager.getEngine().getTextureManager(), 200, 200, TextureOptions.BILINEAR);

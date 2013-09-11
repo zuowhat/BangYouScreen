@@ -1,5 +1,6 @@
 package org.game.bangyouscreen;
 
+
 import org.andengine.engine.Engine;
 import org.andengine.engine.FixedStepEngine;
 import org.andengine.engine.camera.SmoothCamera;
@@ -125,6 +126,16 @@ public class BangYouScreenActivity extends BaseGameActivity {
 		pOnPopulateSceneCallback.onPopulateSceneFinished();
 	}
 
-
+	protected synchronized void onResume() {
+		super.onResume();
+		System.gc();
+//		if(this.isGameLoaded())
+//			SFXManager.resumeMusic();
+	}
+	
+//	protected void onDestroy() {
+//		super.onDestroy();
+//		System.exit(0);
+//	}
    
 }

@@ -24,7 +24,7 @@ public class MainMenu extends ManagedScene{
 	private VertexBufferObjectManager mVertexBufferObjectManager = ResourceManager.getEngine().getVertexBufferObjectManager();
 	
 	private Entity mainMenuScreen; //主菜单
-	private Entity singleModeChildren;//单人模式子菜单
+	//private Entity singleModeChildren;//单人模式子菜单
 	Sprite mainMenuTitleSprite;//主菜单标题
 	
 	public static MainMenu getInstance(){
@@ -70,17 +70,19 @@ public class MainMenu extends ManagedScene{
 			}
 		};
 		
-		singleModeChildren = new Entity(0,-mCameraHeight);
-		ButtonSprite challengeModeBS = new ButtonSprite(0f,0f,buttonsBG,mVertexBufferObjectManager);
-		challengeModeBS.setPosition(mCameraWidth / 2f, mCameraHeight / 2f);
-		Text challengeModeText = new Text(0f, 0f,ResourceManager.mFont,"挑战模式",mVertexBufferObjectManager);
+		//singleModeChildren = new Entity(0,-mCameraHeight);
+		final ButtonSprite challengeModeBS = new ButtonSprite(0f,0f,buttonsBG,mVertexBufferObjectManager);
+		challengeModeBS.setPosition(mCameraWidth / 2f, 0f);
+		challengeModeBS.setVisible(false);
+		final Text challengeModeText = new Text(0f, 0f,ResourceManager.mFont,"挑战模式",mVertexBufferObjectManager);
 		challengeModeText.setPosition(challengeModeBS.getWidth()/2f, challengeModeBS.getHeight()/2f);
 		challengeModeBS.attachChild(challengeModeText);
-		singleModeChildren.attachChild(challengeModeBS);
+		//singleModeChildren.attachChild(challengeModeBS);
+		mainMenuScreen.attachChild(challengeModeBS);
 		
 		
-		mainMenuTitleSprite = new Sprite(0f, mCameraHeight + mainMenuTitleSprite.getHeight(), ResourceManager.mainMenuTitleTR, mVertexBufferObjectManager);
-		mainMenuTitleSprite.registerEntityModifier(new MoveModifier(1f, mainMenuTitleSprite.getX(), 
+		mainMenuTitleSprite = new Sprite(0f, mCameraHeight + ResourceManager.mainMenuTitleTR.getHeight(), ResourceManager.mainMenuTitleTR, mVertexBufferObjectManager);
+		mainMenuTitleSprite.registerEntityModifier(new MoveModifier(1f, mCameraWidth / 2f, 
 				mainMenuTitleSprite.getY(), mCameraWidth / 2f, mCameraHeight - (mainMenuTitleSprite.getHeight() / 2f)));
 		//mainMenuTitleSprite.setPosition(mCameraWidth / 2f, mCameraHeight - (mainMenuTitleSprite.getHeight() / 2f) );
 		mainMenuTitleSprite.setZIndex(-80);
@@ -89,29 +91,36 @@ public class MainMenu extends ManagedScene{
 		final float ButtonSpacing = 25f * ResourceManager.getInstance().cameraScaleFactorY;//按钮之间的间隔
 		
 		
-		ButtonSprite singleModeBS = new ButtonSprite(0f,0f,buttonsBG,mVertexBufferObjectManager);
+		final ButtonSprite singleModeBS = new ButtonSprite(0f,0f,buttonsBG,mVertexBufferObjectManager);
 		//singleModeSprite.setPosition(mCameraWidth / 2f, mCameraHeight + buttonsBG.getHeight() + ButtonSpacing);
 		singleModeBS.setPosition(mCameraWidth / 2f, mCameraHeight / 2f);
-		Text singleModeText = new Text(0f, 0f,ResourceManager.mFont,"单人模式",mVertexBufferObjectManager);
+		final Text singleModeText = new Text(0f, 0f,ResourceManager.mFont,"单人模式",mVertexBufferObjectManager);
 		singleModeText.setPosition(buttonsBG.getWidth() / 2f, buttonsBG.getHeight() / 2f);
 		singleModeBS.attachChild(singleModeText);
 		mainMenuScreen.attachChild(singleModeBS);
 		
 		singleModeBS.setOnClickListener(new OnClickListener(){
 			public void onClick(ButtonSprite pButtonSprite, float pTouchAreaLocalX, float pTouchAreaLocalY) {
-				mainMenuScreen.registerEntityModifier(new ParallelEntityModifier(
-						new MoveModifier(1f,mainMenuScreen.getX(),mainMenuScreen.getY(),0f,mCameraHeight),
-						new FadeOutModifier(1f)));
-				singleModeChildren.registerEntityModifier(new ParallelEntityModifier(
-						new MoveModifier(1f,singleModeChildren.getX(),singleModeChildren.getY(),0f,0f),
+				singleModeBS.registerEntityModifier(new ParallelEntityModifier(
+						new FadeOutModifier(1f),
+						new MoveModifier(1f,singleModeBS.getX(),singleModeBS.getY(),singleModeBS.getX(),mCameraHeight)
+						));
+				singleModeText.registerEntityModifier(new FadeOutModifier(1f));
+//				singleModeChildren.registerEntityModifier(new ParallelEntityModifier(
+//						new MoveModifier(1f,singleModeChildren.getX(),singleModeChildren.getY(),0f,0f),
+//						new FadeInModifier(0.5f)));
+				challengeModeBS.setVisible(true);
+				challengeModeBS.registerEntityModifier(new ParallelEntityModifier(
+						new MoveModifier(1f,challengeModeBS.getX(),challengeModeBS.getY(),challengeModeBS.getX(), mCameraHeight / 2f),
 						new FadeInModifier(1f)));
+				challengeModeText.registerEntityModifier(new FadeInModifier(1f));
 			}
 		});
 		registerTouchArea(singleModeBS);
 	
 		this.attachChild(mainMenuTitleSprite);
 		this.attachChild(this.mainMenuScreen);
-		this.attachChild(this.singleModeChildren);
+		//this.attachChild(this.singleModeChildren);
 	}
 	
 	@Override
