@@ -32,7 +32,7 @@ public class SplashScreen extends ManagedScene{
 	
 	public SplashScreen thisSplashScene = this;
 	
-	//图片缩放至屏幕的70%
+	//对显示的图片进行缩放
 	private static final float mEachScaleToSize = 1.1f * ResourceManager.getInstance().cameraScaleFactorY;
 	
 	//启动画面1

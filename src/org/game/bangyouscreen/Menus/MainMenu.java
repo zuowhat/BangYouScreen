@@ -38,6 +38,7 @@ public class MainMenu extends ManagedScene{
 	@Override
 	public Scene onLoadingScreenLoadAndShown() {
 		ResourceManager.loadMenuResources();
+		ResourceManager.setupForMenus();
 		Scene managerLoadScreen = new Scene();
 		backgroundSprite = new Sprite(0f,0f, ResourceManager.mainMenuBackgroundTR,mVertexBufferObjectManager);
 		//根据屏幕尺寸，对背景图片进行缩放
@@ -99,6 +100,7 @@ public class MainMenu extends ManagedScene{
 		singleModeBS.attachChild(singleModeText);
 		mainMenuScreen.attachChild(singleModeBS);
 		
+		//单人模式按钮点击事件
 		singleModeBS.setOnClickListener(new OnClickListener(){
 			public void onClick(ButtonSprite pButtonSprite, float pTouchAreaLocalX, float pTouchAreaLocalY) {
 				singleModeBS.registerEntityModifier(new ParallelEntityModifier(
@@ -129,7 +131,6 @@ public class MainMenu extends ManagedScene{
 			this.attachChild(this.backgroundSprite);
 			this.sortChildren();
 		}
-		
 	}
 
 	@Override

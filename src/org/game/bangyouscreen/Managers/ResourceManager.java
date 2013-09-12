@@ -8,8 +8,9 @@ import org.andengine.opengl.font.FontFactory;
 import org.andengine.opengl.texture.TextureOptions;
 import org.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlas;
 import org.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlasTextureRegionFactory;
+import org.andengine.opengl.texture.atlas.bitmap.source.AssetBitmapTextureAtlasSource;
+import org.andengine.opengl.texture.atlas.bitmap.source.IBitmapTextureAtlasSource;
 import org.andengine.opengl.texture.region.TextureRegion;
-import org.andengine.opengl.texture.region.TiledTextureRegion;
 import org.andengine.util.adt.color.Color;
 import org.game.bangyouscreen.BangYouScreenActivity;
 
@@ -52,6 +53,20 @@ public class ResourceManager extends Object{
 	public static SmoothCamera getCamera(){
 		return (SmoothCamera) getInstance().engine.getCamera();
 	}
+	
+	//用于复位镜头
+	public static void setupForMenus() {
+		final SmoothCamera sc = ResourceManager.getCamera();
+		sc.setBoundsEnabled(false);
+		sc.setChaseEntity(null);
+		sc.setZoomFactorDirect(1f);
+		sc.setZoomFactor(1f);
+		sc.setCenterDirect(ResourceManager.getInstance().cameraWidth / 2f,
+				ResourceManager.getInstance().cameraHeight / 2f);
+		sc.setCenter(ResourceManager.getInstance().cameraWidth / 2f,
+				ResourceManager.getInstance().cameraHeight / 2f);
+		sc.clearUpdateHandlers();
+	}
 
 	public static void setup(BangYouScreenActivity pActivity, FixedStepEngine pEngine, Context pContext, float pCameraWidth, float pCameraHeight, float pCameraScaleX, float pCameraScaleY){
 		getInstance().activity = pActivity;
@@ -61,6 +76,31 @@ public class ResourceManager extends Object{
 		getInstance().cameraHeight = pCameraHeight;
 		getInstance().cameraScaleFactorX = pCameraScaleX;
 		getInstance().cameraScaleFactorY = pCameraScaleY;
+	}
+	
+	private TextureRegion getLimitableTR(final String pTextureRegionPath,
+			final TextureOptions pTextureOptions) {
+		final IBitmapTextureAtlasSource bitmapTextureAtlasSource = AssetBitmapTextureAtlasSource
+				.create(this.activity.getAssets(),
+						BitmapTextureAtlasTextureRegionFactory
+								.getAssetBasePath() + pTextureRegionPath);
+		final BitmapTextureAtlas bitmapTextureAtlas = new BitmapTextureAtlas(
+				this.activity.getTextureManager(),
+				bitmapTextureAtlasSource.getTextureWidth(),
+				bitmapTextureAtlasSource.getTextureHeight(), pTextureOptions);
+		final TextureRegion textureRegion = new TextureRegion(
+				bitmapTextureAtlas, 0, 0,
+				bitmapTextureAtlasSource.getTextureWidth(),
+				bitmapTextureAtlasSource.getTextureHeight(), false) {
+			@Override
+			public void updateUV() {
+				super.updateUV();
+			}
+		};
+		bitmapTextureAtlas
+				.addTextureAtlasSource(bitmapTextureAtlasSource, 0, 0);
+		bitmapTextureAtlas.load();
+		return textureRegion;
 	}
 	
 	public static void loadMenuResources(){
@@ -87,10 +127,13 @@ public class ResourceManager extends Object{
 			mainMenuBackgroundTR = BitmapTextureAtlasTextureRegionFactory.createFromAsset(mainMenuBackgroundBTA, activity, "background.png",0,0);
 			mainMenuBackgroundBTA.load();
 		}
+//		if(mainMenuTitleTR == null){
+//			BitmapTextureAtlas mainMenuTitleBTA = new BitmapTextureAtlas(activity.getTextureManager(),512,128,mNormalTextureOption);
+//			mainMenuTitleTR = BitmapTextureAtlasTextureRegionFactory.createFromAsset(mainMenuTitleBTA, activity, "BangYouScreenTitle.png",0,0);
+//			mainMenuTitleBTA.load();
+//		}
 		if(mainMenuTitleTR == null){
-			BitmapTextureAtlas mainMenuTitleBTA = new BitmapTextureAtlas(activity.getTextureManager(),256,128,mNormalTextureOption);
-			mainMenuTitleTR = BitmapTextureAtlasTextureRegionFactory.createFromAsset(mainMenuTitleBTA, activity, "BangYouScreenTitle.png",0,0);
-			mainMenuTitleBTA.load();
+			mainMenuTitleTR = this.getLimitableTR("BangYouScreenTitle.png",mNormalTextureOption);
 		}
 		if(mainMenuButtonsTR == null){
 			BitmapTextureAtlas mainMenuButtonsBTA = new BitmapTextureAtlas(activity.getTextureManager(),128,32,mNormalTextureOption);
