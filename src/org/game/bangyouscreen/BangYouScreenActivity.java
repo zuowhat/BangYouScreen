@@ -21,12 +21,12 @@ import android.view.View.MeasureSpec;
 public class BangYouScreenActivity extends BaseGameActivity {
 	
 	//开发时使用的手机屏幕分辨率
-	static float DESIGN_WINDOW_WIDTH_PIXELS = 800f;
-	static float DESIGN_WINDOW_HEIGHT_PIXELS = 480f;
+	static float DESIGN_WINDOW_WIDTH_PIXELS = 1280f;
+	static float DESIGN_WINDOW_HEIGHT_PIXELS = 720f;
 	
 	//开发时使用的手机屏幕物理尺寸
-	static float DESIGN_WINDOW_WIDTH_INCHES = 4.472441f;
-	static float DESIGN_WINDOW_HEIGHT_INCHES = 2.805118f;
+	static float DESIGN_WINDOW_WIDTH_INCHES = 4.00f;
+	static float DESIGN_WINDOW_HEIGHT_INCHES = 2.25f;
 	
 	//定义最大和最小屏幕分辨率
 	static float MIN_WIDTH_PIXELS = 320f, MIN_HEIGHT_PIXELS = 240f;

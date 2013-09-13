@@ -127,14 +127,14 @@ public class ResourceManager extends Object{
 			mainMenuBackgroundTR = BitmapTextureAtlasTextureRegionFactory.createFromAsset(mainMenuBackgroundBTA, activity, "background.png",0,0);
 			mainMenuBackgroundBTA.load();
 		}
-//		if(mainMenuTitleTR == null){
-//			BitmapTextureAtlas mainMenuTitleBTA = new BitmapTextureAtlas(activity.getTextureManager(),512,128,mNormalTextureOption);
-//			mainMenuTitleTR = BitmapTextureAtlasTextureRegionFactory.createFromAsset(mainMenuTitleBTA, activity, "BangYouScreenTitle.png",0,0);
-//			mainMenuTitleBTA.load();
-//		}
 		if(mainMenuTitleTR == null){
-			mainMenuTitleTR = this.getLimitableTR("BangYouScreenTitle.png",mNormalTextureOption);
+			BitmapTextureAtlas mainMenuTitleBTA = new BitmapTextureAtlas(activity.getTextureManager(),512,128,mNormalTextureOption);
+			mainMenuTitleTR = BitmapTextureAtlasTextureRegionFactory.createFromAsset(mainMenuTitleBTA, activity, "BangYouScreenTitle.png",0,0);
+			mainMenuTitleBTA.load();
 		}
+//		if(mainMenuTitleTR == null){
+//			mainMenuTitleTR = this.getLimitableTR("BangYouScreenTitle.png",mNormalTextureOption);
+//		}
 		if(mainMenuButtonsTR == null){
 			BitmapTextureAtlas mainMenuButtonsBTA = new BitmapTextureAtlas(activity.getTextureManager(),128,32,mNormalTextureOption);
 			mainMenuButtonsTR = BitmapTextureAtlasTextureRegionFactory.createFromAsset(mainMenuButtonsBTA, activity, "MainMenuButtons.png",0,0);
