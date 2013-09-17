@@ -1,4 +1,4 @@
-package org.game.bangyouscreen.Menus;
+package org.game.bangyouscreen.menus;
 
 import org.andengine.engine.handler.IUpdateHandler;
 import org.andengine.entity.IEntity;
@@ -17,9 +17,9 @@ import org.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlasTextureRegion
 import org.andengine.opengl.texture.region.ITextureRegion;
 import org.andengine.util.modifier.IModifier;
 import org.andengine.util.modifier.IModifier.IModifierListener;
-import org.game.bangyouscreen.Managers.ManagedScene;
-import org.game.bangyouscreen.Managers.ResourceManager;
-import org.game.bangyouscreen.Managers.SceneManager;
+import org.game.bangyouscreen.managers.ManagedScene;
+import org.game.bangyouscreen.managers.ResourceManager;
+import org.game.bangyouscreen.managers.SceneManager;
 
 
 /**

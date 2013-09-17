@@ -1,4 +1,4 @@
-package org.game.bangyouscreen.Menus;
+package org.game.bangyouscreen.menus;
 
 import org.andengine.entity.Entity;
 import org.andengine.entity.modifier.FadeInModifier;
@@ -12,10 +12,10 @@ import org.andengine.entity.sprite.Sprite;
 import org.andengine.entity.text.Text;
 import org.andengine.opengl.texture.region.TextureRegion;
 import org.andengine.opengl.vbo.VertexBufferObjectManager;
-import org.game.bangyouscreen.GameLevels.GameLevel;
-import org.game.bangyouscreen.Managers.ManagedScene;
-import org.game.bangyouscreen.Managers.ResourceManager;
-import org.game.bangyouscreen.Managers.SceneManager;
+import org.game.bangyouscreen.gamelevels.GameLevel;
+import org.game.bangyouscreen.managers.ManagedScene;
+import org.game.bangyouscreen.managers.ResourceManager;
+import org.game.bangyouscreen.managers.SceneManager;
 
 public class MainMenu extends ManagedScene{
 	
@@ -59,7 +59,7 @@ public class MainMenu extends ManagedScene{
 	@Override
 	public void onLoadScene() {
 		ResourceManager.loadGameResources();
-		TextureRegion buttonsBG = ResourceManager.mainMenuButtonsTR;
+		TextureRegion buttonsBG = ResourceManager.singleModeTR;
 		final float ButtonSpacing = 25f * ResourceManager.getInstance().cameraScaleFactorY;//按钮之间的间隔
 		
 		mainMenuScreen = new Entity(0,mCameraHeight){
@@ -74,12 +74,13 @@ public class MainMenu extends ManagedScene{
 		};
 		
 		mainMenuTitleSprite = new Sprite(0f, mCameraHeight + ResourceManager.mainMenuTitleTR.getHeight(), ResourceManager.mainMenuTitleTR, mVertexBufferObjectManager);
+		mainMenuTitleSprite.setSize(0.5f * mCameraWidth, (0.5f * mCameraWidth)/(mainMenuTitleSprite.getWidth() / mainMenuTitleSprite.getHeight()));
 		mainMenuTitleSprite.registerEntityModifier(new MoveModifier(1f, mCameraWidth / 2f, 
 				mainMenuTitleSprite.getY(), mCameraWidth / 2f, mCameraHeight - (mainMenuTitleSprite.getHeight() / 2f)));
 		mainMenuTitleSprite.setZIndex(-80);
 		
 		final ButtonSprite singleModeBS = new ButtonSprite(0f,0f,buttonsBG,mVertexBufferObjectManager);
-		singleModeBS.setScale(2f * ResourceManager.getInstance().cameraScaleFactorY);
+		singleModeBS.setSize(0.3f * mCameraWidth, (0.3f * mCameraWidth)/(singleModeBS.getWidth() / singleModeBS.getHeight()));
 		singleModeBS.setPosition(mCameraWidth / 2f, mCameraHeight / 2f);
 		mainMenuScreen.attachChild(singleModeBS);
 		

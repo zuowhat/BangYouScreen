@@ -11,9 +11,9 @@ import org.andengine.engine.options.resolutionpolicy.FillResolutionPolicy;
 import org.andengine.engine.options.resolutionpolicy.IResolutionPolicy;
 import org.andengine.entity.scene.Scene;
 import org.andengine.ui.activity.BaseGameActivity;
-import org.game.bangyouscreen.Managers.ResourceManager;
-import org.game.bangyouscreen.Managers.SceneManager;
-import org.game.bangyouscreen.Menus.SplashScreen;
+import org.game.bangyouscreen.managers.ResourceManager;
+import org.game.bangyouscreen.managers.SceneManager;
+import org.game.bangyouscreen.menus.SplashScreen;
 
 import android.view.View.MeasureSpec;
 
@@ -21,12 +21,12 @@ import android.view.View.MeasureSpec;
 public class BangYouScreenActivity extends BaseGameActivity {
 	
 	//开发时使用的手机屏幕分辨率
-	static float DESIGN_WINDOW_WIDTH_PIXELS = 1280f;
-	static float DESIGN_WINDOW_HEIGHT_PIXELS = 720f;
+	static float DESIGN_WINDOW_WIDTH_PIXELS = 800f;
+	static float DESIGN_WINDOW_HEIGHT_PIXELS = 480f;
 	
-	//开发时使用的手机屏幕物理尺寸
-	static float DESIGN_WINDOW_WIDTH_INCHES = 4.00f;
-	static float DESIGN_WINDOW_HEIGHT_INCHES = 2.25f;
+	//开发时使用的手机屏幕物理尺寸, 分辨率除以dpi
+	static float DESIGN_WINDOW_WIDTH_INCHES = 3.33333333f;
+	static float DESIGN_WINDOW_HEIGHT_INCHES = 2.0f;
 	
 	//定义最大和最小屏幕分辨率
 	static float MIN_WIDTH_PIXELS = 320f, MIN_HEIGHT_PIXELS = 240f;

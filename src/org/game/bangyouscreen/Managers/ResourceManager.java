@@ -1,4 +1,4 @@
-package org.game.bangyouscreen.Managers;
+package org.game.bangyouscreen.managers;
 
 
 import org.andengine.engine.FixedStepEngine;
@@ -31,7 +31,7 @@ public class ResourceManager extends Object{
 	private static final TextureOptions mNormalTextureOption = TextureOptions.BILINEAR;
 	
 	public static TextureRegion mainMenuBackgroundTR;
-	public static TextureRegion mainMenuButtonsTR;
+	public static TextureRegion singleModeTR;
 	public static TextureRegion mainMenuTitleTR;
 	public static Font mFont;
 	
@@ -81,9 +81,7 @@ public class ResourceManager extends Object{
 	private TextureRegion getLimitableTR(final String pTextureRegionPath,
 			final TextureOptions pTextureOptions) {
 		final IBitmapTextureAtlasSource bitmapTextureAtlasSource = AssetBitmapTextureAtlasSource
-				.create(this.activity.getAssets(),
-						BitmapTextureAtlasTextureRegionFactory
-								.getAssetBasePath() + pTextureRegionPath);
+				.create(this.activity.getAssets(),BitmapTextureAtlasTextureRegionFactory.getAssetBasePath() + pTextureRegionPath);
 		final BitmapTextureAtlas bitmapTextureAtlas = new BitmapTextureAtlas(
 				this.activity.getTextureManager(),
 				bitmapTextureAtlasSource.getTextureWidth(),
@@ -91,14 +89,8 @@ public class ResourceManager extends Object{
 		final TextureRegion textureRegion = new TextureRegion(
 				bitmapTextureAtlas, 0, 0,
 				bitmapTextureAtlasSource.getTextureWidth(),
-				bitmapTextureAtlasSource.getTextureHeight(), false) {
-			@Override
-			public void updateUV() {
-				super.updateUV();
-			}
-		};
-		bitmapTextureAtlas
-				.addTextureAtlasSource(bitmapTextureAtlasSource, 0, 0);
+				bitmapTextureAtlasSource.getTextureHeight(), false);
+		bitmapTextureAtlas.addTextureAtlasSource(bitmapTextureAtlasSource, 0, 0);
 		bitmapTextureAtlas.load();
 		return textureRegion;
 	}
@@ -123,22 +115,13 @@ public class ResourceManager extends Object{
 		mPreviousAssetBasePath = BitmapTextureAtlasTextureRegionFactory.getAssetBasePath();
 		BitmapTextureAtlasTextureRegionFactory.setAssetBasePath("gfx/menu/");
 		if(mainMenuBackgroundTR == null){
-			BitmapTextureAtlas mainMenuBackgroundBTA = new BitmapTextureAtlas(activity.getTextureManager(),540,480,mNormalTextureOption);
-			mainMenuBackgroundTR = BitmapTextureAtlasTextureRegionFactory.createFromAsset(mainMenuBackgroundBTA, activity, "background.png",0,0);
-			mainMenuBackgroundBTA.load();
+			mainMenuBackgroundTR = getLimitableTR("background.png",mNormalTextureOption);
 		}
 		if(mainMenuTitleTR == null){
-			BitmapTextureAtlas mainMenuTitleBTA = new BitmapTextureAtlas(activity.getTextureManager(),512,128,mNormalTextureOption);
-			mainMenuTitleTR = BitmapTextureAtlasTextureRegionFactory.createFromAsset(mainMenuTitleBTA, activity, "BangYouScreenTitle.png",0,0);
-			mainMenuTitleBTA.load();
+			mainMenuTitleTR = getLimitableTR("BangYouScreenTitle.png",mNormalTextureOption);
 		}
-//		if(mainMenuTitleTR == null){
-//			mainMenuTitleTR = this.getLimitableTR("BangYouScreenTitle.png",mNormalTextureOption);
-//		}
-		if(mainMenuButtonsTR == null){
-			BitmapTextureAtlas mainMenuButtonsBTA = new BitmapTextureAtlas(activity.getTextureManager(),128,32,mNormalTextureOption);
-			mainMenuButtonsTR = BitmapTextureAtlasTextureRegionFactory.createFromAsset(mainMenuButtonsBTA, activity, "MainMenuButtons.png",0,0);
-			mainMenuButtonsBTA.load();
+		if(singleModeTR == null){
+			singleModeTR = getLimitableTR("MainMenuButtons.png",mNormalTextureOption);
 		}
 		BitmapTextureAtlasTextureRegionFactory.setAssetBasePath(mPreviousAssetBasePath);
 	}

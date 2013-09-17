@@ -1,4 +1,4 @@
-package org.game.bangyouscreen.Managers;
+package org.game.bangyouscreen.managers;
 
 import org.andengine.entity.scene.Scene;
 

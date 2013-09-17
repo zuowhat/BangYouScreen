@@ -1,8 +1,8 @@
-package org.game.bangyouscreen.GameLevels;
+package org.game.bangyouscreen.gamelevels;
 
 import org.andengine.entity.scene.Scene;
-import org.game.bangyouscreen.Managers.ManagedScene;
-import org.game.bangyouscreen.Menus.MainMenu;
+import org.game.bangyouscreen.managers.ManagedScene;
+import org.game.bangyouscreen.menus.MainMenu;
 
 public class GameLevel extends ManagedScene {
 	
