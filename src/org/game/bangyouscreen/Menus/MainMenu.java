@@ -16,6 +16,7 @@ import org.game.bangyouscreen.gamelevels.GameLevel;
 import org.game.bangyouscreen.managers.ManagedScene;
 import org.game.bangyouscreen.managers.ResourceManager;
 import org.game.bangyouscreen.managers.SceneManager;
+import org.game.bangyouscreen.util.EntityUtil;
 
 public class MainMenu extends ManagedScene{
 	
@@ -74,18 +75,20 @@ public class MainMenu extends ManagedScene{
 		};
 		
 		mainMenuTitleSprite = new Sprite(0f, mCameraHeight + ResourceManager.mainMenuTitleTR.getHeight(), ResourceManager.mainMenuTitleTR, mVertexBufferObjectManager);
-		mainMenuTitleSprite.setSize(0.5f * mCameraWidth, (0.5f * mCameraWidth)/(mainMenuTitleSprite.getWidth() / mainMenuTitleSprite.getHeight()));
+		//mainMenuTitleSprite.setSize(0.5f * mCameraWidth, (0.5f * mCameraWidth)/(mainMenuTitleSprite.getWidth() / mainMenuTitleSprite.getHeight()));
+		EntityUtil.setSize("width", 0.4f, mainMenuTitleSprite);
 		mainMenuTitleSprite.registerEntityModifier(new MoveModifier(1f, mCameraWidth / 2f, 
 				mainMenuTitleSprite.getY(), mCameraWidth / 2f, mCameraHeight - (mainMenuTitleSprite.getHeight() / 2f)));
 		mainMenuTitleSprite.setZIndex(-80);
 		
 		final ButtonSprite singleModeBS = new ButtonSprite(0f,0f,buttonsBG,mVertexBufferObjectManager);
-		singleModeBS.setSize(0.3f * mCameraWidth, (0.3f * mCameraWidth)/(singleModeBS.getWidth() / singleModeBS.getHeight()));
+		//singleModeBS.setSize(0.3f * mCameraWidth, (0.3f * mCameraWidth)/(singleModeBS.getWidth() / singleModeBS.getHeight()));
+		EntityUtil.setSize("height", 1f / 7f, singleModeBS);
 		singleModeBS.setPosition(mCameraWidth / 2f, mCameraHeight / 2f);
 		mainMenuScreen.attachChild(singleModeBS);
 		
 		final ButtonSprite challengeModeBS = new ButtonSprite(0f,0f,buttonsBG,mVertexBufferObjectManager);
-		challengeModeBS.setScale(2f * ResourceManager.getInstance().cameraScaleFactorY);
+		EntityUtil.setSize("height", 1f / 6f, challengeModeBS);
 		challengeModeBS.setPosition(mCameraWidth / 2f, 0f);
 		challengeModeBS.setVisible(false);
 		mainMenuScreen.attachChild(challengeModeBS);
