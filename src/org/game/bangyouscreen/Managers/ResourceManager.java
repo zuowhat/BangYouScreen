@@ -10,12 +10,13 @@ import org.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlas;
 import org.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlasTextureRegionFactory;
 import org.andengine.opengl.texture.atlas.bitmap.source.AssetBitmapTextureAtlasSource;
 import org.andengine.opengl.texture.atlas.bitmap.source.IBitmapTextureAtlasSource;
+import org.andengine.opengl.texture.region.ITextureRegion;
 import org.andengine.opengl.texture.region.TextureRegion;
+import org.andengine.opengl.texture.region.TiledTextureRegion;
 import org.andengine.util.adt.color.Color;
 import org.game.bangyouscreen.BangYouScreenActivity;
 
 import android.content.Context;
-import android.graphics.Typeface;
 
 public class ResourceManager extends Object{
 	
@@ -34,6 +35,9 @@ public class ResourceManager extends Object{
 	public static TextureRegion singleModeTR;
 	public static TextureRegion mainMenuTitleTR;
 	public static Font mFont;
+	
+	public static TiledTextureRegion greenButtonTTR;
+	public static TextureRegion clockTR;
 	
 	public ResourceManager(){
 	}
@@ -95,6 +99,29 @@ public class ResourceManager extends Object{
 		return textureRegion;
 	}
 	
+	private TiledTextureRegion getLimitableTTR(String pTiledTextureRegionPath, int pColumns, int pRows, TextureOptions pTextureOptions) {
+		final IBitmapTextureAtlasSource bitmapTextureAtlasSource = AssetBitmapTextureAtlasSource.create(activity.getAssets(), BitmapTextureAtlasTextureRegionFactory.getAssetBasePath() + pTiledTextureRegionPath);
+		final BitmapTextureAtlas bitmapTextureAtlas = new BitmapTextureAtlas(activity.getTextureManager(), bitmapTextureAtlasSource.getTextureWidth(), bitmapTextureAtlasSource.getTextureHeight(), pTextureOptions);
+		final ITextureRegion[] textureRegions = new ITextureRegion[pColumns * pRows];
+
+		final int tileWidth = bitmapTextureAtlas.getWidth() / pColumns;
+		final int tileHeight = bitmapTextureAtlas.getHeight() / pRows;
+
+		for(int tileColumn = 0; tileColumn < pColumns; tileColumn++) {
+			for(int tileRow = 0; tileRow < pRows; tileRow++) {
+				final int tileIndex = tileRow * pColumns + tileColumn;
+				final int x = tileColumn * tileWidth;
+				final int y = tileRow * tileHeight;
+				textureRegions[tileIndex] = new TextureRegion(bitmapTextureAtlas, x, y, tileWidth, tileHeight, false);
+			}
+		}
+
+		final TiledTextureRegion tiledTextureRegion = new TiledTextureRegion(bitmapTextureAtlas, false, textureRegions);
+		bitmapTextureAtlas.addTextureAtlasSource(bitmapTextureAtlasSource, 0, 0);
+		bitmapTextureAtlas.load();
+		return tiledTextureRegion;
+	}
+	
 	public static void loadMenuResources(){
 		getInstance().loadMenuTextures();
 		getInstance().loadSharedResources();
@@ -128,7 +155,15 @@ public class ResourceManager extends Object{
 	
 	// ============================ 游戏纹理  ================= //
 	private void loadGameTextures(){
-		
+		mPreviousAssetBasePath = BitmapTextureAtlasTextureRegionFactory.getAssetBasePath();
+		BitmapTextureAtlasTextureRegionFactory.setAssetBasePath("gfx/game/");
+		if(greenButtonTTR == null){
+			greenButtonTTR = getLimitableTTR("greenbutton.png",2,1,mNormalTextureOption);
+		}
+		if(clockTR == null){
+			clockTR = getLimitableTR("clock.png",mNormalTextureOption);
+		}
+		BitmapTextureAtlasTextureRegionFactory.setAssetBasePath(mPreviousAssetBasePath);
 	}
 	
 	// ============================ 公共纹理  ================= //
@@ -140,10 +175,8 @@ public class ResourceManager extends Object{
 	private static String DEFAULT_CHARS = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890~`!@#$%^&*()-_=+[] {};:'\",<.>?/\\";
 	
 	private void loadFonts(){
-		mPreviousAssetBasePath = BitmapTextureAtlasTextureRegionFactory.getAssetBasePath();
-		BitmapTextureAtlasTextureRegionFactory.setAssetBasePath("fonts/");
 		if(mFont == null){
-			mFont = FontFactory.create(engine.getFontManager(), engine.getTextureManager(), 256, 256,Typeface.create(Typeface.DEFAULT, Typeface.NORMAL),12f,true,Color.WHITE_ABGR_PACKED_INT);
+			mFont = FontFactory.createFromAsset(engine.getFontManager(), engine.getTextureManager(), 256, 256,activity.getAssets(),"fonts/Chunkfive.otf",32f,true,Color.WHITE_ABGR_PACKED_INT);
 			mFont.load();
 			mFont.prepareLetters(DEFAULT_CHARS.toCharArray());
 		}

@@ -38,7 +38,6 @@ public class BangYouScreenActivity extends BaseGameActivity {
 	public float actualWindowHeightInches;
 	public SmoothCamera mCamera;
 
-	
 	public Engine onCreateEngine(EngineOptions pEngineOptions) { 
 		return new FixedStepEngine(pEngineOptions, 60); 
 	}

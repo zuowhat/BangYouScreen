@@ -9,6 +9,7 @@ import org.andengine.entity.scene.Scene;
 import org.andengine.entity.sprite.ButtonSprite;
 import org.andengine.entity.sprite.ButtonSprite.OnClickListener;
 import org.andengine.entity.sprite.Sprite;
+import org.andengine.entity.sprite.TiledSprite;
 import org.andengine.entity.text.Text;
 import org.andengine.opengl.texture.region.TextureRegion;
 import org.andengine.opengl.vbo.VertexBufferObjectManager;
@@ -61,7 +62,6 @@ public class MainMenu extends ManagedScene{
 	public void onLoadScene() {
 		ResourceManager.loadGameResources();
 		TextureRegion buttonsBG = ResourceManager.singleModeTR;
-		final float ButtonSpacing = 25f * ResourceManager.getInstance().cameraScaleFactorY;//按钮之间的间隔
 		
 		mainMenuScreen = new Entity(0,mCameraHeight){
 			boolean hasLoaded = false;
@@ -118,6 +118,7 @@ public class MainMenu extends ManagedScene{
 				
 			}
 		});
+		registerTouchArea(challengeModeBS);
 	
 		this.attachChild(mainMenuTitleSprite);
 		this.attachChild(this.mainMenuScreen);
