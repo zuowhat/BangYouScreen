@@ -17,6 +17,7 @@ import org.andengine.util.adt.color.Color;
 import org.game.bangyouscreen.BangYouScreenActivity;
 
 import android.content.Context;
+import android.graphics.Typeface;
 
 public class ResourceManager extends Object{
 	
@@ -35,9 +36,11 @@ public class ResourceManager extends Object{
 	public static TextureRegion singleModeTR;
 	public static TextureRegion mainMenuTitleTR;
 	public static Font mFont;
+	public static Font sysFont;
 	
 	public static TiledTextureRegion greenButtonTTR;
 	public static TextureRegion clockTR;
+	public static TextureRegion muTR;
 	
 	public ResourceManager(){
 	}
@@ -163,6 +166,9 @@ public class ResourceManager extends Object{
 		if(clockTR == null){
 			clockTR = getLimitableTR("clock.png",mNormalTextureOption);
 		}
+		if(muTR == null){
+			muTR = getLimitableTR("multiply.png",mNormalTextureOption);
+		}
 		BitmapTextureAtlasTextureRegionFactory.setAssetBasePath(mPreviousAssetBasePath);
 	}
 	
@@ -179,6 +185,11 @@ public class ResourceManager extends Object{
 			mFont = FontFactory.createFromAsset(engine.getFontManager(), engine.getTextureManager(), 256, 256,activity.getAssets(),"fonts/Chunkfive.otf",32f,true,Color.WHITE_ABGR_PACKED_INT);
 			mFont.load();
 			mFont.prepareLetters(DEFAULT_CHARS.toCharArray());
+		}
+		if(sysFont == null){
+			sysFont = FontFactory.create(engine.getFontManager(), engine.getTextureManager(), 256, 256,Typeface.create(Typeface.DEFAULT, Typeface.NORMAL),32f,true,Color.WHITE_ABGR_PACKED_INT);
+			sysFont.load();
+			sysFont.prepareLetters(DEFAULT_CHARS.toCharArray());
 		}
 	}
 }

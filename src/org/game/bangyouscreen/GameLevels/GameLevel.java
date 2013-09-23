@@ -3,6 +3,8 @@ package org.game.bangyouscreen.gamelevels;
 import org.andengine.engine.handler.IUpdateHandler;
 import org.andengine.entity.scene.Scene;
 import org.andengine.entity.sprite.ButtonSprite;
+import org.andengine.entity.sprite.ButtonSprite.OnClickListener;
+import org.andengine.entity.sprite.Sprite;
 import org.andengine.entity.text.Text;
 import org.andengine.opengl.vbo.VertexBufferObjectManager;
 import org.andengine.util.TimeUtils;
@@ -19,7 +21,9 @@ public class GameLevel extends ManagedScene {
 	
 	private static final String TIME_FORMAT = "00:00";
 	private Text mTimeText;
-	private float startTime = 60f;
+	private float gameTime = 60f;
+	private Text mScoreText;
+	private int mScore = 0;
 	
 	public static GameLevel getInstance(){
 		return INSTANCE;
@@ -37,24 +41,65 @@ public class GameLevel extends ManagedScene {
 
 	@Override
 	public void onLoadScene() {
+		//绿色按钮
 		ButtonSprite greenButtonBS = new ButtonSprite(0f,0f,ResourceManager.greenButtonTTR,mVertexBufferObjectManager);
 		EntityUtil.setSize("height", 1f / 4f, greenButtonBS);
 		greenButtonBS.setPosition(greenButtonBS.getWidth() / 2f, greenButtonBS.getHeight() / 2f);
-		//greenButtonBS.setOnClickListener(new OnClickListener());
+		greenButtonBS.setOnClickListener(new OnClickListener(){
+
+			public void onClick(ButtonSprite pButtonSprite,
+					float pTouchAreaLocalX, float pTouchAreaLocalY) {
+				mScore++;
+				if(mScore >= 10 && mScore < 100){
+					mScoreText.setText("00"+mScore);
+				}else if(mScore >= 100 && mScore < 999){
+					mScoreText.setText("0"+mScore);
+				}else if(mScore >= 1000){
+					mScoreText.setText(""+mScore);
+				}else{
+					mScoreText.setText("000"+mScore);
+				}
+			}});
 		attachChild(greenButtonBS);
 		registerTouchArea(greenButtonBS);
 		
+		//时钟
 		ButtonSprite clockSprite = new ButtonSprite(0f,0f,ResourceManager.clockTR,mVertexBufferObjectManager);
-		EntityUtil.setSize("width", 1f / 5f, clockSprite);
-		clockSprite.setPosition((4f/5f)*mCameraWidth, mCameraHeight - clockSprite.getHeight());
-		//clockSprite.setOnClickListener(new OnClickListener());
+		//EntityUtil.setSize("width", 1f / 8f, clockSprite);
+		clockSprite.setPosition((1f/2f)*mCameraWidth, mCameraHeight - clockSprite.getHeight()/2f);
+		clockSprite.setOnClickListener(new OnClickListener(){
+
+			public void onClick(ButtonSprite pButtonSprite,
+					float pTouchAreaLocalX, float pTouchAreaLocalY) {
+				gameTime+=30f;
+				
+			}});
 		attachChild(clockSprite);
 		registerTouchArea(clockSprite);
 		
-		mTimeText = new Text(mCameraWidth/2f, mCameraHeight/2f, ResourceManager.mFont, "01:00", 
-				TIME_FORMAT.length(), mVertexBufferObjectManager);
+		//乘号
+		Sprite muSprite = new Sprite(0f,0f,ResourceManager.muTR,mVertexBufferObjectManager);
+		muSprite.setPosition(clockSprite.getX()+muSprite.getWidth(), clockSprite.getY()-muSprite.getHeight()/2f);
+		attachChild(muSprite);
+		
+		//时钟道具数量
+		Text clockNum = new Text(0f,0f,ResourceManager.sysFont,"99",5,mVertexBufferObjectManager);
+		clockNum.setPosition(muSprite.getX()+clockNum.getWidth(),muSprite.getY());
+		attachChild(clockNum);
+		
+		//倒计时
+		mTimeText = new Text(0f, 0f, ResourceManager.sysFont, "01:00",TIME_FORMAT.length(), mVertexBufferObjectManager);
+		mTimeText.setPosition(mCameraWidth - mTimeText.getWidth(), mCameraHeight - mTimeText.getHeight()*1.1f);
+		mTimeText.setScale(2f);
 		attachChild(mTimeText);
 		registerUpdateHandler(gameRunTimer);
+		
+		//得分
+		mScoreText = new Text(0f,0f,ResourceManager.sysFont,"0000",6,mVertexBufferObjectManager);
+		mScoreText.setPosition(mScoreText.getWidth(), mCameraHeight - mScoreText.getHeight()*1.1f);
+		mScoreText.setScale(2f);
+		attachChild(mScoreText);
+		
 		
 		
 		
@@ -79,13 +124,12 @@ public class GameLevel extends ManagedScene {
 	private IUpdateHandler gameRunTimer = new IUpdateHandler() {
 
 		public void onUpdate(float pSecondsElapsed) {
-			startTime-=pSecondsElapsed;
-			if(startTime<=0) {
-				// The timer has ended
+			gameTime-=pSecondsElapsed;
+			if(gameTime<=0) {
 				mTimeText.setText(TimeUtils.formatSeconds(0));
 				unregisterUpdateHandler(this);
 			} else {
-				mTimeText.setText(TimeUtils.formatSeconds(Math.round(startTime)));
+				mTimeText.setText(TimeUtils.formatSeconds(Math.round(gameTime)));
 			}
 		}
 
