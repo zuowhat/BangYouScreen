@@ -1,4 +1,4 @@
-package org.game.bangyouscreen.gamelevels;
+package org.game.bangyouscreen.gameLevels;
 
 import org.andengine.engine.handler.IUpdateHandler;
 import org.andengine.entity.scene.Scene;
