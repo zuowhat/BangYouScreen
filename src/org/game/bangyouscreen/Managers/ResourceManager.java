@@ -40,7 +40,17 @@ public class ResourceManager extends Object{
 	
 	public static TiledTextureRegion greenButtonTTR;
 	public static TextureRegion clockTR;
+	public static TextureRegion aiderHead;
 	public static TextureRegion muTR;
+	
+	public static TextureRegion gameBG1;
+	public static TiledTextureRegion aider1;
+	public static TiledTextureRegion boss1;
+	public static TiledTextureRegion angelboss;
+	
+	public static TextureRegion xue1;
+	public static TextureRegion xue2;
+	public static TextureRegion xue3;
 	
 	public ResourceManager(){
 	}
@@ -166,8 +176,32 @@ public class ResourceManager extends Object{
 		if(clockTR == null){
 			clockTR = getLimitableTR("clock.png",mNormalTextureOption);
 		}
+		if(aiderHead == null){
+			aiderHead = getLimitableTR("tuoba.png",mNormalTextureOption);
+		}
 		if(muTR == null){
 			muTR = getLimitableTR("multiply.png",mNormalTextureOption);
+		}
+		if(gameBG1 == null){
+			gameBG1 = getLimitableTR("bg1.jpg",mNormalTextureOption);
+		}
+		if(aider1 == null){
+			aider1 = getLimitableTTR("boss1.png",5,5,mNormalTextureOption);
+		}
+		if(boss1 == null){
+			boss1 = getLimitableTTR("boss.png",5,6,mNormalTextureOption);
+		}
+		if(angelboss == null){
+			angelboss = getLimitableTTR("angelboss.png",3,1,mNormalTextureOption);
+		}
+		if(xue1 == null){
+			xue1 = getLimitableTR("xue1.png",mNormalTextureOption);
+		}
+		if(xue2 == null){
+			xue2 = getLimitableTR("xue2.png",mNormalTextureOption);
+		}
+		if(xue3 == null){
+			xue3 = getLimitableTR("xue3.png",mNormalTextureOption);
 		}
 		BitmapTextureAtlasTextureRegionFactory.setAssetBasePath(mPreviousAssetBasePath);
 	}

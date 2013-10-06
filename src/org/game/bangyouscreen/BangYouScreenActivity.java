@@ -44,7 +44,7 @@ public class BangYouScreenActivity extends BaseGameActivity {
 
 	
 	public EngineOptions onCreateEngineOptions() {
-		System.out.println("onCreateEngineOptions");
+		//System.out.println("onCreateEngineOptions");
 		//重写ResolutionPolicy中的onMeasure()方法来设置镜头的大小
 		//这种方式比使用DisplayMetrics.getWidth方法好，因为它使用window来代替display
 		//This should also be better for if  the game is placed in a layout where simply measuring the display would give entirely wrong results.
@@ -103,7 +103,7 @@ public class BangYouScreenActivity extends BaseGameActivity {
 			OnCreateResourcesCallback pOnCreateResourcesCallback){
 		ResourceManager.setup(this,  (FixedStepEngine)this.getEngine(), this.getApplicationContext(), 
 				cameraWidth, cameraHeight, cameraWidth/DESIGN_WINDOW_WIDTH_PIXELS, cameraHeight/DESIGN_WINDOW_HEIGHT_PIXELS);
-		System.out.println("onCreateResources");
+		//System.out.println("onCreateResources");
 		
 		
 		
@@ -112,7 +112,7 @@ public class BangYouScreenActivity extends BaseGameActivity {
 
 	@Override
 	public void onCreateScene(OnCreateSceneCallback pOnCreateSceneCallback){
-		System.out.println("onCreateScene");
+		//System.out.println("onCreateScene");
 		SceneManager.getInstance().showScene(new SplashScreen());
 		
 		
