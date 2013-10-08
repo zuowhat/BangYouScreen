@@ -50,7 +50,10 @@ public class ResourceManager extends Object{
 	
 	public static TextureRegion xue1;
 	public static TextureRegion xue2;
-	public static TextureRegion xue3;
+	//public static TextureRegion xue3;
+	
+	public static TiledTextureRegion aidSkill1;
+	public static TiledTextureRegion aidSkill2;
 	
 	public ResourceManager(){
 	}
@@ -200,8 +203,14 @@ public class ResourceManager extends Object{
 		if(xue2 == null){
 			xue2 = getLimitableTR("xue2.png",mNormalTextureOption);
 		}
-		if(xue3 == null){
-			xue3 = getLimitableTR("xue3.png",mNormalTextureOption);
+//		if(xue3 == null){
+//			xue3 = getLimitableTR("xue3.png",mNormalTextureOption);
+//		}
+		if(aidSkill1 == null){
+			aidSkill1 = getLimitableTTR("skill1.png",3,4,mNormalTextureOption);
+		}
+		if(aidSkill2 == null){
+			aidSkill2 = getLimitableTTR("skill2.png",3,4,mNormalTextureOption);
 		}
 		BitmapTextureAtlasTextureRegionFactory.setAssetBasePath(mPreviousAssetBasePath);
 	}
