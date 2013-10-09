@@ -15,6 +15,9 @@ import org.game.bangyouscreen.managers.ResourceManager;
 import org.game.bangyouscreen.managers.SceneManager;
 import org.game.bangyouscreen.menus.SplashScreen;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
+import android.view.KeyEvent;
 import android.view.View.MeasureSpec;
 
 
@@ -133,9 +136,42 @@ public class BangYouScreenActivity extends BaseGameActivity {
 //			SFXManager.resumeMusic();
 	}
 	
-//	protected void onDestroy() {
-//		super.onDestroy();
-//		System.exit(0);
-//	}
+	  public boolean onKeyDown(int paramInt, KeyEvent paramKeyEvent){
+	    if(paramInt == 4){
+	    	showExitConfirmDialog();
+	    	
+	      return false;
+	    }
+	    return super.onKeyDown(paramInt, paramKeyEvent);
+	  }
+	  
+	  public void showExitConfirmDialog()
+	  {
+	    runOnUiThread(new Runnable()
+	    {
+	      public void run()
+	      {
+	        AlertDialog localAlertDialog = new AlertDialog.Builder(BangYouScreenActivity.this).create();
+	        localAlertDialog.setTitle("QUIT GAME");
+	        localAlertDialog.setMessage("Are you sure?");
+	        localAlertDialog.setButton("EXIT", new DialogInterface.OnClickListener()
+	        {
+	          public void onClick(DialogInterface paramDialogInterface, int paramInt)
+	          {
+	        	 // BangYouScreenActivity.this.finish();
+	        	  System.exit(0);
+	          }
+	        });
+	        localAlertDialog.setButton3("CANCEL", new DialogInterface.OnClickListener()
+	        {
+	          public void onClick(DialogInterface paramDialogInterface, int paramInt)
+	          {
+	          }
+	        });
+	        //localAlertDialog.setIcon(2130837504);
+	        localAlertDialog.show();
+	      }
+	    });
+	  }
    
 }

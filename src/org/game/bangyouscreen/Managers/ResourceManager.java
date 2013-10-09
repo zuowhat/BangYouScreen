@@ -37,6 +37,7 @@ public class ResourceManager extends Object{
 	public static TextureRegion mainMenuTitleTR;
 	public static Font mFont;
 	public static Font sysFont;
+	public static TiledTextureRegion numberTTR;
 	
 	public static TiledTextureRegion greenButtonTTR;
 	public static TextureRegion clockTR;
@@ -211,6 +212,9 @@ public class ResourceManager extends Object{
 		}
 		if(aidSkill2 == null){
 			aidSkill2 = getLimitableTTR("skill2.png",3,4,mNormalTextureOption);
+		}
+		if(numberTTR == null){
+			numberTTR = getLimitableTTR("number.png",12,1,mNormalTextureOption);
 		}
 		BitmapTextureAtlasTextureRegionFactory.setAssetBasePath(mPreviousAssetBasePath);
 	}
