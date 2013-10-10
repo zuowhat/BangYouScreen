@@ -1,7 +1,6 @@
 package org.game.bangyouscreen.util;
 
 import java.util.ArrayList;
-import java.util.Collections;
 
 import org.andengine.engine.handler.IUpdateHandler;
 import org.andengine.entity.Entity;
@@ -12,7 +11,7 @@ import org.andengine.entity.modifier.ScaleModifier;
 import org.andengine.entity.sprite.AnimatedSprite;
 import org.andengine.util.modifier.IModifier;
 import org.andengine.util.modifier.ease.EaseLinear;
-import org.game.bangyouscreen.gamelevels.GameLevel;
+import org.game.bangyouscreen.gameLevels.GameLevel;
 import org.game.bangyouscreen.managers.ResourceManager;
 
 public class GameTimer implements IUpdateHandler, IEntityModifier.IEntityModifierListener
@@ -79,17 +78,16 @@ public void adjustTime(float secondNum)
 }
 
 public void addToLayer(Entity paramEntity){
-  float f = ResourceManager.getCamera().getWidth() - this.mDigitsSprite.length * ResourceManager.numberTTR.getWidth();
-  for (int i = 0;i< mDigitsSprite.length; i++){
+    for(int i = 0;i< mDigitsSprite.length; i++){
 //    if (i >= this.mDigitsSprite.length){
 //      reset();
 //      return;
 //    }
-    this.mDigitsSprite[i] = new AnimatedSprite(0f, 0f, ResourceManager.numberTTR.deepCopy(),ResourceManager.getEngine().getVertexBufferObjectManager());
-    EntityUtil.setSize("width", 20f/800f, mDigitsSprite[i]);
-    mDigitsSprite[i].setPosition(f + i * ResourceManager.numberTTR.getWidth(), ResourceManager.getCamera().getHeight()-mDigitsSprite[i].getHeight()/2f);
-    
-    paramEntity.attachChild(this.mDigitsSprite[i]);
+	    this.mDigitsSprite[i] = new AnimatedSprite(0f, 0f, ResourceManager.numberTTR.deepCopy(),ResourceManager.getEngine().getVertexBufferObjectManager());
+	    EntityUtil.setSize("width", 20f/800f, mDigitsSprite[i]);
+	    float f = ResourceManager.getCamera().getWidth() - this.mDigitsSprite.length * mDigitsSprite[i].getWidth();
+	    mDigitsSprite[i].setPosition(f + i * mDigitsSprite[i].getWidth(), ResourceManager.getCamera().getHeight()-mDigitsSprite[i].getHeight()/2f);
+	    paramEntity.attachChild(this.mDigitsSprite[i]);
     //adjustTime();
   }
  // mSecondsPassed = 120.0F;
@@ -99,24 +97,21 @@ public void addToLayer(Entity paramEntity){
 public void onModifierFinished(IModifier<IEntity> paramIModifier, IEntity paramIEntity)
 {
 	//System.out.println("modfierListener..");
-  if (paramIModifier == this.mBounceOut1)
-  {
+  if (paramIModifier == this.mBounceOut1){
     this.mBounceIn1.reset();
     paramIEntity.registerEntityModifier(this.mBounceIn1);
     this.mColorIn1.reset();
     paramIEntity.registerEntityModifier(this.mColorIn1);
     return;
   }
-  if (paramIModifier == this.mBounceOut2)
-  {
+  if (paramIModifier == this.mBounceOut2){
     this.mBounceIn2.reset();
     paramIEntity.registerEntityModifier(this.mBounceIn2);
     this.mColorIn2.reset();
     paramIEntity.registerEntityModifier(this.mColorIn2);
     return;
   }
-  if (paramIModifier == this.mBounceIn1)
-  {
+  if (paramIModifier == this.mBounceIn1){
     this.mBounceOut1.reset();
     paramIEntity.registerEntityModifier(this.mBounceOut1);
     this.mColorOut1.reset();
@@ -129,9 +124,7 @@ public void onModifierFinished(IModifier<IEntity> paramIModifier, IEntity paramI
   paramIEntity.registerEntityModifier(this.mColorOut2);
 }
 
-public void onModifierStarted(IModifier<IEntity> paramIModifier, IEntity paramIEntity)
-{
-}
+public void onModifierStarted(IModifier<IEntity> paramIModifier, IEntity paramIEntity){}
 
 //======================未使用的方法====================//
 

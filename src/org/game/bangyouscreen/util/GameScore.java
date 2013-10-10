@@ -52,7 +52,7 @@ public void addToLayer(Entity paramEntity){
 	  for (int i = 0;i< mDigitsSprite.length; i++){
 	    this.mDigitsSprite[i] = new AnimatedSprite(0f, 0f, ResourceManager.numberTTR.deepCopy(),ResourceManager.getEngine().getVertexBufferObjectManager());
 	    EntityUtil.setSize("width", 20f/800f, mDigitsSprite[i]);
-	    mDigitsSprite[i].setPosition(5f+mDigitsSprite[i].getWidth()/2f + i * ResourceManager.numberTTR.getWidth(), ResourceManager.getCamera().getHeight()-mDigitsSprite[i].getHeight()/2f);
+	    mDigitsSprite[i].setPosition(mDigitsSprite[i].getWidth()/2f + i * mDigitsSprite[i].getWidth(), ResourceManager.getCamera().getHeight()-mDigitsSprite[i].getHeight()/2f);
 	    
 	    paramEntity.attachChild(this.mDigitsSprite[i]);
 	  }

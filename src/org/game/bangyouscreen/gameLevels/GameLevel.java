@@ -27,7 +27,7 @@ public class GameLevel extends ManagedScene {
 	
 	//private static final String TIME_FORMAT = "00:00";
 	//private Text mTimeText;
-	private float gameTime = 120f;
+	private float gameTime = 30f;
 	private Text mScoreText;
 	private int mScore = 0;
 	private GameTimer mGameTime;
@@ -83,7 +83,7 @@ public class GameLevel extends ManagedScene {
 		
 		//BOSS血条
 		xue1Sprite = new Sprite(0f,0f,ResourceManager.xue1,mVertexBufferObjectManager);
-		xue1Sprite.setPosition(mCameraWidth/2f, mCameraHeight - xue1Sprite.getHeight());
+		xue1Sprite.setPosition(mCameraWidth/2f, mCameraHeight - xue1Sprite.getHeight()/2f);
 		xue1Sprite.setSize(0.6875f*mCameraWidth, 0.05833f*mCameraHeight);
 		//xue1Sprite.setSize(0.5f*mCameraWidth, 0.1f*mCameraHeight);
 		//EntityUtil.setSize("width", 0.6875f, xue1Sprite);
