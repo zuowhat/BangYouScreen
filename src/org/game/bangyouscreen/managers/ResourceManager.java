@@ -40,6 +40,7 @@ public class ResourceManager extends Object{
 	public static TiledTextureRegion numberTTR;
 	
 	public static TiledTextureRegion greenButtonTTR;
+	public static TiledTextureRegion redButtonTTR;
 	public static TextureRegion clockTR;
 	public static TextureRegion aiderHead;
 	public static TextureRegion muTR;
@@ -176,6 +177,9 @@ public class ResourceManager extends Object{
 		BitmapTextureAtlasTextureRegionFactory.setAssetBasePath("gfx/game/");
 		if(greenButtonTTR == null){
 			greenButtonTTR = getLimitableTTR("greenbutton.png",2,1,mNormalTextureOption);
+		}
+		if(redButtonTTR == null){
+			redButtonTTR = getLimitableTTR("redbutton.png",2,1,mNormalTextureOption);
 		}
 		if(clockTR == null){
 			clockTR = getLimitableTR("clock.png",mNormalTextureOption);

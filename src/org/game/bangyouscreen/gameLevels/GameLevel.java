@@ -31,6 +31,7 @@ public class GameLevel extends ManagedScene {
 	private Text mScoreText;
 	private int mScore = 0;
 	private GameTimer mGameTime;
+	private boolean mTenSeconds = false;
 	private GameScore mGameScore;
 	
 	private AnimatedSprite aidSkill1AS;
@@ -46,7 +47,7 @@ public class GameLevel extends ManagedScene {
 	private Sprite xue2Sprite;
 	
 	private ButtonSprite greenButtonBS;
-	private ButtonSprite blueButtonBS;
+	private ButtonSprite redButtonBS;
 	
 	public static GameLevel getInstance(){
 		return INSTANCE;
@@ -83,7 +84,7 @@ public class GameLevel extends ManagedScene {
 		
 		//BOSS血条
 		xue1Sprite = new Sprite(0f,0f,ResourceManager.xue1,mVertexBufferObjectManager);
-		xue1Sprite.setPosition(mCameraWidth/2f, mCameraHeight - xue1Sprite.getHeight()/2f);
+		xue1Sprite.setPosition(mCameraWidth/2f, mCameraHeight - xue1Sprite.getHeight()/2f-5f);
 		xue1Sprite.setSize(0.6875f*mCameraWidth, 0.05833f*mCameraHeight);
 		//xue1Sprite.setSize(0.5f*mCameraWidth, 0.1f*mCameraHeight);
 		//EntityUtil.setSize("width", 0.6875f, xue1Sprite);
@@ -151,10 +152,10 @@ public class GameLevel extends ManagedScene {
 		registerTouchArea(greenButtonBS);
 		
 		//蓝色按钮
-		blueButtonBS = new ButtonSprite(0f,0f,ResourceManager.greenButtonTTR,mVertexBufferObjectManager);
-		EntityUtil.setSize("height", 1f / 4f, blueButtonBS);
-		blueButtonBS.setPosition(mCameraWidth - blueButtonBS.getWidth() / 2f, blueButtonBS.getHeight() / 2f);
-		blueButtonBS.setOnClickListener(new OnClickListener(){
+		redButtonBS = new ButtonSprite(0f,0f,ResourceManager.redButtonTTR,mVertexBufferObjectManager);
+		EntityUtil.setSize("height", 1f / 4f, redButtonBS);
+		redButtonBS.setPosition(mCameraWidth - redButtonBS.getWidth() / 2f, redButtonBS.getHeight() / 2f);
+		redButtonBS.setOnClickListener(new OnClickListener(){
 
 			public void onClick(ButtonSprite pButtonSprite,
 					float pTouchAreaLocalX, float pTouchAreaLocalY) {
@@ -181,8 +182,8 @@ public class GameLevel extends ManagedScene {
 //					angelbossAS.animate(frameDur,0,1,true);
 //				}
 			}});
-		attachChild(blueButtonBS);
-		registerTouchArea(blueButtonBS);
+		attachChild(redButtonBS);
+		registerTouchArea(redButtonBS);
 		
 		//时钟
 		ButtonSprite clockSprite = new ButtonSprite(0f,0f,ResourceManager.clockTR,mVertexBufferObjectManager);
@@ -284,7 +285,8 @@ public class GameLevel extends ManagedScene {
 				mGameTime.mDigitsSprite[3].setScale(1.0F);
 				mGameTime.mDigitsSprite[2].setScale(1.0F);
 			} else {
-				if(gameTime <= 10f){
+				if((!mTenSeconds) && gameTime <= 10f){
+					mTenSeconds = true;
 					mGameTime.mBounceOut1.reset();
 					mGameTime.mBounceOut2.reset();
 					mGameTime.mDigitsSprite[3].registerEntityModifier(mGameTime.mBounceOut1);
@@ -293,12 +295,20 @@ public class GameLevel extends ManagedScene {
 					mGameTime.mColorOut2.reset();
 					mGameTime.mDigitsSprite[3].registerEntityModifier(mGameTime.mColorOut1);
 					mGameTime.mDigitsSprite[2].registerEntityModifier(mGameTime.mColorOut2);
+				}else if(mTenSeconds && gameTime > 10f){
+					mTenSeconds = false;
+					//mGameTime.mDigitsSprite[3].registerEntityModifier(mGameTime.mColorOut1);
+					//mGameTime.mDigitsSprite[2].registerEntityModifier(mGameTime.mColorOut2);
+					mGameTime.mDigitsSprite[3].clearEntityModifiers();
+					mGameTime.mDigitsSprite[2].clearEntityModifiers();
+					mGameTime.mDigitsSprite[3].setScale(1.0F);
+					mGameTime.mDigitsSprite[2].setScale(1.0F);
 				}
 				mGameTime.adjustTime(gameTime);
 			}
 			
 			//BOSS移动
-			if(angelbossAS.getY() - angelbossAS.getHeight()/2f < blueButtonBS.getY() + blueButtonBS.getHeight()/2f) {
+			if(angelbossAS.getY() - angelbossAS.getHeight()/2f < redButtonBS.getY() + redButtonBS.getHeight()/2f) {
 				mPhysicsHandler.setVelocityY(BOSS_VELOCITY);
 			} else if(angelbossAS.getY() + (angelbossAS.getHeight() * 0.5f) > xue1Sprite.getY() - xue1Sprite.getHeight()/2f) {
 				mPhysicsHandler.setVelocityY(-BOSS_VELOCITY);
