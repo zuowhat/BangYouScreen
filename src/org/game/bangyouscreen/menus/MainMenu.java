@@ -80,44 +80,23 @@ public class MainMenu extends ManagedScene{
 				mainMenuTitleSprite.getY(), mCameraWidth / 2f, mCameraHeight - (mainMenuTitleSprite.getHeight() / 2f)));
 		mainMenuTitleSprite.setZIndex(-80);
 		
-		final ButtonSprite singleModeBS = new ButtonSprite(0f,0f,buttonsBG,mVertexBufferObjectManager);
-		//singleModeBS.setSize(0.3f * mCameraWidth, (0.3f * mCameraWidth)/(singleModeBS.getWidth() / singleModeBS.getHeight()));
-		EntityUtil.setSize("height", 1f / 7f, singleModeBS);
-		singleModeBS.setPosition(mCameraWidth / 2f, mCameraHeight / 2f);
-		mainMenuScreen.attachChild(singleModeBS);
-		
+		//挑战模式
 		final ButtonSprite challengeModeBS = new ButtonSprite(0f,0f,buttonsBG,mVertexBufferObjectManager);
-		EntityUtil.setSize("height", 1f / 6f, challengeModeBS);
-		challengeModeBS.setPosition(mCameraWidth / 2f, 0f);
-		challengeModeBS.setVisible(false);
+		//singleModeBS.setSize(0.3f * mCameraWidth, (0.3f * mCameraWidth)/(singleModeBS.getWidth() / singleModeBS.getHeight()));
+		EntityUtil.setSize("height", 1f / 7f, challengeModeBS);
+		challengeModeBS.setPosition(mCameraWidth / 2f, mCameraHeight / 2f);
 		mainMenuScreen.attachChild(challengeModeBS);
 		
-		//单人模式点击事件
-		singleModeBS.setOnClickListener(new OnClickListener(){
+		challengeModeBS.setOnClickListener(new OnClickListener(){
 			
 			public void onClick(ButtonSprite pButtonSprite, float pTouchAreaLocalX, float pTouchAreaLocalY) {
-				singleModeBS.registerEntityModifier(new ParallelEntityModifier(
-						new FadeOutModifier(1f),
-						new MoveModifier(1f,singleModeBS.getX(),singleModeBS.getY(),singleModeBS.getX(),mCameraHeight)
-						));
-				challengeModeBS.setVisible(true);
-				challengeModeBS.registerEntityModifier(new ParallelEntityModifier(
-						new MoveModifier(1f,challengeModeBS.getX(),challengeModeBS.getY(),challengeModeBS.getX(), mCameraHeight / 2f),
-						new FadeInModifier(1f)));
-			}
-		});
-		registerTouchArea(singleModeBS);
-		
-		//挑战模式点击事件
-		challengeModeBS.setOnClickListener(new OnClickListener(){
-
-			public void onClick(ButtonSprite pButtonSprite,
-					float pTouchAreaLocalX, float pTouchAreaLocalY) {
-				SceneManager.getInstance().showScene(new GameLevel());
-				
+				SceneManager.getInstance().showScene(new ThemeScene());
+			
 			}
 		});
 		registerTouchArea(challengeModeBS);
+		
+
 	
 		this.attachChild(mainMenuTitleSprite);
 		this.attachChild(this.mainMenuScreen);

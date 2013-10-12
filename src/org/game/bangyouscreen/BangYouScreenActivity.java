@@ -98,7 +98,7 @@ public class BangYouScreenActivity extends BaseGameActivity {
 		// Set the Wake Lock options to prevent the engine from dumping textures when focus changes.
 		engineOptions.setWakeLockOptions(WakeLockOptions.SCREEN_ON);
 		//启动多点触控
-		engineOptions.getTouchOptions().setNeedsMultiTouch(true);
+		//engineOptions.getTouchOptions().setNeedsMultiTouch(true);
 		return engineOptions;
 	}
 

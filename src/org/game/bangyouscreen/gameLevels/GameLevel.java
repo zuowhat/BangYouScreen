@@ -64,6 +64,7 @@ public class GameLevel extends ManagedScene {
 
 	@Override
 	public void onLoadScene() {
+		ResourceManager.getInstance().engine.getEngineOptions().getTouchOptions().setNeedsMultiTouch(true);
 		
 		//背景
 		Sprite bg1 = new Sprite(0f,0f,ResourceManager.gameBG1,mVertexBufferObjectManager);
@@ -255,7 +256,7 @@ public class GameLevel extends ManagedScene {
 
 	@Override
 	public void onUnloadScene() {
-
+		ResourceManager.getInstance().engine.getEngineOptions().getTouchOptions().setNeedsMultiTouch(false);
 	}
 
 	@Override
