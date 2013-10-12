@@ -54,7 +54,7 @@ public abstract class ManagedScene extends Scene{
 	public abstract void onLoadingScreenUnloadAndHidden();//卸载，隐藏--'加载画面'
 	
 	public abstract void onLoadScene();
-	public abstract void onUnloadScene();
 	public abstract void onShowScene();
 	public abstract void onHideScene();
+	public abstract void onUnloadScene();
 }
