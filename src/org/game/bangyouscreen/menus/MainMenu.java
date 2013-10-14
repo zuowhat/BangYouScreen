@@ -59,8 +59,8 @@ public class MainMenu extends ManagedScene{
 	
 	@Override
 	public void onLoadScene() {
-		ResourceManager.loadGameResources();
-		TextureRegion buttonsBG = ResourceManager.singleModeTR;
+		ResourceManager.loadThemeResources();
+		//TextureRegion buttonsBG = ResourceManager.singleModeTR;
 		
 		mainMenuScreen = new Entity(0,mCameraHeight){
 			boolean hasLoaded = false;
@@ -81,7 +81,7 @@ public class MainMenu extends ManagedScene{
 		mainMenuTitleSprite.setZIndex(-80);
 		
 		//挑战模式
-		final ButtonSprite challengeModeBS = new ButtonSprite(0f,0f,buttonsBG,mVertexBufferObjectManager);
+		final ButtonSprite challengeModeBS = new ButtonSprite(0f,0f,ResourceManager.singleModeTR,mVertexBufferObjectManager);
 		//singleModeBS.setSize(0.3f * mCameraWidth, (0.3f * mCameraWidth)/(singleModeBS.getWidth() / singleModeBS.getHeight()));
 		EntityUtil.setSize("height", 1f / 7f, challengeModeBS);
 		challengeModeBS.setPosition(mCameraWidth / 2f, mCameraHeight / 2f);

@@ -54,6 +54,10 @@ public class ResourceManager extends Object{
 	public static TextureRegion xue2;
 	//public static TextureRegion xue3;
 	
+	public static TextureRegion theme1;
+	public static TextureRegion theme2;
+	public static TextureRegion themeBG;
+	
 	public static TiledTextureRegion aidSkill1;
 	public static TiledTextureRegion aidSkill2;
 	
@@ -145,6 +149,11 @@ public class ResourceManager extends Object{
 		getInstance().loadSharedResources();
 	}
 	
+	public static void loadThemeResources(){
+		getInstance().loadThemeTextures();
+		getInstance().loadSharedResources();
+	}
+	
 	public static void loadGameResources(){
 		getInstance().loadGameTextures();
 		getInstance().loadSharedResources();
@@ -160,13 +169,29 @@ public class ResourceManager extends Object{
 		mPreviousAssetBasePath = BitmapTextureAtlasTextureRegionFactory.getAssetBasePath();
 		BitmapTextureAtlasTextureRegionFactory.setAssetBasePath("gfx/menu/");
 		if(mainMenuBackgroundTR == null){
-			mainMenuBackgroundTR = getLimitableTR("background.png",mNormalTextureOption);
+			mainMenuBackgroundTR = getLimitableTR("mainBG.png",mNormalTextureOption);
 		}
 		if(mainMenuTitleTR == null){
 			mainMenuTitleTR = getLimitableTR("BangYouScreenTitle.png",mNormalTextureOption);
 		}
 		if(singleModeTR == null){
 			singleModeTR = getLimitableTR("MainMenuButtons.png",mNormalTextureOption);
+		}
+		BitmapTextureAtlasTextureRegionFactory.setAssetBasePath(mPreviousAssetBasePath);
+	}
+	
+	// ============================ 主题纹理  ================= //
+	private void loadThemeTextures(){
+		mPreviousAssetBasePath = BitmapTextureAtlasTextureRegionFactory.getAssetBasePath();
+		BitmapTextureAtlasTextureRegionFactory.setAssetBasePath("gfx/menu/");
+		if(theme1 == null){
+			theme1 = getLimitableTR("theme1.png",mNormalTextureOption);
+		}
+		if(theme2 == null){
+			theme2 = getLimitableTR("theme2.png",mNormalTextureOption);
+		}
+		if(themeBG == null){
+			themeBG = getLimitableTR("themeBG.png",mNormalTextureOption);
 		}
 		BitmapTextureAtlasTextureRegionFactory.setAssetBasePath(mPreviousAssetBasePath);
 	}
