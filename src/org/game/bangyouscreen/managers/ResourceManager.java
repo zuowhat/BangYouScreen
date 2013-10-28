@@ -33,11 +33,13 @@ public class ResourceManager extends Object{
 	private static final TextureOptions mNormalTextureOption = TextureOptions.BILINEAR;
 	
 	public static TextureRegion mainMenuBackgroundTR;
-	public static TextureRegion singleModeTR;
+	public static TiledTextureRegion mainMenuButtons;
 	public static TextureRegion mainMenuTitleTR;
 	public static Font mFont;
 	public static Font sysFont;
 	public static TiledTextureRegion numberTTR;
+	public static TextureRegion menuClouds1;
+	public static TextureRegion menuClouds2;
 	
 	public static TiledTextureRegion greenButtonTTR;
 	public static TiledTextureRegion redButtonTTR;
@@ -172,10 +174,16 @@ public class ResourceManager extends Object{
 			mainMenuBackgroundTR = getLimitableTR("mainBG.png",mNormalTextureOption);
 		}
 		if(mainMenuTitleTR == null){
-			mainMenuTitleTR = getLimitableTR("BangYouScreenTitle.png",mNormalTextureOption);
+			mainMenuTitleTR = getLimitableTR("mainTitle.png",mNormalTextureOption);
 		}
-		if(singleModeTR == null){
-			singleModeTR = getLimitableTR("MainMenuButtons.png",mNormalTextureOption);
+		if(mainMenuButtons == null){
+			mainMenuButtons = getLimitableTTR("mainMenu.png",1,3,mNormalTextureOption);
+		}
+		if(menuClouds1 == null){
+			menuClouds1 = getLimitableTR("menuClouds1.png",mNormalTextureOption);
+		}
+		if(menuClouds2 == null){
+			menuClouds2 = getLimitableTR("menuClouds2.png",mNormalTextureOption);
 		}
 		BitmapTextureAtlasTextureRegionFactory.setAssetBasePath(mPreviousAssetBasePath);
 	}

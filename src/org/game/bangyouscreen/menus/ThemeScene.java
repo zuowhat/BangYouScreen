@@ -96,8 +96,6 @@ public class ThemeScene extends ManagedScene implements IScrollDetectorListener{
 	@Override
 	public void onScrollStarted(ScrollDetector pScollDetector, int pPointerID,
 			float pDistanceX, float pDistanceY) {
-		System.out.println("onScrollStarted_X-->"+pDistanceX);
-		System.out.println("onScrollStarted_Y-->"+pDistanceY);
 		this.mScrollTime = System.currentTimeMillis();
 	    this.mScrollDown.x = this.mTouchPoint.x;
 	    this.mScrollDown.y = this.mTouchPoint.y;
@@ -107,8 +105,6 @@ public class ThemeScene extends ManagedScene implements IScrollDetectorListener{
 	@Override
 	public void onScroll(ScrollDetector pScollDetector, int pPointerID,
 			float pDistanceX, float pDistanceY) {
-		System.out.println("onScroll_X-->"+pDistanceX);
-		System.out.println("onScroll_Y-->"+pDistanceY);
 		if (mCurrentScreen == ThemeSceneScreens.ThemeSelector){
 //		    float f1 = paramFloat + mScensSlider.getX();
 //		    if (f1 > mScensSlider.getInitialX())
@@ -128,8 +124,6 @@ public class ThemeScene extends ManagedScene implements IScrollDetectorListener{
 	@Override
 	public void onScrollFinished(ScrollDetector pScollDetector, int pPointerID,
 			float pDistanceX, float pDistanceY) {
-		System.out.println("onScrollFinished_X-->"+pDistanceX);
-		System.out.println("onScrollFinished_Y-->"+pDistanceY);
 		mScensSlider.clearEntityModifiers();
 		if(directionPath > 0f){
 			if(mCurrentTheme == 0){
@@ -152,8 +146,6 @@ public class ThemeScene extends ManagedScene implements IScrollDetectorListener{
 	}
 	
 	 public boolean onSceneTouchEvent(TouchEvent paramTouchEvent){
-		 System.out.println("onSceneTouchEvent_X-->"+paramTouchEvent.getX());
-			System.out.println("onSceneTouchEvent_Y-->"+paramTouchEvent.getY());
 	    if (mCurrentScreen == ThemeSceneScreens.ThemeSelector){
 	      this.mTouchPoint.x = paramTouchEvent.getX();
 	      this.mTouchPoint.y = paramTouchEvent.getY();
