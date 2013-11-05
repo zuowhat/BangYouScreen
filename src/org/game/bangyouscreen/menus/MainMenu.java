@@ -3,12 +3,9 @@ package org.game.bangyouscreen.menus;
 import org.andengine.entity.Entity;
 import org.andengine.entity.modifier.MoveModifier;
 import org.andengine.entity.scene.Scene;
-import org.andengine.entity.scene.background.AutoParallaxBackground;
-import org.andengine.entity.scene.background.ParallaxBackground;
 import org.andengine.entity.sprite.ButtonSprite;
 import org.andengine.entity.sprite.ButtonSprite.OnClickListener;
 import org.andengine.entity.sprite.Sprite;
-import org.andengine.entity.text.Text;
 import org.andengine.opengl.vbo.VertexBufferObjectManager;
 import org.andengine.util.math.MathUtils;
 import org.game.bangyouscreen.managers.ManagedScene;
@@ -20,7 +17,6 @@ import org.game.bangyouscreen.util.EntityUtil;
 public class MainMenu extends ManagedScene{
 	
 	private static final MainMenu INSTANCE = new MainMenu();
-	private Sprite backgroundSprite;
 	private static final float mCameraWidth = ResourceManager.getCamera().getWidth();
 	private static final float mCameraHeight = ResourceManager.getCamera().getHeight();
 	private VertexBufferObjectManager mVertexBufferObjectManager = ResourceManager.getEngine().getVertexBufferObjectManager();
@@ -40,20 +36,13 @@ public class MainMenu extends ManagedScene{
 	public Scene onLoadingScreenLoadAndShown() {
 		ResourceManager.loadMenuResources();
 		ResourceManager.setupForMenus();
-		Scene managerLoadScreen = new Scene();
-		backgroundSprite = new Sprite(0f,0f, ResourceManager.mainMenuBackgroundTR,mVertexBufferObjectManager);
-		//根据屏幕尺寸，对背景图片进行缩放
-		backgroundSprite.setScale(ResourceManager.getInstance().cameraWidth / ResourceManager.mainMenuBackgroundTR.getWidth());
-		backgroundSprite.setPosition(mCameraWidth / 2f, mCameraHeight / 2f);
-		backgroundSprite.setZIndex(-5000);
-		managerLoadScreen.attachChild(backgroundSprite);
-		managerLoadScreen.attachChild(new Text(mCameraWidth / 2f, mCameraHeight / 2f,ResourceManager.mFont,"Load...",mVertexBufferObjectManager));
-		return managerLoadScreen;
+		LoadingScene.getInstance().onLoadScene();
+		return LoadingScene.getInstance();
 	}
 
 	@Override
 	public void onLoadingScreenUnloadAndHidden() {
-		backgroundSprite.detachSelf();
+		LoadingScene.getInstance().unloadScene();
 	}
 	
 	@Override
@@ -103,6 +92,7 @@ public class MainMenu extends ManagedScene{
 	    
 		mainMenuScreen = new Entity(0,mCameraHeight){
 			boolean hasLoaded = false;
+			@Override
 			protected void onManagedUpdate(final float pSecondsElapsed) {
 				super.onManagedUpdate(pSecondsElapsed);
 				if(!hasLoaded){
@@ -127,6 +117,7 @@ public class MainMenu extends ManagedScene{
 		mainMenuScreen.attachChild(themeModeBS);
 		themeModeBS.setOnClickListener(new OnClickListener(){
 			
+			@Override
 			public void onClick(ButtonSprite pButtonSprite, float pTouchAreaLocalX, float pTouchAreaLocalY) {
 				SceneManager.getInstance().showScene(new ThemeScene());
 			}
@@ -141,6 +132,7 @@ public class MainMenu extends ManagedScene{
 		mainMenuScreen.attachChild(shopModeBS);
 		shopModeBS.setOnClickListener(new OnClickListener(){
 			
+			@Override
 			public void onClick(ButtonSprite pButtonSprite, float pTouchAreaLocalX, float pTouchAreaLocalY) {
 				//SceneManager.getInstance().showScene(new ThemeScene());
 			}
@@ -155,6 +147,7 @@ public class MainMenu extends ManagedScene{
 		mainMenuScreen.attachChild(aboutModeBS);
 		aboutModeBS.setOnClickListener(new OnClickListener(){
 			
+			@Override
 			public void onClick(ButtonSprite pButtonSprite, float pTouchAreaLocalX, float pTouchAreaLocalY) {
 				//SceneManager.getInstance().showScene(new ThemeScene());
 			}
@@ -168,10 +161,11 @@ public class MainMenu extends ManagedScene{
 	
 	@Override
 	public void onShowScene() {
-		if(!this.backgroundSprite.hasParent()) {
-			this.attachChild(this.backgroundSprite);
-			this.sortChildren();
-		}
+//		if(!this.backgroundSprite.hasParent()) {
+//			this.attachChild(this.backgroundSprite);
+//			this.sortChildren();
+//		}
+		sortChildren();
 	}
 
 	@Override

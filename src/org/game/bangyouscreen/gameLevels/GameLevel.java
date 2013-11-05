@@ -68,8 +68,8 @@ public class GameLevel extends ManagedScene {
 		ResourceManager.getInstance().engine.getEngineOptions().getTouchOptions().setNeedsMultiTouch(true);
 		
 		//背景
-		Sprite bg1 = new Sprite(0f,0f,ResourceManager.gameBG1,mVertexBufferObjectManager);
-		bg1.setScale(ResourceManager.getInstance().cameraHeight / ResourceManager.gameBG1.getHeight());
+		Sprite bg1 = new Sprite(0f,0f,ResourceManager.gameBG10,mVertexBufferObjectManager);
+		bg1.setScale(ResourceManager.getInstance().cameraHeight / ResourceManager.gameBG10.getHeight());
 		bg1.setPosition(mCameraWidth/2f,mCameraHeight/2f);
 		bg1.setZIndex(-90);
 		attachChild(bg1);
@@ -104,7 +104,7 @@ public class GameLevel extends ManagedScene {
 		xue3S = (xue2Sprite.getWidth())/bossBloodNum;
 		
 		//BOSS
-		angelbossAS = new AnimatedSprite(0f,0f,ResourceManager.angelboss,mVertexBufferObjectManager);
+		angelbossAS = new AnimatedSprite(0f,0f,ResourceManager.boss19,mVertexBufferObjectManager);
 		angelbossAS.setPosition(mCameraWidth/2f, mCameraHeight/2f);
 		EntityUtil.setSize("width", 0.32f, angelbossAS);
 		//angelbossAS.setScale(2f);
@@ -123,6 +123,7 @@ public class GameLevel extends ManagedScene {
 		greenButtonBS.setPosition(greenButtonBS.getWidth() / 2f, greenButtonBS.getHeight() / 2f);
 		greenButtonBS.setOnClickListener(new OnClickListener(){
 
+			@Override
 			public void onClick(ButtonSprite pButtonSprite,
 					float pTouchAreaLocalX, float pTouchAreaLocalY) {
 				mScore++;
@@ -158,6 +159,7 @@ public class GameLevel extends ManagedScene {
 		redButtonBS.setPosition(mCameraWidth - redButtonBS.getWidth() / 2f, redButtonBS.getHeight() / 2f);
 		redButtonBS.setOnClickListener(new OnClickListener(){
 
+			@Override
 			public void onClick(ButtonSprite pButtonSprite,
 					float pTouchAreaLocalX, float pTouchAreaLocalY) {
 				mScore++;
@@ -192,6 +194,7 @@ public class GameLevel extends ManagedScene {
 		clockSprite.setPosition((1f/2f)*mCameraWidth, clockSprite.getHeight()/2f);
 		clockSprite.setOnClickListener(new OnClickListener(){
 
+			@Override
 			public void onClick(ButtonSprite pButtonSprite,
 					float pTouchAreaLocalX, float pTouchAreaLocalY) {
 				gameTime+=30f;
@@ -201,32 +204,37 @@ public class GameLevel extends ManagedScene {
 		registerTouchArea(clockSprite);
 		
 		//头像
-		ButtonSprite aiderHeadSprite = new ButtonSprite(0f,0f,ResourceManager.aiderHead,mVertexBufferObjectManager);
+		ButtonSprite aiderHeadSprite = new ButtonSprite(0f,0f,ResourceManager.clockTR,mVertexBufferObjectManager);
 		aiderHeadSprite.setPosition((1f / 2f) * mCameraWidth + clockSprite.getWidth(), clockSprite.getHeight()/2f);
 		aiderHeadSprite.setOnClickListener(new OnClickListener(){
 
+			@Override
 			public void onClick(ButtonSprite pButtonSprite,
 					float pTouchAreaLocalX, float pTouchAreaLocalY) {
 				//辅助技能
-				aidSkill1AS = new AnimatedSprite(mCameraWidth/2f,mCameraHeight/2f,ResourceManager.aidSkill2,mVertexBufferObjectManager);
+				aidSkill1AS = new AnimatedSprite(mCameraWidth/2f,mCameraHeight/2f,ResourceManager.aidSkill2Temp,mVertexBufferObjectManager);
 				aidSkill1AS.setScale(2f);
 				aidSkill1AS.animate(100,3,new IAnimationListener(){
 
+					@Override
 					public void onAnimationStarted(AnimatedSprite pAnimatedSprite,
 							int pInitialLoopCount) {
 						angelbossAS.stopAnimation(2);
 					}
 
+					@Override
 					public void onAnimationFrameChanged(AnimatedSprite pAnimatedSprite,
 							int pOldFrameIndex, int pNewFrameIndex) {
 						
 					}
 
+					@Override
 					public void onAnimationLoopFinished(AnimatedSprite pAnimatedSprite,
 							int pRemainingLoopCount, int pInitialLoopCount) {
 						
 					}
 
+					@Override
 					public void onAnimationFinished(AnimatedSprite pAnimatedSprite) {
 						detachChild(aidSkill1AS);
 						aidSkill1AS = null;
@@ -273,6 +281,7 @@ public class GameLevel extends ManagedScene {
 	//游戏时间倒计时,BOSS移动
 	private IUpdateHandler gameRunTimer = new IUpdateHandler() {
 
+		@Override
 		public void onUpdate(float pSecondsElapsed) {
 			//倒计时
 			gameTime-=pSecondsElapsed;
@@ -324,6 +333,7 @@ public class GameLevel extends ManagedScene {
 			mGameScore.adjustScore(mScore);
 		}
 
+		@Override
 		public void reset() {}
 	};
 

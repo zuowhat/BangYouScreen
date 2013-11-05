@@ -44,24 +44,27 @@ public class ResourceManager extends Object{
 	public static TiledTextureRegion greenButtonTTR;
 	public static TiledTextureRegion redButtonTTR;
 	public static TextureRegion clockTR;
-	public static TextureRegion aiderHead;
-	public static TextureRegion muTR;
 	
-	public static TextureRegion gameBG1;
-	public static TiledTextureRegion aider1;
-	public static TiledTextureRegion boss1;
-	public static TiledTextureRegion angelboss;
+	public static TextureRegion gameBG10;
+	public static TiledTextureRegion boss10;
+	public static TiledTextureRegion boss11;
+	public static TiledTextureRegion boss19;
 	
 	public static TextureRegion xue1;
 	public static TextureRegion xue2;
 	//public static TextureRegion xue3;
 	
-	public static TextureRegion theme1;
-	public static TextureRegion theme2;
+	public static TextureRegion theme1Temp;
+	public static TextureRegion theme2Temp;
 	public static TextureRegion themeBG;
 	
-	public static TiledTextureRegion aidSkill1;
-	public static TiledTextureRegion aidSkill2;
+	public static TiledTextureRegion aidSkill1Temp;
+	public static TiledTextureRegion aidSkill2Temp;
+	
+	public static TextureRegion loadingBG;
+	public static TextureRegion loadingBG1;
+	public static TiledTextureRegion loadingBG2;
+	public static TiledTextureRegion loadingFont;
 	
 	public ResourceManager(){
 	}
@@ -185,6 +188,18 @@ public class ResourceManager extends Object{
 		if(menuClouds2 == null){
 			menuClouds2 = getLimitableTR("menuClouds2.png",mNormalTextureOption);
 		}
+		if(loadingBG == null){
+			loadingBG = getLimitableTR("loadingBG.png",mNormalTextureOption);
+		}
+		if(loadingBG1 == null){
+			loadingBG1 = getLimitableTR("loadingBG1.png",mNormalTextureOption);
+		}
+		if(loadingBG2 == null){
+			loadingBG2 = getLimitableTTR("loadingBG2.png",2,1,mNormalTextureOption);
+		}
+		if(loadingFont == null){
+			loadingFont = getLimitableTTR("loadingFont.png",1,3,mNormalTextureOption);
+		}
 		BitmapTextureAtlasTextureRegionFactory.setAssetBasePath(mPreviousAssetBasePath);
 	}
 	
@@ -192,11 +207,11 @@ public class ResourceManager extends Object{
 	private void loadThemeTextures(){
 		mPreviousAssetBasePath = BitmapTextureAtlasTextureRegionFactory.getAssetBasePath();
 		BitmapTextureAtlasTextureRegionFactory.setAssetBasePath("gfx/menu/");
-		if(theme1 == null){
-			theme1 = getLimitableTR("theme1.png",mNormalTextureOption);
+		if(theme1Temp == null){
+			theme1Temp = getLimitableTR("theme1.png",mNormalTextureOption);
 		}
-		if(theme2 == null){
-			theme2 = getLimitableTR("theme2.png",mNormalTextureOption);
+		if(theme2Temp == null){
+			theme2Temp = getLimitableTR("theme2.png",mNormalTextureOption);
 		}
 		if(themeBG == null){
 			themeBG = getLimitableTR("themeBG.png",mNormalTextureOption);
@@ -217,23 +232,17 @@ public class ResourceManager extends Object{
 		if(clockTR == null){
 			clockTR = getLimitableTR("clock.png",mNormalTextureOption);
 		}
-		if(aiderHead == null){
-			aiderHead = getLimitableTR("tuoba.png",mNormalTextureOption);
+		if(gameBG10 == null){
+			gameBG10 = getLimitableTR("bg10.jpg",mNormalTextureOption);
 		}
-		if(muTR == null){
-			muTR = getLimitableTR("multiply.png",mNormalTextureOption);
+		if(boss10 == null){
+			boss10 = getLimitableTTR("boss10.png",5,5,mNormalTextureOption);
 		}
-		if(gameBG1 == null){
-			gameBG1 = getLimitableTR("bg1.jpg",mNormalTextureOption);
+		if(boss11 == null){
+			boss11 = getLimitableTTR("boss11.png",5,6,mNormalTextureOption);
 		}
-		if(aider1 == null){
-			aider1 = getLimitableTTR("boss1.png",5,5,mNormalTextureOption);
-		}
-		if(boss1 == null){
-			boss1 = getLimitableTTR("boss.png",5,6,mNormalTextureOption);
-		}
-		if(angelboss == null){
-			angelboss = getLimitableTTR("angelboss.png",3,1,mNormalTextureOption);
+		if(boss19 == null){
+			boss19 = getLimitableTTR("boss19.png",3,1,mNormalTextureOption);
 		}
 		if(xue1 == null){
 			xue1 = getLimitableTR("xue1.png",mNormalTextureOption);
@@ -241,14 +250,11 @@ public class ResourceManager extends Object{
 		if(xue2 == null){
 			xue2 = getLimitableTR("xue2.png",mNormalTextureOption);
 		}
-//		if(xue3 == null){
-//			xue3 = getLimitableTR("xue3.png",mNormalTextureOption);
-//		}
-		if(aidSkill1 == null){
-			aidSkill1 = getLimitableTTR("skill1.png",3,4,mNormalTextureOption);
+		if(aidSkill1Temp == null){
+			aidSkill1Temp = getLimitableTTR("skill1.png",3,4,mNormalTextureOption);
 		}
-		if(aidSkill2 == null){
-			aidSkill2 = getLimitableTTR("skill2.png",3,4,mNormalTextureOption);
+		if(aidSkill2Temp == null){
+			aidSkill2Temp = getLimitableTTR("skill2.png",3,4,mNormalTextureOption);
 		}
 		if(numberTTR == null){
 			numberTTR = getLimitableTTR("number.png",12,1,mNormalTextureOption);

@@ -1,9 +1,12 @@
 package org.game.bangyouscreen.menus;
 
 
+import org.andengine.entity.Entity;
 import org.andengine.entity.modifier.MoveXModifier;
 import org.andengine.entity.primitive.Rectangle;
 import org.andengine.entity.scene.Scene;
+import org.andengine.entity.sprite.ButtonSprite;
+import org.andengine.entity.sprite.ButtonSprite.OnClickListener;
 import org.andengine.entity.sprite.Sprite;
 import org.andengine.input.touch.TouchEvent;
 import org.andengine.input.touch.detector.ScrollDetector;
@@ -13,8 +16,6 @@ import org.andengine.opengl.vbo.VertexBufferObjectManager;
 import org.game.bangyouscreen.managers.ManagedScene;
 import org.game.bangyouscreen.managers.ResourceManager;
 
-import android.graphics.PointF;
-
 public class ThemeScene extends ManagedScene implements IScrollDetectorListener{
 
 	private static final ThemeScene INSTANCE = new ThemeScene();
@@ -23,14 +24,13 @@ public class ThemeScene extends ManagedScene implements IScrollDetectorListener{
 	private VertexBufferObjectManager mVertexBufferObjectManager = ResourceManager.getEngine().getVertexBufferObjectManager();
 	
 	private SurfaceScrollDetector mScrollDetector;
-	private PointF mTouchPoint = new PointF();
-	private PointF mScrollDown = new PointF();
-	private long mScrollTime = 0L;
 	private Rectangle mScensSlider;
-	private Sprite[] themePics = new Sprite[4];
+	private ButtonSprite[] themePics = new ButtonSprite[4];
 	private float themeRInitX;
 	private int mCurrentTheme = 0;
 	private float directionPath;//判断手势方向，正-向右滑动，负-向左滑动
+	
+	private Entity levelEntity;
 	
 	public enum ThemeSceneScreens {
 		ThemeSelector, LevelSelector
@@ -41,15 +41,19 @@ public class ThemeScene extends ManagedScene implements IScrollDetectorListener{
 		return INSTANCE;
 	}
 	
+	public ThemeScene(){
+		super(0.1f);
+	}
+	
+	@Override
 	public Scene onLoadingScreenLoadAndShown() {
-		// TODO Auto-generated method stub
-		return null;
+		LoadingScene.getInstance().onLoadScene();
+		return LoadingScene.getInstance();
 	}
 
 	@Override
 	public void onLoadingScreenUnloadAndHidden() {
-		// TODO Auto-generated method stub
-		
+		LoadingScene.getInstance().unloadScene();
 	}
 
 	@Override
@@ -96,9 +100,6 @@ public class ThemeScene extends ManagedScene implements IScrollDetectorListener{
 	@Override
 	public void onScrollStarted(ScrollDetector pScollDetector, int pPointerID,
 			float pDistanceX, float pDistanceY) {
-		this.mScrollTime = System.currentTimeMillis();
-	    this.mScrollDown.x = this.mTouchPoint.x;
-	    this.mScrollDown.y = this.mTouchPoint.y;
 	    directionPath = pDistanceX;
 	}
 
@@ -145,10 +146,9 @@ public class ThemeScene extends ManagedScene implements IScrollDetectorListener{
 		
 	}
 	
-	 public boolean onSceneTouchEvent(TouchEvent paramTouchEvent){
+	 @Override
+	public boolean onSceneTouchEvent(TouchEvent paramTouchEvent){
 	    if (mCurrentScreen == ThemeSceneScreens.ThemeSelector){
-	      this.mTouchPoint.x = paramTouchEvent.getX();
-	      this.mTouchPoint.y = paramTouchEvent.getY();
 	      this.mScrollDetector.onTouchEvent(paramTouchEvent);
 	    }
 	    return super.onSceneTouchEvent(paramTouchEvent);
@@ -163,22 +163,35 @@ public class ThemeScene extends ManagedScene implements IScrollDetectorListener{
 		 float themeRWidth = mCameraWidth*themePics.length;
 		 themeRInitX = themeRWidth/2f;
 		 Rectangle themeR = new Rectangle(themeRWidth/2f,mCameraHeight/2f,themeRWidth,
-				 ResourceManager.theme1.getHeight(),mVertexBufferObjectManager);
+				 ResourceManager.theme1Temp.getHeight(),mVertexBufferObjectManager);
+		 themeR.setAlpha(0f);
 		 //主题1
-		 themePics[0] = new Sprite(0f,0f,ResourceManager.theme1,mVertexBufferObjectManager);
+		 themePics[0] = new ButtonSprite(0f,0f,ResourceManager.theme1Temp,mVertexBufferObjectManager);
 		 themePics[0].setPosition(mCameraWidth/2f, themeR.getHeight()/2f);
 		 themeR.attachChild(themePics[0]);
+		 themePics[0].setOnClickListener(new OnClickListener(){
+				@Override
+				public void onClick(ButtonSprite pButtonSprite, float pTouchAreaLocalX, float pTouchAreaLocalY) {
+					mCurrentScreen = ThemeSceneScreens.LevelSelector;
+					
+					
+					
+				}
+			});
+			registerTouchArea(themePics[0]);
+		 
+		 
 		 
 		 //主题2
-		 themePics[1] = new Sprite(0f,0f,ResourceManager.theme2,mVertexBufferObjectManager);
+		 themePics[1] = new ButtonSprite(0f,0f,ResourceManager.theme2Temp,mVertexBufferObjectManager);
 		 themePics[1].setPosition(themePics[0].getX()+mCameraWidth, themeR.getHeight()/2f);
 		 themeR.attachChild(themePics[1]);
 		 
-		 themePics[2] = new Sprite(0f,0f,ResourceManager.theme1,mVertexBufferObjectManager);
+		 themePics[2] = new ButtonSprite(0f,0f,ResourceManager.theme1Temp,mVertexBufferObjectManager);
 		 themePics[2].setPosition(themePics[1].getX()+mCameraWidth, themeR.getHeight()/2f);
 		 themeR.attachChild(themePics[2]);
 		 
-		 themePics[3] = new Sprite(0f,0f,ResourceManager.theme2,mVertexBufferObjectManager);
+		 themePics[3] = new ButtonSprite(0f,0f,ResourceManager.theme2Temp,mVertexBufferObjectManager);
 		 themePics[3].setPosition(themePics[2].getX()+mCameraWidth, themeR.getHeight()/2f);
 		 themeR.attachChild(themePics[3]);
 		 

@@ -41,11 +41,13 @@ public class BangYouScreenActivity extends BaseGameActivity {
 	public float actualWindowHeightInches;
 	public SmoothCamera mCamera;
 
+	@Override
 	public Engine onCreateEngine(EngineOptions pEngineOptions) { 
 		return new FixedStepEngine(pEngineOptions, 60); 
 	}
 
 	
+	@Override
 	public EngineOptions onCreateEngineOptions() {
 		//System.out.println("onCreateEngineOptions");
 		//重写ResolutionPolicy中的onMeasure()方法来设置镜头的大小
@@ -53,6 +55,7 @@ public class BangYouScreenActivity extends BaseGameActivity {
 		//This should also be better for if  the game is placed in a layout where simply measuring the display would give entirely wrong results.
 		FillResolutionPolicy EngineFillResolutionPolicy = new FillResolutionPolicy() {
 			
+			@Override
 			public void onMeasure(final IResolutionPolicy.Callback pResolutionPolicyCallback, final int pWidthMeasureSpec, final int pHeightMeasureSpec) {
 				super.onMeasure(pResolutionPolicyCallback, pWidthMeasureSpec, pHeightMeasureSpec);
 				
@@ -130,6 +133,7 @@ public class BangYouScreenActivity extends BaseGameActivity {
 		pOnPopulateSceneCallback.onPopulateSceneFinished();
 	}
 
+	@Override
 	protected synchronized void onResume() {
 		super.onResume();
 		System.gc();
@@ -137,7 +141,8 @@ public class BangYouScreenActivity extends BaseGameActivity {
 //			SFXManager.resumeMusic();
 	}
 	
-	  public boolean onKeyDown(int paramInt, KeyEvent paramKeyEvent){
+	  @Override
+	public boolean onKeyDown(int paramInt, KeyEvent paramKeyEvent){
 	    if(paramInt == 4){
 	    	showExitConfirmDialog();
 	    	
@@ -150,14 +155,16 @@ public class BangYouScreenActivity extends BaseGameActivity {
 	  {
 	    runOnUiThread(new Runnable()
 	    {
-	      public void run()
+	      @Override
+		public void run()
 	      {
 	        AlertDialog localAlertDialog = new AlertDialog.Builder(BangYouScreenActivity.this).create();
 	        localAlertDialog.setTitle("QUIT GAME");
 	        localAlertDialog.setMessage("Are you sure?");
 	        localAlertDialog.setButton("EXIT", new DialogInterface.OnClickListener()
 	        {
-	          public void onClick(DialogInterface paramDialogInterface, int paramInt)
+	          @Override
+			public void onClick(DialogInterface paramDialogInterface, int paramInt)
 	          {
 	        	 // BangYouScreenActivity.this.finish();
 	        	  System.exit(0);
@@ -165,7 +172,8 @@ public class BangYouScreenActivity extends BaseGameActivity {
 	        });
 	        localAlertDialog.setButton3("CANCEL", new DialogInterface.OnClickListener()
 	        {
-	          public void onClick(DialogInterface paramDialogInterface, int paramInt)
+	          @Override
+			public void onClick(DialogInterface paramDialogInterface, int paramInt)
 	          {
 	          }
 	        });

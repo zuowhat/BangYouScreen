@@ -71,6 +71,7 @@ public class SplashScreen extends ManagedScene{
 	
 	private static final SequenceEntityModifier beginTwoSequence = new SequenceEntityModifier(beginTwoParalleOne,beginTwoDelay,beginTwoParalleTwo);
 	
+	@Override
 	public void onLoadScene() {
 		beginOneTexture.load();
 		beginTwoTexture.load();
@@ -122,6 +123,7 @@ public class SplashScreen extends ManagedScene{
 		});
 	}
 	
+	@Override
 	public void onUnloadScene() {
 		ResourceManager.getInstance().engine.runOnUpdateThread(new Runnable() {
 			@Override
