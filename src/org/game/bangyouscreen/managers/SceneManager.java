@@ -1,9 +1,9 @@
 package org.game.bangyouscreen.managers;
 
-
-
 import org.andengine.engine.Engine;
+import org.andengine.engine.camera.hud.HUD;
 import org.andengine.engine.handler.IUpdateHandler;
+import org.andengine.entity.scene.Scene;
 import org.game.bangyouscreen.menus.MainMenu;
 
 
@@ -15,6 +15,19 @@ public class SceneManager {
 	public static SceneManager getInstance(){
 		return INSTANCE;
 	}
+	
+	// Set to TRUE in the showLayer() method if the camera had a HUD before the
+	// layer was shown.
+	private boolean mCameraHadHud = false;
+	// Boolean to reflect whether there is a layer currently shown on the
+	// screen.
+	public boolean mIsLayerShown = false;
+	// An empty place-holder scene that we use to apply the modal properties of
+	// the layer to the currently shown scene.
+	private Scene mPlaceholderModalScene;
+
+	// Hold a reference to the current managed layer (if one exists).
+	public ManagedLayer mCurrentLayer;
 	
 	public ManagedScene mCurrentScene;//当前场景
 	private ManagedScene mNextScene;//下一个场景
@@ -75,6 +88,7 @@ public class SceneManager {
 		//初始化镜头
 		mEngine.getCamera().set(0, 0, ResourceManager.getInstance().cameraWidth, ResourceManager.getInstance().cameraHeight);
 		if(pManagedScene.hasLoadingScreen){
+			//暂停pManagedScene场景的效果，更新和触摸事件,(true表示暂停),不影响加载画面的效果
 			pManagedScene.setChildScene(pManagedScene.onLoadingScreenLoadAndShown(), true, true, true);
 			if(mLoadingScreenHandlerRegistered){
 				//一般情况不会进入这条if语句，但是如果使用UI线程来显示场景的话，则会进入。
@@ -101,11 +115,74 @@ public class SceneManager {
 		mCurrentScene = mNextScene;
 	}
 	
-	// 快速显示主菜单
-	public void showMainMenu() {
-		showScene(MainMenu.getInstance());
+	public void hideLayer() {
+		if (this.mIsLayerShown) {
+			// Clear the HUD's child scene to remove modal properties.
+			this.mEngine.getCamera().getHUD().clearChildScene();
+			// If we had to use a place-holder scene, clear it.
+			if (this.mCurrentScene.hasChildScene()) {
+				if (this.mCurrentScene.getChildScene() == this.mPlaceholderModalScene) {
+					this.mCurrentScene.clearChildScene();
+				}
+			}
+			// If the camera did not have a HUD before we showed the layer,
+			// remove the place-holder HUD.
+			if (!this.mCameraHadHud) {
+				this.mEngine.getCamera().setHUD(null);
+			}
+			// Reflect that a layer is no longer shown.
+			this.mIsLayerShown = false;
+			// Remove the reference to the layer.
+			this.mCurrentLayer = null;
+		}
 	}
-	
-	
+
+	// Shows a layer by placing it as a child to the Camera's HUD.
+	public void showLayer(final ManagedLayer pLayer,
+			final boolean pSuspendSceneDrawing,
+			final boolean pSuspendSceneUpdates,
+			final boolean pSuspendSceneTouchEvents) {
+		// If the camera already has a HUD, we will use it.
+		if (this.mEngine.getCamera().hasHUD()) {
+			this.mCameraHadHud = true;
+		} else {
+			// Otherwise, we will create one to use.
+			this.mCameraHadHud = false;
+			final HUD placeholderHud = new HUD();
+			this.mEngine.getCamera().setHUD(placeholderHud);
+		}
+		// If the managed layer needs modal properties, set them.
+		if (pSuspendSceneDrawing || pSuspendSceneUpdates|| pSuspendSceneTouchEvents) {
+			// Apply the managed layer directly to the Camera's HUD
+			this.mEngine.getCamera().getHUD().setChildScene(pLayer, pSuspendSceneDrawing,
+							pSuspendSceneUpdates, pSuspendSceneTouchEvents);
+			this.mEngine.getCamera().getHUD().setOnSceneTouchListenerBindingOnActionDownEnabled(true);
+			// Create the place-holder scene if it needs to be created.
+			if (this.mPlaceholderModalScene == null) {
+				this.mPlaceholderModalScene = new Scene();
+				this.mPlaceholderModalScene.setBackgroundEnabled(false);
+			}
+			// Apply the place-holder to the current scene.
+			this.mCurrentScene.setChildScene(this.mPlaceholderModalScene,
+					pSuspendSceneDrawing, pSuspendSceneUpdates,
+					pSuspendSceneTouchEvents);
+		} else {
+			// If the managed layer does not need to be modal, simply set it to
+			// the HUD.
+			this.mEngine.getCamera().getHUD().setChildScene(pLayer);
+		}
+		// Set the camera for the managed layer so that it binds to the camera
+		// if the camera is moved/scaled/rotated.
+		pLayer.setCamera(this.mEngine.getCamera());
+		// Scale the layer according to screen size.
+		// pLayer.setScale(ResourceManager.getInstance().cameraScaleFactorX,
+		// ResourceManager.getInstance().cameraScaleFactorY);
+		// Let the layer know that it is being shown.
+		pLayer.onShowManagedLayer();
+		// Reflect that a layer is shown.
+		this.mIsLayerShown = true;
+		// Set the current layer to pLayer.
+		this.mCurrentLayer = pLayer;
+	}
 
 }

@@ -8,6 +8,7 @@ import org.andengine.entity.sprite.ButtonSprite.OnClickListener;
 import org.andengine.entity.sprite.Sprite;
 import org.andengine.opengl.vbo.VertexBufferObjectManager;
 import org.andengine.util.math.MathUtils;
+import org.game.bangyouscreen.gameLevels.GameLevel;
 import org.game.bangyouscreen.managers.ManagedScene;
 import org.game.bangyouscreen.managers.ResourceManager;
 import org.game.bangyouscreen.managers.SceneManager;
@@ -34,11 +35,11 @@ public class MainMenu extends ManagedScene{
 	
 	@Override
 	public Scene onLoadingScreenLoadAndShown() {
-		Sprite backgroundSprite = new Sprite(0f,0f, ResourceManager.mainMenuBackgroundTR,mVertexBufferObjectManager);
-		backgroundSprite.setScale(ResourceManager.getInstance().cameraWidth / ResourceManager.mainMenuBackgroundTR.getWidth());
-		backgroundSprite.setPosition(mCameraWidth / 2f, mCameraHeight / 2f);
-		backgroundSprite.setZIndex(-5000);
-		attachChild(backgroundSprite);
+//		Sprite backgroundSprite = new Sprite(0f,0f, ResourceManager.mainMenuBackgroundTR,mVertexBufferObjectManager);
+//		backgroundSprite.setScale(ResourceManager.getInstance().cameraWidth / ResourceManager.mainMenuBackgroundTR.getWidth());
+//		backgroundSprite.setPosition(mCameraWidth / 2f, mCameraHeight / 2f);
+//		backgroundSprite.setZIndex(-5000);
+//		attachChild(backgroundSprite);
 		
 		ResourceManager.loadMenuResources();
 		ResourceManager.setupForMenus();
@@ -127,7 +128,9 @@ public class MainMenu extends ManagedScene{
 			
 			@Override
 			public void onClick(ButtonSprite pButtonSprite, float pTouchAreaLocalX, float pTouchAreaLocalY) {
-				SceneManager.getInstance().showScene(new ThemeScene());
+				SceneManager.getInstance().showScene(ThemeScene.getInstance());
+				//SceneManager.getInstance().showScene(new GameLevel());
+				
 			}
 		});
 		registerTouchArea(themeModeBS);

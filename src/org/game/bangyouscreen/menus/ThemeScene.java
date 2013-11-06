@@ -1,7 +1,6 @@
 package org.game.bangyouscreen.menus;
 
 
-import org.andengine.entity.Entity;
 import org.andengine.entity.modifier.MoveXModifier;
 import org.andengine.entity.primitive.Rectangle;
 import org.andengine.entity.scene.Scene;
@@ -14,6 +13,7 @@ import org.andengine.input.touch.detector.ScrollDetector.IScrollDetectorListener
 import org.andengine.input.touch.detector.SurfaceScrollDetector;
 import org.andengine.opengl.vbo.VertexBufferObjectManager;
 import org.game.bangyouscreen.gameLevels.GameLevel;
+import org.game.bangyouscreen.layer.ThemeLayer;
 import org.game.bangyouscreen.managers.ManagedScene;
 import org.game.bangyouscreen.managers.ResourceManager;
 import org.game.bangyouscreen.managers.SceneManager;
@@ -31,8 +31,6 @@ public class ThemeScene extends ManagedScene implements IScrollDetectorListener{
 	private float themeRInitX;
 	private int mCurrentTheme = 1;
 	private float directionPath;//判断手势方向，正-向右滑动，负-向左滑动
-	
-	private Entity levelEntity;
 	
 	public enum ThemeSceneScreens {
 		ThemeSelector, LevelSelector
@@ -176,10 +174,8 @@ public class ThemeScene extends ManagedScene implements IScrollDetectorListener{
 		 themePics[0].setOnClickListener(new OnClickListener(){
 				@Override
 				public void onClick(ButtonSprite pButtonSprite, float pTouchAreaLocalX, float pTouchAreaLocalY) {
-					//mCurrentScreen = ThemeSceneScreens.LevelSelector;
-					SceneManager.getInstance().showScene(new GameLevel());
-					
-					
+					mCurrentScreen = ThemeSceneScreens.LevelSelector;
+					SceneManager.getInstance().showLayer(ThemeLayer.getInstance(mCurrentTheme), false, false, false);
 				}
 			});
 			registerTouchArea(themePics[0]);
@@ -203,8 +199,8 @@ public class ThemeScene extends ManagedScene implements IScrollDetectorListener{
 		 return themeR;
 	 }
 	 
-	 private void levelLayer(){
-		 
+	 public void setThemeScene(){
+		 mCurrentScreen = ThemeSceneScreens.ThemeSelector;
 	 }
-
+	 
 }

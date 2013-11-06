@@ -246,15 +246,7 @@ public class GameLevel extends ManagedScene {
 		registerTouchArea(aiderHeadSprite);
 		
 		
-		//乘号
-//		Sprite muSprite = new Sprite(0f,0f,ResourceManager.muTR,mVertexBufferObjectManager);
-//		muSprite.setPosition(clockSprite.getX()+muSprite.getWidth(), clockSprite.getY()-muSprite.getHeight()/2f);
-//		attachChild(muSprite);
-		
-		//时钟道具数量
-//		Text clockNum = new Text(0f,0f,ResourceManager.sysFont,"99",5,mVertexBufferObjectManager);
-//		clockNum.setPosition(muSprite.getX()+clockNum.getWidth(),muSprite.getY());
-//		attachChild(clockNum);
+
 		
 
 		

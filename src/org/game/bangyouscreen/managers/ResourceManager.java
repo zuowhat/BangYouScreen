@@ -30,7 +30,7 @@ public class ResourceManager extends Object{
 	public float cameraScaleFactorX;
 	public float cameraScaleFactorY;
 	private String mPreviousAssetBasePath = ""; //这个变量将被用来恢复TextureFactory的默认路径
-	private static final TextureOptions mNormalTextureOption = TextureOptions.BILINEAR;
+	private TextureOptions mNormalTextureOption = TextureOptions.BILINEAR;
 	
 	public static TextureRegion mainMenuBackgroundTR;
 	public static TiledTextureRegion mainMenuButtons;
