@@ -94,6 +94,7 @@ public void addToLayer(Entity paramEntity){
  // adjustTime(120f);
 }
 
+@Override
 public void onModifierFinished(IModifier<IEntity> paramIModifier, IEntity paramIEntity)
 {
 	//System.out.println("modfierListener..");
@@ -124,6 +125,7 @@ public void onModifierFinished(IModifier<IEntity> paramIModifier, IEntity paramI
   paramIEntity.registerEntityModifier(this.mColorOut2);
 }
 
+@Override
 public void onModifierStarted(IModifier<IEntity> paramIModifier, IEntity paramIEntity){}
 
 //======================未使用的方法====================//
@@ -148,6 +150,7 @@ public void increaseBy(float paramFloat)
   //adjustTime();
 }
 
+@Override
 public void onUpdate(float paramFloat)
 {
 	System.out.println("GameTimer....");
@@ -171,32 +174,32 @@ public void onUpdate(float paramFloat)
     this.mDigitsSprite[3].setScale(1.0F);
     this.mDigitsSprite[2].setScale(1.0F);
   }
-  if ((this.mAddIronAcorn < this.mRandomIronAcornTime.size()) && (this.mSecondsPassed <= ((Float)this.mRandomIronAcornTime.get(this.mAddIronAcorn)).floatValue()))
+  if ((this.mAddIronAcorn < this.mRandomIronAcornTime.size()) && (this.mSecondsPassed <= this.mRandomIronAcornTime.get(this.mAddIronAcorn).floatValue()))
   {
     this.mAddIronAcorn = (1 + this.mAddIronAcorn);
    // this.mGameScene.addRandomIronAcorn();
   }
-  if ((this.mAddClock < this.mRandomClockTime.size()) && (this.mSecondsPassed <= ((Float)this.mRandomClockTime.get(this.mAddClock)).floatValue()))
+  if ((this.mAddClock < this.mRandomClockTime.size()) && (this.mSecondsPassed <= this.mRandomClockTime.get(this.mAddClock).floatValue()))
   {
     this.mAddClock = (1 + this.mAddClock);
     //this.mGameScene.addRandomClock();
   }
-  if ((this.mAddPecan < this.mRandomPecanTime.size()) && (this.mSecondsPassed <= ((Float)this.mRandomPecanTime.get(this.mAddPecan)).floatValue()))
+  if ((this.mAddPecan < this.mRandomPecanTime.size()) && (this.mSecondsPassed <= this.mRandomPecanTime.get(this.mAddPecan).floatValue()))
   {
     this.mAddPecan = (1 + this.mAddPecan);
    // this.mGameScene.addRandomPecan();
   }
-  if ((this.mAddAlmond < this.mRandomAlmondTime.size()) && (this.mSecondsPassed <= ((Float)this.mRandomAlmondTime.get(this.mAddAlmond)).floatValue()))
+  if ((this.mAddAlmond < this.mRandomAlmondTime.size()) && (this.mSecondsPassed <= this.mRandomAlmondTime.get(this.mAddAlmond).floatValue()))
   {
     this.mAddAlmond = (1 + this.mAddAlmond);
    // this.mGameScene.addRandomAlmond();
   }
-  if ((this.mAddPistachio < this.mRandomPistachioTime.size()) && (this.mSecondsPassed <= ((Float)this.mRandomPistachioTime.get(this.mAddPistachio)).floatValue()))
+  if ((this.mAddPistachio < this.mRandomPistachioTime.size()) && (this.mSecondsPassed <= this.mRandomPistachioTime.get(this.mAddPistachio).floatValue()))
   {
     this.mAddPistachio = (1 + this.mAddPistachio);
     //this.mGameScene.addRandomPistachio();
   }
-  if ((this.mAddPeanut < this.mRandomPeanutTime.size()) && (this.mSecondsPassed <= ((Float)this.mRandomPeanutTime.get(this.mAddPeanut)).floatValue()))
+  if ((this.mAddPeanut < this.mRandomPeanutTime.size()) && (this.mSecondsPassed <= this.mRandomPeanutTime.get(this.mAddPeanut).floatValue()))
   {
     this.mAddPeanut = (1 + this.mAddPeanut);
    // this.mGameScene.addRandomPeanut();
