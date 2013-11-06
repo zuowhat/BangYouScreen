@@ -34,8 +34,15 @@ public class MainMenu extends ManagedScene{
 	
 	@Override
 	public Scene onLoadingScreenLoadAndShown() {
+		Sprite backgroundSprite = new Sprite(0f,0f, ResourceManager.mainMenuBackgroundTR,mVertexBufferObjectManager);
+		backgroundSprite.setScale(ResourceManager.getInstance().cameraWidth / ResourceManager.mainMenuBackgroundTR.getWidth());
+		backgroundSprite.setPosition(mCameraWidth / 2f, mCameraHeight / 2f);
+		backgroundSprite.setZIndex(-5000);
+		attachChild(backgroundSprite);
+		
 		ResourceManager.loadMenuResources();
 		ResourceManager.setupForMenus();
+
 		LoadingScene.getInstance().onLoadScene();
 		return LoadingScene.getInstance();
 	}
@@ -48,7 +55,7 @@ public class MainMenu extends ManagedScene{
 	@Override
 	public void onLoadScene() {
 		ResourceManager.loadThemeResources();
-		
+		ResourceManager.loadGameResources();
 		//白云
 //		Sprite mMenuCloudsLayerOne = new Sprite(0.0F, mCameraHeight, ResourceManager.menuClouds1, mVertexBufferObjectManager);
 //		Sprite mMenuCloudsLayerTwo = new Sprite(0.0F, mCameraHeight-100.0F, ResourceManager.menuClouds2, mVertexBufferObjectManager);
@@ -58,6 +65,7 @@ public class MainMenu extends ManagedScene{
 //	    localAutoParallaxBackground.attachParallaxEntity(new ParallaxBackground.ParallaxEntity(3.0F, mMenuCloudsLayerTwo));
 //	    setBackground(localAutoParallaxBackground);
 //	    setBackgroundEnabled(true);
+
 		
 		Sprite[] CloudSprites; CloudSprites = new Sprite[20];
 		for(Sprite curCloudSprite: CloudSprites){
@@ -165,7 +173,8 @@ public class MainMenu extends ManagedScene{
 //			this.attachChild(this.backgroundSprite);
 //			this.sortChildren();
 //		}
-		sortChildren();
+		
+		//sortChildren();
 	}
 
 	@Override

@@ -10,7 +10,6 @@ import org.andengine.entity.sprite.AnimatedSprite.IAnimationListener;
 import org.andengine.entity.sprite.ButtonSprite;
 import org.andengine.entity.sprite.ButtonSprite.OnClickListener;
 import org.andengine.entity.sprite.Sprite;
-import org.andengine.entity.text.Text;
 import org.andengine.opengl.vbo.VertexBufferObjectManager;
 import org.game.bangyouscreen.managers.ManagedScene;
 import org.game.bangyouscreen.managers.ResourceManager;
@@ -28,7 +27,6 @@ public class GameLevel extends ManagedScene {
 	//private static final String TIME_FORMAT = "00:00";
 	//private Text mTimeText;
 	private float gameTime = 30f;
-	private Text mScoreText;
 	private int mScore = 0;
 	private GameTimer mGameTime;
 	private boolean mTenSeconds = false;

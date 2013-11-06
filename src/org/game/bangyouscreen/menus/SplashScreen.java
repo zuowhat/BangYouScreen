@@ -5,7 +5,9 @@ import org.andengine.entity.IEntity;
 import org.andengine.entity.modifier.DelayModifier;
 import org.andengine.entity.modifier.FadeInModifier;
 import org.andengine.entity.modifier.FadeOutModifier;
+import org.andengine.entity.modifier.IEntityModifier;
 import org.andengine.entity.modifier.ParallelEntityModifier;
+import org.andengine.entity.modifier.RotationModifier;
 import org.andengine.entity.modifier.ScaleAtModifier;
 import org.andengine.entity.modifier.SequenceEntityModifier;
 import org.andengine.entity.scene.Scene;
@@ -45,6 +47,24 @@ public class SplashScreen extends ManagedScene{
 	private static final ITextureRegion beginTwoTextureRegion = BitmapTextureAtlasTextureRegionFactory.createFromAsset(beginTwoTexture, ResourceManager.getContext(), "gfx/splash/begin2.png", 0, 0);
 	private static final Sprite beginTwoSprite = new Sprite(beginOneSprite.getX(), beginOneSprite.getY(), beginTwoTextureRegion, ResourceManager.getEngine().getVertexBufferObjectManager());
 	
+	//旋转光环
+	private static final BitmapTextureAtlas nimbusBG = new BitmapTextureAtlas(ResourceManager.getEngine().getTextureManager(), 512, 512, TextureOptions.BILINEAR);
+	private static final ITextureRegion nimbusBGTextureRegion = BitmapTextureAtlasTextureRegionFactory.createFromAsset(nimbusBG, ResourceManager.getContext(), "gfx/menu/loadingBG1.png", 0, 0);
+	private static final Sprite nimbusSprite = new Sprite(beginOneSprite.getX(), beginOneSprite.getY(), nimbusBGTextureRegion, ResourceManager.getEngine().getVertexBufferObjectManager());
+	
+	RotationModifier mRotationModifier = new RotationModifier(34.0F, 0.0F, 360.0F, new IEntityModifier.IEntityModifierListener(){
+	    @Override
+		public void onModifierFinished(IModifier<IEntity> paramIModifier, IEntity paramIEntity){
+	      mRotationModifier.reset();
+	      nimbusSprite.unregisterEntityModifier(mRotationModifier);
+	      nimbusSprite.registerEntityModifier(mRotationModifier);
+	    }
+
+	    @Override
+		public void onModifierStarted(IModifier<IEntity> paramIModifier, IEntity paramIEntity){
+	    }
+	 });
+	
 	//启动画面1的实体修饰符
 	private static ScaleAtModifier beginOneScaleAtOne = new ScaleAtModifier(0.5f, 25f, mEachScaleToSize, 0.5f, 0.5f);//实体缩放
 	private static FadeInModifier beginOneFadeIn = new FadeInModifier(0.5f);//在0.5秒内改变透明度由0f变为1f
@@ -75,10 +95,14 @@ public class SplashScreen extends ManagedScene{
 	public void onLoadScene() {
 		beginOneTexture.load();
 		beginTwoTexture.load();
+		nimbusBG.load();
 		ResourceManager.getCamera().setCenterDirect(ResourceManager.getInstance().cameraWidth / 2f, ResourceManager.getInstance().cameraHeight / 2f);
 		this.setBackgroundEnabled(true);
 		this.setBackground(new Background(0.1f, 0.1f, 0.1f));
 		
+		nimbusSprite.setScale(2.0F);
+		nimbusSprite.registerEntityModifier(mRotationModifier);
+		attachChild(nimbusSprite);
 		this.attachChild(beginOneSprite);
 		
 		beginTwoSprite.setAlpha(0.001f);
@@ -137,6 +161,7 @@ public class SplashScreen extends ManagedScene{
 				thisSplashScene.clearUpdateHandlers();
 				beginOneTexture.unload();
 				beginTwoTexture.unload();
+				nimbusBG.unload();
 			}});
 	}
 
