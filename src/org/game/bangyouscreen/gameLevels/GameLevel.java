@@ -10,6 +10,8 @@ import org.andengine.entity.sprite.AnimatedSprite.IAnimationListener;
 import org.andengine.entity.sprite.ButtonSprite;
 import org.andengine.entity.sprite.ButtonSprite.OnClickListener;
 import org.andengine.entity.sprite.Sprite;
+import org.andengine.input.touch.controller.MultiTouchController;
+import org.andengine.input.touch.controller.SingleTouchController;
 import org.andengine.opengl.vbo.VertexBufferObjectManager;
 import org.game.bangyouscreen.managers.ManagedScene;
 import org.game.bangyouscreen.managers.ResourceManager;
@@ -64,6 +66,7 @@ public class GameLevel extends ManagedScene {
 	@Override
 	public void onLoadScene() {
 		ResourceManager.getInstance().engine.getEngineOptions().getTouchOptions().setNeedsMultiTouch(true);
+		ResourceManager.getInstance().engine.setTouchController(new MultiTouchController());
 		
 		//背景
 		Sprite bg1 = new Sprite(0f,0f,ResourceManager.gameBG10,mVertexBufferObjectManager);
@@ -256,6 +259,7 @@ public class GameLevel extends ManagedScene {
 	@Override
 	public void onUnloadScene() {
 		ResourceManager.getInstance().engine.getEngineOptions().getTouchOptions().setNeedsMultiTouch(false);
+		ResourceManager.getInstance().engine.setTouchController(new SingleTouchController());
 	}
 
 	@Override

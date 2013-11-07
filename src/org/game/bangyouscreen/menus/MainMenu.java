@@ -67,6 +67,11 @@ public class MainMenu extends ManagedScene{
 //	    setBackground(localAutoParallaxBackground);
 //	    setBackgroundEnabled(true);
 
+		Sprite backgroundSprite = new Sprite(0f,0f, ResourceManager.mainMenuBackgroundTR,mVertexBufferObjectManager);
+		backgroundSprite.setScale(ResourceManager.getInstance().cameraWidth / ResourceManager.mainMenuBackgroundTR.getWidth());
+		backgroundSprite.setPosition(mCameraWidth / 2f, mCameraHeight / 2f);
+		backgroundSprite.setZIndex(-5000);
+		attachChild(backgroundSprite);
 		
 		Sprite[] CloudSprites; CloudSprites = new Sprite[20];
 		for(Sprite curCloudSprite: CloudSprites){
