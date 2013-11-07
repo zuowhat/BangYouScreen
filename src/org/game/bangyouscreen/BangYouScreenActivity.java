@@ -14,6 +14,7 @@ import org.andengine.ui.activity.BaseGameActivity;
 import org.game.bangyouscreen.managers.ResourceManager;
 import org.game.bangyouscreen.managers.SceneManager;
 import org.game.bangyouscreen.menus.SplashScreen;
+import org.game.bangyouscreen.menus.ThemeScene;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -22,6 +23,36 @@ import android.view.View.MeasureSpec;
 
 
 public class BangYouScreenActivity extends BaseGameActivity {
+	
+	public static final String SHARED_PREFS_MAIN = "MagneTankSettings";
+	public static final String SHARED_PREFS_THEME_1 = "ThemeScene1";
+	public static final String SHARED_PREFS_THEME_2 = "ThemeScene2";
+	
+	public static boolean getBooleanFromSharedPreferences(final String pStr) {
+		return ResourceManager.getActivity()
+				.getSharedPreferences(SHARED_PREFS_MAIN, 0)
+				.getBoolean(pStr, false);
+	}
+
+	public static int getIntFromSharedPreferences(final String pStr) {
+		return ResourceManager.getActivity()
+				.getSharedPreferences(SHARED_PREFS_MAIN, 0).getInt(pStr, 0);
+	}
+
+	public static void writeBooleanToSharedPreferences(final String pStr,
+			final boolean pValue) {
+		ResourceManager.getActivity()
+				.getSharedPreferences(SHARED_PREFS_MAIN, 0).edit()
+				.putBoolean(pStr, pValue).apply();
+	}
+
+	public static int writeIntToSharedPreferences(final String pStr,
+			final int pValue) {
+		ResourceManager.getActivity()
+				.getSharedPreferences(SHARED_PREFS_MAIN, 0).edit()
+				.putInt(pStr, pValue).apply();
+		return pValue;
+	}
 	
 	//开发时使用的手机屏幕分辨率
 	static float DESIGN_WINDOW_WIDTH_PIXELS = 800f;
@@ -46,7 +77,6 @@ public class BangYouScreenActivity extends BaseGameActivity {
 		return new FixedStepEngine(pEngineOptions, 60); 
 	}
 
-	
 	@Override
 	public EngineOptions onCreateEngineOptions() {
 		//System.out.println("onCreateEngineOptions");
@@ -141,20 +171,19 @@ public class BangYouScreenActivity extends BaseGameActivity {
 //			SFXManager.resumeMusic();
 	}
 	
-	  @Override
-	public boolean onKeyDown(int paramInt, KeyEvent paramKeyEvent){
-	    if(paramInt == 4){
-	    	showExitConfirmDialog();
-	    	
-	      return false;
-	    }
-	    return super.onKeyDown(paramInt, paramKeyEvent);
+	  public void onBackPressed() {
+		  if (ResourceManager.getInstance().engine != null) {
+			  if (SceneManager.getInstance().mIsLayerShown) {
+				  ThemeScene.getInstance().setThemeScene();
+				  SceneManager.getInstance().mCurrentLayer.onHideLayer();
+			  }else{
+				  showExitConfirmDialog(); 
+			  }
+		  }
 	  }
 	  
-	  public void showExitConfirmDialog()
-	  {
-	    runOnUiThread(new Runnable()
-	    {
+	  public void showExitConfirmDialog(){
+	    runOnUiThread(new Runnable(){
 	      @Override
 		public void run()
 	      {
@@ -177,7 +206,6 @@ public class BangYouScreenActivity extends BaseGameActivity {
 	          {
 	          }
 	        });
-	        //localAlertDialog.setIcon(2130837504);
 	        localAlertDialog.show();
 	      }
 	    });

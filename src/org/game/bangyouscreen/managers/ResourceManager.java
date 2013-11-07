@@ -66,6 +66,11 @@ public class ResourceManager extends Object{
 	public static TiledTextureRegion loadingBG2;
 	public static TiledTextureRegion loadingFont;
 	
+	public static TextureRegion themeLevelBG;
+	public static TextureRegion themeLevelLock;
+	
+	public static TiledTextureRegion[] themeSceneOneBossTotalTT;
+	
 	public ResourceManager(){
 	}
 
@@ -79,6 +84,10 @@ public class ResourceManager extends Object{
 	
 	public static FixedStepEngine getEngine(){
 		return getInstance().engine;
+	}
+	
+	public static BangYouScreenActivity getActivity(){
+		return getInstance().activity;
 	}
 	
 	public static SmoothCamera getCamera(){
@@ -206,7 +215,7 @@ public class ResourceManager extends Object{
 	// ============================ 主题纹理  ================= //
 	private void loadThemeTextures(){
 		mPreviousAssetBasePath = BitmapTextureAtlasTextureRegionFactory.getAssetBasePath();
-		BitmapTextureAtlasTextureRegionFactory.setAssetBasePath("gfx/menu/");
+		BitmapTextureAtlasTextureRegionFactory.setAssetBasePath("gfx/theme/");
 		if(theme1Temp == null){
 			theme1Temp = getLimitableTR("theme1.png",mNormalTextureOption);
 		}
@@ -216,7 +225,26 @@ public class ResourceManager extends Object{
 		if(themeBG == null){
 			themeBG = getLimitableTR("themeBG.png",mNormalTextureOption);
 		}
+		if(themeLevelBG == null){
+			themeLevelBG = getLimitableTR("themeLevelBG.png",mNormalTextureOption);
+		}
+		if(themeLevelLock == null){
+			themeLevelLock = getLimitableTR("themeLevelLock.png",mNormalTextureOption);
+		}
+		
+		//根据完成的关卡数来加载BOSS纹理
+//		int themeSceneOneBossTotal = BangYouScreenActivity.getIntFromSharedPreferences(BangYouScreenActivity.SHARED_PREFS_THEME_1);
+//		themeSceneOneBossNum = new TiledTextureRegion[themeBossNum1+1];
+//		for(int i=0; i<themeBossNum1+1; i++){
+//			String bossTexture = "boss1" + i + ".png";
+//			themeSceneOneBossTotalTT[i] = getLimitableTTR(bossTexture,2,1,mNormalTextureOption);
+//		}
+		
 		BitmapTextureAtlasTextureRegionFactory.setAssetBasePath(mPreviousAssetBasePath);
+	}
+	
+	public static void loadThemeBoss(){
+		
 	}
 	
 	// ============================ 游戏纹理  ================= //

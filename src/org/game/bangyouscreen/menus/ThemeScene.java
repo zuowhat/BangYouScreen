@@ -187,6 +187,14 @@ public class ThemeScene extends ManagedScene implements IScrollDetectorListener{
 		 themePics[1].setPosition(themePics[0].getX()+mCameraWidth, themeR.getHeight()/2f);
 		 themePics[1].setSize(mCameraWidth/2f, mCameraHeight*(2f/3f));
 		 themeR.attachChild(themePics[1]);
+		 themePics[1].setOnClickListener(new OnClickListener(){
+				@Override
+				public void onClick(ButtonSprite pButtonSprite, float pTouchAreaLocalX, float pTouchAreaLocalY) {
+					mCurrentScreen = ThemeSceneScreens.LevelSelector;
+					SceneManager.getInstance().showLayer(ThemeLayer.getInstance(mCurrentTheme), false, false, false);
+				}
+			});
+			registerTouchArea(themePics[1]);
 		 
 		 themePics[2] = new ButtonSprite(0f,0f,ResourceManager.theme1Temp,mVertexBufferObjectManager);
 		 themePics[2].setPosition(themePics[1].getX()+mCameraWidth, themeR.getHeight()/2f);
