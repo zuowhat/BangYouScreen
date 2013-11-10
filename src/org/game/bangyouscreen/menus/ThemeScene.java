@@ -17,6 +17,7 @@ import org.game.bangyouscreen.layer.ThemeLayer;
 import org.game.bangyouscreen.managers.ManagedScene;
 import org.game.bangyouscreen.managers.ResourceManager;
 import org.game.bangyouscreen.managers.SceneManager;
+import org.game.bangyouscreen.util.EntityUtil;
 
 public class ThemeScene extends ManagedScene implements IScrollDetectorListener{
 
@@ -74,9 +75,37 @@ public class ThemeScene extends ManagedScene implements IScrollDetectorListener{
 		mScensSlider = getScensSlider();
 		attachChild(mScensSlider);
 		
+		//后退按钮
+		ButtonSprite backBS = new ButtonSprite(0f,0f,ResourceManager.backTR,mVertexBufferObjectManager);
+		//singleModeBS.setSize(0.3f * mCameraWidth, (0.3f * mCameraWidth)/(singleModeBS.getWidth() / singleModeBS.getHeight()));
+		//EntityUtil.setSize("height", 1f / 7f, themeModeBS);
+		backBS.setPosition(10f+backBS.getWidth()/2f, mCameraHeight-10f-backBS.getHeight()/2f);
+		attachChild(backBS);
+		backBS.setOnClickListener(new OnClickListener(){
+			
+			@Override
+			public void onClick(ButtonSprite pButtonSprite, float pTouchAreaLocalX, float pTouchAreaLocalY) {
+				SceneManager.getInstance().showScene(MainMenu.getInstance());
+				
+			}
+		});
+		registerTouchArea(backBS);
 		
-		
-		
+		//主页按钮
+		ButtonSprite homeBS = new ButtonSprite(0f,0f,ResourceManager.homeTR,mVertexBufferObjectManager);
+		//singleModeBS.setSize(0.3f * mCameraWidth, (0.3f * mCameraWidth)/(singleModeBS.getWidth() / singleModeBS.getHeight()));
+		//EntityUtil.setSize("height", 1f / 7f, themeModeBS);
+		homeBS.setPosition(mCameraWidth-10f-homeBS.getWidth()/2f, backBS.getY());
+		attachChild(homeBS);
+		homeBS.setOnClickListener(new OnClickListener(){
+			
+			@Override
+			public void onClick(ButtonSprite pButtonSprite, float pTouchAreaLocalX, float pTouchAreaLocalY) {
+				SceneManager.getInstance().showScene(MainMenu.getInstance());
+				
+			}
+		});
+		registerTouchArea(homeBS);
 		
 	}
 
@@ -174,7 +203,7 @@ public class ThemeScene extends ManagedScene implements IScrollDetectorListener{
 		 themePics[0].setOnClickListener(new OnClickListener(){
 				@Override
 				public void onClick(ButtonSprite pButtonSprite, float pTouchAreaLocalX, float pTouchAreaLocalY) {
-					mCurrentScreen = ThemeSceneScreens.LevelSelector;
+					//mCurrentScreen = ThemeSceneScreens.LevelSelector;
 					SceneManager.getInstance().showLayer(ThemeLayer.getInstance(mCurrentTheme), false, false, false);
 				}
 			});
@@ -190,7 +219,7 @@ public class ThemeScene extends ManagedScene implements IScrollDetectorListener{
 		 themePics[1].setOnClickListener(new OnClickListener(){
 				@Override
 				public void onClick(ButtonSprite pButtonSprite, float pTouchAreaLocalX, float pTouchAreaLocalY) {
-					mCurrentScreen = ThemeSceneScreens.LevelSelector;
+					//mCurrentScreen = ThemeSceneScreens.LevelSelector;
 					SceneManager.getInstance().showLayer(ThemeLayer.getInstance(mCurrentTheme), false, false, false);
 				}
 			});

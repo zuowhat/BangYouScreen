@@ -1,6 +1,9 @@
 package org.game.bangyouscreen.managers;
 
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.andengine.engine.FixedStepEngine;
 import org.andengine.engine.camera.SmoothCamera;
 import org.andengine.opengl.font.Font;
@@ -69,7 +72,9 @@ public class ResourceManager extends Object{
 	public static TextureRegion themeLevelBG;
 	public static TextureRegion themeLevelLock;
 	
-	public static TiledTextureRegion[] themeSceneOneBossTotalTT;
+	public static List<TiledTextureRegion> themeSceneOneBossTotalTT;
+	public static TextureRegion homeTR;
+	public static TextureRegion backTR;
 	
 	public ResourceManager(){
 	}
@@ -173,6 +178,10 @@ public class ResourceManager extends Object{
 		getInstance().loadSharedResources();
 	}
 	
+	public static void loadBossResources(){
+		getInstance().loadThemeBoss();
+	}
+	
 	private void loadSharedResources(){
 		getInstance().loadSharedTextures();
 		getInstance().loadFonts();
@@ -216,6 +225,12 @@ public class ResourceManager extends Object{
 	private void loadThemeTextures(){
 		mPreviousAssetBasePath = BitmapTextureAtlasTextureRegionFactory.getAssetBasePath();
 		BitmapTextureAtlasTextureRegionFactory.setAssetBasePath("gfx/theme/");
+		if(homeTR == null){
+			homeTR = getLimitableTR("home.png",mNormalTextureOption);
+		}
+		if(backTR == null){
+			backTR = getLimitableTR("back.png",mNormalTextureOption);
+		}
 		if(theme1Temp == null){
 			theme1Temp = getLimitableTR("theme1.png",mNormalTextureOption);
 		}
@@ -233,18 +248,24 @@ public class ResourceManager extends Object{
 		}
 		
 		//根据完成的关卡数来加载BOSS纹理
-//		int themeSceneOneBossTotal = BangYouScreenActivity.getIntFromSharedPreferences(BangYouScreenActivity.SHARED_PREFS_THEME_1);
-//		themeSceneOneBossNum = new TiledTextureRegion[themeBossNum1+1];
-//		for(int i=0; i<themeBossNum1+1; i++){
-//			String bossTexture = "boss1" + i + ".png";
-//			themeSceneOneBossTotalTT[i] = getLimitableTTR(bossTexture,2,1,mNormalTextureOption);
-//		}
+		int themeSceneOneBossTotal = BangYouScreenActivity.getIntFromSharedPreferences(BangYouScreenActivity.SHARED_PREFS_THEME_1);
+		themeSceneOneBossTotalTT = new ArrayList<TiledTextureRegion>();
+		for(int i=0; i<themeSceneOneBossTotal+1; i++){
+			String bossTexture = "boss1" + i + ".png";
+			themeSceneOneBossTotalTT.add(getLimitableTTR(bossTexture,5,5,mNormalTextureOption));
+		}
 		
 		BitmapTextureAtlasTextureRegionFactory.setAssetBasePath(mPreviousAssetBasePath);
 	}
 	
-	public static void loadThemeBoss(){
-		
+	private void loadThemeBoss(){
+		int themeSceneOneBossTotal = BangYouScreenActivity.getIntFromSharedPreferences(BangYouScreenActivity.SHARED_PREFS_THEME_1);
+		for(int i=0; i<themeSceneOneBossTotal+1; i++){
+			if(themeSceneOneBossTotalTT.get(i) == null){
+				String bossTexture = "boss1" + i + ".png";
+				themeSceneOneBossTotalTT.add(getLimitableTTR(bossTexture,3,3,mNormalTextureOption));
+			}
+		}
 	}
 	
 	// ============================ 游戏纹理  ================= //
@@ -263,12 +284,12 @@ public class ResourceManager extends Object{
 		if(gameBG10 == null){
 			gameBG10 = getLimitableTR("bg10.jpg",mNormalTextureOption);
 		}
-		if(boss10 == null){
-			boss10 = getLimitableTTR("boss10.png",5,5,mNormalTextureOption);
-		}
-		if(boss11 == null){
-			boss11 = getLimitableTTR("boss11.png",5,6,mNormalTextureOption);
-		}
+//		if(boss10 == null){
+//			boss10 = getLimitableTTR("boss10.png",5,5,mNormalTextureOption);
+//		}
+//		if(boss11 == null){
+//			boss11 = getLimitableTTR("boss11.png",5,6,mNormalTextureOption);
+//		}
 		if(boss19 == null){
 			boss19 = getLimitableTTR("boss19.png",3,1,mNormalTextureOption);
 		}

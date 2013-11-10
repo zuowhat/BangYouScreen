@@ -187,7 +187,11 @@ public class MainMenu extends ManagedScene{
 
 	@Override
 	public void onUnloadScene() {
-		// TODO Auto-generated method stub
+		ResourceManager.getInstance().engine.runOnUpdateThread(new Runnable() {
+			@Override
+			public void run() {
+				detachChildren();
+			}});
 		
 	}
 

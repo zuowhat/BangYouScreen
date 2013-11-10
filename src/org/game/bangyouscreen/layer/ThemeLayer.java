@@ -1,14 +1,18 @@
 package org.game.bangyouscreen.layer;
 
 
+import java.util.Arrays;
+
 import org.andengine.engine.handler.IUpdateHandler;
 import org.andengine.entity.primitive.Rectangle;
 import org.andengine.entity.sprite.Sprite;
 import org.andengine.opengl.vbo.VertexBufferObjectManager;
-import org.game.bangyouscreen.BangYouScreenActivity;
+import org.game.bangyouscreen.gameLevels.GameLevel;
 import org.game.bangyouscreen.managers.ManagedLayer;
 import org.game.bangyouscreen.managers.ResourceManager;
 import org.game.bangyouscreen.managers.SceneManager;
+import org.game.bangyouscreen.util.AnimatedButtonSprite;
+import org.game.bangyouscreen.util.AnimatedButtonSprite.OnClickListener;
 import org.game.bangyouscreen.util.EntityUtil;
 
 public class ThemeLayer extends ManagedLayer{
@@ -70,23 +74,29 @@ public class ThemeLayer extends ManagedLayer{
 		attachChild(LayerBG);
 		
 //		if(themeNum == 1){
-//			int bossNum = BangYouScreenActivity.getIntFromSharedPreferences(BangYouScreenActivity.SHARED_PREFS_THEME_1);
-//			for(int i=0; i<bossNum+1; i++){
-//				
+//			
+//			
+//			int themeOneBossNum = BangYouScreenActivity.getIntFromSharedPreferences(BangYouScreenActivity.SHARED_PREFS_THEME_1);
+//			for(int i=0; i<themeOneBossNum+1; i++){
+//				ResourceManager.themeSceneOneBossTotalTT.
 //			}
 //		}
 		
-//		ButtonSprite closeButton = new ButtonSprite(0f, 0f,ResourceManager.clockTR, mVertexBufferObjectManager);
-//		closeButton.setPosition(LayerBG.getWidth(), LayerBG.getHeight());
-//		closeButton.setSize(30f, 30f);
-//		closeButton.setOnClickListener(new OnClickListener(){
-//
-//			public void onClick(ButtonSprite pButtonSprite,float pTouchAreaLocalX, float pTouchAreaLocalY) {
-//				onHideLayer();
-//				ThemeScene.getInstance().setThemeScene();
-//			}});
-//		LayerBG.attachChild(closeButton);
-//		registerTouchArea(closeButton);
+		AnimatedButtonSprite closeButton = new AnimatedButtonSprite(0f, 0f,ResourceManager.themeSceneOneBossTotalTT.get(0), mVertexBufferObjectManager);
+		closeButton.setPosition(LayerBG.getWidth()/2f, LayerBG.getHeight()/2f);
+		closeButton.setScale(3f);
+		long []frameDur = new long[4];
+		Arrays.fill(frameDur, 300);
+		closeButton.animate(frameDur,0,3,true);
+		closeButton.setOnClickListener(new OnClickListener(){
+
+			public void onClick(AnimatedButtonSprite pButtonSprite,
+					float pTouchAreaLocalX, float pTouchAreaLocalY) {
+				onHideLayer();
+				SceneManager.getInstance().showScene(GameLevel.getInstance());
+			}});
+		LayerBG.attachChild(closeButton);
+		registerTouchArea(closeButton);
 		
 	}
 	
