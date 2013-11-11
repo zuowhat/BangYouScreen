@@ -1,4 +1,4 @@
-package org.game.bangyouscreen.menus;
+package org.game.bangyouscreen.scene;
 
 import org.andengine.entity.Entity;
 import org.andengine.entity.modifier.MoveModifier;
@@ -15,9 +15,9 @@ import org.game.bangyouscreen.managers.SceneManager;
 import org.game.bangyouscreen.util.EntityUtil;
 
 
-public class MainMenu extends ManagedScene{
+public class MainMenuScene extends ManagedScene{
 	
-	private static final MainMenu INSTANCE = new MainMenu();
+	private static final MainMenuScene INSTANCE = new MainMenuScene();
 	private static final float mCameraWidth = ResourceManager.getCamera().getWidth();
 	private static final float mCameraHeight = ResourceManager.getCamera().getHeight();
 	private VertexBufferObjectManager mVertexBufferObjectManager = ResourceManager.getEngine().getVertexBufferObjectManager();
@@ -25,11 +25,11 @@ public class MainMenu extends ManagedScene{
 	private Entity mainMenuScreen; //主菜单
 	private Sprite mainMenuTitleSprite;//主菜单标题
 	
-	public static MainMenu getInstance(){
+	public static MainMenuScene getInstance(){
 		return INSTANCE;
 	}
 	
-	public MainMenu(){
+	public MainMenuScene(){
 		super(0.1f);
 	}
 	
@@ -56,6 +56,7 @@ public class MainMenu extends ManagedScene{
 	@Override
 	public void onLoadScene() {
 		ResourceManager.loadThemeResources();
+		ResourceManager.loadBossResources();
 		ResourceManager.loadGameResources();
 		//白云
 //		Sprite mMenuCloudsLayerOne = new Sprite(0.0F, mCameraHeight, ResourceManager.menuClouds1, mVertexBufferObjectManager);
@@ -88,7 +89,7 @@ public class MainMenu extends ManagedScene{
 						initialized = true;
 						this.setScale(XSpeed/2);
 						this.setZIndex(-4000+Math.round(XSpeed*1000f));
-						MainMenu.getInstance().sortChildren();
+						MainMenuScene.getInstance().sortChildren();
 					}
 					if(this.getX()<-(this.getWidth()*this.getScaleX())/2) {
 						XSpeed = MathUtils.random(0.2f, 2f);
@@ -96,7 +97,7 @@ public class MainMenu extends ManagedScene{
 						this.setPosition(ResourceManager.getInstance().cameraWidth+(this.getWidth()*this.getScaleX())/2, MathUtils.random(-(this.getHeight()*this.getScaleY())/2,ResourceManager.getInstance().cameraHeight + (this.getHeight()*this.getScaleY())/2));
 						
 						this.setZIndex(-4000+Math.round(XSpeed*1000f));
-						MainMenu.getInstance().sortChildren();
+						MainMenuScene.getInstance().sortChildren();
 					}
 					this.setPosition(this.getX()-(XSpeed*(pSecondsElapsed/0.016666f)), this.getY());
 				}
@@ -188,7 +189,6 @@ public class MainMenu extends ManagedScene{
 	@Override
 	public void onUnloadScene() {
 		ResourceManager.getInstance().engine.runOnUpdateThread(new Runnable() {
-			@Override
 			public void run() {
 				detachChildren();
 			}});

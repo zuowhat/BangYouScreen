@@ -1,4 +1,4 @@
-package org.game.bangyouscreen.menus;
+package org.game.bangyouscreen.scene;
 
 import org.andengine.engine.handler.IUpdateHandler;
 import org.andengine.entity.IEntity;
@@ -123,7 +123,7 @@ public class SplashScreen extends ManagedScene{
 			@Override
 			public void onModifierFinished(final IModifier<IEntity> pModifier, final IEntity pItem) {
 				//显示主界面
-				SceneManager.getInstance().showScene(MainMenu.getInstance());
+				SceneManager.getInstance().showScene(MainMenuScene.getInstance());
 			}
 			
 			@Override

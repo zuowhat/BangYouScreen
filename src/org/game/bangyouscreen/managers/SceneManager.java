@@ -4,7 +4,7 @@ import org.andengine.engine.Engine;
 import org.andengine.engine.camera.hud.HUD;
 import org.andengine.engine.handler.IUpdateHandler;
 import org.andengine.entity.scene.Scene;
-import org.game.bangyouscreen.menus.MainMenu;
+import org.game.bangyouscreen.scene.MainMenuScene;
 
 
 

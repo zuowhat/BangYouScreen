@@ -13,8 +13,8 @@ import org.andengine.entity.scene.Scene;
 import org.andengine.ui.activity.BaseGameActivity;
 import org.game.bangyouscreen.managers.ResourceManager;
 import org.game.bangyouscreen.managers.SceneManager;
-import org.game.bangyouscreen.menus.SplashScreen;
-import org.game.bangyouscreen.menus.ThemeScene;
+import org.game.bangyouscreen.scene.SplashScreen;
+import org.game.bangyouscreen.scene.ThemeScene;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;

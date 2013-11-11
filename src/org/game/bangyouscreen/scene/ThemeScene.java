@@ -1,4 +1,4 @@
-package org.game.bangyouscreen.menus;
+package org.game.bangyouscreen.scene;
 
 
 import org.andengine.entity.modifier.MoveXModifier;
@@ -12,12 +12,11 @@ import org.andengine.input.touch.detector.ScrollDetector;
 import org.andengine.input.touch.detector.ScrollDetector.IScrollDetectorListener;
 import org.andengine.input.touch.detector.SurfaceScrollDetector;
 import org.andengine.opengl.vbo.VertexBufferObjectManager;
-import org.game.bangyouscreen.gameLevels.GameLevel;
+import org.game.bangyouscreen.boss.ThemeBossForMXD;
 import org.game.bangyouscreen.layer.ThemeLayer;
 import org.game.bangyouscreen.managers.ManagedScene;
 import org.game.bangyouscreen.managers.ResourceManager;
 import org.game.bangyouscreen.managers.SceneManager;
-import org.game.bangyouscreen.util.EntityUtil;
 
 public class ThemeScene extends ManagedScene implements IScrollDetectorListener{
 
@@ -85,7 +84,7 @@ public class ThemeScene extends ManagedScene implements IScrollDetectorListener{
 			
 			@Override
 			public void onClick(ButtonSprite pButtonSprite, float pTouchAreaLocalX, float pTouchAreaLocalY) {
-				SceneManager.getInstance().showScene(MainMenu.getInstance());
+				SceneManager.getInstance().showScene(MainMenuScene.getInstance());
 				
 			}
 		});
@@ -101,17 +100,28 @@ public class ThemeScene extends ManagedScene implements IScrollDetectorListener{
 			
 			@Override
 			public void onClick(ButtonSprite pButtonSprite, float pTouchAreaLocalX, float pTouchAreaLocalY) {
-				SceneManager.getInstance().showScene(MainMenu.getInstance());
+				SceneManager.getInstance().showScene(MainMenuScene.getInstance());
 				
 			}
 		});
 		registerTouchArea(homeBS);
-		
 	}
 
 	@Override
 	public void onUnloadScene() {
-		// TODO Auto-generated method stub
+		ResourceManager.getInstance().engine.runOnUpdateThread(new Runnable() {
+			public void run() {
+				detachChildren();
+				for(int i = 0; i < INSTANCE.getChildCount(); i++){
+					INSTANCE.getChildByIndex(i).dispose();
+					INSTANCE.getChildByIndex(i).clearEntityModifiers();
+					//INSTANCE.getChildByIndex(i).clearTouchAreas();
+					INSTANCE.getChildByIndex(i).clearUpdateHandlers();
+				}
+				INSTANCE.clearEntityModifiers();
+				INSTANCE.clearTouchAreas();
+				INSTANCE.clearUpdateHandlers();
+			}});
 		
 	}
 
@@ -173,7 +183,6 @@ public class ThemeScene extends ManagedScene implements IScrollDetectorListener{
 				mScensSlider.registerEntityModifier(new MoveXModifier(0.3F, mScensSlider.getX(), themeRInitX));
 			}
 		}
-		
 	}
 	
 	 @Override
@@ -195,7 +204,7 @@ public class ThemeScene extends ManagedScene implements IScrollDetectorListener{
 		 Rectangle themeR = new Rectangle(themeRWidth/2f,mCameraHeight/2f,themeRWidth,
 				 ResourceManager.theme1Temp.getHeight(),mVertexBufferObjectManager);
 		 themeR.setAlpha(0f);
-		 //主题1
+		 //冒险岛主题
 		 themePics[0] = new ButtonSprite(0f,0f,ResourceManager.theme1Temp,mVertexBufferObjectManager);
 		 themePics[0].setPosition(mCameraWidth/2f, themeR.getHeight()/2f);
 		 themePics[0].setSize(mCameraWidth/2f, mCameraHeight*(2f/3f));
@@ -204,7 +213,7 @@ public class ThemeScene extends ManagedScene implements IScrollDetectorListener{
 				@Override
 				public void onClick(ButtonSprite pButtonSprite, float pTouchAreaLocalX, float pTouchAreaLocalY) {
 					//mCurrentScreen = ThemeSceneScreens.LevelSelector;
-					SceneManager.getInstance().showLayer(ThemeLayer.getInstance(mCurrentTheme), false, false, false);
+					SceneManager.getInstance().showScene(ThemeBossForMXD.getInstance());
 				}
 			});
 			registerTouchArea(themePics[0]);

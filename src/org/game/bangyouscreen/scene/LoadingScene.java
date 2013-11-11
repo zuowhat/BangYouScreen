@@ -1,4 +1,4 @@
-package org.game.bangyouscreen.menus;
+package org.game.bangyouscreen.scene;
 
 import org.andengine.entity.scene.Scene;
 import org.andengine.entity.sprite.AnimatedSprite;

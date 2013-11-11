@@ -82,7 +82,7 @@ public class ThemeLayer extends ManagedLayer{
 //			}
 //		}
 		
-		AnimatedButtonSprite closeButton = new AnimatedButtonSprite(0f, 0f,ResourceManager.themeSceneOneBossTotalTT.get(0), mVertexBufferObjectManager);
+		AnimatedButtonSprite closeButton = new AnimatedButtonSprite(0f, 0f,ResourceManager.themeSceneOneBossTotalTT[0], mVertexBufferObjectManager);
 		closeButton.setPosition(LayerBG.getWidth()/2f, LayerBG.getHeight()/2f);
 		closeButton.setScale(3f);
 		long []frameDur = new long[4];
