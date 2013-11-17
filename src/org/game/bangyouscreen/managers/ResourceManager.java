@@ -72,10 +72,12 @@ public class ResourceManager extends Object{
 	public static TextureRegion themeLevelBG;
 	public static TextureRegion themeLevelLock;
 	
-	private static final int BOSS_NUM = 8;
-	public static TiledTextureRegion[] themeSceneOneBossTotalTT;
+	private static final int BOSS_NUM_ONE = 8;
+	public static TiledTextureRegion[] themeSceneOneBossTotalTT = new TiledTextureRegion[BOSS_NUM_ONE];
+	public static TextureRegion[] themeSceneOneBossInfoTR = new TextureRegion[BOSS_NUM_ONE];
 	public static TextureRegion homeTR;
 	public static TextureRegion backTR;
+	
 	
 	public ResourceManager(){
 	}
@@ -268,10 +270,11 @@ public class ResourceManager extends Object{
 		BitmapTextureAtlasTextureRegionFactory.setAssetBasePath("gfx/theme/");
 		
 		int themeSceneOneBossTotal = BangYouScreenActivity.getIntFromSharedPreferences(BangYouScreenActivity.SHARED_PREFS_THEME_1);
-		themeSceneOneBossTotalTT = new TiledTextureRegion[BOSS_NUM];
 		for(int i=0; i<themeSceneOneBossTotal+1; i++){
 			if(themeSceneOneBossTotalTT[i] == null){
 				String bossTexture = "boss1" + i + ".png";
+				String bossInfo = "infoboss1" + i + ".png";
+				themeSceneOneBossInfoTR[i] = getLimitableTR(bossInfo,mNormalTextureOption);
 				switch (i) {
 				case 0:
 					themeSceneOneBossTotalTT[i] = getLimitableTTR(bossTexture,3,2,mNormalTextureOption);
@@ -281,6 +284,7 @@ public class ResourceManager extends Object{
 					themeSceneOneBossTotalTT[i] = getLimitableTTR(bossTexture,3,2,mNormalTextureOption);
 					break;
 				}
+				
 			}
 
 			

@@ -330,5 +330,23 @@ public class GameLevel extends ManagedScene {
 		@Override
 		public void reset() {}
 	};
+	
+	public void onPauseGameLevel(){
+		unregisterUpdateHandler(gameRunTimer);
+		setIgnoreUpdate(true);
+		unregisterTouchArea(greenButtonBS);
+		unregisterTouchArea(redButtonBS);
+		
+		
+	}
+	
+	public void onResumeGameLevel(){
+		registerUpdateHandler(gameRunTimer);
+		setIgnoreUpdate(false);
+		registerTouchArea(greenButtonBS);
+		registerTouchArea(redButtonBS);
+		
+		
+	}
 
 }

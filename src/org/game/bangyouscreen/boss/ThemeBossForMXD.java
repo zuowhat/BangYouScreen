@@ -20,6 +20,7 @@ import org.game.bangyouscreen.scene.MainMenuScene;
 import org.game.bangyouscreen.scene.ThemeScene;
 import org.game.bangyouscreen.util.AnimatedButtonSprite;
 import org.game.bangyouscreen.util.AnimatedButtonSprite.OnClickListener;
+import org.game.bangyouscreen.util.EntityUtil;
 
 
 public class ThemeBossForMXD extends ManagedScene implements IScrollDetectorListener{
@@ -160,39 +161,55 @@ public class ThemeBossForMXD extends ManagedScene implements IScrollDetectorList
 	  */
 	 private Rectangle getScensSlider(){
 		 bossPics = new AnimatedButtonSprite[ResourceManager.themeSceneOneBossTotalTT.length];
+		 Sprite[] bossInfo = new Sprite[bossPics.length];
 		 float themeRWidth = mCameraWidth*bossPics.length;
 		 themeRInitX = themeRWidth/2f;
 		 Rectangle themeR = new Rectangle(themeRWidth/2f,mCameraHeight/2f,themeRWidth,
 				 mCameraHeight*(2f/3f),mVertexBufferObjectManager);
 		 themeR.setAlpha(0f);
 		 long []frameDur;
+		 
 		 for(int i=0; i<ResourceManager.themeSceneOneBossTotalTT.length; i++){
 			 if(ResourceManager.themeSceneOneBossTotalTT[i] != null){
+				//BOSS动画
 				bossPics[i] = new AnimatedButtonSprite(0f, 0f,ResourceManager.themeSceneOneBossTotalTT[i], mVertexBufferObjectManager);
+				EntityUtil.setSize("height", 1f/2f, bossPics[i]);
+				//BOSS简介
+				bossInfo[i] = new Sprite(0f, 0f,ResourceManager.themeSceneOneBossInfoTR[i], mVertexBufferObjectManager);
+				EntityUtil.setSize("height", 1f/2f, bossInfo[i]);
+				
 				switch (i) {
 				case 0:
-					bossPics[i].setPosition(mCameraWidth/2f, themeR.getHeight()/2f);
+					bossPics[i].setPosition(mCameraWidth/4f, themeR.getHeight()/2f);
 					frameDur = new long[6];
-					Arrays.fill(frameDur, 300);
+					Arrays.fill(frameDur, 100);
 					bossPics[i].animate(frameDur,0,5,true);
-					themeR.attachChild(bossPics[i]);
 					bossPics[i].setOnClickListener(new OnClickListener(){
 
 						public void onClick(AnimatedButtonSprite pButtonSprite,
 								float pTouchAreaLocalX, float pTouchAreaLocalY) {
 							SceneManager.getInstance().showScene(GameLevel.getInstance());
 						}});
-					registerTouchArea(bossPics[i]);
+					
+					
+					//bossInfo[i].setPosition(mCameraWidth-20f-bossInfo[i].getWidth()/2f, themeR.getHeight()/2f);
+					bossInfo[i].setPosition(3f*mCameraWidth/4f, themeR.getHeight()/2f);
+					
 					break;
 
 				case 1:
 					bossPics[i].setPosition(mCameraWidth+bossPics[i-1].getX(), themeR.getHeight()/2f);
 					frameDur = new long[5];
-					Arrays.fill(frameDur, 300);
+					Arrays.fill(frameDur, 100);
 					bossPics[i].animate(frameDur,0,4,true);
-					themeR.attachChild(bossPics[i]);
+					
+					bossInfo[i].setPosition(mCameraWidth+bossInfo[i-1].getX(), themeR.getHeight()/2f);
+					
 					break;
 				}
+				themeR.attachChild(bossPics[i]);
+				registerTouchArea(bossPics[i]);
+				themeR.attachChild(bossInfo[i]);
 			 }else{
 				switch (i) {
 				case 0:

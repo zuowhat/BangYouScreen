@@ -11,6 +11,8 @@ import org.andengine.engine.options.resolutionpolicy.FillResolutionPolicy;
 import org.andengine.engine.options.resolutionpolicy.IResolutionPolicy;
 import org.andengine.entity.scene.Scene;
 import org.andengine.ui.activity.BaseGameActivity;
+import org.game.bangyouscreen.gameLevels.GameLevel;
+import org.game.bangyouscreen.layer.GameLayer;
 import org.game.bangyouscreen.managers.ResourceManager;
 import org.game.bangyouscreen.managers.SceneManager;
 import org.game.bangyouscreen.scene.SplashScreen;
@@ -18,7 +20,6 @@ import org.game.bangyouscreen.scene.ThemeScene;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
-import android.view.KeyEvent;
 import android.view.View.MeasureSpec;
 
 
@@ -176,6 +177,10 @@ public class BangYouScreenActivity extends BaseGameActivity {
 			  if (SceneManager.getInstance().mIsLayerShown) {
 				  ThemeScene.getInstance().setThemeScene();
 				  SceneManager.getInstance().mCurrentLayer.onHideLayer();
+				  GameLevel.getInstance().onResumeGameLevel();
+			  }else if(SceneManager.getInstance().mCurrentScene.getClass().equals(GameLevel.class)){
+				  GameLevel.getInstance().onPauseGameLevel();
+				  SceneManager.getInstance().showLayer(GameLayer.getInstance(), false, false, false);
 			  }else{
 				  showExitConfirmDialog(); 
 			  }

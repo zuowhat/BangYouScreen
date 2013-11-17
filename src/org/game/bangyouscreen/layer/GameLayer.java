@@ -15,18 +15,18 @@ import org.game.bangyouscreen.util.AnimatedButtonSprite;
 import org.game.bangyouscreen.util.AnimatedButtonSprite.OnClickListener;
 import org.game.bangyouscreen.util.EntityUtil;
 
-public class ThemeLayer extends ManagedLayer{
+public class GameLayer extends ManagedLayer{
 	
-	private static final ThemeLayer INSTANCE = new ThemeLayer();
-	private static int themeNum = 0;
+	private static final GameLayer INSTANCE = new GameLayer();
+	//private static int themeNum = 0;
 	private static final float mCameraWidth = ResourceManager.getCamera().getWidth();
 	private static final float mCameraHeight = ResourceManager.getCamera().getHeight();
 	private VertexBufferObjectManager mVertexBufferObjectManager = ResourceManager.getEngine().getVertexBufferObjectManager();
 	private Sprite LayerBG;
 	
 	
-	public static ThemeLayer getInstance(int theme) {
-		themeNum = theme;
+	public static GameLayer getInstance() {
+		//themeNum = theme;
 		return INSTANCE;
 	}
 	

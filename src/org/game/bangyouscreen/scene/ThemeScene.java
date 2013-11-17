@@ -13,7 +13,7 @@ import org.andengine.input.touch.detector.ScrollDetector.IScrollDetectorListener
 import org.andengine.input.touch.detector.SurfaceScrollDetector;
 import org.andengine.opengl.vbo.VertexBufferObjectManager;
 import org.game.bangyouscreen.boss.ThemeBossForMXD;
-import org.game.bangyouscreen.layer.ThemeLayer;
+import org.game.bangyouscreen.layer.GameLayer;
 import org.game.bangyouscreen.managers.ManagedScene;
 import org.game.bangyouscreen.managers.ResourceManager;
 import org.game.bangyouscreen.managers.SceneManager;
@@ -229,7 +229,7 @@ public class ThemeScene extends ManagedScene implements IScrollDetectorListener{
 				@Override
 				public void onClick(ButtonSprite pButtonSprite, float pTouchAreaLocalX, float pTouchAreaLocalY) {
 					//mCurrentScreen = ThemeSceneScreens.LevelSelector;
-					SceneManager.getInstance().showLayer(ThemeLayer.getInstance(mCurrentTheme), false, false, false);
+					SceneManager.getInstance().showLayer(GameLayer.getInstance(), false, false, false);
 				}
 			});
 			registerTouchArea(themePics[1]);

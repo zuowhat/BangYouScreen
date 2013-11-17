@@ -37,7 +37,7 @@ public class LoadingScene extends Scene{
 	    
 	    //动画效果无法生效，原因待查
 	    loadingFont = new AnimatedSprite(0f,0f,ResourceManager.loadingFont,mVertexBufferObjectManager);
-	    loadingFont.setPosition(picAS.getX(), picAS.getY()-picAS.getHeight()/2f-10f);
+	    loadingFont.setPosition(picAS.getX(), picAS.getY()-picAS.getHeight()/2f-40f);
 	    loadingFont.animate(300, true);
 	    attachChild(loadingFont);
 	}

@@ -100,7 +100,7 @@ public class SplashScreen extends ManagedScene{
 		this.setBackgroundEnabled(true);
 		this.setBackground(new Background(0.1f, 0.1f, 0.1f));
 		
-		nimbusSprite.setScale(2.0F);
+		nimbusSprite.setScale(2f);
 		nimbusSprite.registerEntityModifier(mRotationModifier);
 		attachChild(nimbusSprite);
 		this.attachChild(beginOneSprite);

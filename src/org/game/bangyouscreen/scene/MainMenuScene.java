@@ -105,14 +105,14 @@ public class MainMenuScene extends ManagedScene{
 			this.attachChild(curCloudSprite);
 		}
 	    
-		mainMenuScreen = new Entity(0,mCameraHeight){
+		mainMenuScreen = new Entity(0,-mCameraHeight){
 			boolean hasLoaded = false;
 			@Override
 			protected void onManagedUpdate(final float pSecondsElapsed) {
 				super.onManagedUpdate(pSecondsElapsed);
 				if(!hasLoaded){
 					hasLoaded = true;
-					this.registerEntityModifier(new MoveModifier (1f,0,mCameraHeight,0,0));
+					this.registerEntityModifier(new MoveModifier (1f,0,-mCameraHeight,0,0));
 				}
 			}
 		};
