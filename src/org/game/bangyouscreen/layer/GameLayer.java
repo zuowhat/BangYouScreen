@@ -93,7 +93,7 @@ public class GameLayer extends ManagedLayer{
 			public void onClick(AnimatedButtonSprite pButtonSprite,
 					float pTouchAreaLocalX, float pTouchAreaLocalY) {
 				onHideLayer();
-				SceneManager.getInstance().showScene(GameLevel.getInstance());
+				//SceneManager.getInstance().showScene(GameLevel.getInstance());
 			}});
 		LayerBG.attachChild(closeButton);
 		registerTouchArea(closeButton);

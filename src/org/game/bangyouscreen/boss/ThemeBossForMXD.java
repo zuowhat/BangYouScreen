@@ -184,28 +184,30 @@ public class ThemeBossForMXD extends ManagedScene implements IScrollDetectorList
 					frameDur = new long[6];
 					Arrays.fill(frameDur, 100);
 					bossPics[i].animate(frameDur,0,5,true);
+					bossInfo[i].setPosition(3f*mCameraWidth/4f, themeR.getHeight()/2f);
 					bossPics[i].setOnClickListener(new OnClickListener(){
 
 						public void onClick(AnimatedButtonSprite pButtonSprite,
 								float pTouchAreaLocalX, float pTouchAreaLocalY) {
-							SceneManager.getInstance().showScene(GameLevel.getInstance());
+							//SceneManager.getInstance().showScene(GameLevel.getInstance());
 						}});
-					
-					
-					//bossInfo[i].setPosition(mCameraWidth-20f-bossInfo[i].getWidth()/2f, themeR.getHeight()/2f);
-					bossInfo[i].setPosition(3f*mCameraWidth/4f, themeR.getHeight()/2f);
-					
 					break;
-
 				case 1:
-					bossPics[i].setPosition(mCameraWidth+bossPics[i-1].getX(), themeR.getHeight()/2f);
 					frameDur = new long[5];
 					Arrays.fill(frameDur, 100);
 					bossPics[i].animate(frameDur,0,4,true);
-					
-					bossInfo[i].setPosition(mCameraWidth+bossInfo[i-1].getX(), themeR.getHeight()/2f);
-					
+					bossPics[i].setOnClickListener(new OnClickListener(){
+
+						public void onClick(AnimatedButtonSprite pButtonSprite,
+								float pTouchAreaLocalX, float pTouchAreaLocalY) {
+							//SceneManager.getInstance().showScene(GameLevel.getInstance());
+						}});
 					break;
+				}
+				//BOSS图片和简介的位置
+				if(i > 0){
+					bossPics[i].setPosition(mCameraWidth+bossPics[i-1].getX(), themeR.getHeight()/2f);
+					bossInfo[i].setPosition(mCameraWidth+bossInfo[i-1].getX(), themeR.getHeight()/2f);
 				}
 				themeR.attachChild(bossPics[i]);
 				registerTouchArea(bossPics[i]);

@@ -12,6 +12,8 @@ import org.andengine.entity.sprite.ButtonSprite.OnClickListener;
 import org.andengine.entity.sprite.Sprite;
 import org.andengine.input.touch.controller.MultiTouchController;
 import org.andengine.input.touch.controller.SingleTouchController;
+import org.andengine.opengl.texture.region.TextureRegion;
+import org.andengine.opengl.texture.region.TiledTextureRegion;
 import org.andengine.opengl.vbo.VertexBufferObjectManager;
 import org.game.bangyouscreen.managers.ManagedScene;
 import org.game.bangyouscreen.managers.ResourceManager;
@@ -21,7 +23,6 @@ import org.game.bangyouscreen.util.GameTimer;
 
 public class GameLevel extends ManagedScene {
 	
-	private static final GameLevel INSTANCE = new GameLevel();
 	private static final float mCameraWidth = ResourceManager.getCamera().getWidth();
 	private static final float mCameraHeight = ResourceManager.getCamera().getHeight();
 	private VertexBufferObjectManager mVertexBufferObjectManager = ResourceManager.getEngine().getVertexBufferObjectManager();
@@ -35,12 +36,13 @@ public class GameLevel extends ManagedScene {
 	private GameScore mGameScore;
 	
 	private AnimatedSprite aidSkill1AS;
-	private AnimatedSprite angelbossAS;
+	private AnimatedSprite bossAS;
+	private TiledTextureRegion bossTTR;
 	private static final float BOSS_VELOCITY = 50.0f;
 	private PhysicsHandler mPhysicsHandler;
 	private long[] frameDur;
 	
-	private int bossBloodNum = 100;
+	private int bossHP;
 	private float xue3P;
 	private float xue3S;
 	private Sprite xue1Sprite;
@@ -48,9 +50,14 @@ public class GameLevel extends ManagedScene {
 	
 	private ButtonSprite greenButtonBS;
 	private ButtonSprite redButtonBS;
+	private TextureRegion gameBGTR;
+	private int bossType;
 	
-	public static GameLevel getInstance(){
-		return INSTANCE;
+	public GameLevel (TextureRegion pGameBG,TiledTextureRegion pBossTTR, int pBossHP, int pBossType){
+		gameBGTR = pGameBG;
+		bossTTR = pBossTTR;
+		bossHP = pBossHP;
+		bossType = pBossType;
 	}
 
 	@Override
@@ -69,11 +76,11 @@ public class GameLevel extends ManagedScene {
 		ResourceManager.getInstance().engine.setTouchController(new MultiTouchController());
 		
 		//背景
-		Sprite bg1 = new Sprite(0f,0f,ResourceManager.gameBG10,mVertexBufferObjectManager);
-		bg1.setScale(ResourceManager.getInstance().cameraHeight / ResourceManager.gameBG10.getHeight());
-		bg1.setPosition(mCameraWidth/2f,mCameraHeight/2f);
-		bg1.setZIndex(-90);
-		attachChild(bg1);
+		Sprite gameBG = new Sprite(0f,0f,gameBGTR,mVertexBufferObjectManager);
+		gameBG.setScale(ResourceManager.getInstance().cameraHeight / ResourceManager.gameBG10.getHeight());
+		gameBG.setPosition(mCameraWidth/2f,mCameraHeight/2f);
+		gameBG.setZIndex(-90);
+		attachChild(gameBG);
 		
 		//倒计时
 		mGameTime = new GameTimer(this);
@@ -101,22 +108,22 @@ public class GameLevel extends ManagedScene {
 //		xue3Sprite.setPosition(xue1Sprite.getWidth()/2f, xue3Sprite.getHeight()/2f);
 //		xue3Sprite.setSize(xue1Sprite.getWidth()-10f, xue1Sprite.getHeight()-10f);
 		//xue1Sprite.attachChild(xue3Sprite);
-		xue3P = (xue2Sprite.getWidth()/2f)/bossBloodNum;
-		xue3S = (xue2Sprite.getWidth())/bossBloodNum;
+		xue3P = (xue2Sprite.getWidth()/2f)/bossHP;
+		xue3S = (xue2Sprite.getWidth())/bossHP;
 		
 		//BOSS
-		angelbossAS = new AnimatedSprite(0f,0f,ResourceManager.boss19,mVertexBufferObjectManager);
-		angelbossAS.setPosition(mCameraWidth/2f, mCameraHeight/2f);
-		EntityUtil.setSize("width", 0.32f, angelbossAS);
-		//angelbossAS.setScale(2f);
+		bossAS = new AnimatedSprite(0f,0f,bossTTR,mVertexBufferObjectManager);
+		bossAS.setPosition(mCameraWidth/2f, mCameraHeight/2f);
+		EntityUtil.setSize("width", 0.32f, bossAS);
+		//bossAS.setScale(2f);
 		frameDur = new long[2];
 		Arrays.fill(frameDur, 300);
-		angelbossAS.animate(frameDur,0,1,true);
-		//angelbossAS.registerEntityModifier(pEntityModifier);
-		mPhysicsHandler = new PhysicsHandler(angelbossAS);
-		angelbossAS.registerUpdateHandler(mPhysicsHandler);
+		bossAS.animate(frameDur,0,1,true);
+		//bossAS.registerEntityModifier(pEntityModifier);
+		mPhysicsHandler = new PhysicsHandler(bossAS);
+		bossAS.registerUpdateHandler(mPhysicsHandler);
 		mPhysicsHandler.setVelocity(BOSS_VELOCITY);
-		attachChild(angelbossAS);
+		attachChild(bossAS);
 		
 		//绿色按钮
 		greenButtonBS = new ButtonSprite(0f,0f,ResourceManager.greenButtonTTR,mVertexBufferObjectManager);
@@ -128,27 +135,27 @@ public class GameLevel extends ManagedScene {
 			public void onClick(ButtonSprite pButtonSprite,
 					float pTouchAreaLocalX, float pTouchAreaLocalY) {
 				mScore++;
-				bossBloodNum--;
+				bossHP--;
 				//血条变化
 				//float bloodLength = xue3Sprite.getWidth()-xue3S;
-				if(bossBloodNum >= 0 && gameTime > 0){
+				if(bossHP >= 0 && gameTime > 0){
 					xue2Sprite.setPosition(xue2Sprite.getX()-xue3P, xue2Sprite.getY());
 					xue2Sprite.setSize(xue2Sprite.getWidth()-xue3S, xue2Sprite.getHeight());
 					mGameScore.adjustScore(mScore);
-					//xue2Sprite.setScaleX(bossBloodNum / 100.0F);
+					//xue2Sprite.setScaleX(bossHP / 100.0F);
 					
 					
-					if(bossBloodNum == 0 && gameTime > 0){
-						angelbossAS.unregisterUpdateHandler(mPhysicsHandler);
+					if(bossHP == 0 && gameTime > 0){
+						bossAS.unregisterUpdateHandler(mPhysicsHandler);
 						unregisterUpdateHandler(gameRunTimer);
 					}
 				}
 				
 				
 //				if(mScore % 5 == 0){
-//					angelbossAS.animate(frameDur,1,2,true);
-//					angelbossAS.stopAnimation(2);
-//					angelbossAS.animate(frameDur,0,1,true);
+//					bossAS.animate(frameDur,1,2,true);
+//					bossAS.stopAnimation(2);
+//					bossAS.animate(frameDur,0,1,true);
 //				}
 			}});
 		attachChild(greenButtonBS);
@@ -164,26 +171,26 @@ public class GameLevel extends ManagedScene {
 			public void onClick(ButtonSprite pButtonSprite,
 					float pTouchAreaLocalX, float pTouchAreaLocalY) {
 				mScore++;
-				bossBloodNum--;
+				bossHP--;
 				
 				//血条变化
-				if(bossBloodNum >= 0 && gameTime > 0){
+				if(bossHP >= 0 && gameTime > 0){
 					xue2Sprite.setPosition(xue2Sprite.getX()-xue3P, xue2Sprite.getY());
 					xue2Sprite.setSize(xue2Sprite.getWidth()-xue3S, xue2Sprite.getHeight());
-					//xue2Sprite.setScaleX(bossBloodNum / 100.0F);
+					//xue2Sprite.setScaleX(bossHP / 100.0F);
 					mGameScore.adjustScore(mScore);
-					if(bossBloodNum == 0 && gameTime > 0){
-						angelbossAS.unregisterUpdateHandler(mPhysicsHandler);
+					if(bossHP == 0 && gameTime > 0){
+						bossAS.unregisterUpdateHandler(mPhysicsHandler);
 						unregisterUpdateHandler(gameRunTimer);
 					}
 				}
 				
 				
 //				if(mScore % 5 == 0){
-//					//angelbossAS.stopAnimation(2);
-//					angelbossAS.animate(frameDur,1,2,true);
-//					angelbossAS.stopAnimation(2);
-//					angelbossAS.animate(frameDur,0,1,true);
+//					//bossAS.stopAnimation(2);
+//					bossAS.animate(frameDur,1,2,true);
+//					bossAS.stopAnimation(2);
+//					bossAS.animate(frameDur,0,1,true);
 //				}
 			}});
 		attachChild(redButtonBS);
@@ -220,7 +227,7 @@ public class GameLevel extends ManagedScene {
 					@Override
 					public void onAnimationStarted(AnimatedSprite pAnimatedSprite,
 							int pInitialLoopCount) {
-						angelbossAS.stopAnimation(2);
+						bossAS.stopAnimation(2);
 					}
 
 					@Override
@@ -239,7 +246,7 @@ public class GameLevel extends ManagedScene {
 					public void onAnimationFinished(AnimatedSprite pAnimatedSprite) {
 						detachChild(aidSkill1AS);
 						aidSkill1AS = null;
-						angelbossAS.animate(frameDur,0,1,true);
+						bossAS.animate(frameDur,0,1,true);
 					}
 				});
 				attachChild(aidSkill1AS);
@@ -283,7 +290,7 @@ public class GameLevel extends ManagedScene {
 				//mTimeText.setText(TimeUtils.formatSeconds(0));
 				mGameTime.adjustTime(0f);
 				unregisterUpdateHandler(this);
-				angelbossAS.unregisterUpdateHandler(mPhysicsHandler);
+				bossAS.unregisterUpdateHandler(mPhysicsHandler);
 				mGameTime.mDigitsSprite[3].clearEntityModifiers();
 				mGameTime.mDigitsSprite[2].clearEntityModifiers();
 				mGameTime.mDigitsSprite[3].setScale(1.0F);
@@ -312,14 +319,14 @@ public class GameLevel extends ManagedScene {
 			}
 			
 			//BOSS移动
-			if(angelbossAS.getY() - angelbossAS.getHeight()/2f < redButtonBS.getY() + redButtonBS.getHeight()/2f) {
+			if(bossAS.getY() - bossAS.getHeight()/2f < redButtonBS.getY() + redButtonBS.getHeight()/2f) {
 				mPhysicsHandler.setVelocityY(BOSS_VELOCITY);
-			} else if(angelbossAS.getY() + (angelbossAS.getHeight() * 0.5f) > xue1Sprite.getY() - xue1Sprite.getHeight()/2f) {
+			} else if(bossAS.getY() + (bossAS.getHeight() * 0.5f) > xue1Sprite.getY() - xue1Sprite.getHeight()/2f) {
 				mPhysicsHandler.setVelocityY(-BOSS_VELOCITY);
 			}
-			if(angelbossAS.getX() - angelbossAS.getWidth()/2f < 2f) {
+			if(bossAS.getX() - bossAS.getWidth()/2f < 2f) {
 				mPhysicsHandler.setVelocityX(BOSS_VELOCITY);
-			} else if(angelbossAS.getX() + (angelbossAS.getWidth() * 0.5f) > mCameraWidth - 2f) {
+			} else if(bossAS.getX() + (bossAS.getWidth() * 0.5f) > mCameraWidth - 2f) {
 				mPhysicsHandler.setVelocityX(-BOSS_VELOCITY);
 			}
 			
