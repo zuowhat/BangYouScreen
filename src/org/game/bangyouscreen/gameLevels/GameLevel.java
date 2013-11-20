@@ -12,11 +12,11 @@ import org.andengine.entity.sprite.ButtonSprite.OnClickListener;
 import org.andengine.entity.sprite.Sprite;
 import org.andengine.input.touch.controller.MultiTouchController;
 import org.andengine.input.touch.controller.SingleTouchController;
-import org.andengine.opengl.texture.region.TextureRegion;
-import org.andengine.opengl.texture.region.TiledTextureRegion;
 import org.andengine.opengl.vbo.VertexBufferObjectManager;
 import org.game.bangyouscreen.managers.ManagedScene;
 import org.game.bangyouscreen.managers.ResourceManager;
+import org.game.bangyouscreen.model.BossModel;
+import org.game.bangyouscreen.model.PlayerModel;
 import org.game.bangyouscreen.util.EntityUtil;
 import org.game.bangyouscreen.util.GameScore;
 import org.game.bangyouscreen.util.GameTimer;
@@ -29,35 +29,34 @@ public class GameLevel extends ManagedScene {
 	
 	//private static final String TIME_FORMAT = "00:00";
 	//private Text mTimeText;
-	private float gameTime = 30f;
+	private float gameTime = 30f;//初始游戏时间
 	private int mScore = 0;
 	private GameTimer mGameTime;
 	private boolean mTenSeconds = false;
 	private GameScore mGameScore;
-	
 	private AnimatedSprite aidSkill1AS;
 	private AnimatedSprite bossAS;
-	private TiledTextureRegion bossTTR;
-	private static final float BOSS_VELOCITY = 50.0f;
+	private static final float BOSS_VELOCITY = 50.0f;//BOSS移动速度
 	private PhysicsHandler mPhysicsHandler;
 	private long[] frameDur;
-	
-	private int bossHP;
 	private float xue3P;
 	private float xue3S;
 	private Sprite xue1Sprite;
 	private Sprite xue2Sprite;
-	
 	private ButtonSprite greenButtonBS;
 	private ButtonSprite redButtonBS;
-	private TextureRegion gameBGTR;
-	private int bossType;
 	
-	public GameLevel (TextureRegion pGameBG,TiledTextureRegion pBossTTR, int pBossHP, int pBossType){
-		gameBGTR = pGameBG;
-		bossTTR = pBossTTR;
-		bossHP = pBossHP;
-		bossType = pBossType;
+	private BossModel bossModel;
+	private PlayerModel playerModel;
+	//private int playerDPS;//玩家物理伤害
+	//private int playerAOE;//玩家魔法伤害
+	private float dpsXS;//物理伤害系数
+	private float aoeXS;//魔法伤害系数
+	private int bossHP;
+	
+	public GameLevel (BossModel pBossModel, PlayerModel pPlayerModel){
+		bossModel = pBossModel;
+		playerModel = pPlayerModel;
 	}
 
 	@Override
@@ -72,11 +71,13 @@ public class GameLevel extends ManagedScene {
 
 	@Override
 	public void onLoadScene() {
+		countDpsXS();
+		countAoeXS();
 		ResourceManager.getInstance().engine.getEngineOptions().getTouchOptions().setNeedsMultiTouch(true);
 		ResourceManager.getInstance().engine.setTouchController(new MultiTouchController());
-		
+		bossHP = bossModel.getBossHP();
 		//背景
-		Sprite gameBG = new Sprite(0f,0f,gameBGTR,mVertexBufferObjectManager);
+		Sprite gameBG = new Sprite(0f,0f,bossModel.getGameBGTR(),mVertexBufferObjectManager);
 		gameBG.setScale(ResourceManager.getInstance().cameraHeight / ResourceManager.gameBG10.getHeight());
 		gameBG.setPosition(mCameraWidth/2f,mCameraHeight/2f);
 		gameBG.setZIndex(-90);
@@ -112,7 +113,7 @@ public class GameLevel extends ManagedScene {
 		xue3S = (xue2Sprite.getWidth())/bossHP;
 		
 		//BOSS
-		bossAS = new AnimatedSprite(0f,0f,bossTTR,mVertexBufferObjectManager);
+		bossAS = new AnimatedSprite(0f,0f,bossModel.getBossTTR(),mVertexBufferObjectManager);
 		bossAS.setPosition(mCameraWidth/2f, mCameraHeight/2f);
 		EntityUtil.setSize("width", 0.32f, bossAS);
 		//bossAS.setScale(2f);
@@ -338,22 +339,51 @@ public class GameLevel extends ManagedScene {
 		public void reset() {}
 	};
 	
+	//暂停游戏
 	public void onPauseGameLevel(){
 		unregisterUpdateHandler(gameRunTimer);
 		setIgnoreUpdate(true);
 		unregisterTouchArea(greenButtonBS);
 		unregisterTouchArea(redButtonBS);
-		
-		
 	}
 	
+	//继续游戏
 	public void onResumeGameLevel(){
 		registerUpdateHandler(gameRunTimer);
 		setIgnoreUpdate(false);
 		registerTouchArea(greenButtonBS);
 		registerTouchArea(redButtonBS);
+	}
+	
+	//计算玩家物理攻击力
+	private int countPlayerDPS(){
+		float playerDPS = (float)(Math.random()*(playerModel.getWeaponDPSMax() - playerModel.getWeaponDPSMin())) + playerModel.getWeaponDPSMin();
+		float bossDEF = (float)(Math.random()*(bossModel.getMaxBossDEF() - bossModel.getMinBossDEF())) + bossModel.getMinBossDEF();
+		return Math.round(playerDPS * dpsXS - bossDEF);
+	}
+	
+	//计算玩家物理伤害系数
+	private void countDpsXS(){
+		int wt = playerModel.getWeaponType();
+		int bd = bossModel.getBossDefType();
+		if(wt == 1){
+			if(bd == 1){
+				dpsXS = 1f;
+			}
+		}
+	}
+	
+	//计算玩家魔法攻击力
+	private int countPlayerAOE(){
+		float playerAOE = (float)(Math.random()*(playerModel.getMagicAOEMax() - playerModel.getMagicAOEMin())) + playerModel.getMagicAOEMin();
+		float bossDEF = (float)(Math.random()*(bossModel.getMaxBossDEF() - bossModel.getMinBossDEF())) + bossModel.getMinBossDEF();
+		return Math.round(playerAOE * aoeXS - bossDEF);
+	}
+	
+	//计算玩家魔法伤害系数
+	private int countAoeXS(){
 		
-		
+		return 0;
 	}
 
 }

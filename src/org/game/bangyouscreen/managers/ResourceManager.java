@@ -264,7 +264,10 @@ public class ResourceManager extends Object{
 	}
 	
 	private void loadThemeBoss(){
+		//下面一行是测试代码,待删除
 		BangYouScreenActivity.writeIntToSharedPreferences(BangYouScreenActivity.SHARED_PREFS_THEME_1, 1);
+		
+		
 		//根据完成的关卡数来加载BOSS纹理
 		mPreviousAssetBasePath = BitmapTextureAtlasTextureRegionFactory.getAssetBasePath();
 		BitmapTextureAtlasTextureRegionFactory.setAssetBasePath("gfx/theme/");
