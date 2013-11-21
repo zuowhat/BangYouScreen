@@ -175,7 +175,6 @@ public class BangYouScreenActivity extends BaseGameActivity {
 	  public void onBackPressed() {
 		  if (ResourceManager.getInstance().engine != null) {
 			  if (SceneManager.getInstance().mIsLayerShown) {
-				  ThemeScene.getInstance().setThemeScene();
 				  SceneManager.getInstance().mCurrentLayer.onHideLayer();
 				  ((GameLevel) SceneManager.getInstance().mCurrentScene).onResumeGameLevel();
 			  }else if(SceneManager.getInstance().mCurrentScene.getClass().equals(GameLevel.class)){

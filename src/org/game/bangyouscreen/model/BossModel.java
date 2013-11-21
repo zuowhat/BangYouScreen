@@ -5,6 +5,8 @@ import org.andengine.opengl.texture.region.TiledTextureRegion;
 
 public class BossModel {
 	
+	private int bossWorld;//BOSS主题编号
+	private int bossLevel;//BOSS编号
 	private TextureRegion gameBGTR;//游戏背景
 	private TiledTextureRegion bossTTR;//BOSS纹理
 	private int bossHP;//BOSS血量
@@ -48,6 +50,18 @@ public class BossModel {
 	}
 	public void setMaxBossDEF(int maxBossDEF) {
 		this.maxBossDEF = maxBossDEF;
+	}
+	public int getBossWorld() {
+		return bossWorld;
+	}
+	public void setBossWorld(int bossWorld) {
+		this.bossWorld = bossWorld;
+	}
+	public int getBossLevel() {
+		return bossLevel;
+	}
+	public void setBossLevel(int bossLevel) {
+		this.bossLevel = bossLevel;
 	}
 	
 }

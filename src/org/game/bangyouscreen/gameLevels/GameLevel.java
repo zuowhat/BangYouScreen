@@ -132,32 +132,9 @@ public class GameLevel extends ManagedScene {
 		greenButtonBS.setPosition(greenButtonBS.getWidth() / 2f, greenButtonBS.getHeight() / 2f);
 		greenButtonBS.setOnClickListener(new OnClickListener(){
 
-			@Override
 			public void onClick(ButtonSprite pButtonSprite,
 					float pTouchAreaLocalX, float pTouchAreaLocalY) {
-				mScore++;
-				bossHP--;
-				//血条变化
-				//float bloodLength = xue3Sprite.getWidth()-xue3S;
-				if(bossHP >= 0 && gameTime > 0){
-					xue2Sprite.setPosition(xue2Sprite.getX()-xue3P, xue2Sprite.getY());
-					xue2Sprite.setSize(xue2Sprite.getWidth()-xue3S, xue2Sprite.getHeight());
-					mGameScore.adjustScore(mScore);
-					//xue2Sprite.setScaleX(bossHP / 100.0F);
-					
-					
-					if(bossHP == 0 && gameTime > 0){
-						bossAS.unregisterUpdateHandler(mPhysicsHandler);
-						unregisterUpdateHandler(gameRunTimer);
-					}
-				}
-				
-				
-//				if(mScore % 5 == 0){
-//					bossAS.animate(frameDur,1,2,true);
-//					bossAS.stopAnimation(2);
-//					bossAS.animate(frameDur,0,1,true);
-//				}
+					updateHP(1);
 			}});
 		attachChild(greenButtonBS);
 		registerTouchArea(greenButtonBS);
@@ -171,28 +148,7 @@ public class GameLevel extends ManagedScene {
 			@Override
 			public void onClick(ButtonSprite pButtonSprite,
 					float pTouchAreaLocalX, float pTouchAreaLocalY) {
-				mScore++;
-				bossHP--;
-				
-				//血条变化
-				if(bossHP >= 0 && gameTime > 0){
-					xue2Sprite.setPosition(xue2Sprite.getX()-xue3P, xue2Sprite.getY());
-					xue2Sprite.setSize(xue2Sprite.getWidth()-xue3S, xue2Sprite.getHeight());
-					//xue2Sprite.setScaleX(bossHP / 100.0F);
-					mGameScore.adjustScore(mScore);
-					if(bossHP == 0 && gameTime > 0){
-						bossAS.unregisterUpdateHandler(mPhysicsHandler);
-						unregisterUpdateHandler(gameRunTimer);
-					}
-				}
-				
-				
-//				if(mScore % 5 == 0){
-//					//bossAS.stopAnimation(2);
-//					bossAS.animate(frameDur,1,2,true);
-//					bossAS.stopAnimation(2);
-//					bossAS.animate(frameDur,0,1,true);
-//				}
+					updateHP(1);
 			}});
 		attachChild(redButtonBS);
 		registerTouchArea(redButtonBS);
@@ -248,6 +204,7 @@ public class GameLevel extends ManagedScene {
 						detachChild(aidSkill1AS);
 						aidSkill1AS = null;
 						bossAS.animate(frameDur,0,1,true);
+						updateHP(2);
 					}
 				});
 				attachChild(aidSkill1AS);
@@ -283,19 +240,21 @@ public class GameLevel extends ManagedScene {
 	//游戏时间倒计时,BOSS移动
 	private IUpdateHandler gameRunTimer = new IUpdateHandler() {
 
-		@Override
 		public void onUpdate(float pSecondsElapsed) {
 			//倒计时
 			gameTime-=pSecondsElapsed;
 			if(gameTime<=0) {
-				//mTimeText.setText(TimeUtils.formatSeconds(0));
 				mGameTime.adjustTime(0f);
 				unregisterUpdateHandler(this);
+				setIgnoreUpdate(true);
+				unregisterTouchArea(greenButtonBS);
+				unregisterTouchArea(redButtonBS);
 				bossAS.unregisterUpdateHandler(mPhysicsHandler);
 				mGameTime.mDigitsSprite[3].clearEntityModifiers();
 				mGameTime.mDigitsSprite[2].clearEntityModifiers();
 				mGameTime.mDigitsSprite[3].setScale(1.0F);
 				mGameTime.mDigitsSprite[2].setScale(1.0F);
+				gameFail();
 			} else {
 				if((!mTenSeconds) && gameTime <= 10f){
 					mTenSeconds = true;
@@ -355,6 +314,42 @@ public class GameLevel extends ManagedScene {
 		registerTouchArea(redButtonBS);
 	}
 	
+	//游戏胜利
+	private void gameWin(){
+		
+	}
+	
+	//游戏失败
+	private void gameFail(){
+		
+	}
+	
+	//更新BOSS血量和得分
+	private void updateHP(int type){
+		mScore++;
+		if(type == 1){
+			bossHP = bossHP - countPlayerDPS();
+		}else{
+			bossHP = bossHP - countPlayerAOE();
+		}
+		if(bossHP > 0 && gameTime > 0){
+			xue2Sprite.setPosition(xue2Sprite.getX()-xue3P, xue2Sprite.getY());
+			xue2Sprite.setSize(xue2Sprite.getWidth()-xue3S, xue2Sprite.getHeight());
+			mGameScore.adjustScore(mScore);
+//			if(bossHP == 0 && gameTime > 0){
+//				bossAS.unregisterUpdateHandler(mPhysicsHandler);
+//				unregisterUpdateHandler(gameRunTimer);
+//			}
+		}else if(bossHP <= 0 && gameTime > 0){
+			xue2Sprite.setPosition(xue2Sprite.getX()-xue3P, xue2Sprite.getY());
+			xue2Sprite.setSize(xue2Sprite.getWidth()-xue3S, xue2Sprite.getHeight());
+			mGameScore.adjustScore(mScore);
+			bossAS.unregisterUpdateHandler(mPhysicsHandler);
+			unregisterUpdateHandler(gameRunTimer);
+			gameWin();
+		}
+	}
+	
 	//计算玩家物理攻击力
 	private int countPlayerDPS(){
 		float playerDPS = (float)(Math.random()*(playerModel.getWeaponDPSMax() - playerModel.getWeaponDPSMin())) + playerModel.getWeaponDPSMin();
@@ -369,6 +364,62 @@ public class GameLevel extends ManagedScene {
 		if(wt == 1){
 			if(bd == 1){
 				dpsXS = 1f;
+			}else if(bd == 2){
+				dpsXS = 2f;
+			}else if(bd == 3){
+				dpsXS = 0.5f;
+			}else if(bd == 4){
+				dpsXS = 1f;
+			}else if(bd == 5){
+				dpsXS = 0.5f;
+			}
+		}else if(wt == 2){
+			if(bd == 1){
+				dpsXS = 0.5f;
+			}else if(bd == 2){
+				dpsXS = 1f;
+			}else if(bd == 3){
+				dpsXS = 2f;
+			}else if(bd == 4){
+				dpsXS = 1f;
+			}else if(bd == 5){
+				dpsXS = 0.5f;
+			}
+		}else if(wt == 3){
+			if(bd == 1){
+				dpsXS = 2f;
+			}else if(bd == 2){
+				dpsXS = 0.5f;
+			}else if(bd == 3){
+				dpsXS = 1f;
+			}else if(bd == 4){
+				dpsXS = 1f;
+			}else if(bd == 5){
+				dpsXS = 0.5f;
+			}
+		}else if(wt == 4){
+			if(bd == 1){
+				dpsXS = 1f;
+			}else if(bd == 2){
+				dpsXS = 1f;
+			}else if(bd == 3){
+				dpsXS = 1f;
+			}else if(bd == 4){
+				dpsXS = 1f;
+			}else if(bd == 5){
+				dpsXS = 0.5f;
+			}
+		}else if(wt == 5){
+			if(bd == 1){
+				dpsXS = 2f;
+			}else if(bd == 2){
+				dpsXS = 2f;
+			}else if(bd == 3){
+				dpsXS = 2f;
+			}else if(bd == 4){
+				dpsXS = 2f;
+			}else if(bd == 5){
+				dpsXS = 1f;
 			}
 		}
 	}
@@ -381,9 +432,70 @@ public class GameLevel extends ManagedScene {
 	}
 	
 	//计算玩家魔法伤害系数
-	private int countAoeXS(){
-		
-		return 0;
+	private void countAoeXS(){
+		int wt = playerModel.getMagicType();
+		int bd = bossModel.getBossDefType();
+		if(wt == 1){
+			if(bd == 1){
+				dpsXS = 1f;
+			}else if(bd == 2){
+				dpsXS = 2f;
+			}else if(bd == 3){
+				dpsXS = 0.5f;
+			}else if(bd == 4){
+				dpsXS = 1f;
+			}else if(bd == 5){
+				dpsXS = 0.5f;
+			}
+		}else if(wt == 2){
+			if(bd == 1){
+				dpsXS = 0.5f;
+			}else if(bd == 2){
+				dpsXS = 1f;
+			}else if(bd == 3){
+				dpsXS = 2f;
+			}else if(bd == 4){
+				dpsXS = 1f;
+			}else if(bd == 5){
+				dpsXS = 0.5f;
+			}
+		}else if(wt == 3){
+			if(bd == 1){
+				dpsXS = 2f;
+			}else if(bd == 2){
+				dpsXS = 0.5f;
+			}else if(bd == 3){
+				dpsXS = 1f;
+			}else if(bd == 4){
+				dpsXS = 1f;
+			}else if(bd == 5){
+				dpsXS = 0.5f;
+			}
+		}else if(wt == 4){
+			if(bd == 1){
+				dpsXS = 1f;
+			}else if(bd == 2){
+				dpsXS = 1f;
+			}else if(bd == 3){
+				dpsXS = 1f;
+			}else if(bd == 4){
+				dpsXS = 1f;
+			}else if(bd == 5){
+				dpsXS = 0.5f;
+			}
+		}else if(wt == 5){
+			if(bd == 1){
+				dpsXS = 2f;
+			}else if(bd == 2){
+				dpsXS = 2f;
+			}else if(bd == 3){
+				dpsXS = 2f;
+			}else if(bd == 4){
+				dpsXS = 2f;
+			}else if(bd == 5){
+				dpsXS = 1f;
+			}
+		}
 	}
 
 }

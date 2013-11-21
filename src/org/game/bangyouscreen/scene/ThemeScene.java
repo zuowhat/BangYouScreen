@@ -32,11 +32,6 @@ public class ThemeScene extends ManagedScene implements IScrollDetectorListener{
 	private int mCurrentTheme = 1;
 	private float directionPath;//判断手势方向，正-向右滑动，负-向左滑动
 	
-	public enum ThemeSceneScreens {
-		ThemeSelector, LevelSelector
-	}
-	public ThemeSceneScreens mCurrentScreen = ThemeSceneScreens.ThemeSelector;
-	
 	public static ThemeScene getInstance(){
 		return INSTANCE;
 	}
@@ -146,7 +141,6 @@ public class ThemeScene extends ManagedScene implements IScrollDetectorListener{
 	@Override
 	public void onScroll(ScrollDetector pScollDetector, int pPointerID,
 			float pDistanceX, float pDistanceY) {
-		if (mCurrentScreen == ThemeSceneScreens.ThemeSelector){
 //		    float f1 = paramFloat + mScensSlider.getX();
 //		    if (f1 > mScensSlider.getInitialX())
 //		      f1 = this.mScensSlider.getInitialX();
@@ -156,7 +150,6 @@ public class ThemeScene extends ManagedScene implements IScrollDetectorListener{
 //		    this.mScensSlider.setPosition(f1, this.mScensSlider.getY());
 			float f1 = mScensSlider.getX() + pDistanceX;
 			mScensSlider.setPosition(f1, mScensSlider.getY());
-		}
 		
 	}
 	
@@ -187,9 +180,7 @@ public class ThemeScene extends ManagedScene implements IScrollDetectorListener{
 	
 	 @Override
 	public boolean onSceneTouchEvent(TouchEvent paramTouchEvent){
-	    if (mCurrentScreen == ThemeSceneScreens.ThemeSelector){
-	      this.mScrollDetector.onTouchEvent(paramTouchEvent);
-	    }
+	    this.mScrollDetector.onTouchEvent(paramTouchEvent);
 	    return super.onSceneTouchEvent(paramTouchEvent);
 	  }
 	 
@@ -243,10 +234,6 @@ public class ThemeScene extends ManagedScene implements IScrollDetectorListener{
 		 themeR.attachChild(themePics[3]);
 		 
 		 return themeR;
-	 }
-	 
-	 public void setThemeScene(){
-		 mCurrentScreen = ThemeSceneScreens.ThemeSelector;
 	 }
 	 
 }
