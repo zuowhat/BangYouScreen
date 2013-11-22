@@ -43,40 +43,33 @@ public class ResourceManager extends Object{
 	public static TiledTextureRegion numberTTR;
 	public static TextureRegion menuClouds1;
 	public static TextureRegion menuClouds2;
-	
 	public static TiledTextureRegion greenButtonTTR;
 	public static TiledTextureRegion redButtonTTR;
 	public static TextureRegion clockTR;
-	
-	public static TextureRegion gameBG10;
+	public static TextureRegion shareGameBG;
 	public static TiledTextureRegion boss10;
 	public static TiledTextureRegion boss11;
 	public static TiledTextureRegion boss19;
-	
 	public static TextureRegion xue1;
 	public static TextureRegion xue2;
-	//public static TextureRegion xue3;
-	
 	public static TextureRegion theme1Temp;
 	public static TextureRegion theme2Temp;
 	public static TextureRegion themeBG;
-	
 	public static TiledTextureRegion aidSkill1Temp;
 	public static TiledTextureRegion aidSkill2Temp;
-	
 	public static TextureRegion loadingBG;
 	public static TextureRegion loadingBG1;
 	public static TiledTextureRegion loadingBG2;
 	public static TiledTextureRegion loadingFont;
-	
-	public static TextureRegion themeLevelBG;
-	public static TextureRegion themeLevelLock;
-	
-	private static final int BOSS_NUM_ONE = 8;
-	public static TiledTextureRegion[] themeSceneOneBossTotalTT = new TiledTextureRegion[BOSS_NUM_ONE];
-	public static TextureRegion[] themeSceneOneBossInfoTR = new TextureRegion[BOSS_NUM_ONE];
+	//public static TextureRegion themeLevelBG;
+	//public static TextureRegion themeLevelLock;
+	private static final int THEME_1_BOSS_NUM = 8;
+	public static TiledTextureRegion[] themeSceneOneBossTotalTT = new TiledTextureRegion[THEME_1_BOSS_NUM];
+	public static TextureRegion[] themeSceneOneBossInfoTR = new TextureRegion[THEME_1_BOSS_NUM];
 	public static TextureRegion homeTR;
 	public static TextureRegion backTR;
+	public static TextureRegion gamePauseBG;
+	public static TiledTextureRegion gamePauseMenu;
 	
 	
 	public ResourceManager(){
@@ -243,12 +236,12 @@ public class ResourceManager extends Object{
 		if(themeBG == null){
 			themeBG = getLimitableTR("themeBG.png",mNormalTextureOption);
 		}
-		if(themeLevelBG == null){
-			themeLevelBG = getLimitableTR("themeLevelBG.png",mNormalTextureOption);
-		}
-		if(themeLevelLock == null){
-			themeLevelLock = getLimitableTR("themeLevelLock.png",mNormalTextureOption);
-		}
+//		if(themeLevelBG == null){
+//			themeLevelBG = getLimitableTR("themeLevelBG.png",mNormalTextureOption);
+//		}
+//		if(themeLevelLock == null){
+//			themeLevelLock = getLimitableTR("themeLevelLock.png",mNormalTextureOption);
+//		}
 		if(boss19 == null){
 			boss19 = getLimitableTTR("boss19.png",3,1,mNormalTextureOption);
 		}
@@ -313,8 +306,8 @@ public class ResourceManager extends Object{
 		if(clockTR == null){
 			clockTR = getLimitableTR("clock.png",mNormalTextureOption);
 		}
-		if(gameBG10 == null){
-			gameBG10 = getLimitableTR("bg10.jpg",mNormalTextureOption);
+		if(shareGameBG == null){
+			shareGameBG = getLimitableTR("shareGameBG.jpg",mNormalTextureOption);
 		}
 		if(xue1 == null){
 			xue1 = getLimitableTR("xue1.png",mNormalTextureOption);
@@ -330,6 +323,12 @@ public class ResourceManager extends Object{
 		}
 		if(numberTTR == null){
 			numberTTR = getLimitableTTR("number.png",12,1,mNormalTextureOption);
+		}
+		if(gamePauseBG == null){
+			gamePauseBG = getLimitableTR("gamePauseBG.png",mNormalTextureOption);
+		}
+		if(gamePauseMenu == null){
+			gamePauseMenu = getLimitableTTR("gamePauseMenu.png",1,3,mNormalTextureOption);
 		}
 		BitmapTextureAtlasTextureRegionFactory.setAssetBasePath(mPreviousAssetBasePath);
 	}

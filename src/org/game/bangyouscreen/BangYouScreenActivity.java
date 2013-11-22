@@ -12,7 +12,7 @@ import org.andengine.engine.options.resolutionpolicy.IResolutionPolicy;
 import org.andengine.entity.scene.Scene;
 import org.andengine.ui.activity.BaseGameActivity;
 import org.game.bangyouscreen.gameLevels.GameLevel;
-import org.game.bangyouscreen.layer.GameLayer;
+import org.game.bangyouscreen.layer.GamePauseLayer;
 import org.game.bangyouscreen.managers.ResourceManager;
 import org.game.bangyouscreen.managers.SceneManager;
 import org.game.bangyouscreen.scene.SplashScreen;
@@ -179,7 +179,7 @@ public class BangYouScreenActivity extends BaseGameActivity {
 				  ((GameLevel) SceneManager.getInstance().mCurrentScene).onResumeGameLevel();
 			  }else if(SceneManager.getInstance().mCurrentScene.getClass().equals(GameLevel.class)){
 				  ((GameLevel) SceneManager.getInstance().mCurrentScene).onPauseGameLevel();
-				  SceneManager.getInstance().showLayer(GameLayer.getInstance(), false, false, false);
+				  SceneManager.getInstance().showLayer(GamePauseLayer.getInstance(), false, false, false);
 			  }else{
 				  showExitConfirmDialog(); 
 			  }

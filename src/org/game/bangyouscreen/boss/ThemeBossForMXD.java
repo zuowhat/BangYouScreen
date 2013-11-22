@@ -12,10 +12,11 @@ import org.andengine.input.touch.detector.ScrollDetector;
 import org.andengine.input.touch.detector.ScrollDetector.IScrollDetectorListener;
 import org.andengine.input.touch.detector.SurfaceScrollDetector;
 import org.andengine.opengl.vbo.VertexBufferObjectManager;
-import org.game.bangyouscreen.gameLevels.GameLevel;
 import org.game.bangyouscreen.managers.ManagedScene;
 import org.game.bangyouscreen.managers.ResourceManager;
 import org.game.bangyouscreen.managers.SceneManager;
+import org.game.bangyouscreen.model.BossModel;
+import org.game.bangyouscreen.model.PlayerModel;
 import org.game.bangyouscreen.scene.MainMenuScene;
 import org.game.bangyouscreen.scene.ThemeScene;
 import org.game.bangyouscreen.util.AnimatedButtonSprite;
@@ -33,7 +34,7 @@ public class ThemeBossForMXD extends ManagedScene implements IScrollDetectorList
 	private SurfaceScrollDetector mScrollDetector;
 	private float directionPath;//判断手势方向，正-向右滑动，负-向左滑动
 	private float themeRInitX;
-	private int mCurrentTheme = 1;
+	private int mCurrentBoss = 1;
 	
 	private Rectangle mBossSlider;
 	private AnimatedButtonSprite[] bossPics;
@@ -133,18 +134,18 @@ public class ThemeBossForMXD extends ManagedScene implements IScrollDetectorList
 			float pDistanceX, float pDistanceY) {
 		mBossSlider.clearEntityModifiers();
 		if(directionPath > 0f){
-			if(mCurrentTheme == 1){
+			if(mCurrentBoss == 1){
 				mBossSlider.registerEntityModifier(new MoveXModifier(0.3F, mBossSlider.getX(), mBossSlider.getWidth()/2f));
 			}else{
-				mCurrentTheme--;
+				mCurrentBoss--;
 				themeRInitX = themeRInitX + mCameraWidth;
 				mBossSlider.registerEntityModifier(new MoveXModifier(0.3F, mBossSlider.getX(), themeRInitX));
 			}
 		}else{
-			if(mCurrentTheme == bossPics.length){
+			if(mCurrentBoss == bossPics.length){
 				mBossSlider.registerEntityModifier(new MoveXModifier(0.3F, mBossSlider.getX(), mBossSlider.getWidth()/2f - mCameraWidth*(bossPics.length - 1)));
 			}else{
-				mCurrentTheme++;
+				mCurrentBoss++;
 				themeRInitX = themeRInitX - mCameraWidth;
 				mBossSlider.registerEntityModifier(new MoveXModifier(0.3F, mBossSlider.getX(), themeRInitX));
 			}
@@ -228,5 +229,20 @@ public class ThemeBossForMXD extends ManagedScene implements IScrollDetectorList
 		 
 		 return themeR;
 	 }
+	 
+	 private PlayerModel getPlayerModel(){
+		 PlayerModel p = new PlayerModel();
+		
+		 return p;
+	 }
 
+	 private BossModel getBossModel(){
+		 BossModel b = new BossModel();
+		 b.setBossWorld(1);
+		 b.setBossLevel(mCurrentBoss);
+		 return b;
+	 }
+	 
+	 
+	 
 }

@@ -78,7 +78,7 @@ public class GameLevel extends ManagedScene {
 		bossHP = bossModel.getBossHP();
 		//背景
 		Sprite gameBG = new Sprite(0f,0f,bossModel.getGameBGTR(),mVertexBufferObjectManager);
-		gameBG.setScale(ResourceManager.getInstance().cameraHeight / ResourceManager.gameBG10.getHeight());
+		gameBG.setScale(ResourceManager.getInstance().cameraHeight / bossModel.getGameBGTR().getHeight());
 		gameBG.setPosition(mCameraWidth/2f,mCameraHeight/2f);
 		gameBG.setZIndex(-90);
 		attachChild(gameBG);

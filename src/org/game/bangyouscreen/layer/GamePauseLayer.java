@@ -1,23 +1,23 @@
 package org.game.bangyouscreen.layer;
 
 
-import java.util.Arrays;
-
 import org.andengine.engine.handler.IUpdateHandler;
 import org.andengine.entity.primitive.Rectangle;
+import org.andengine.entity.sprite.ButtonSprite;
+import org.andengine.entity.sprite.ButtonSprite.OnClickListener;
 import org.andengine.entity.sprite.Sprite;
 import org.andengine.opengl.vbo.VertexBufferObjectManager;
 import org.game.bangyouscreen.gameLevels.GameLevel;
 import org.game.bangyouscreen.managers.ManagedLayer;
 import org.game.bangyouscreen.managers.ResourceManager;
 import org.game.bangyouscreen.managers.SceneManager;
+import org.game.bangyouscreen.scene.MainMenuScene;
 import org.game.bangyouscreen.util.AnimatedButtonSprite;
-import org.game.bangyouscreen.util.AnimatedButtonSprite.OnClickListener;
 import org.game.bangyouscreen.util.EntityUtil;
 
-public class GameLayer extends ManagedLayer{
+public class GamePauseLayer extends ManagedLayer{
 	
-	private static final GameLayer INSTANCE = new GameLayer();
+	private static final GamePauseLayer INSTANCE = new GamePauseLayer();
 	//private static int themeNum = 0;
 	private static final float mCameraWidth = ResourceManager.getCamera().getWidth();
 	private static final float mCameraHeight = ResourceManager.getCamera().getHeight();
@@ -25,7 +25,7 @@ public class GameLayer extends ManagedLayer{
 	private Sprite LayerBG;
 	
 	
-	public static GameLayer getInstance() {
+	public static GamePauseLayer getInstance() {
 		//themeNum = theme;
 		return INSTANCE;
 	}
@@ -67,36 +67,49 @@ public class GameLayer extends ManagedLayer{
 		fadableBGRect.setColor(0f, 0f, 0f, 0.6f);
 		attachChild(fadableBGRect);
 		
-		LayerBG = new Sprite(0f, 0f,ResourceManager.themeLevelBG, mVertexBufferObjectManager);
+		LayerBG = new Sprite(0f, 0f,ResourceManager.gamePauseBG, mVertexBufferObjectManager);
 		//LayerBG.setSize(mCameraWidth/2f, mCameraHeight*(2f/3f));
 		EntityUtil.setSize("height", 2f/3f, LayerBG);
 		LayerBG.setPosition(mCameraWidth/2f, (mCameraHeight / 2f) + (ResourceManager.loadingBG.getHeight() / 2f));
 		attachChild(LayerBG);
 		
-//		if(themeNum == 1){
-//			
-//			
-//			int themeOneBossNum = BangYouScreenActivity.getIntFromSharedPreferences(BangYouScreenActivity.SHARED_PREFS_THEME_1);
-//			for(int i=0; i<themeOneBossNum+1; i++){
-//				ResourceManager.themeSceneOneBossTotalTT.
-//			}
-//		}
-		
-		AnimatedButtonSprite closeButton = new AnimatedButtonSprite(0f, 0f,ResourceManager.themeSceneOneBossTotalTT[0], mVertexBufferObjectManager);
-		closeButton.setPosition(LayerBG.getWidth()/2f, LayerBG.getHeight()/2f);
-		closeButton.setScale(3f);
-		long []frameDur = new long[4];
-		Arrays.fill(frameDur, 300);
-		closeButton.animate(frameDur,0,3,true);
-		closeButton.setOnClickListener(new OnClickListener(){
+		//重新开始
+		ButtonSprite restartBS = new ButtonSprite(0f,0f,ResourceManager.gamePauseMenu.getTextureRegion(1),mVertexBufferObjectManager);
+		restartBS.setPosition(LayerBG.getWidth()*(3f/4f), LayerBG.getHeight()/2f);
+		restartBS.setOnClickListener(new OnClickListener(){
 
-			public void onClick(AnimatedButtonSprite pButtonSprite,
+			public void onClick(ButtonSprite pButtonSprite,
 					float pTouchAreaLocalX, float pTouchAreaLocalY) {
-				onHideLayer();
-				//SceneManager.getInstance().showScene(GameLevel.getInstance());
+					onHideLayer();
+					//((GameLevel) SceneManager.getInstance().mCurrentScene).onResumeGameLevel();
 			}});
-		LayerBG.attachChild(closeButton);
-		registerTouchArea(closeButton);
+		LayerBG.attachChild(restartBS);
+		registerTouchArea(restartBS);
+		
+		//继续游戏
+		ButtonSprite continueBS = new ButtonSprite(0f,0f,ResourceManager.gamePauseMenu.getTextureRegion(0),mVertexBufferObjectManager);
+		continueBS.setPosition(restartBS.getX(), restartBS.getY()+restartBS.getHeight()+10f);
+		continueBS.setOnClickListener(new OnClickListener(){
+			public void onClick(ButtonSprite pButtonSprite,
+					float pTouchAreaLocalX, float pTouchAreaLocalY) {
+					onHideLayer();
+					((GameLevel) SceneManager.getInstance().mCurrentScene).onResumeGameLevel();
+			}});
+		LayerBG.attachChild(continueBS);
+		registerTouchArea(continueBS);
+		
+		//返回菜单
+		ButtonSprite goBackBS = new ButtonSprite(0f,0f,ResourceManager.gamePauseMenu.getTextureRegion(2),mVertexBufferObjectManager);
+		goBackBS.setPosition(restartBS.getX(), restartBS.getY()-restartBS.getHeight()-10f);
+		goBackBS.setOnClickListener(new OnClickListener(){
+			public void onClick(ButtonSprite pButtonSprite,
+					float pTouchAreaLocalX, float pTouchAreaLocalY) {
+					onHideLayer();
+					SceneManager.getInstance().showScene(MainMenuScene.getInstance());
+			}});
+		LayerBG.attachChild(goBackBS);
+		registerTouchArea(goBackBS);
+		
 		
 	}
 	
