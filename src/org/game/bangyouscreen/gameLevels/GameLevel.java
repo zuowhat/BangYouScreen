@@ -29,7 +29,7 @@ public class GameLevel extends ManagedScene {
 	
 	//private static final String TIME_FORMAT = "00:00";
 	//private Text mTimeText;
-	private float gameTime = 30f;//初始游戏时间
+	private float gameTime = 300f;//初始游戏时间
 	private int mScore = 0;
 	private GameTimer mGameTime;
 	private boolean mTenSeconds = false;
@@ -109,8 +109,8 @@ public class GameLevel extends ManagedScene {
 //		xue3Sprite.setPosition(xue1Sprite.getWidth()/2f, xue3Sprite.getHeight()/2f);
 //		xue3Sprite.setSize(xue1Sprite.getWidth()-10f, xue1Sprite.getHeight()-10f);
 		//xue1Sprite.attachChild(xue3Sprite);
-		xue3P = (xue2Sprite.getWidth()/2f)/bossHP;
-		xue3S = (xue2Sprite.getWidth())/bossHP;
+		//xue3P = (xue2Sprite.getWidth()/2f)/bossHP;
+		//xue3S = (xue2Sprite.getWidth())/bossHP;
 		
 		//BOSS移动
 		bossAS = new AnimatedSprite(0f,0f,bossModel.getBossTTR(),mVertexBufferObjectManager);
@@ -155,8 +155,8 @@ public class GameLevel extends ManagedScene {
 		
 		//时钟
 		ButtonSprite clockSprite = new ButtonSprite(0f,0f,ResourceManager.clockTR,mVertexBufferObjectManager);
-		//EntityUtil.setSize("width", 1f / 8f, clockSprite);
-		clockSprite.setPosition((1f/2f)*mCameraWidth, clockSprite.getHeight()/2f);
+		EntityUtil.setSize("width", 1f / 10f, clockSprite);
+		clockSprite.setPosition((1f/2f)*mCameraWidth, redButtonBS.getY());
 		clockSprite.setOnClickListener(new OnClickListener(){
 
 			@Override
@@ -170,7 +170,8 @@ public class GameLevel extends ManagedScene {
 		
 		//魔法按钮
 		ButtonSprite magicBS = new ButtonSprite(0f,0f,ResourceManager.clockTR,mVertexBufferObjectManager);
-		magicBS.setPosition((1f / 2f) * mCameraWidth + clockSprite.getWidth(), clockSprite.getHeight()/2f);
+		EntityUtil.setSize("width", 1f / 10f, magicBS);
+		magicBS.setPosition(clockSprite.getX()-(53f/400f)*mCameraWidth, clockSprite.getY());
 		magicBS.setOnClickListener(new OnClickListener(){
 
 			@Override
@@ -349,19 +350,38 @@ public class GameLevel extends ManagedScene {
 	 * @author zuowhat 2013-11-25
 	 * @since 1.0
 	 */
+	
 	private void updateHP(int type){
+		System.out.println("BOSSHP之前 --> "+ bossHP);
 		mScore++;
 		if(type == 1){
-			bossHP = bossHP - countPlayerDPS();
+			int dps = countPlayerDPS();
+			//mScore = mScore + dps;
+			xue3S = xue2Sprite.getWidth()-(xue2Sprite.getWidth()*dps)/bossHP;
+			xue3P = xue3S/2f;
+			bossHP = bossHP - dps;
+			System.out.println("BOSSHP之后 --> "+ bossHP);
 		}else{
-			bossHP = bossHP - countPlayerAOE();
+			int aoe = countPlayerAOE();
+			//mScore = mScore + aoe;
+			xue3S = xue2Sprite.getWidth()-(xue2Sprite.getWidth()*aoe)/bossHP;
+			xue3P = xue3S/2f;
+			bossHP = bossHP - aoe;
+			System.out.println("BOSSHP之后 --> "+ bossHP);
 		}
-		xue2Sprite.setPosition(xue2Sprite.getX()-xue3P, xue2Sprite.getY());
-		xue2Sprite.setSize(xue2Sprite.getWidth()-xue3S, xue2Sprite.getHeight());
+		if(bossHP <= 0){
+			xue2Sprite.setPosition(0, xue2Sprite.getY());
+			xue2Sprite.setSize(0, xue2Sprite.getHeight());
+		}else{
+			xue2Sprite.setPosition(xue3P, xue2Sprite.getY());
+			xue2Sprite.setSize(xue3S, xue2Sprite.getHeight());
+		}
 		mGameScore.addScore(mScore);
 		if(bossHP <= 0 && gameTime > 0){
 			bossAS.unregisterUpdateHandler(mPhysicsHandler);
 			unregisterUpdateHandler(gameRunTimer);
+			unregisterTouchArea(greenButtonBS);
+			unregisterTouchArea(redButtonBS);
 			gameWin();
 		}
 	}
