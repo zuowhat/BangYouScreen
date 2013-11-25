@@ -16,7 +16,7 @@ import org.game.bangyouscreen.layer.GamePauseLayer;
 import org.game.bangyouscreen.managers.ResourceManager;
 import org.game.bangyouscreen.managers.SceneManager;
 import org.game.bangyouscreen.scene.SplashScreen;
-import org.game.bangyouscreen.scene.ThemeScene;
+import org.game.bangyouscreen.util.DataConstant;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -25,32 +25,30 @@ import android.view.View.MeasureSpec;
 
 public class BangYouScreenActivity extends BaseGameActivity {
 	
-	public static final String SHARED_PREFS_MAIN = "MagneTankSettings";
-	public static final String SHARED_PREFS_THEME_1 = "ThemeScene1";
-	public static final String SHARED_PREFS_THEME_2 = "ThemeScene2";
+
 	
 	public static boolean getBooleanFromSharedPreferences(final String pStr) {
 		return ResourceManager.getActivity()
-				.getSharedPreferences(SHARED_PREFS_MAIN, 0)
+				.getSharedPreferences(DataConstant.SHARED_PREFS_MAIN, 0)
 				.getBoolean(pStr, false);
 	}
 
 	public static int getIntFromSharedPreferences(final String pStr) {
 		return ResourceManager.getActivity()
-				.getSharedPreferences(SHARED_PREFS_MAIN, 0).getInt(pStr, 0);
+				.getSharedPreferences(DataConstant.SHARED_PREFS_MAIN, 0).getInt(pStr, 0);
 	}
 
 	public static void writeBooleanToSharedPreferences(final String pStr,
 			final boolean pValue) {
 		ResourceManager.getActivity()
-				.getSharedPreferences(SHARED_PREFS_MAIN, 0).edit()
+				.getSharedPreferences(DataConstant.SHARED_PREFS_MAIN, 0).edit()
 				.putBoolean(pStr, pValue).apply();
 	}
 
 	public static int writeIntToSharedPreferences(final String pStr,
 			final int pValue) {
 		ResourceManager.getActivity()
-				.getSharedPreferences(SHARED_PREFS_MAIN, 0).edit()
+				.getSharedPreferences(DataConstant.SHARED_PREFS_MAIN, 0).edit()
 				.putInt(pStr, pValue).apply();
 		return pValue;
 	}

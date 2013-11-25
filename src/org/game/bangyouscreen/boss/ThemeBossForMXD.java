@@ -12,6 +12,7 @@ import org.andengine.input.touch.detector.ScrollDetector;
 import org.andengine.input.touch.detector.ScrollDetector.IScrollDetectorListener;
 import org.andengine.input.touch.detector.SurfaceScrollDetector;
 import org.andengine.opengl.vbo.VertexBufferObjectManager;
+import org.game.bangyouscreen.gameLevels.GameLevel;
 import org.game.bangyouscreen.managers.ManagedScene;
 import org.game.bangyouscreen.managers.ResourceManager;
 import org.game.bangyouscreen.managers.SceneManager;
@@ -21,6 +22,7 @@ import org.game.bangyouscreen.scene.MainMenuScene;
 import org.game.bangyouscreen.scene.ThemeScene;
 import org.game.bangyouscreen.util.AnimatedButtonSprite;
 import org.game.bangyouscreen.util.AnimatedButtonSprite.OnClickListener;
+import org.game.bangyouscreen.util.DataConstant;
 import org.game.bangyouscreen.util.EntityUtil;
 
 /**
@@ -167,7 +169,7 @@ public class ThemeBossForMXD extends ManagedScene implements IScrollDetectorList
 	 * @since 1.0
 	 */
 	 private Rectangle getScensSlider(){
-		 bossPics = new AnimatedButtonSprite[ResourceManager.themeSceneOneBossTotalTT.length];
+		 bossPics = new AnimatedButtonSprite[ResourceManager.mxdBoss_TTRArray.length];
 		 Sprite[] bossInfo = new Sprite[bossPics.length];
 		 float themeRWidth = mCameraWidth*bossPics.length;
 		 themeRInitX = themeRWidth/2f;
@@ -175,14 +177,14 @@ public class ThemeBossForMXD extends ManagedScene implements IScrollDetectorList
 				 mCameraHeight*(2f/3f),mVertexBufferObjectManager);
 		 themeR.setAlpha(0f);
 		 long []frameDur;
-		 
-		 for(int i=0; i<ResourceManager.themeSceneOneBossTotalTT.length; i++){
-			 if(ResourceManager.themeSceneOneBossTotalTT[i] != null){
+		//未完待写
+		 for(int i=0; i<ResourceManager.mxdBoss_TTRArray.length; i++){
+			 if(ResourceManager.mxdBoss_TTRArray[i] != null){
 				//BOSS动画
-				bossPics[i] = new AnimatedButtonSprite(0f, 0f,ResourceManager.themeSceneOneBossTotalTT[i], mVertexBufferObjectManager);
+				bossPics[i] = new AnimatedButtonSprite(0f, 0f,ResourceManager.mxdBoss_TTRArray[i], mVertexBufferObjectManager);
 				EntityUtil.setSize("height", 1f/2f, bossPics[i]);
 				//BOSS简介
-				bossInfo[i] = new Sprite(0f, 0f,ResourceManager.themeSceneOneBossInfoTR[i], mVertexBufferObjectManager);
+				bossInfo[i] = new Sprite(0f, 0f,ResourceManager.mxdBoss_InfoTRArray[i], mVertexBufferObjectManager);
 				EntityUtil.setSize("height", 1f/2f, bossInfo[i]);
 				
 				switch (i) {
@@ -192,25 +194,21 @@ public class ThemeBossForMXD extends ManagedScene implements IScrollDetectorList
 					Arrays.fill(frameDur, 100);
 					bossPics[i].animate(frameDur,0,5,true);
 					bossInfo[i].setPosition(3f*mCameraWidth/4f, themeR.getHeight()/2f);
-					bossPics[i].setOnClickListener(new OnClickListener(){
 
-						public void onClick(AnimatedButtonSprite pButtonSprite,
-								float pTouchAreaLocalX, float pTouchAreaLocalY) {
-							//SceneManager.getInstance().showScene(GameLevel.getInstance());
-						}});
 					break;
 				case 1:
 					frameDur = new long[5];
 					Arrays.fill(frameDur, 100);
 					bossPics[i].animate(frameDur,0,4,true);
-					bossPics[i].setOnClickListener(new OnClickListener(){
 
-						public void onClick(AnimatedButtonSprite pButtonSprite,
-								float pTouchAreaLocalX, float pTouchAreaLocalY) {
-							//SceneManager.getInstance().showScene(GameLevel.getInstance());
-						}});
 					break;
 				}
+				
+				bossPics[i].setOnClickListener(new OnClickListener(){
+					public void onClick(AnimatedButtonSprite pButtonSprite,
+							float pTouchAreaLocalX, float pTouchAreaLocalY) {
+						SceneManager.getInstance().showScene(new GameLevel(DataConstant.getMXDBoss(mCurrentBoss),DataConstant.getPlayerModel()));
+				}});
 				//BOSS图片和简介的位置
 				if(i > 0){
 					bossPics[i].setPosition(mCameraWidth+bossPics[i-1].getX(), themeR.getHeight()/2f);

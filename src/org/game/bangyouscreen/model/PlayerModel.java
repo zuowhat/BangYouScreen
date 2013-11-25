@@ -1,5 +1,9 @@
 package org.game.bangyouscreen.model;
 
+import org.andengine.opengl.texture.region.ITextureRegion;
+import org.andengine.opengl.texture.region.TextureRegion;
+import org.andengine.opengl.texture.region.TiledTextureRegion;
+
 /**
  * 玩家模型
  * @author zuowhat 2013-11-25
@@ -11,6 +15,8 @@ public class PlayerModel {
 	private int weaponNum;
 	/** 武器属性  */
 	private int weaponType;
+	/** 武器图标 */
+	private ITextureRegion weaponTR;
 	/** 武器攻击力上限  */
 	private int weaponDPSMax;
 	/** 武器攻击力下限  */
@@ -19,6 +25,10 @@ public class PlayerModel {
 	private int magicNum;
 	/** 魔法属性  */
 	private int magicType;
+	/** 魔法图标 */
+	private ITextureRegion magicTR;
+	/** 魔法效果  */
+	private TiledTextureRegion magicTTR;
 	/** 魔法攻击力上限  */
 	private int magicAOEMax;
 	/** 魔法攻击力下限  */
@@ -71,6 +81,25 @@ public class PlayerModel {
 	}
 	public void setMagicType(int magicType) {
 		this.magicType = magicType;
+	}
+	
+	public ITextureRegion getWeaponTR() {
+		return weaponTR;
+	}
+	public void setWeaponTR(ITextureRegion weaponTR) {
+		this.weaponTR = weaponTR;
+	}
+	public TiledTextureRegion getMagicTTR() {
+		return magicTTR;
+	}
+	public void setMagicTTR(TiledTextureRegion magicTTR) {
+		this.magicTTR = magicTTR;
+	}
+	public ITextureRegion getMagicTR() {
+		return magicTR;
+	}
+	public void setMagicTR(ITextureRegion magicTR) {
+		this.magicTR = magicTR;
 	}
 	
 }

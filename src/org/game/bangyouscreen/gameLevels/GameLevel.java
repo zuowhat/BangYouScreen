@@ -34,7 +34,7 @@ public class GameLevel extends ManagedScene {
 	private GameTimer mGameTime;
 	private boolean mTenSeconds = false;
 	private GameScore mGameScore;
-	private AnimatedSprite aidSkill1AS;
+	private AnimatedSprite magicAS;
 	private AnimatedSprite bossAS;
 	private static final float BOSS_VELOCITY = 50.0f;//BOSS移动速度
 	private PhysicsHandler mPhysicsHandler;
@@ -112,7 +112,7 @@ public class GameLevel extends ManagedScene {
 		xue3P = (xue2Sprite.getWidth()/2f)/bossHP;
 		xue3S = (xue2Sprite.getWidth())/bossHP;
 		
-		//BOSS
+		//BOSS移动
 		bossAS = new AnimatedSprite(0f,0f,bossModel.getBossTTR(),mVertexBufferObjectManager);
 		bossAS.setPosition(mCameraWidth/2f, mCameraHeight/2f);
 		EntityUtil.setSize("width", 0.32f, bossAS);
@@ -168,18 +168,18 @@ public class GameLevel extends ManagedScene {
 		attachChild(clockSprite);
 		registerTouchArea(clockSprite);
 		
-		//头像
-		ButtonSprite aiderHeadSprite = new ButtonSprite(0f,0f,ResourceManager.clockTR,mVertexBufferObjectManager);
-		aiderHeadSprite.setPosition((1f / 2f) * mCameraWidth + clockSprite.getWidth(), clockSprite.getHeight()/2f);
-		aiderHeadSprite.setOnClickListener(new OnClickListener(){
+		//魔法按钮
+		ButtonSprite magicBS = new ButtonSprite(0f,0f,ResourceManager.clockTR,mVertexBufferObjectManager);
+		magicBS.setPosition((1f / 2f) * mCameraWidth + clockSprite.getWidth(), clockSprite.getHeight()/2f);
+		magicBS.setOnClickListener(new OnClickListener(){
 
 			@Override
 			public void onClick(ButtonSprite pButtonSprite,
 					float pTouchAreaLocalX, float pTouchAreaLocalY) {
-				//辅助技能
-				aidSkill1AS = new AnimatedSprite(mCameraWidth/2f,mCameraHeight/2f,ResourceManager.aidSkill2Temp,mVertexBufferObjectManager);
-				aidSkill1AS.setScale(2f);
-				aidSkill1AS.animate(100,3,new IAnimationListener(){
+				//魔法效果
+				magicAS = new AnimatedSprite(mCameraWidth/2f,mCameraHeight/2f,playerModel.getMagicTTR(),mVertexBufferObjectManager);
+				//magicAS.setScale(2f);
+				magicAS.animate(100,3,new IAnimationListener(){
 
 					@Override
 					public void onAnimationStarted(AnimatedSprite pAnimatedSprite,
@@ -201,17 +201,17 @@ public class GameLevel extends ManagedScene {
 
 					@Override
 					public void onAnimationFinished(AnimatedSprite pAnimatedSprite) {
-						detachChild(aidSkill1AS);
-						aidSkill1AS = null;
+						detachChild(magicAS);
+						magicAS = null;
 						bossAS.animate(frameDur,0,1,true);
 						updateHP(2);
 					}
 				});
-				attachChild(aidSkill1AS);
+				attachChild(magicAS);
 				
 			}});
-		attachChild(aiderHeadSprite);
-		registerTouchArea(aiderHeadSprite);
+		attachChild(magicBS);
+		registerTouchArea(magicBS);
 		
 		
 
