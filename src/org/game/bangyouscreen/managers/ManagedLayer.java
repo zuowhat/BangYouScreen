@@ -2,9 +2,6 @@ package org.game.bangyouscreen.managers;
 
 import org.andengine.entity.scene.CameraScene;
 
-/**
- *** @author zuowhat
- **/
 public abstract class ManagedLayer extends CameraScene {
 
 	public static final float mSLIDE_PIXELS_PER_SECONDS = 3000f;

@@ -237,7 +237,11 @@ public class GameLevel extends ManagedScene {
 
 	}
 	
-	//游戏时间倒计时,BOSS移动
+	/**
+	 * 实时更新游戏状态
+	 * @author zuowhat 2013-11-25
+	 * @since 1.0
+	 */
 	private IUpdateHandler gameRunTimer = new IUpdateHandler() {
 
 		public void onUpdate(float pSecondsElapsed) {
@@ -291,14 +295,18 @@ public class GameLevel extends ManagedScene {
 			}
 			
 			//统计得分
-			mGameScore.adjustScore(mScore);
+			mGameScore.addScore(mScore);
 		}
 
 		@Override
 		public void reset() {}
 	};
 	
-	//暂停游戏
+	/**
+	 * 暂停游戏
+	 * @author zuowhat 2013-11-25
+	 * @since 1.0
+	 */
 	public void onPauseGameLevel(){
 		unregisterUpdateHandler(gameRunTimer);
 		setIgnoreUpdate(true);
@@ -306,7 +314,11 @@ public class GameLevel extends ManagedScene {
 		unregisterTouchArea(redButtonBS);
 	}
 	
-	//继续游戏
+	/**
+	 * 继续游戏
+	 * @author zuowhat 2013-11-25
+	 * @since 1.0
+	 */
 	public void onResumeGameLevel(){
 		registerUpdateHandler(gameRunTimer);
 		setIgnoreUpdate(false);
@@ -314,17 +326,29 @@ public class GameLevel extends ManagedScene {
 		registerTouchArea(redButtonBS);
 	}
 	
-	//游戏胜利
+	/**
+	 * 游戏胜利
+	 * @author zuowhat 2013-11-25
+	 * @since 1.0
+	 */
 	private void gameWin(){
 		
 	}
 	
-	//游戏失败
+	/**
+	 * 游戏失败
+	 * @author zuowhat 2013-11-25
+	 * @since 1.0
+	 */
 	private void gameFail(){
 		
 	}
 	
-	//更新BOSS血量和得分
+	/**
+	 * 更新BOSS血量和得分
+	 * @author zuowhat 2013-11-25
+	 * @since 1.0
+	 */
 	private void updateHP(int type){
 		mScore++;
 		if(type == 1){
@@ -332,32 +356,32 @@ public class GameLevel extends ManagedScene {
 		}else{
 			bossHP = bossHP - countPlayerAOE();
 		}
-		if(bossHP > 0 && gameTime > 0){
-			xue2Sprite.setPosition(xue2Sprite.getX()-xue3P, xue2Sprite.getY());
-			xue2Sprite.setSize(xue2Sprite.getWidth()-xue3S, xue2Sprite.getHeight());
-			mGameScore.adjustScore(mScore);
-//			if(bossHP == 0 && gameTime > 0){
-//				bossAS.unregisterUpdateHandler(mPhysicsHandler);
-//				unregisterUpdateHandler(gameRunTimer);
-//			}
-		}else if(bossHP <= 0 && gameTime > 0){
-			xue2Sprite.setPosition(xue2Sprite.getX()-xue3P, xue2Sprite.getY());
-			xue2Sprite.setSize(xue2Sprite.getWidth()-xue3S, xue2Sprite.getHeight());
-			mGameScore.adjustScore(mScore);
+		xue2Sprite.setPosition(xue2Sprite.getX()-xue3P, xue2Sprite.getY());
+		xue2Sprite.setSize(xue2Sprite.getWidth()-xue3S, xue2Sprite.getHeight());
+		mGameScore.addScore(mScore);
+		if(bossHP <= 0 && gameTime > 0){
 			bossAS.unregisterUpdateHandler(mPhysicsHandler);
 			unregisterUpdateHandler(gameRunTimer);
 			gameWin();
 		}
 	}
 	
-	//计算玩家物理攻击力
+	/**
+	 * 计算玩家物理攻击力
+	 * @author zuowhat 2013-11-25
+	 * @since 1.0
+	 */
 	private int countPlayerDPS(){
 		float playerDPS = (float)(Math.random()*(playerModel.getWeaponDPSMax() - playerModel.getWeaponDPSMin())) + playerModel.getWeaponDPSMin();
 		float bossDEF = (float)(Math.random()*(bossModel.getMaxBossDEF() - bossModel.getMinBossDEF())) + bossModel.getMinBossDEF();
 		return Math.round(playerDPS * dpsXS - bossDEF);
 	}
 	
-	//计算玩家物理伤害系数
+	/**
+	 * 计算玩家物理伤害系数
+	 * @author zuowhat 2013-11-25
+	 * @since 1.0
+	 */
 	private void countDpsXS(){
 		int wt = playerModel.getWeaponType();
 		int bd = bossModel.getBossDefType();
@@ -424,14 +448,22 @@ public class GameLevel extends ManagedScene {
 		}
 	}
 	
-	//计算玩家魔法攻击力
+	/**
+	 * 计算玩家魔法攻击力
+	 * @author zuowhat 2013-11-25
+	 * @since 1.0
+	 */
 	private int countPlayerAOE(){
 		float playerAOE = (float)(Math.random()*(playerModel.getMagicAOEMax() - playerModel.getMagicAOEMin())) + playerModel.getMagicAOEMin();
 		float bossDEF = (float)(Math.random()*(bossModel.getMaxBossDEF() - bossModel.getMinBossDEF())) + bossModel.getMinBossDEF();
 		return Math.round(playerAOE * aoeXS - bossDEF);
 	}
 	
-	//计算玩家魔法伤害系数
+	/**
+	 * 计算玩家魔法伤害系数
+	 * @author zuowhat 2013-11-25
+	 * @since 1.0
+	 */
 	private void countAoeXS(){
 		int wt = playerModel.getMagicType();
 		int bd = bossModel.getBossDefType();

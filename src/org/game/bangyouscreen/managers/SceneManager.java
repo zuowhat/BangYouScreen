@@ -6,8 +6,11 @@ import org.andengine.engine.handler.IUpdateHandler;
 import org.andengine.entity.scene.Scene;
 import org.game.bangyouscreen.scene.MainMenuScene;
 
-
-
+/**
+ * 管理场景和层 
+ * @author zuowhat 2013-11-25
+ * @version 1.0
+ */
 public class SceneManager {
 	
 	private static final SceneManager INSTANCE = new SceneManager();
@@ -83,6 +86,8 @@ public class SceneManager {
 	
 	/**
 	 * 显示场景
+	 * @author zuowhat 2013-11-25
+	 * @since 1.0
 	 */
 	public void showScene(ManagedScene pManagedScene){
 		//初始化镜头

@@ -23,7 +23,11 @@ import org.game.bangyouscreen.util.AnimatedButtonSprite;
 import org.game.bangyouscreen.util.AnimatedButtonSprite.OnClickListener;
 import org.game.bangyouscreen.util.EntityUtil;
 
-
+/**
+ * 冒险岛主题场景 
+ * @author zuowhat 2013-11-25
+ * @version 1.0
+ */
 public class ThemeBossForMXD extends ManagedScene implements IScrollDetectorListener{
 
 	private static final ThemeBossForMXD INSTANCE = new ThemeBossForMXD();
@@ -157,9 +161,11 @@ public class ThemeBossForMXD extends ManagedScene implements IScrollDetectorList
 	    return super.onSceneTouchEvent(paramTouchEvent);
 	}
 	
-	 /**
-	  * BOSS滑块
-	  */
+	/**
+	 * BOSS滑块
+	 * @author zuowhat 2013-11-25
+	 * @since 1.0
+	 */
 	 private Rectangle getScensSlider(){
 		 bossPics = new AnimatedButtonSprite[ResourceManager.themeSceneOneBossTotalTT.length];
 		 Sprite[] bossInfo = new Sprite[bossPics.length];

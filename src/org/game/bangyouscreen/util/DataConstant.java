@@ -3,6 +3,11 @@ package org.game.bangyouscreen.util;
 import org.game.bangyouscreen.managers.ResourceManager;
 import org.game.bangyouscreen.model.BossModel;
 
+/**
+ * 游戏数据常量
+ * @author zuowhat 2013-11-25
+ * @version 1.0
+ */
 public class DataConstant {
 	
 	

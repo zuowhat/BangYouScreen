@@ -1,6 +1,10 @@
 package org.game.bangyouscreen.scene;
 
-
+/**
+ * 主题选择画面
+ * @author zuowhat 2013-11-25
+ * @version 1.0
+ */
 import org.andengine.entity.modifier.MoveXModifier;
 import org.andengine.entity.primitive.Rectangle;
 import org.andengine.entity.scene.Scene;
@@ -183,11 +187,11 @@ public class ThemeScene extends ManagedScene implements IScrollDetectorListener{
 	    return super.onSceneTouchEvent(paramTouchEvent);
 	  }
 	 
-
-	 
-	 /**
-	  * 主题滑块
-	  */
+	/**
+	 * 主题滑块
+	 * @author zuowhat 2013-11-25
+	 * @since 1.0
+	 */
 	 private Rectangle getScensSlider(){
 		 float themeRWidth = mCameraWidth*themePics.length;
 		 themeRInitX = themeRWidth/2f;

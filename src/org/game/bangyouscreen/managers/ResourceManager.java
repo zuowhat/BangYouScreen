@@ -22,6 +22,11 @@ import org.game.bangyouscreen.BangYouScreenActivity;
 import android.content.Context;
 import android.graphics.Typeface;
 
+/**
+ * 游戏资源管理 
+ * @author zuowhat 2013-11-25
+ * @version 1.0
+ */
 public class ResourceManager extends Object{
 	
 	private static final ResourceManager INSTANCE = new ResourceManager();
@@ -95,7 +100,11 @@ public class ResourceManager extends Object{
 		return (SmoothCamera) getInstance().engine.getCamera();
 	}
 	
-	//用于复位镜头
+	/**
+	 * 用于复位镜头
+	 * @author zuowhat 2013-11-25
+	 * @since 1.0
+	 */
 	public static void setupForMenus() {
 		final SmoothCamera sc = ResourceManager.getCamera();
 		sc.setBoundsEnabled(false);
@@ -174,6 +183,11 @@ public class ResourceManager extends Object{
 		getInstance().loadSharedResources();
 	}
 	
+	/**
+	 * 完成关卡后，加载下一个BOSS资源 
+	 * @author zuowhat 2013-11-25
+	 * @since 1.0
+	 */
 	public static void loadBossResources(){
 		getInstance().loadThemeBoss();
 	}

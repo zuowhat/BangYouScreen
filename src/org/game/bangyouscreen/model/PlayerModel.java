@@ -1,15 +1,28 @@
 package org.game.bangyouscreen.model;
 
+/**
+ * 玩家模型
+ * @author zuowhat 2013-11-25
+ * @version 1.0
+ */
 public class PlayerModel {
 	
-	private int weaponNum;//武器编号
-	private int weaponType;//武器属性
-	private int weaponDPSMax;//武器攻击力上限
-	private int weaponDPSMin;//武器攻击力下限
-	private int magicNum;//魔法编号
-	private int magicType;//魔法属性
-	private int magicAOEMax;//魔法攻击力上限
-	private int magicAOEMin;//魔法攻击力下限
+	/** 武器编号  */
+	private int weaponNum;
+	/** 武器属性  */
+	private int weaponType;
+	/** 武器攻击力上限  */
+	private int weaponDPSMax;
+	/** 武器攻击力下限  */
+	private int weaponDPSMin;
+	/** 魔法编号  */
+	private int magicNum;
+	/** 魔法属性  */
+	private int magicType;
+	/** 魔法攻击力上限  */
+	private int magicAOEMax;
+	/** 魔法攻击力下限  */
+	private int magicAOEMin;
 	
 	public int getWeaponNum() {
 		return weaponNum;

@@ -15,7 +15,7 @@ float mY = 0.0F;
 
 public GameScore(){}
 
-public void adjustScore(float scoreNum){
+public void addScore(float scoreNum){
 	if(scoreNum >= 10000){
 		mDigitsSprite[0].setCurrentTileIndex((int)(scoreNum/10000));
 		scoreNum = scoreNum%10000;

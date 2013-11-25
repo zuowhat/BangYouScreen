@@ -6,6 +6,11 @@ import org.andengine.entity.sprite.Sprite;
 import org.andengine.opengl.vbo.VertexBufferObjectManager;
 import org.game.bangyouscreen.managers.ResourceManager;
 
+/**
+ * 加载画面
+ * @author zuowhat 2013-11-25
+ * @version 1.0
+ */
 public class LoadingScene extends Scene{
 	
 	private static final LoadingScene INSTANCE = new LoadingScene();

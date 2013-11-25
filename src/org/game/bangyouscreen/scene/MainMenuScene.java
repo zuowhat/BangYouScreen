@@ -14,7 +14,11 @@ import org.game.bangyouscreen.managers.ResourceManager;
 import org.game.bangyouscreen.managers.SceneManager;
 import org.game.bangyouscreen.util.EntityUtil;
 
-
+/**
+ * 主菜单画面
+ * @author zuowhat 2013-11-25
+ * @version 1.0
+ */
 public class MainMenuScene extends ManagedScene{
 	
 	private static final MainMenuScene INSTANCE = new MainMenuScene();

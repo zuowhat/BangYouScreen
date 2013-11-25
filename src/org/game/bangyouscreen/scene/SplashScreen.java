@@ -23,12 +23,10 @@ import org.game.bangyouscreen.managers.ManagedScene;
 import org.game.bangyouscreen.managers.ResourceManager;
 import org.game.bangyouscreen.managers.SceneManager;
 
-
 /**
  * 启动画面
- * @author zuowhat
+ * @author zuowhat 2013-11-25
  * @version 1.0
- * @since 2013.08.26 
  */
 public class SplashScreen extends ManagedScene{
 	

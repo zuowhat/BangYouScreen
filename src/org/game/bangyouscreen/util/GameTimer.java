@@ -14,8 +14,7 @@ import org.andengine.util.modifier.ease.EaseLinear;
 import org.game.bangyouscreen.gameLevels.GameLevel;
 import org.game.bangyouscreen.managers.ResourceManager;
 
-public class GameTimer implements IUpdateHandler, IEntityModifier.IEntityModifierListener
-{
+public class GameTimer implements IUpdateHandler, IEntityModifier.IEntityModifierListener{
 int mAddAlmond = 0;
 int mAddClock = 0;
 int mAddIronAcorn = 0;

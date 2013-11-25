@@ -3,16 +3,29 @@ package org.game.bangyouscreen.model;
 import org.andengine.opengl.texture.region.TextureRegion;
 import org.andengine.opengl.texture.region.TiledTextureRegion;
 
+/**
+ * BOSS模型 
+ * @author zuowhat 2013-11-25
+ * @version 1.0
+ */
 public class BossModel {
 	
-	private int bossWorld;//BOSS主题编号
-	private int bossLevel;//BOSS编号
-	private TextureRegion gameBGTR;//游戏背景
-	private TiledTextureRegion bossTTR;//BOSS纹理
-	private int bossHP;//BOSS血量
-	private int bossDefType;//BOSS属性
-	private int minBossDEF;//BOSS防御下限
-	private int maxBossDEF;//BOSS防御上限
+	/** BOSS主题编号  */
+	private int bossWorld;
+	/** BOSS编号  */
+	private int bossLevel;
+	/** 游戏背景  */
+	private TextureRegion gameBGTR;
+	/** BOSS纹理  */
+	private TiledTextureRegion bossTTR;
+	/** BOSS血量  */
+	private int bossHP;
+	/** BOSS属性  */
+	private int bossDefType;
+	/** BOSS防御下限  */
+	private int minBossDEF;
+	/** BOSS防御上限  */
+	private int maxBossDEF;
 	
 	public TextureRegion getGameBGTR() {
 		return gameBGTR;

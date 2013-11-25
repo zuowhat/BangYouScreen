@@ -4,16 +4,32 @@ import org.andengine.entity.scene.Scene;
 
 public abstract class ManagedScene extends Scene{
 	
-	//是否包含加载画面
+	/**
+	 * 是否包含加载画面
+	 * @author zuowhat 2013-11-25
+	 * @since 1.0
+	 */
 	public final boolean hasLoadingScreen;
 	
-	//加载画面显示多长时间，在SceneManaher中设置
+	/**
+	 * 加载画面显示多长时间，在SceneManaher中设置
+	 * @author zuowhat 2013-11-25
+	 * @since 1.0
+	 */
 	public float elapsedLoadingScreenTime = 0f;
 	
-	//加载画面最少显示的时间（单位秒）
+	/**
+	 * 加载画面最少显示的时间（单位秒）
+	 * @author zuowhat 2013-11-25
+	 * @since 1.0
+	 */
 	public final float minLoadingScreenTime;
 	
-	//场景是否被加载
+	/**
+	 * 场景是否被加载
+	 * @author zuowhat 2013-11-25
+	 * @since 1.0
+	 */
 	public boolean isLoaded = false;
 	
 	public ManagedScene(){
