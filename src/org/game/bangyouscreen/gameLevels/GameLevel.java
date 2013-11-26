@@ -169,7 +169,7 @@ public class GameLevel extends ManagedScene {
 		registerTouchArea(clockSprite);
 		
 		//魔法按钮
-		ButtonSprite magicBS = new ButtonSprite(0f,0f,ResourceManager.clockTR,mVertexBufferObjectManager);
+		ButtonSprite magicBS = new ButtonSprite(0f,0f,playerModel.getMagicTR(),mVertexBufferObjectManager);
 		EntityUtil.setSize("width", 1f / 10f, magicBS);
 		magicBS.setPosition(clockSprite.getX()-(53f/400f)*mCameraWidth, clockSprite.getY());
 		magicBS.setOnClickListener(new OnClickListener(){
@@ -214,9 +214,11 @@ public class GameLevel extends ManagedScene {
 		attachChild(magicBS);
 		registerTouchArea(magicBS);
 		
-		
-
-		
+		//武器图标
+		Sprite weaponBS = new Sprite(0f,0f,playerModel.getMagicTR(),mVertexBufferObjectManager);
+		EntityUtil.setSize("width", 1f / 10f, weaponBS);
+		magicBS.setPosition(magicBS.getX()-(53f/400f)*mCameraWidth, clockSprite.getY());
+		attachChild(weaponBS);
 
 		
 		
@@ -350,7 +352,6 @@ public class GameLevel extends ManagedScene {
 	 * @author zuowhat 2013-11-25
 	 * @since 1.0
 	 */
-	
 	private void updateHP(int type){
 		System.out.println("BOSSHP之前 --> "+ bossHP);
 		mScore++;

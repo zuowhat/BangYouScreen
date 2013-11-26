@@ -133,7 +133,7 @@ public class DataConstant {
 				p.setMagicAOEMax(20);
 				p.setMagicAOEMin(15);
 				p.setMagicTR(ResourceManager.magicTTR.getTextureRegion(4));
-				p.setMagicTTR(ResourceManager.magicASTTRArray[0]);
+				p.setMagicTTR(ResourceManager.magicASTTRArray[1]);
 			break;
 		}
 		
