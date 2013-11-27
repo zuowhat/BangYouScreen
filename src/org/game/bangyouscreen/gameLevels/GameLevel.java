@@ -24,6 +24,7 @@ import org.game.bangyouscreen.util.GameTimer;
 
 public class GameLevel extends ManagedScene {
 	
+	public GameLevel INSTANCE = this;
 	private static final float mCameraWidth = ResourceManager.getCamera().getWidth();
 	private static final float mCameraHeight = ResourceManager.getCamera().getHeight();
 	private VertexBufferObjectManager mVertexBufferObjectManager = ResourceManager.getEngine().getVertexBufferObjectManager();
@@ -106,7 +107,7 @@ public class GameLevel extends ManagedScene {
 		//BOSS移动
 		bossAS = new AnimatedSprite(0f,0f,bossModel.getBossTTR(),mVertexBufferObjectManager);
 		bossAS.setPosition(mCameraWidth/2f, mCameraHeight/2f);
-		EntityUtil.setSize("heigh", 0.5f, bossAS);
+		EntityUtil.setSize("height", 0.5f, bossAS);
 		//bossAS.setScale(2f);
 		frameDur = new long[2];
 		Arrays.fill(frameDur, 300);
@@ -250,10 +251,21 @@ public class GameLevel extends ManagedScene {
 		
 	}
 
-	@Override
 	public void onUnloadScene() {
 		ResourceManager.getInstance().engine.getEngineOptions().getTouchOptions().setNeedsMultiTouch(false);
 		ResourceManager.getInstance().engine.setTouchController(new SingleTouchController());
+		ResourceManager.getInstance().engine.runOnUpdateThread(new Runnable() {
+			public void run() {
+				detachChildren();
+				for(int i = 0; i < INSTANCE.getChildCount(); i++){
+					INSTANCE.getChildByIndex(i).dispose();
+					INSTANCE.getChildByIndex(i).clearEntityModifiers();
+					INSTANCE.getChildByIndex(i).clearUpdateHandlers();
+				}
+				INSTANCE.clearEntityModifiers();
+				INSTANCE.clearTouchAreas();
+				INSTANCE.clearUpdateHandlers();
+			}});
 	}
 
 	@Override
@@ -516,63 +528,63 @@ public class GameLevel extends ManagedScene {
 		int bd = bossModel.getBossDefType();
 		if(wt == 1){
 			if(bd == 1){
-				dpsXS = 1f;
+				aoeXS = 1f;
 			}else if(bd == 2){
-				dpsXS = 2f;
+				aoeXS = 2f;
 			}else if(bd == 3){
-				dpsXS = 0.5f;
+				aoeXS = 0.5f;
 			}else if(bd == 4){
-				dpsXS = 1f;
+				aoeXS = 1f;
 			}else if(bd == 5){
-				dpsXS = 0.5f;
+				aoeXS = 0.5f;
 			}
 		}else if(wt == 2){
 			if(bd == 1){
-				dpsXS = 0.5f;
+				aoeXS = 0.5f;
 			}else if(bd == 2){
-				dpsXS = 1f;
+				aoeXS = 1f;
 			}else if(bd == 3){
-				dpsXS = 2f;
+				aoeXS = 2f;
 			}else if(bd == 4){
-				dpsXS = 1f;
+				aoeXS = 1f;
 			}else if(bd == 5){
-				dpsXS = 0.5f;
+				aoeXS = 0.5f;
 			}
 		}else if(wt == 3){
 			if(bd == 1){
-				dpsXS = 2f;
+				aoeXS = 2f;
 			}else if(bd == 2){
-				dpsXS = 0.5f;
+				aoeXS = 0.5f;
 			}else if(bd == 3){
-				dpsXS = 1f;
+				aoeXS = 1f;
 			}else if(bd == 4){
-				dpsXS = 1f;
+				aoeXS = 1f;
 			}else if(bd == 5){
-				dpsXS = 0.5f;
+				aoeXS = 0.5f;
 			}
 		}else if(wt == 4){
 			if(bd == 1){
-				dpsXS = 1f;
+				aoeXS = 1f;
 			}else if(bd == 2){
-				dpsXS = 1f;
+				aoeXS = 1f;
 			}else if(bd == 3){
-				dpsXS = 1f;
+				aoeXS = 1f;
 			}else if(bd == 4){
-				dpsXS = 1f;
+				aoeXS = 1f;
 			}else if(bd == 5){
-				dpsXS = 0.5f;
+				aoeXS = 0.5f;
 			}
 		}else if(wt == 5){
 			if(bd == 1){
-				dpsXS = 2f;
+				aoeXS = 2f;
 			}else if(bd == 2){
-				dpsXS = 2f;
+				aoeXS = 2f;
 			}else if(bd == 3){
-				dpsXS = 2f;
+				aoeXS = 2f;
 			}else if(bd == 4){
-				dpsXS = 2f;
+				aoeXS = 2f;
 			}else if(bd == 5){
-				dpsXS = 1f;
+				aoeXS = 1f;
 			}
 		}
 	}

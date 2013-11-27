@@ -73,7 +73,6 @@ public class ResourceManager extends Object{
 	public static TiledTextureRegion weaponTTR;
 	public static TiledTextureRegion magicTTR;
 	public static TiledTextureRegion[] magicASTTRArray = new TiledTextureRegion[DataConstant.MAGIC_NUM];
-	public static TextureRegion propsBG;
 	public static TiledTextureRegion propsTTR;
 	
 	
@@ -368,9 +367,6 @@ public class ResourceManager extends Object{
 		}
 		if(gamePauseMenu == null){
 			gamePauseMenu = getLimitableTTR("gamePauseMenu.png",1,3,mNormalTextureOption);
-		}
-		if(propsBG == null){
-			propsBG = getLimitableTR("propsBG.png",mNormalTextureOption);
 		}
 		BitmapTextureAtlasTextureRegionFactory.setAssetBasePath(mPreviousAssetBasePath);
 	}

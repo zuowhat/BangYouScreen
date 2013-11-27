@@ -37,7 +37,7 @@ public class DataConstant {
 		b.setBossTTR(ResourceManager.mxdBoss_TTRArray[bossNum-1]);
 		switch(bossNum){
 			case 1:
-				b.setBossHP(120);
+				b.setBossHP(500);
 				b.setBossDefType(3);
 				b.setMaxBossDEF(10);
 				b.setMinBossDEF(5);

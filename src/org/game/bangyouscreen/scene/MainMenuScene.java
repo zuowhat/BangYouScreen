@@ -116,7 +116,7 @@ public class MainMenuScene extends ManagedScene{
 				super.onManagedUpdate(pSecondsElapsed);
 				if(!hasLoaded){
 					hasLoaded = true;
-					this.registerEntityModifier(new MoveModifier (1f,0,-mCameraHeight,0,0));
+					this.registerEntityModifier(new MoveModifier (0.7f,0,-mCameraHeight,0,0));
 				}
 			}
 		};
@@ -124,7 +124,7 @@ public class MainMenuScene extends ManagedScene{
 		mainMenuTitleSprite = new Sprite(0f, mCameraHeight + ResourceManager.mainMenuTitleTR.getHeight(), ResourceManager.mainMenuTitleTR, mVertexBufferObjectManager);
 		//mainMenuTitleSprite.setSize(0.5f * mCameraWidth, (0.5f * mCameraWidth)/(mainMenuTitleSprite.getWidth() / mainMenuTitleSprite.getHeight()));
 		EntityUtil.setSize("width", 0.4f, mainMenuTitleSprite);
-		mainMenuTitleSprite.registerEntityModifier(new MoveModifier(1f, mCameraWidth / 2f, 
+		mainMenuTitleSprite.registerEntityModifier(new MoveModifier(0.7f, mCameraWidth / 2f, 
 				mainMenuTitleSprite.getY(), mCameraWidth / 2f, mCameraHeight - (mainMenuTitleSprite.getHeight() / 2f)));
 		mainMenuTitleSprite.setZIndex(-80);
 		

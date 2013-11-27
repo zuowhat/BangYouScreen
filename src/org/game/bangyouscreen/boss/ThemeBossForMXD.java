@@ -40,7 +40,7 @@ public class ThemeBossForMXD extends ManagedScene implements IScrollDetectorList
 	private SurfaceScrollDetector mScrollDetector;
 	private float directionPath;//判断手势方向，正-向右滑动，负-向左滑动
 	private float themeRInitX;
-	private int mCurrentBoss = 1;
+	private int mCurrentBoss;
 	
 	private Rectangle mBossSlider;
 	private AnimatedButtonSprite[] bossPics;
@@ -63,6 +63,7 @@ public class ThemeBossForMXD extends ManagedScene implements IScrollDetectorList
 	}
 
 	public void onLoadScene() {
+		mCurrentBoss = 1;
 		Sprite themeBGSprite = new Sprite(0f,0f,ResourceManager.themeBG,mVertexBufferObjectManager);
 		//themeBGSprite.setScale(ResourceManager.getInstance().cameraHeight / ResourceManager.themeBG.getHeight());
 		themeBGSprite.setSize(mCameraWidth, mCameraHeight);
