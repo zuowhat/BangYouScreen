@@ -6,7 +6,7 @@ import org.game.bangyouscreen.managers.ResourceManager;
 
 public class GameScore{
 private float mCurrentScore = 0.0F;
-private AnimatedSprite[] mDigitsSprite = new AnimatedSprite[5];
+public AnimatedSprite[] mDigitsSprite = new AnimatedSprite[5];
 float mScale = 1.0F;
 private int mScore = 0;
 boolean mShowZero = false;

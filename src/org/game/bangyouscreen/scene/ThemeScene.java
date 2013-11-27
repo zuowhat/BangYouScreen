@@ -120,7 +120,6 @@ public class ThemeScene extends ManagedScene implements IScrollDetectorListener{
 				INSTANCE.clearTouchAreas();
 				INSTANCE.clearUpdateHandlers();
 			}});
-		
 	}
 
 	@Override

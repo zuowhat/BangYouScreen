@@ -51,7 +51,6 @@ public class ResourceManager extends Object{
 	public static TextureRegion menuClouds2;
 	public static TiledTextureRegion greenButtonTTR;
 	public static TiledTextureRegion redButtonTTR;
-	public static TextureRegion clockTR;
 	public static TextureRegion shareGameBG;
 	public static TiledTextureRegion boss10;
 	public static TiledTextureRegion boss11;
@@ -65,18 +64,19 @@ public class ResourceManager extends Object{
 	public static TextureRegion loadingBG1;
 	public static TiledTextureRegion loadingBG2;
 	public static TiledTextureRegion loadingFont;
-	//public static TextureRegion themeLevelBG;
-	//public static TextureRegion themeLevelLock;
-	private static final int THEME_1_BOSS_NUM = 8;
-	public static TiledTextureRegion[] mxdBoss_TTRArray = new TiledTextureRegion[THEME_1_BOSS_NUM];
-	public static TextureRegion[] mxdBoss_InfoTRArray = new TextureRegion[THEME_1_BOSS_NUM];
+	public static TiledTextureRegion[] mxdBoss_TTRArray = new TiledTextureRegion[DataConstant.THEME_1_BOSS_NUM];
+	public static TextureRegion[] mxdBoss_InfoTRArray = new TextureRegion[DataConstant.THEME_1_BOSS_NUM];
 	public static TextureRegion homeTR;
 	public static TextureRegion backTR;
 	public static TextureRegion gamePauseBG;
 	public static TiledTextureRegion gamePauseMenu;
 	public static TiledTextureRegion weaponTTR;
 	public static TiledTextureRegion magicTTR;
-	public static TiledTextureRegion[] magicASTTRArray = new TiledTextureRegion[10];
+	public static TiledTextureRegion[] magicASTTRArray = new TiledTextureRegion[DataConstant.MAGIC_NUM];
+	public static TextureRegion propsBG;
+	public static TiledTextureRegion propsTTR;
+	
+	
 	
 	public ResourceManager(){
 	}
@@ -243,6 +243,9 @@ public class ResourceManager extends Object{
 		if(magicTTR == null){
 			magicTTR = getLimitableTTR("magic.png",3,4,mNormalTextureOption);
 		}
+		if(propsTTR == null){
+			propsTTR = getLimitableTTR("props.png",2,2,mNormalTextureOption);
+		}
 		//未完待写
 		for(int i=0; i<magicASTTRArray.length; i++){
 			if(magicASTTRArray[i] == null){
@@ -348,9 +351,6 @@ public class ResourceManager extends Object{
 		if(redButtonTTR == null){
 			redButtonTTR = getLimitableTTR("redbutton.png",2,1,mNormalTextureOption);
 		}
-		if(clockTR == null){
-			clockTR = getLimitableTR("clock.png",mNormalTextureOption);
-		}
 		if(shareGameBG == null){
 			shareGameBG = getLimitableTR("shareGameBG.jpg",mNormalTextureOption);
 		}
@@ -368,6 +368,9 @@ public class ResourceManager extends Object{
 		}
 		if(gamePauseMenu == null){
 			gamePauseMenu = getLimitableTTR("gamePauseMenu.png",1,3,mNormalTextureOption);
+		}
+		if(propsBG == null){
+			propsBG = getLimitableTR("propsBG.png",mNormalTextureOption);
 		}
 		BitmapTextureAtlasTextureRegionFactory.setAssetBasePath(mPreviousAssetBasePath);
 	}

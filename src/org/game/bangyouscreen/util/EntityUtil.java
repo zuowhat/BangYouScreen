@@ -12,5 +12,13 @@ public class EntityUtil {
 			entity.setSize((size * ResourceManager.getCamera().getHeight()) * (entity.getWidth() / entity.getHeight()), size * ResourceManager.getCamera().getHeight());
 		}
 	}
+	
+	public static void setSizeInParent(String sizeType, float size, Entity sEntity, Entity pEntity){
+		if("width".equals(sizeType)){
+			sEntity.setSize(size * pEntity.getWidth(), (size * pEntity.getWidth()) / (sEntity.getWidth() / sEntity.getHeight()));
+		}else if("height".equals(sizeType)){
+			sEntity.setSize((size * pEntity.getHeight()) * (sEntity.getWidth() / sEntity.getHeight()), size * pEntity.getHeight());
+		}
+	}
 
 }

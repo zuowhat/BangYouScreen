@@ -4,6 +4,7 @@ import java.util.Arrays;
 
 import org.andengine.engine.handler.IUpdateHandler;
 import org.andengine.engine.handler.physics.PhysicsHandler;
+import org.andengine.entity.primitive.Rectangle;
 import org.andengine.entity.scene.Scene;
 import org.andengine.entity.sprite.AnimatedSprite;
 import org.andengine.entity.sprite.AnimatedSprite.IAnimationListener;
@@ -94,28 +95,18 @@ public class GameLevel extends ManagedScene {
 		
 		//BOSS血条
 		xue1Sprite = new Sprite(0f,0f,ResourceManager.xue1,mVertexBufferObjectManager);
-		xue1Sprite.setPosition(mCameraWidth/2f, mCameraHeight - xue1Sprite.getHeight()/2f-5f);
+		xue1Sprite.setPosition(mCameraWidth/2f, mGameScore.mDigitsSprite[0].getY());
 		xue1Sprite.setSize(0.6875f*mCameraWidth, 0.05833f*mCameraHeight);
-		//xue1Sprite.setSize(0.5f*mCameraWidth, 0.1f*mCameraHeight);
-		//EntityUtil.setSize("width", 0.6875f, xue1Sprite);
 		attachChild(xue1Sprite);
 		xue2Sprite = new Sprite(0f,0f,ResourceManager.xue2,mVertexBufferObjectManager);
 		xue2Sprite.setPosition(xue1Sprite.getWidth()/2f, xue1Sprite.getHeight()/2f);
 		xue2Sprite.setSize(xue1Sprite.getWidth(), xue1Sprite.getHeight());
-		//EntityUtil.setSize("width", 0.67875f, xue2Sprite);
 		xue1Sprite.attachChild(xue2Sprite);
-		//xue2Sprite.setScaleCenterX(xue1Sprite.getWidth());
-//		xue3Sprite = new Sprite(0f,0f,ResourceManager.xue3,mVertexBufferObjectManager);
-//		xue3Sprite.setPosition(xue1Sprite.getWidth()/2f, xue3Sprite.getHeight()/2f);
-//		xue3Sprite.setSize(xue1Sprite.getWidth()-10f, xue1Sprite.getHeight()-10f);
-		//xue1Sprite.attachChild(xue3Sprite);
-		//xue3P = (xue2Sprite.getWidth()/2f)/bossHP;
-		//xue3S = (xue2Sprite.getWidth())/bossHP;
 		
 		//BOSS移动
 		bossAS = new AnimatedSprite(0f,0f,bossModel.getBossTTR(),mVertexBufferObjectManager);
 		bossAS.setPosition(mCameraWidth/2f, mCameraHeight/2f);
-		EntityUtil.setSize("width", 0.32f, bossAS);
+		EntityUtil.setSize("heigh", 0.5f, bossAS);
 		//bossAS.setScale(2f);
 		frameDur = new long[2];
 		Arrays.fill(frameDur, 300);
@@ -125,6 +116,12 @@ public class GameLevel extends ManagedScene {
 		bossAS.registerUpdateHandler(mPhysicsHandler);
 		mPhysicsHandler.setVelocity(BOSS_VELOCITY);
 		attachChild(bossAS);
+		
+		//操作区半透明背景
+		Rectangle fadableBGRect = new Rectangle(0f, 0f,mCameraWidth,mCameraHeight/4f+10f, mVertexBufferObjectManager);
+		fadableBGRect.setPosition(mCameraWidth/2f, mCameraHeight/8f);
+		fadableBGRect.setColor(0f, 0f, 0f, 0.5f);
+		attachChild(fadableBGRect);
 		
 		//绿色按钮
 		greenButtonBS = new ButtonSprite(0f,0f,ResourceManager.greenButtonTTR,mVertexBufferObjectManager);
@@ -136,7 +133,7 @@ public class GameLevel extends ManagedScene {
 					float pTouchAreaLocalX, float pTouchAreaLocalY) {
 					updateHP(1);
 			}});
-		attachChild(greenButtonBS);
+		fadableBGRect.attachChild(greenButtonBS);
 		registerTouchArea(greenButtonBS);
 		
 		//蓝色按钮
@@ -150,11 +147,11 @@ public class GameLevel extends ManagedScene {
 					float pTouchAreaLocalX, float pTouchAreaLocalY) {
 					updateHP(1);
 			}});
-		attachChild(redButtonBS);
+		fadableBGRect.attachChild(redButtonBS);
 		registerTouchArea(redButtonBS);
 		
 		//时钟
-		ButtonSprite clockSprite = new ButtonSprite(0f,0f,ResourceManager.clockTR,mVertexBufferObjectManager);
+		ButtonSprite clockSprite = new ButtonSprite(0f,0f,ResourceManager.propsTTR.getTextureRegion(3),mVertexBufferObjectManager);
 		EntityUtil.setSize("width", 1f / 10f, clockSprite);
 		clockSprite.setPosition((1f/2f)*mCameraWidth, redButtonBS.getY());
 		clockSprite.setOnClickListener(new OnClickListener(){
@@ -165,7 +162,7 @@ public class GameLevel extends ManagedScene {
 				gameTime+=30f;
 				
 			}});
-		attachChild(clockSprite);
+		fadableBGRect.attachChild(clockSprite);
 		registerTouchArea(clockSprite);
 		
 		//魔法按钮
@@ -211,15 +208,44 @@ public class GameLevel extends ManagedScene {
 				attachChild(magicAS);
 				
 			}});
-		attachChild(magicBS);
+		fadableBGRect.attachChild(magicBS);
 		registerTouchArea(magicBS);
 		
 		//武器图标
-		Sprite weaponBS = new Sprite(0f,0f,playerModel.getMagicTR(),mVertexBufferObjectManager);
+		Sprite weaponBS = new Sprite(0f,0f,playerModel.getWeaponTR(),mVertexBufferObjectManager);
 		EntityUtil.setSize("width", 1f / 10f, weaponBS);
-		magicBS.setPosition(magicBS.getX()-(53f/400f)*mCameraWidth, clockSprite.getY());
-		attachChild(weaponBS);
+		weaponBS.setPosition(magicBS.getX()-(53f/400f)*mCameraWidth, clockSprite.getY());
+		fadableBGRect.attachChild(weaponBS);
 
+		//道具
+		ButtonSprite propsBS = new ButtonSprite(0f,0f,ResourceManager.propsTTR.getTextureRegion(0),mVertexBufferObjectManager);
+		EntityUtil.setSize("width", 1f / 10f, propsBS);
+		propsBS.setPosition(clockSprite.getX()+(53f/400f)*mCameraWidth, clockSprite.getY());
+		propsBS.setOnClickListener(new OnClickListener(){
+
+			public void onClick(ButtonSprite pButtonSprite,
+					float pTouchAreaLocalX, float pTouchAreaLocalY) {
+				
+			}});
+		fadableBGRect.attachChild(propsBS);
+		registerTouchArea(propsBS);
+		
+		//其他
+		ButtonSprite otherBS = new ButtonSprite(0f,0f,ResourceManager.propsTTR.getTextureRegion(1),mVertexBufferObjectManager);
+		EntityUtil.setSize("width", 1f / 10f, otherBS);
+		otherBS.setPosition(propsBS.getX()+(53f/400f)*mCameraWidth, clockSprite.getY());
+		otherBS.setOnClickListener(new OnClickListener(){
+
+			public void onClick(ButtonSprite pButtonSprite,
+					float pTouchAreaLocalX, float pTouchAreaLocalY) {
+				
+			}});
+		fadableBGRect.attachChild(otherBS);
+		registerTouchArea(otherBS);
+		
+		
+		
+		
 		
 		
 	}

@@ -17,6 +17,12 @@ public class DataConstant {
 	public static final String SHARED_PREFS_THEME_2 = "ThemeScene2";
 	public static final String CURRENT_WEAPON = "CurrentWeapon";
 	public static final String CURRENT_MAGIC = "CurrentMagic";
+	/** 冒险岛主题BOSS个数 */
+	public static final int THEME_1_BOSS_NUM = 8;
+	/** 魔法效果个数 */
+	public static final int MAGIC_NUM = 10;
+	
+	
 	
 	
 	/**

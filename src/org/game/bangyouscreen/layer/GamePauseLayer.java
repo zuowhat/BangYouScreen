@@ -76,6 +76,7 @@ public class GamePauseLayer extends ManagedLayer{
 		//重新开始
 		ButtonSprite restartBS = new ButtonSprite(0f,0f,ResourceManager.gamePauseMenu.getTextureRegion(1),mVertexBufferObjectManager);
 		restartBS.setPosition(LayerBG.getWidth()*(3f/4f), LayerBG.getHeight()/2f);
+		EntityUtil.setSizeInParent("width", 1f/3f, restartBS, LayerBG);
 		restartBS.setOnClickListener(new OnClickListener(){
 
 			public void onClick(ButtonSprite pButtonSprite,
@@ -88,7 +89,8 @@ public class GamePauseLayer extends ManagedLayer{
 		
 		//继续游戏
 		ButtonSprite continueBS = new ButtonSprite(0f,0f,ResourceManager.gamePauseMenu.getTextureRegion(0),mVertexBufferObjectManager);
-		continueBS.setPosition(restartBS.getX(), restartBS.getY()+restartBS.getHeight()+10f);
+		continueBS.setPosition(restartBS.getX(), LayerBG.getHeight()*(5f/6f));
+		continueBS.setSize(restartBS.getWidth(), restartBS.getHeight());
 		continueBS.setOnClickListener(new OnClickListener(){
 			public void onClick(ButtonSprite pButtonSprite,
 					float pTouchAreaLocalX, float pTouchAreaLocalY) {
@@ -100,7 +102,8 @@ public class GamePauseLayer extends ManagedLayer{
 		
 		//返回菜单
 		ButtonSprite goBackBS = new ButtonSprite(0f,0f,ResourceManager.gamePauseMenu.getTextureRegion(2),mVertexBufferObjectManager);
-		goBackBS.setPosition(restartBS.getX(), restartBS.getY()-restartBS.getHeight()-10f);
+		goBackBS.setPosition(restartBS.getX(), LayerBG.getHeight()/6f);
+		goBackBS.setSize(restartBS.getWidth(), restartBS.getHeight());
 		goBackBS.setOnClickListener(new OnClickListener(){
 			public void onClick(ButtonSprite pButtonSprite,
 					float pTouchAreaLocalX, float pTouchAreaLocalY) {
