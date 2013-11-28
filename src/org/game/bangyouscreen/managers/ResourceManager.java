@@ -52,9 +52,6 @@ public class ResourceManager extends Object{
 	public static TiledTextureRegion greenButtonTTR;
 	public static TiledTextureRegion redButtonTTR;
 	public static TextureRegion shareGameBG;
-	public static TiledTextureRegion boss10;
-	public static TiledTextureRegion boss11;
-	public static TiledTextureRegion boss19;
 	public static TextureRegion xue1;
 	public static TextureRegion xue2;
 	public static TextureRegion theme1Temp;
@@ -74,7 +71,7 @@ public class ResourceManager extends Object{
 	public static TiledTextureRegion magicTTR;
 	public static TiledTextureRegion[] magicASTTRArray = new TiledTextureRegion[DataConstant.MAGIC_NUM];
 	public static TiledTextureRegion propsTTR;
-	
+	public static TiledTextureRegion bossBlackBG;
 	
 	
 	public ResourceManager(){
@@ -282,15 +279,15 @@ public class ResourceManager extends Object{
 		if(themeBG == null){
 			themeBG = getLimitableTR("themeBG.png",mNormalTextureOption);
 		}
+		if(bossBlackBG == null){
+			bossBlackBG = getLimitableTTR("bossBlackBG.png",4,2,mNormalTextureOption);
+		}
 //		if(themeLevelBG == null){
 //			themeLevelBG = getLimitableTR("themeLevelBG.png",mNormalTextureOption);
 //		}
 //		if(themeLevelLock == null){
 //			themeLevelLock = getLimitableTR("themeLevelLock.png",mNormalTextureOption);
 //		}
-		if(boss19 == null){
-			boss19 = getLimitableTTR("boss19.png",3,1,mNormalTextureOption);
-		}
 		//根据完成的关卡数来加载BOSS纹理
 //		int themeSceneOneBossTotal = BangYouScreenActivity.getIntFromSharedPreferences(BangYouScreenActivity.SHARED_PREFS_THEME_1);
 //		themeSceneOneBossTotalTT = new ArrayList<TiledTextureRegion>();
@@ -304,7 +301,7 @@ public class ResourceManager extends Object{
 	
 	private void loadThemeBoss(){
 		//下面一行是测试代码,待删除
-		BangYouScreenActivity.writeIntToSharedPreferences(DataConstant.SHARED_PREFS_THEME_1, 1);
+		BangYouScreenActivity.writeIntToSharedPreferences(DataConstant.SHARED_PREFS_THEME_1, 7);
 		
 		
 		//根据完成的关卡数来加载BOSS纹理
@@ -312,34 +309,44 @@ public class ResourceManager extends Object{
 		BitmapTextureAtlasTextureRegionFactory.setAssetBasePath("gfx/theme/");
 		
 		int themeSceneOneBossTotal = BangYouScreenActivity.getIntFromSharedPreferences(DataConstant.SHARED_PREFS_THEME_1);
-		//未完待写
+		
 		for(int i=0; i<themeSceneOneBossTotal+1; i++){
 			if(mxdBoss_TTRArray[i] == null){
 				String bossTexture = "boss1" + i + ".png";
-				String bossInfo = "infoboss1" + i + ".png";
-				mxdBoss_InfoTRArray[i] = getLimitableTR(bossInfo,mNormalTextureOption);
+				//String bossInfo = "infoboss1" + i + ".png";
+				//mxdBoss_InfoTRArray[i] = getLimitableTR(bossInfo,mNormalTextureOption);
 				switch (i) {
 				case 0:
 					mxdBoss_TTRArray[i] = getLimitableTTR(bossTexture,3,2,mNormalTextureOption);
 					break;
-
 				case 1:
 					mxdBoss_TTRArray[i] = getLimitableTTR(bossTexture,3,2,mNormalTextureOption);
 					break;
+				case 2:
+					mxdBoss_TTRArray[i] = getLimitableTTR(bossTexture,4,3,mNormalTextureOption);
+					break;
+				case 3:
+					mxdBoss_TTRArray[i] = getLimitableTTR(bossTexture,4,2,mNormalTextureOption);
+					break;
+				case 4:
+					mxdBoss_TTRArray[i] = getLimitableTTR(bossTexture,4,2,mNormalTextureOption);
+					break;
+				case 5:
+					mxdBoss_TTRArray[i] = getLimitableTTR(bossTexture,3,2,mNormalTextureOption);
+					break;
+				case 6:
+					mxdBoss_TTRArray[i] = getLimitableTTR(bossTexture,3,2,mNormalTextureOption);
+					break;
+				case 7:
+					mxdBoss_TTRArray[i] = getLimitableTTR(bossTexture,3,1,mNormalTextureOption);
+					break;
 				}
-				
 			}
-
-			
-//			if(themeSceneOneBossTotalTT.get(i) == null){
-//				String bossTexture = "boss1" + i + ".png";
-//				themeSceneOneBossTotalTT.add(getLimitableTTR(bossTexture,3,2,mNormalTextureOption));
-//			}
 		}
 		
 		BitmapTextureAtlasTextureRegionFactory.setAssetBasePath(mPreviousAssetBasePath);
 	}
-	
+		
 	// ============================ 游戏纹理  ================= //
 	private void loadGameTextures(){
 		mPreviousAssetBasePath = BitmapTextureAtlasTextureRegionFactory.getAssetBasePath();
