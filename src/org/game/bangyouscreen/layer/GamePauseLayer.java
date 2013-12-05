@@ -56,7 +56,6 @@ public class GamePauseLayer extends ManagedLayer{
 			}
 		}
 
-		@Override
 		public void reset() {}
 	};
 

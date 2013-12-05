@@ -72,7 +72,8 @@ public class ResourceManager extends Object{
 	public static TiledTextureRegion[] magicASTTRArray = new TiledTextureRegion[DataConstant.MAGIC_NUM];
 	public static TiledTextureRegion propsTTR;
 	public static TiledTextureRegion bossBlackBG;
-	
+	public static TextureRegion gameWinTitle;
+	public static TextureRegion gameGold;
 	
 	public ResourceManager(){
 	}
@@ -242,6 +243,9 @@ public class ResourceManager extends Object{
 		if(propsTTR == null){
 			propsTTR = getLimitableTTR("props.png",2,2,mNormalTextureOption);
 		}
+		if(gameGold == null){
+			gameGold = getLimitableTR("gold.png",mNormalTextureOption);
+		}
 		//未完待写
 		for(int i=0; i<magicASTTRArray.length; i++){
 			if(magicASTTRArray[i] == null){
@@ -374,6 +378,9 @@ public class ResourceManager extends Object{
 		}
 		if(gamePauseMenu == null){
 			gamePauseMenu = getLimitableTTR("gamePauseMenu.png",1,3,mNormalTextureOption);
+		}
+		if(gameWinTitle == null){
+			gameWinTitle = getLimitableTR("gameWinTitle.png",mNormalTextureOption);
 		}
 		BitmapTextureAtlasTextureRegionFactory.setAssetBasePath(mPreviousAssetBasePath);
 	}

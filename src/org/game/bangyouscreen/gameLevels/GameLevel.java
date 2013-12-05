@@ -14,8 +14,10 @@ import org.andengine.entity.sprite.Sprite;
 import org.andengine.input.touch.controller.MultiTouchController;
 import org.andengine.input.touch.controller.SingleTouchController;
 import org.andengine.opengl.vbo.VertexBufferObjectManager;
+import org.game.bangyouscreen.layer.GameWinLayer;
 import org.game.bangyouscreen.managers.ManagedScene;
 import org.game.bangyouscreen.managers.ResourceManager;
+import org.game.bangyouscreen.managers.SceneManager;
 import org.game.bangyouscreen.model.BossModel;
 import org.game.bangyouscreen.model.PlayerModel;
 import org.game.bangyouscreen.util.EntityUtil;
@@ -373,7 +375,7 @@ public class GameLevel extends ManagedScene {
 	 * @since 1.0
 	 */
 	private void gameWin(){
-		
+		SceneManager.getInstance().showLayer(GameWinLayer.getInstance(), false, false, false);
 	}
 	
 	/**

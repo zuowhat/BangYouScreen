@@ -6,13 +6,14 @@ import org.andengine.entity.primitive.Rectangle;
 import org.andengine.entity.sprite.ButtonSprite;
 import org.andengine.entity.sprite.ButtonSprite.OnClickListener;
 import org.andengine.entity.sprite.Sprite;
+import org.andengine.entity.text.Text;
 import org.andengine.opengl.vbo.VertexBufferObjectManager;
+import org.game.bangyouscreen.boss.ThemeBossForMXD;
 import org.game.bangyouscreen.gameLevels.GameLevel;
 import org.game.bangyouscreen.managers.ManagedLayer;
 import org.game.bangyouscreen.managers.ResourceManager;
 import org.game.bangyouscreen.managers.SceneManager;
 import org.game.bangyouscreen.scene.MainMenuScene;
-import org.game.bangyouscreen.util.AnimatedButtonSprite;
 import org.game.bangyouscreen.util.EntityUtil;
 
 public class GameWinLayer extends ManagedLayer{
@@ -73,34 +74,39 @@ public class GameWinLayer extends ManagedLayer{
 		LayerBG.setPosition(mCameraWidth/2f, (mCameraHeight / 2f) + (ResourceManager.loadingBG.getHeight() / 2f));
 		attachChild(LayerBG);
 		
-		//重新开始
-		ButtonSprite restartBS = new ButtonSprite(0f,0f,ResourceManager.gamePauseMenu.getTextureRegion(1),mVertexBufferObjectManager);
-		restartBS.setPosition(LayerBG.getWidth()*(3f/4f), LayerBG.getHeight()/2f);
-		restartBS.setOnClickListener(new OnClickListener(){
-
-			public void onClick(ButtonSprite pButtonSprite,
-					float pTouchAreaLocalX, float pTouchAreaLocalY) {
-					onHideLayer();
-					//((GameLevel) SceneManager.getInstance().mCurrentScene).onResumeGameLevel();
-			}});
-		LayerBG.attachChild(restartBS);
-		registerTouchArea(restartBS);
+		Sprite titleSprite = new Sprite(0f, 0f,ResourceManager.gameWinTitle, mVertexBufferObjectManager);
+		titleSprite.setPosition(LayerBG.getWidth()/2f, LayerBG.getHeight()*(3f/4f));
+		EntityUtil.setSizeInParent("width", 1f/2f, titleSprite, LayerBG);
+		LayerBG.attachChild(titleSprite);
+		
+		String goldNum = "+ 50";
+		Text mGoldNum = new Text(0f,0f,ResourceManager.sysFont,goldNum,mVertexBufferObjectManager);
+		mGoldNum.setColor(255, 107, 0);
+		mGoldNum.setPosition(LayerBG.getWidth()/2f, LayerBG.getHeight()/2f);
+		LayerBG.attachChild(mGoldNum);
+		
+		Sprite goldSprite = new Sprite(0f,0f,ResourceManager.gameGold,mVertexBufferObjectManager);
+		goldSprite.setPosition(mGoldNum.getX()+mGoldNum.getWidth(), mGoldNum.getY());
+		LayerBG.attachChild(goldSprite);
+		
 		
 		//继续游戏
 		ButtonSprite continueBS = new ButtonSprite(0f,0f,ResourceManager.gamePauseMenu.getTextureRegion(0),mVertexBufferObjectManager);
-		continueBS.setPosition(restartBS.getX(), restartBS.getY()+restartBS.getHeight()+10f);
+		continueBS.setPosition(LayerBG.getWidth()*(3f/4f), LayerBG.getHeight()/4f);
+		EntityUtil.setSizeInParent("width", 1f/4f, continueBS, LayerBG);
 		continueBS.setOnClickListener(new OnClickListener(){
 			public void onClick(ButtonSprite pButtonSprite,
 					float pTouchAreaLocalX, float pTouchAreaLocalY) {
 					onHideLayer();
-					((GameLevel) SceneManager.getInstance().mCurrentScene).onResumeGameLevel();
+					SceneManager.getInstance().showScene(ThemeBossForMXD.getInstance());
 			}});
 		LayerBG.attachChild(continueBS);
 		registerTouchArea(continueBS);
 		
 		//返回菜单
 		ButtonSprite goBackBS = new ButtonSprite(0f,0f,ResourceManager.gamePauseMenu.getTextureRegion(2),mVertexBufferObjectManager);
-		goBackBS.setPosition(restartBS.getX(), restartBS.getY()-restartBS.getHeight()-10f);
+		goBackBS.setPosition(LayerBG.getWidth()/4f, LayerBG.getHeight()/4f);
+		EntityUtil.setSizeInParent("width", 1f/4f, goBackBS, LayerBG);
 		goBackBS.setOnClickListener(new OnClickListener(){
 			public void onClick(ButtonSprite pButtonSprite,
 					float pTouchAreaLocalX, float pTouchAreaLocalY) {
