@@ -11,6 +11,7 @@ import org.andengine.util.math.MathUtils;
 import org.game.bangyouscreen.gameLevels.GameLevel;
 import org.game.bangyouscreen.managers.ManagedScene;
 import org.game.bangyouscreen.managers.ResourceManager;
+import org.game.bangyouscreen.managers.SFXManager;
 import org.game.bangyouscreen.managers.SceneManager;
 import org.game.bangyouscreen.util.EntityUtil;
 
@@ -59,9 +60,11 @@ public class MainMenuScene extends ManagedScene{
 	
 	@Override
 	public void onLoadScene() {
+		SFXManager.getInstance().loadMusic("mainMusic", ResourceManager.getActivity().getMusicManager(), ResourceManager.getActivity());
 		ResourceManager.loadThemeResources();
 		ResourceManager.loadBossResources();
 		ResourceManager.loadGameResources();
+		SFXManager.getInstance().playMusic("mainMusic");
 		//白云
 //		Sprite mMenuCloudsLayerOne = new Sprite(0.0F, mCameraHeight, ResourceManager.menuClouds1, mVertexBufferObjectManager);
 //		Sprite mMenuCloudsLayerTwo = new Sprite(0.0F, mCameraHeight-100.0F, ResourceManager.menuClouds2, mVertexBufferObjectManager);
