@@ -4,6 +4,9 @@ import java.util.Arrays;
 
 import org.andengine.engine.handler.IUpdateHandler;
 import org.andengine.engine.handler.physics.PhysicsHandler;
+import org.andengine.entity.IEntity;
+import org.andengine.entity.modifier.AlphaModifier;
+import org.andengine.entity.modifier.IEntityModifier;
 import org.andengine.entity.primitive.Rectangle;
 import org.andengine.entity.scene.Scene;
 import org.andengine.entity.sprite.AnimatedSprite;
@@ -14,6 +17,8 @@ import org.andengine.entity.sprite.Sprite;
 import org.andengine.input.touch.controller.MultiTouchController;
 import org.andengine.input.touch.controller.SingleTouchController;
 import org.andengine.opengl.vbo.VertexBufferObjectManager;
+import org.andengine.util.modifier.IModifier;
+import org.game.bangyouscreen.layer.GameFailLayer;
 import org.game.bangyouscreen.layer.GameWinLayer;
 import org.game.bangyouscreen.managers.ManagedScene;
 import org.game.bangyouscreen.managers.ResourceManager;
@@ -27,13 +32,13 @@ import org.game.bangyouscreen.util.GameTimer;
 public class GameLevel extends ManagedScene {
 	
 	public GameLevel INSTANCE = this;
-	private static final float mCameraWidth = ResourceManager.getCamera().getWidth();
-	private static final float mCameraHeight = ResourceManager.getCamera().getHeight();
+	private float mCameraWidth = ResourceManager.getCamera().getWidth();
+	private float mCameraHeight = ResourceManager.getCamera().getHeight();
 	private VertexBufferObjectManager mVertexBufferObjectManager = ResourceManager.getEngine().getVertexBufferObjectManager();
 	
 	//private static final String TIME_FORMAT = "00:00";
 	//private Text mTimeText;
-	private float gameTime = 300f;//初始游戏时间
+	private float gameTime = 10f;//初始游戏时间
 	private int mScore = 0;
 	private GameTimer mGameTime;
 	private boolean mTenSeconds = false;
@@ -50,8 +55,8 @@ public class GameLevel extends ManagedScene {
 	private ButtonSprite greenButtonBS;
 	private ButtonSprite redButtonBS;
 	
-	private BossModel bossModel;
-	private PlayerModel playerModel;
+	public static BossModel bossModel;
+	public static PlayerModel playerModel;
 	//private int playerDPS;//玩家物理伤害
 	//private int playerAOE;//玩家魔法伤害
 	private float dpsXS;//物理伤害系数
@@ -293,7 +298,7 @@ public class GameLevel extends ManagedScene {
 			if(gameTime<=0) {
 				mGameTime.adjustTime(0f);
 				unregisterUpdateHandler(this);
-				setIgnoreUpdate(true);
+				//setIgnoreUpdate(true);
 				unregisterTouchArea(greenButtonBS);
 				unregisterTouchArea(redButtonBS);
 				bossAS.unregisterUpdateHandler(mPhysicsHandler);
@@ -375,7 +380,31 @@ public class GameLevel extends ManagedScene {
 	 * @since 1.0
 	 */
 	private void gameWin(){
-		SceneManager.getInstance().showLayer(GameWinLayer.getInstance(), false, false, false);
+		AnimatedSprite bigBang = new AnimatedSprite(0f,0f,ResourceManager.bigBang,mVertexBufferObjectManager);
+		bigBang.setPosition(bossAS.getX(), bossAS.getY());
+		EntityUtil.setSize("height", 0.5f, bigBang);
+		bigBang.animate(100,3,new IAnimationListener(){
+
+			public void onAnimationStarted(AnimatedSprite pAnimatedSprite,
+					int pInitialLoopCount) {
+				//这里添加爆炸声
+				
+			}
+
+			public void onAnimationFrameChanged(AnimatedSprite pAnimatedSprite,
+					int pOldFrameIndex, int pNewFrameIndex) {
+			}
+
+			public void onAnimationLoopFinished(AnimatedSprite pAnimatedSprite,
+					int pRemainingLoopCount, int pInitialLoopCount) {
+			}
+
+			public void onAnimationFinished(AnimatedSprite pAnimatedSprite) {
+				SceneManager.getInstance().showLayer(GameWinLayer.getInstance(), false, false, false);
+				
+			}
+		});
+		attachChild(bigBang);
 	}
 	
 	/**
@@ -384,7 +413,25 @@ public class GameLevel extends ManagedScene {
 	 * @since 1.0
 	 */
 	private void gameFail(){
+		AlphaModifier a = new AlphaModifier(3,0.1f,0.5f,new IEntityModifier.IEntityModifierListener(){
+
+			public void onModifierStarted(IModifier<IEntity> pModifier,
+					IEntity pItem) {
+				//游戏失败的音效
+				
+			}
+
+			public void onModifierFinished(IModifier<IEntity> pModifier,
+					IEntity pItem) {
+				SceneManager.getInstance().showLayer(GameFailLayer.getInstance(), false, false, false);
+			}
+		});
 		
+		Rectangle r = new Rectangle(0f, 0f,mCameraWidth,mCameraHeight, mVertexBufferObjectManager);
+		r.setColor(255, 255, 255, 0.1f);
+		r.setPosition(mCameraWidth/2f, mCameraHeight/2f);
+		r.registerEntityModifier(a);
+		attachChild(r);
 	}
 	
 	/**
@@ -589,6 +636,11 @@ public class GameLevel extends ManagedScene {
 				aoeXS = 1f;
 			}
 		}
+	}
+	
+	public void onBackPressed() {
+		
+		
 	}
 
 }

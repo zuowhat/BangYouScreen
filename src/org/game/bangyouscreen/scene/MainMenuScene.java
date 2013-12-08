@@ -23,8 +23,8 @@ import org.game.bangyouscreen.util.EntityUtil;
 public class MainMenuScene extends ManagedScene{
 	
 	private static final MainMenuScene INSTANCE = new MainMenuScene();
-	private static final float mCameraWidth = ResourceManager.getCamera().getWidth();
-	private static final float mCameraHeight = ResourceManager.getCamera().getHeight();
+	private float mCameraWidth = ResourceManager.getCamera().getWidth();
+	private float mCameraHeight = ResourceManager.getCamera().getHeight();
 	private VertexBufferObjectManager mVertexBufferObjectManager = ResourceManager.getEngine().getVertexBufferObjectManager();
 	
 	private Entity mainMenuScreen; //主菜单
@@ -60,11 +60,12 @@ public class MainMenuScene extends ManagedScene{
 	
 	@Override
 	public void onLoadScene() {
-		SFXManager.getInstance().loadMusic("mainMusic", ResourceManager.getActivity().getMusicManager(), ResourceManager.getActivity());
+		//SFXManager.getInstance().loadMusic("mainMusic", ResourceManager.getActivity().getMusicManager(), ResourceManager.getActivity());
 		ResourceManager.loadThemeResources();
 		ResourceManager.loadBossResources();
 		ResourceManager.loadGameResources();
-		SFXManager.getInstance().playMusic("mainMusic");
+		//SFXManager.getInstance().playMusic("mainMusic");
+		
 		//白云
 //		Sprite mMenuCloudsLayerOne = new Sprite(0.0F, mCameraHeight, ResourceManager.menuClouds1, mVertexBufferObjectManager);
 //		Sprite mMenuCloudsLayerTwo = new Sprite(0.0F, mCameraHeight-100.0F, ResourceManager.menuClouds2, mVertexBufferObjectManager);

@@ -14,8 +14,8 @@ import org.game.bangyouscreen.managers.ResourceManager;
 public class LoadingScene extends Scene{
 	
 	private static final LoadingScene INSTANCE = new LoadingScene();
-	private static final float mCameraWidth = ResourceManager.getCamera().getWidth();
-	private static final float mCameraHeight = ResourceManager.getCamera().getHeight();
+	private float mCameraWidth = ResourceManager.getCamera().getWidth();
+	private float mCameraHeight = ResourceManager.getCamera().getHeight();
 	private VertexBufferObjectManager mVertexBufferObjectManager = ResourceManager.getEngine().getVertexBufferObjectManager();
 	private Sprite backgroundSprite;
 	private AnimatedSprite picAS;

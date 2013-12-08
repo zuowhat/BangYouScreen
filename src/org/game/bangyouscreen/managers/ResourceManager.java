@@ -1,9 +1,5 @@
 package org.game.bangyouscreen.managers;
 
-
-import java.util.ArrayList;
-import java.util.List;
-
 import org.andengine.engine.FixedStepEngine;
 import org.andengine.engine.camera.SmoothCamera;
 import org.andengine.opengl.font.Font;
@@ -65,15 +61,17 @@ public class ResourceManager extends Object{
 	public static TextureRegion[] mxdBoss_InfoTRArray = new TextureRegion[DataConstant.THEME_1_BOSS_NUM];
 	public static TextureRegion homeTR;
 	public static TextureRegion backTR;
-	public static TextureRegion gamePauseBG;
+	public static TiledTextureRegion gamePauseBG;
 	public static TiledTextureRegion gamePauseMenu;
 	public static TiledTextureRegion weaponTTR;
 	public static TiledTextureRegion magicTTR;
 	public static TiledTextureRegion[] magicASTTRArray = new TiledTextureRegion[DataConstant.MAGIC_NUM];
 	public static TiledTextureRegion propsTTR;
 	public static TiledTextureRegion bossBlackBG;
-	public static TextureRegion gameWinTitle;
+	public static TiledTextureRegion layerTitle;
 	public static TextureRegion gameGold;
+	public static TiledTextureRegion bigBang;
+	public static TiledTextureRegion wuya;
 	
 	public ResourceManager(){
 	}
@@ -374,13 +372,19 @@ public class ResourceManager extends Object{
 			numberTTR = getLimitableTTR("number.png",12,1,mNormalTextureOption);
 		}
 		if(gamePauseBG == null){
-			gamePauseBG = getLimitableTR("gamePauseBG.png",mNormalTextureOption);
+			gamePauseBG = getLimitableTTR("gamePauseBG.png",1,2,mNormalTextureOption);
 		}
 		if(gamePauseMenu == null){
 			gamePauseMenu = getLimitableTTR("gamePauseMenu.png",1,3,mNormalTextureOption);
 		}
-		if(gameWinTitle == null){
-			gameWinTitle = getLimitableTR("gameWinTitle.png",mNormalTextureOption);
+		if(layerTitle == null){
+			layerTitle = getLimitableTTR("layerTitle.png",1,2,mNormalTextureOption);
+		}
+		if(bigBang == null){
+			bigBang = getLimitableTTR("bigBang.png",3,3,mNormalTextureOption);
+		}
+		if(wuya == null){
+			wuya = getLimitableTTR("wuya.png",2,2,mNormalTextureOption);
 		}
 		BitmapTextureAtlasTextureRegionFactory.setAssetBasePath(mPreviousAssetBasePath);
 	}

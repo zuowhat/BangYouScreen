@@ -24,8 +24,8 @@ import org.game.bangyouscreen.managers.SceneManager;
 public class ThemeScene extends ManagedScene implements IScrollDetectorListener{
 
 	private static final ThemeScene INSTANCE = new ThemeScene();
-	private static final float mCameraWidth = ResourceManager.getCamera().getWidth();
-	private static final float mCameraHeight = ResourceManager.getCamera().getHeight();
+	private float mCameraWidth = ResourceManager.getCamera().getWidth();
+	private float mCameraHeight = ResourceManager.getCamera().getHeight();
 	private VertexBufferObjectManager mVertexBufferObjectManager = ResourceManager.getEngine().getVertexBufferObjectManager();
 	
 	private SurfaceScrollDetector mScrollDetector;

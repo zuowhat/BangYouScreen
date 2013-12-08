@@ -20,8 +20,8 @@ public class GameWinLayer extends ManagedLayer{
 	
 	private static final GameWinLayer INSTANCE = new GameWinLayer();
 	//private static int themeNum = 0;
-	private static final float mCameraWidth = ResourceManager.getCamera().getWidth();
-	private static final float mCameraHeight = ResourceManager.getCamera().getHeight();
+	private float mCameraWidth = ResourceManager.getCamera().getWidth();
+	private float mCameraHeight = ResourceManager.getCamera().getHeight();
 	private VertexBufferObjectManager mVertexBufferObjectManager = ResourceManager.getEngine().getVertexBufferObjectManager();
 	private Sprite LayerBG;
 	
@@ -68,13 +68,13 @@ public class GameWinLayer extends ManagedLayer{
 		fadableBGRect.setColor(0f, 0f, 0f, 0.6f);
 		attachChild(fadableBGRect);
 		
-		LayerBG = new Sprite(0f, 0f,ResourceManager.gamePauseBG, mVertexBufferObjectManager);
+		LayerBG = new Sprite(0f, 0f,ResourceManager.gamePauseBG.getTextureRegion(0), mVertexBufferObjectManager);
 		//LayerBG.setSize(mCameraWidth/2f, mCameraHeight*(2f/3f));
 		EntityUtil.setSize("height", 2f/3f, LayerBG);
 		LayerBG.setPosition(mCameraWidth/2f, (mCameraHeight / 2f) + (ResourceManager.loadingBG.getHeight() / 2f));
 		attachChild(LayerBG);
 		
-		Sprite titleSprite = new Sprite(0f, 0f,ResourceManager.gameWinTitle, mVertexBufferObjectManager);
+		Sprite titleSprite = new Sprite(0f, 0f,ResourceManager.layerTitle.getTextureRegion(1), mVertexBufferObjectManager);
 		titleSprite.setPosition(LayerBG.getWidth()/2f, LayerBG.getHeight()*(3f/4f));
 		EntityUtil.setSizeInParent("width", 1f/2f, titleSprite, LayerBG);
 		LayerBG.attachChild(titleSprite);

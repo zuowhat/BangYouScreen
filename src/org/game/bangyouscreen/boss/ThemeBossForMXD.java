@@ -33,8 +33,8 @@ import org.game.bangyouscreen.util.EntityUtil;
 public class ThemeBossForMXD extends ManagedScene implements IScrollDetectorListener{
 
 	private static final ThemeBossForMXD INSTANCE = new ThemeBossForMXD();
-	private static final float mCameraWidth = ResourceManager.getCamera().getWidth();
-	private static final float mCameraHeight = ResourceManager.getCamera().getHeight();
+	private float mCameraWidth = ResourceManager.getCamera().getWidth();
+	private float mCameraHeight = ResourceManager.getCamera().getHeight();
 	private VertexBufferObjectManager mVertexBufferObjectManager = ResourceManager.getEngine().getVertexBufferObjectManager();
 
 	private SurfaceScrollDetector mScrollDetector;

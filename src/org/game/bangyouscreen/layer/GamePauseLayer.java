@@ -19,8 +19,8 @@ public class GamePauseLayer extends ManagedLayer{
 	
 	private static final GamePauseLayer INSTANCE = new GamePauseLayer();
 	//private static int themeNum = 0;
-	private static final float mCameraWidth = ResourceManager.getCamera().getWidth();
-	private static final float mCameraHeight = ResourceManager.getCamera().getHeight();
+	private float mCameraWidth = ResourceManager.getCamera().getWidth();
+	private float mCameraHeight = ResourceManager.getCamera().getHeight();
 	private VertexBufferObjectManager mVertexBufferObjectManager = ResourceManager.getEngine().getVertexBufferObjectManager();
 	private Sprite LayerBG;
 	
@@ -66,7 +66,7 @@ public class GamePauseLayer extends ManagedLayer{
 		fadableBGRect.setColor(0f, 0f, 0f, 0.6f);
 		attachChild(fadableBGRect);
 		
-		LayerBG = new Sprite(0f, 0f,ResourceManager.gamePauseBG, mVertexBufferObjectManager);
+		LayerBG = new Sprite(0f, 0f,ResourceManager.gamePauseBG.getTextureRegion(0), mVertexBufferObjectManager);
 		//LayerBG.setSize(mCameraWidth/2f, mCameraHeight*(2f/3f));
 		EntityUtil.setSize("height", 2f/3f, LayerBG);
 		LayerBG.setPosition(mCameraWidth/2f, (mCameraHeight / 2f) + (ResourceManager.loadingBG.getHeight() / 2f));
@@ -81,7 +81,7 @@ public class GamePauseLayer extends ManagedLayer{
 			public void onClick(ButtonSprite pButtonSprite,
 					float pTouchAreaLocalX, float pTouchAreaLocalY) {
 					onHideLayer();
-					//((GameLevel) SceneManager.getInstance().mCurrentScene).onResumeGameLevel();
+					SceneManager.getInstance().showScene(new GameLevel(GameLevel.bossModel,GameLevel.playerModel));
 			}});
 		LayerBG.attachChild(restartBS);
 		registerTouchArea(restartBS);

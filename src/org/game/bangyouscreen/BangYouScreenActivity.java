@@ -25,8 +25,6 @@ import android.view.View.MeasureSpec;
 
 public class BangYouScreenActivity extends BaseGameActivity {
 	
-
-	
 	public static boolean getBooleanFromSharedPreferences(final String pStr) {
 		return ResourceManager.getActivity()
 				.getSharedPreferences(DataConstant.SHARED_PREFS_MAIN, 0)
@@ -186,23 +184,19 @@ public class BangYouScreenActivity extends BaseGameActivity {
 	  
 	  public void showExitConfirmDialog(){
 	    runOnUiThread(new Runnable(){
-	      @Override
-		public void run()
-	      {
+	      
+		public void run(){
 	        AlertDialog localAlertDialog = new AlertDialog.Builder(BangYouScreenActivity.this).create();
 	        localAlertDialog.setTitle("QUIT GAME");
 	        localAlertDialog.setMessage("Are you sure?");
-	        localAlertDialog.setButton("EXIT", new DialogInterface.OnClickListener()
-	        {
-	          @Override
-			public void onClick(DialogInterface paramDialogInterface, int paramInt)
-	          {
+	        localAlertDialog.setButton("EXIT", new DialogInterface.OnClickListener(){
+	          
+			public void onClick(DialogInterface paramDialogInterface, int paramInt){
 	        	 // BangYouScreenActivity.this.finish();
 	        	  System.exit(0);
 	          }
 	        });
-	        localAlertDialog.setButton3("CANCEL", new DialogInterface.OnClickListener()
-	        {
+	        localAlertDialog.setButton3("CANCEL", new DialogInterface.OnClickListener(){
 	          @Override
 			public void onClick(DialogInterface paramDialogInterface, int paramInt)
 	          {
