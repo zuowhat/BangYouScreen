@@ -54,6 +54,7 @@ public class GameLevel extends ManagedScene {
 	private Sprite xue2Sprite;
 	private ButtonSprite greenButtonBS;
 	private ButtonSprite redButtonBS;
+	private ButtonSprite magicBS;
 	
 	public static BossModel bossModel;
 	public static PlayerModel playerModel;
@@ -95,7 +96,6 @@ public class GameLevel extends ManagedScene {
 		//倒计时
 		mGameTime = new GameTimer(this);
 		mGameTime.addToLayer(this);
-		registerUpdateHandler(gameRunTimer);
 		
 		//得分
 		mGameScore = new GameScore();
@@ -142,7 +142,7 @@ public class GameLevel extends ManagedScene {
 					updateHP(1);
 			}});
 		fadableBGRect.attachChild(greenButtonBS);
-		registerTouchArea(greenButtonBS);
+		
 		
 		//蓝色按钮
 		redButtonBS = new ButtonSprite(0f,0f,ResourceManager.redButtonTTR,mVertexBufferObjectManager);
@@ -156,10 +156,10 @@ public class GameLevel extends ManagedScene {
 					updateHP(1);
 			}});
 		fadableBGRect.attachChild(redButtonBS);
-		registerTouchArea(redButtonBS);
+		
 		
 		//时钟
-		ButtonSprite clockSprite = new ButtonSprite(0f,0f,ResourceManager.propsTTR.getTextureRegion(3),mVertexBufferObjectManager);
+		final ButtonSprite clockSprite = new ButtonSprite(0f,0f,ResourceManager.propsTTR.getTextureRegion(3),mVertexBufferObjectManager);
 		EntityUtil.setSize("width", 1f / 10f, clockSprite);
 		clockSprite.setPosition((1f/2f)*mCameraWidth, redButtonBS.getY());
 		clockSprite.setOnClickListener(new OnClickListener(){
@@ -171,10 +171,10 @@ public class GameLevel extends ManagedScene {
 				
 			}});
 		fadableBGRect.attachChild(clockSprite);
-		registerTouchArea(clockSprite);
+		
 		
 		//魔法按钮
-		ButtonSprite magicBS = new ButtonSprite(0f,0f,playerModel.getMagicTR(),mVertexBufferObjectManager);
+		magicBS = new ButtonSprite(0f,0f,playerModel.getMagicTR(),mVertexBufferObjectManager);
 		EntityUtil.setSize("width", 1f / 10f, magicBS);
 		magicBS.setPosition(clockSprite.getX()-(53f/400f)*mCameraWidth, clockSprite.getY());
 		magicBS.setOnClickListener(new OnClickListener(){
@@ -217,7 +217,7 @@ public class GameLevel extends ManagedScene {
 				
 			}});
 		fadableBGRect.attachChild(magicBS);
-		registerTouchArea(magicBS);
+		
 		
 		//武器图标
 		Sprite weaponBS = new Sprite(0f,0f,playerModel.getWeaponTR(),mVertexBufferObjectManager);
@@ -226,7 +226,7 @@ public class GameLevel extends ManagedScene {
 		fadableBGRect.attachChild(weaponBS);
 
 		//道具
-		ButtonSprite propsBS = new ButtonSprite(0f,0f,ResourceManager.propsTTR.getTextureRegion(0),mVertexBufferObjectManager);
+		final ButtonSprite propsBS = new ButtonSprite(0f,0f,ResourceManager.propsTTR.getTextureRegion(0),mVertexBufferObjectManager);
 		EntityUtil.setSize("width", 1f / 10f, propsBS);
 		propsBS.setPosition(clockSprite.getX()+(53f/400f)*mCameraWidth, clockSprite.getY());
 		propsBS.setOnClickListener(new OnClickListener(){
@@ -236,10 +236,10 @@ public class GameLevel extends ManagedScene {
 				
 			}});
 		fadableBGRect.attachChild(propsBS);
-		registerTouchArea(propsBS);
+		
 		
 		//其他
-		ButtonSprite otherBS = new ButtonSprite(0f,0f,ResourceManager.propsTTR.getTextureRegion(1),mVertexBufferObjectManager);
+		final ButtonSprite otherBS = new ButtonSprite(0f,0f,ResourceManager.propsTTR.getTextureRegion(1),mVertexBufferObjectManager);
 		EntityUtil.setSize("width", 1f / 10f, otherBS);
 		otherBS.setPosition(propsBS.getX()+(53f/400f)*mCameraWidth, clockSprite.getY());
 		otherBS.setOnClickListener(new OnClickListener(){
@@ -249,13 +249,37 @@ public class GameLevel extends ManagedScene {
 				
 			}});
 		fadableBGRect.attachChild(otherBS);
-		registerTouchArea(otherBS);
 		
-		
-		
-		
-		
-		
+		//游戏开始倒计时动画
+		final AnimatedSprite clockTimeAS = new AnimatedSprite(0f,0f,ResourceManager.clockTime,mVertexBufferObjectManager);
+		clockTimeAS.setPosition(mCameraWidth/2f, mCameraHeight/2f);
+		EntityUtil.setSize("height", 1f / 4f, clockTimeAS);
+		clockTimeAS.animate(1000,0,new IAnimationListener(){
+
+			public void onAnimationStarted(AnimatedSprite pAnimatedSprite,
+					int pInitialLoopCount) {
+			}
+
+			public void onAnimationFrameChanged(AnimatedSprite pAnimatedSprite,
+					int pOldFrameIndex, int pNewFrameIndex) {
+			}
+
+			public void onAnimationLoopFinished(AnimatedSprite pAnimatedSprite,
+					int pRemainingLoopCount, int pInitialLoopCount) {
+			}
+
+			public void onAnimationFinished(AnimatedSprite pAnimatedSprite) {
+				detachChild(clockTimeAS);
+				registerTouchArea(otherBS);
+				registerTouchArea(propsBS);
+				registerTouchArea(magicBS);
+				registerTouchArea(clockSprite);
+				registerTouchArea(redButtonBS);
+				registerTouchArea(greenButtonBS);
+				registerUpdateHandler(gameRunTimer);
+			}
+		});
+		attachChild(clockTimeAS);
 	}
 
 	public void onUnloadScene() {

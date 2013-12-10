@@ -72,6 +72,7 @@ public class ResourceManager extends Object{
 	public static TextureRegion gameGold;
 	public static TiledTextureRegion bigBang;
 	public static TiledTextureRegion wuya;
+	public static TiledTextureRegion clockTime;
 	
 	public ResourceManager(){
 	}
@@ -385,6 +386,9 @@ public class ResourceManager extends Object{
 		}
 		if(wuya == null){
 			wuya = getLimitableTTR("wuya.png",2,2,mNormalTextureOption);
+		}
+		if(clockTime == null){
+			clockTime = getLimitableTTR("clockTime.png",2,2,mNormalTextureOption);
 		}
 		BitmapTextureAtlasTextureRegionFactory.setAssetBasePath(mPreviousAssetBasePath);
 	}
