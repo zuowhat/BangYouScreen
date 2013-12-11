@@ -56,6 +56,9 @@ public class GameLevel extends ManagedScene {
 	private ButtonSprite greenButtonBS;
 	private ButtonSprite redButtonBS;
 	private ButtonSprite magicBS;
+	private ButtonSprite clockSprite;
+	private ButtonSprite propsBS;
+	private ButtonSprite otherBS;
 	
 	public static BossModel bossModel;
 	public static PlayerModel playerModel;
@@ -65,7 +68,8 @@ public class GameLevel extends ManagedScene {
 	private float aoeXS;//魔法伤害系数
 	private int bossHP;
 	private AnimatedSprite clockTimeAS;
-	private String[] sounds = {"g_win","g_fail","g_time"};
+	private String[] sounds = {"g_win","g_fail","g_time","g_bomb","g_button","g_countdown","g_go"};
+	private Rectangle fadableBGRect;
 	
 	public GameLevel (BossModel pBossModel, PlayerModel pPlayerModel){
 		bossModel = pBossModel;
@@ -130,7 +134,7 @@ public class GameLevel extends ManagedScene {
 		attachChild(bossAS);
 		
 		//操作区半透明背景
-		Rectangle fadableBGRect = new Rectangle(0f, 0f,mCameraWidth,mCameraHeight/4f+10f, mVertexBufferObjectManager);
+		fadableBGRect = new Rectangle(0f, 0f,mCameraWidth,mCameraHeight/4f+10f, mVertexBufferObjectManager);
 		fadableBGRect.setPosition(mCameraWidth/2f, mCameraHeight/8f);
 		fadableBGRect.setColor(0f, 0f, 0f, 0.5f);
 		attachChild(fadableBGRect);
@@ -143,10 +147,10 @@ public class GameLevel extends ManagedScene {
 
 			public void onClick(ButtonSprite pButtonSprite,
 					float pTouchAreaLocalX, float pTouchAreaLocalY) {
+					//SFXManager.getInstance().playSound("g_button");
 					updateHP(1);
 			}});
 		fadableBGRect.attachChild(greenButtonBS);
-		
 		
 		//蓝色按钮
 		redButtonBS = new ButtonSprite(0f,0f,ResourceManager.redButtonTTR,mVertexBufferObjectManager);
@@ -157,13 +161,13 @@ public class GameLevel extends ManagedScene {
 			@Override
 			public void onClick(ButtonSprite pButtonSprite,
 					float pTouchAreaLocalX, float pTouchAreaLocalY) {
+					//SFXManager.getInstance().playSound("g_button");
 					updateHP(1);
 			}});
 		fadableBGRect.attachChild(redButtonBS);
 		
-		
 		//时钟
-		final ButtonSprite clockSprite = new ButtonSprite(0f,0f,ResourceManager.propsTTR.getTextureRegion(3),mVertexBufferObjectManager);
+		clockSprite = new ButtonSprite(0f,0f,ResourceManager.propsTTR.getTextureRegion(3),mVertexBufferObjectManager);
 		EntityUtil.setSize("width", 1f / 10f, clockSprite);
 		clockSprite.setPosition((1f/2f)*mCameraWidth, redButtonBS.getY());
 		clockSprite.setOnClickListener(new OnClickListener(){
@@ -176,7 +180,6 @@ public class GameLevel extends ManagedScene {
 				
 			}});
 		fadableBGRect.attachChild(clockSprite);
-		
 		
 		//魔法按钮
 		magicBS = new ButtonSprite(0f,0f,playerModel.getMagicTR(),mVertexBufferObjectManager);
@@ -213,17 +216,18 @@ public class GameLevel extends ManagedScene {
 
 					@Override
 					public void onAnimationFinished(AnimatedSprite pAnimatedSprite) {
-						detachChild(magicAS);
-						magicAS = null;
-						bossAS.animate(frameDur,0,1,true);
-						updateHP(2);
+						if(gameTime > 0){
+							detachChild(magicAS);
+							magicAS = null;
+							bossAS.animate(frameDur,0,1,true);
+							updateHP(2);
+						}
 					}
 				});
 				attachChild(magicAS);
 				
 			}});
 		fadableBGRect.attachChild(magicBS);
-		
 		
 		//武器图标
 		Sprite weaponBS = new Sprite(0f,0f,playerModel.getWeaponTR(),mVertexBufferObjectManager);
@@ -232,7 +236,7 @@ public class GameLevel extends ManagedScene {
 		fadableBGRect.attachChild(weaponBS);
 
 		//道具
-		final ButtonSprite propsBS = new ButtonSprite(0f,0f,ResourceManager.propsTTR.getTextureRegion(0),mVertexBufferObjectManager);
+		propsBS = new ButtonSprite(0f,0f,ResourceManager.propsTTR.getTextureRegion(0),mVertexBufferObjectManager);
 		EntityUtil.setSize("width", 1f / 10f, propsBS);
 		propsBS.setPosition(clockSprite.getX()+(53f/400f)*mCameraWidth, clockSprite.getY());
 		propsBS.setOnClickListener(new OnClickListener(){
@@ -246,7 +250,7 @@ public class GameLevel extends ManagedScene {
 		
 		
 		//其他
-		final ButtonSprite otherBS = new ButtonSprite(0f,0f,ResourceManager.propsTTR.getTextureRegion(1),mVertexBufferObjectManager);
+		otherBS = new ButtonSprite(0f,0f,ResourceManager.propsTTR.getTextureRegion(1),mVertexBufferObjectManager);
 		EntityUtil.setSize("width", 1f / 10f, otherBS);
 		otherBS.setPosition(propsBS.getX()+(53f/400f)*mCameraWidth, clockSprite.getY());
 		otherBS.setOnClickListener(new OnClickListener(){
@@ -259,6 +263,8 @@ public class GameLevel extends ManagedScene {
 		fadableBGRect.attachChild(otherBS);
 		
 		//游戏开始倒计时动画
+		//long [] frameDur = new long[3];
+		//Arrays.fill(frameDur, 1000);
 		clockTimeAS = new AnimatedSprite(0f,0f,ResourceManager.clockTime,mVertexBufferObjectManager);
 		clockTimeAS.setPosition(mCameraWidth/2f, mCameraHeight/2f);
 		EntityUtil.setSize("height", 1f / 4f, clockTimeAS);
@@ -266,6 +272,7 @@ public class GameLevel extends ManagedScene {
 
 			public void onAnimationStarted(AnimatedSprite pAnimatedSprite,
 					int pInitialLoopCount) {
+					//SFXManager.getInstance().playSound("g_countdown",3);
 			}
 
 			public void onAnimationFrameChanged(AnimatedSprite pAnimatedSprite,
@@ -277,14 +284,10 @@ public class GameLevel extends ManagedScene {
 			}
 
 			public void onAnimationFinished(AnimatedSprite pAnimatedSprite) {
+				SFXManager.getInstance().playSound("g_go");
 				detachChild(clockTimeAS);
-				registerTouchArea(otherBS);
-				registerTouchArea(propsBS);
-				registerTouchArea(magicBS);
-				registerTouchArea(clockSprite);
-				registerTouchArea(redButtonBS);
-				registerTouchArea(greenButtonBS);
-				registerUpdateHandler(gameRunTimer);
+				clockTimeAS = null;
+				enableButtons();
 			}
 		});
 		attachChild(clockTimeAS);
@@ -329,10 +332,7 @@ public class GameLevel extends ManagedScene {
 			gameTime-=pSecondsElapsed;
 			if(gameTime<=0) {
 				mGameTime.adjustTime(0f);
-				unregisterUpdateHandler(this);
-				//setIgnoreUpdate(true);
-				unregisterTouchArea(greenButtonBS);
-				unregisterTouchArea(redButtonBS);
+				disableButtons();
 				bossAS.unregisterUpdateHandler(mPhysicsHandler);
 				mGameTime.mDigitsSprite[3].clearEntityModifiers();
 				mGameTime.mDigitsSprite[2].clearEntityModifiers();
@@ -388,10 +388,7 @@ public class GameLevel extends ManagedScene {
 	 * @since 1.0
 	 */
 	public void onPauseGameLevel(){
-		unregisterUpdateHandler(gameRunTimer);
-		setIgnoreUpdate(true);
-		unregisterTouchArea(greenButtonBS);
-		unregisterTouchArea(redButtonBS);
+		disableButtons();
 	}
 	
 	/**
@@ -400,29 +397,34 @@ public class GameLevel extends ManagedScene {
 	 * @since 1.0
 	 */
 	public void onResumeGameLevel(){
-		clockTimeAS.animate(1000,0,new IAnimationListener(){
-
-			public void onAnimationStarted(AnimatedSprite pAnimatedSprite,
-					int pInitialLoopCount) {
-			}
-
-			public void onAnimationFrameChanged(AnimatedSprite pAnimatedSprite,
-					int pOldFrameIndex, int pNewFrameIndex) {
-			}
-
-			public void onAnimationLoopFinished(AnimatedSprite pAnimatedSprite,
-					int pRemainingLoopCount, int pInitialLoopCount) {
-			}
-
-			public void onAnimationFinished(AnimatedSprite pAnimatedSprite) {
-				detachChild(clockTimeAS);
-				registerUpdateHandler(gameRunTimer);
-				setIgnoreUpdate(false);
-				registerTouchArea(greenButtonBS);
-				registerTouchArea(redButtonBS);
-			}
-		});
-		attachChild(clockTimeAS);
+//		setIgnoreUpdate(false);
+//		clockTimeAS = new AnimatedSprite(0f,0f,ResourceManager.clockTime,mVertexBufferObjectManager);
+//		clockTimeAS.setPosition(mCameraWidth/2f, mCameraHeight/2f);
+//		EntityUtil.setSize("height", 1f / 4f, clockTimeAS);
+//		clockTimeAS.animate(1000,0,new IAnimationListener(){
+//
+//			public void onAnimationStarted(AnimatedSprite pAnimatedSprite,
+//					int pInitialLoopCount) {
+//			}
+//
+//			public void onAnimationFrameChanged(AnimatedSprite pAnimatedSprite,
+//					int pOldFrameIndex, int pNewFrameIndex) {
+//			}
+//
+//			public void onAnimationLoopFinished(AnimatedSprite pAnimatedSprite,
+//					int pRemainingLoopCount, int pInitialLoopCount) {
+//			}
+//
+//			public void onAnimationFinished(AnimatedSprite pAnimatedSprite) {
+//				SFXManager.getInstance().playSound("g_go");
+//				detachChild(clockTimeAS);
+//				clockTimeAS = null;
+//				enableButtons();
+//			}
+//		});
+//		attachChild(clockTimeAS);
+		
+		enableButtons();
 	}
 	
 	/**
@@ -438,8 +440,7 @@ public class GameLevel extends ManagedScene {
 
 			public void onAnimationStarted(AnimatedSprite pAnimatedSprite,
 					int pInitialLoopCount) {
-				//这里添加爆炸声
-				
+				SFXManager.getInstance().playSound("g_bomb",2);
 			}
 
 			public void onAnimationFrameChanged(AnimatedSprite pAnimatedSprite,
@@ -464,25 +465,23 @@ public class GameLevel extends ManagedScene {
 	 * @since 1.0
 	 */
 	private void gameFail(){
-		AlphaModifier a = new AlphaModifier(3,0.1f,0.5f,new IEntityModifier.IEntityModifierListener(){
-
-			public void onModifierStarted(IModifier<IEntity> pModifier,
-					IEntity pItem) {
-				
-			}
-
-			public void onModifierFinished(IModifier<IEntity> pModifier,
-					IEntity pItem) {
-				SceneManager.getInstance().showLayer(GameFailLayer.getInstance(), false, false, false);
-				SFXManager.getInstance().playSound("g_fail");
-			}
-		});
+//		AlphaModifier a = new AlphaModifier(3,0.1f,0.5f,new IEntityModifier.IEntityModifierListener(){
+//			public void onModifierStarted(IModifier<IEntity> pModifier,
+//					IEntity pItem) {}
+//			public void onModifierFinished(IModifier<IEntity> pModifier,
+//					IEntity pItem) {
+//				SceneManager.getInstance().showLayer(GameFailLayer.getInstance(), false, false, false);
+//				SFXManager.getInstance().playSound("g_fail");
+//			}
+//		});
+//		Rectangle r = new Rectangle(0f, 0f,mCameraWidth,mCameraHeight, mVertexBufferObjectManager);
+//		r.setColor(255, 255, 255, 0.1f);
+//		r.setPosition(mCameraWidth/2f, mCameraHeight/2f);
+//		r.registerEntityModifier(a);
+//		attachChild(r);
 		
-		Rectangle r = new Rectangle(0f, 0f,mCameraWidth,mCameraHeight, mVertexBufferObjectManager);
-		r.setColor(255, 255, 255, 0.1f);
-		r.setPosition(mCameraWidth/2f, mCameraHeight/2f);
-		r.registerEntityModifier(a);
-		attachChild(r);
+		SceneManager.getInstance().showLayer(GameFailLayer.getInstance(), false, false, false);
+		SFXManager.getInstance().playSound("g_fail");
 	}
 	
 	/**
@@ -518,9 +517,7 @@ public class GameLevel extends ManagedScene {
 		mGameScore.addScore(mScore);
 		if(bossHP <= 0 && gameTime > 0){
 			bossAS.unregisterUpdateHandler(mPhysicsHandler);
-			unregisterUpdateHandler(gameRunTimer);
-			unregisterTouchArea(greenButtonBS);
-			unregisterTouchArea(redButtonBS);
+			disableButtons();
 			gameWin();
 		}
 	}
@@ -689,5 +686,26 @@ public class GameLevel extends ManagedScene {
 		}
 	}
 	
+	private void disableButtons(){
+		setIgnoreUpdate(true);
+		unregisterUpdateHandler(gameRunTimer);
+		unregisterTouchArea(greenButtonBS);
+		unregisterTouchArea(redButtonBS);
+		unregisterTouchArea(otherBS);
+		unregisterTouchArea(propsBS);
+		unregisterTouchArea(magicBS);
+		unregisterTouchArea(clockSprite);
+	}
+	
+	private void enableButtons(){
+		setIgnoreUpdate(false);
+		registerTouchArea(otherBS);
+		registerTouchArea(propsBS);
+		registerTouchArea(magicBS);
+		registerTouchArea(clockSprite);
+		registerTouchArea(redButtonBS);
+		registerTouchArea(greenButtonBS);
+		registerUpdateHandler(gameRunTimer);
+	}
 
 }
