@@ -61,6 +61,7 @@ public class MainMenuScene extends ManagedScene{
 	@Override
 	public void onLoadScene() {
 		//SFXManager.getInstance().loadMusic("mainMusic", ResourceManager.getActivity().getMusicManager(), ResourceManager.getActivity());
+		SFXManager.getInstance().loadSound("a_click", ResourceManager.getActivity().getSoundManager(), ResourceManager.getActivity());
 		ResourceManager.loadThemeResources();
 		ResourceManager.loadBossResources();
 		ResourceManager.loadGameResources();
@@ -142,9 +143,8 @@ public class MainMenuScene extends ManagedScene{
 			
 			@Override
 			public void onClick(ButtonSprite pButtonSprite, float pTouchAreaLocalX, float pTouchAreaLocalY) {
+				SFXManager.getInstance().playSound("a_click");
 				SceneManager.getInstance().showScene(ThemeScene.getInstance());
-				//SceneManager.getInstance().showScene(new GameLevel());
-				
 			}
 		});
 		registerTouchArea(themeModeBS);
@@ -159,6 +159,7 @@ public class MainMenuScene extends ManagedScene{
 			
 			@Override
 			public void onClick(ButtonSprite pButtonSprite, float pTouchAreaLocalX, float pTouchAreaLocalY) {
+				SFXManager.getInstance().playSound("a_click");
 				//SceneManager.getInstance().showScene(new ThemeScene());
 			}
 		});
@@ -174,6 +175,7 @@ public class MainMenuScene extends ManagedScene{
 			
 			@Override
 			public void onClick(ButtonSprite pButtonSprite, float pTouchAreaLocalX, float pTouchAreaLocalY) {
+				SFXManager.getInstance().playSound("a_click");
 				//SceneManager.getInstance().showScene(new ThemeScene());
 			}
 		});

@@ -14,6 +14,7 @@ import org.andengine.ui.activity.BaseGameActivity;
 import org.game.bangyouscreen.gameLevels.GameLevel;
 import org.game.bangyouscreen.layer.GamePauseLayer;
 import org.game.bangyouscreen.managers.ResourceManager;
+import org.game.bangyouscreen.managers.SFXManager;
 import org.game.bangyouscreen.managers.SceneManager;
 import org.game.bangyouscreen.scene.SplashScreen;
 import org.game.bangyouscreen.util.DataConstant;
@@ -169,8 +170,10 @@ public class BangYouScreenActivity extends BaseGameActivity {
 	}
 	
 	  public void onBackPressed() {
+		  SFXManager.getInstance().playSound("a_click");
 		  if (ResourceManager.getInstance().engine != null) {
-			  if (SceneManager.getInstance().mIsLayerShown) {
+			  if (SceneManager.getInstance().mIsLayerShown && SceneManager.getInstance().mCurrentLayer.getClass()
+					  .equals(GamePauseLayer.class)) {
 				  SceneManager.getInstance().mCurrentLayer.onHideLayer();
 				  ((GameLevel) SceneManager.getInstance().mCurrentScene).onResumeGameLevel();
 			  }else if(SceneManager.getInstance().mCurrentScene.getClass().equals(GameLevel.class)){

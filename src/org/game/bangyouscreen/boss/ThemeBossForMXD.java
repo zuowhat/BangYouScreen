@@ -15,6 +15,7 @@ import org.andengine.opengl.vbo.VertexBufferObjectManager;
 import org.game.bangyouscreen.gameLevels.GameLevel;
 import org.game.bangyouscreen.managers.ManagedScene;
 import org.game.bangyouscreen.managers.ResourceManager;
+import org.game.bangyouscreen.managers.SFXManager;
 import org.game.bangyouscreen.managers.SceneManager;
 import org.game.bangyouscreen.model.BossModel;
 import org.game.bangyouscreen.model.PlayerModel;
@@ -84,10 +85,9 @@ public class ThemeBossForMXD extends ManagedScene implements IScrollDetectorList
 		attachChild(backBS);
 		backBS.setOnClickListener(new org.andengine.entity.sprite.ButtonSprite.OnClickListener(){
 			
-			@Override
 			public void onClick(ButtonSprite pButtonSprite, float pTouchAreaLocalX, float pTouchAreaLocalY) {
+				SFXManager.getInstance().playSound("a_click");
 				SceneManager.getInstance().showScene(ThemeScene.getInstance());
-				
 			}
 		});
 		registerTouchArea(backBS);
@@ -98,10 +98,9 @@ public class ThemeBossForMXD extends ManagedScene implements IScrollDetectorList
 		attachChild(homeBS);
 		homeBS.setOnClickListener(new org.andengine.entity.sprite.ButtonSprite.OnClickListener(){
 			
-			@Override
 			public void onClick(ButtonSprite pButtonSprite, float pTouchAreaLocalX, float pTouchAreaLocalY) {
+				SFXManager.getInstance().playSound("a_click");
 				SceneManager.getInstance().showScene(MainMenuScene.getInstance());
-				
 			}
 		});
 		registerTouchArea(homeBS);
@@ -248,6 +247,7 @@ public class ThemeBossForMXD extends ManagedScene implements IScrollDetectorList
 				bossPics[i].setOnClickListener(new OnClickListener(){
 					public void onClick(AnimatedButtonSprite pButtonSprite,
 							float pTouchAreaLocalX, float pTouchAreaLocalY) {
+						SFXManager.getInstance().playSound("a_click");
 						SceneManager.getInstance().showScene(new GameLevel(DataConstant.getMXDBoss(mCurrentBoss),DataConstant.getPlayerModel()));
 				}});
 				//BOSS图片和简介的位置

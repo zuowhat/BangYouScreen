@@ -19,6 +19,7 @@ import org.andengine.opengl.vbo.VertexBufferObjectManager;
 import org.game.bangyouscreen.boss.ThemeBossForMXD;
 import org.game.bangyouscreen.managers.ManagedScene;
 import org.game.bangyouscreen.managers.ResourceManager;
+import org.game.bangyouscreen.managers.SFXManager;
 import org.game.bangyouscreen.managers.SceneManager;
 
 public class ThemeScene extends ManagedScene implements IScrollDetectorListener{
@@ -82,8 +83,8 @@ public class ThemeScene extends ManagedScene implements IScrollDetectorListener{
 			
 			@Override
 			public void onClick(ButtonSprite pButtonSprite, float pTouchAreaLocalX, float pTouchAreaLocalY) {
+				SFXManager.getInstance().playSound("a_click");
 				SceneManager.getInstance().showScene(MainMenuScene.getInstance());
-				
 			}
 		});
 		registerTouchArea(backBS);
@@ -98,8 +99,8 @@ public class ThemeScene extends ManagedScene implements IScrollDetectorListener{
 			
 			@Override
 			public void onClick(ButtonSprite pButtonSprite, float pTouchAreaLocalX, float pTouchAreaLocalY) {
+				SFXManager.getInstance().playSound("a_click");
 				SceneManager.getInstance().showScene(MainMenuScene.getInstance());
-				
 			}
 		});
 		registerTouchArea(homeBS);
@@ -205,7 +206,7 @@ public class ThemeScene extends ManagedScene implements IScrollDetectorListener{
 		 themePics[0].setOnClickListener(new OnClickListener(){
 				@Override
 				public void onClick(ButtonSprite pButtonSprite, float pTouchAreaLocalX, float pTouchAreaLocalY) {
-					//mCurrentScreen = ThemeSceneScreens.LevelSelector;
+					SFXManager.getInstance().playSound("a_click");
 					SceneManager.getInstance().showScene(ThemeBossForMXD.getInstance());
 				}
 			});
@@ -219,7 +220,7 @@ public class ThemeScene extends ManagedScene implements IScrollDetectorListener{
 		 themePics[1].setSize(mCameraWidth/2f, mCameraHeight*(2f/3f));
 		 themeR.attachChild(themePics[1]);
 		 themePics[1].setOnClickListener(new OnClickListener(){
-				@Override
+				
 				public void onClick(ButtonSprite pButtonSprite, float pTouchAreaLocalX, float pTouchAreaLocalY) {
 					//mCurrentScreen = ThemeSceneScreens.LevelSelector;
 					//SceneManager.getInstance().showLayer(GamePauseLayer.getInstance(), false, false, false);

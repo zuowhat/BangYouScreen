@@ -22,6 +22,7 @@ import org.game.bangyouscreen.layer.GameFailLayer;
 import org.game.bangyouscreen.layer.GameWinLayer;
 import org.game.bangyouscreen.managers.ManagedScene;
 import org.game.bangyouscreen.managers.ResourceManager;
+import org.game.bangyouscreen.managers.SFXManager;
 import org.game.bangyouscreen.managers.SceneManager;
 import org.game.bangyouscreen.model.BossModel;
 import org.game.bangyouscreen.model.PlayerModel;
@@ -63,6 +64,8 @@ public class GameLevel extends ManagedScene {
 	private float dpsXS;//物理伤害系数
 	private float aoeXS;//魔法伤害系数
 	private int bossHP;
+	private AnimatedSprite clockTimeAS;
+	private String[] sounds = {"g_win","g_fail","g_time"};
 	
 	public GameLevel (BossModel pBossModel, PlayerModel pPlayerModel){
 		bossModel = pBossModel;
@@ -81,6 +84,7 @@ public class GameLevel extends ManagedScene {
 
 	@Override
 	public void onLoadScene() {
+		SFXManager.getInstance().loadSounds(sounds, ResourceManager.getActivity().getSoundManager(), ResourceManager.getActivity());
 		countDpsXS();
 		countAoeXS();
 		ResourceManager.getInstance().engine.getEngineOptions().getTouchOptions().setNeedsMultiTouch(true);
@@ -167,6 +171,7 @@ public class GameLevel extends ManagedScene {
 			@Override
 			public void onClick(ButtonSprite pButtonSprite,
 					float pTouchAreaLocalX, float pTouchAreaLocalY) {
+				SFXManager.getInstance().playSound("g_time");
 				gameTime+=30f;
 				
 			}});
@@ -182,6 +187,7 @@ public class GameLevel extends ManagedScene {
 			@Override
 			public void onClick(ButtonSprite pButtonSprite,
 					float pTouchAreaLocalX, float pTouchAreaLocalY) {
+				SFXManager.getInstance().playSound("a_click");
 				//魔法效果
 				magicAS = new AnimatedSprite(mCameraWidth/2f,mCameraHeight/2f,playerModel.getMagicTTR(),mVertexBufferObjectManager);
 				//magicAS.setScale(2f);
@@ -233,6 +239,7 @@ public class GameLevel extends ManagedScene {
 
 			public void onClick(ButtonSprite pButtonSprite,
 					float pTouchAreaLocalX, float pTouchAreaLocalY) {
+				SFXManager.getInstance().playSound("a_click");
 				
 			}});
 		fadableBGRect.attachChild(propsBS);
@@ -246,12 +253,13 @@ public class GameLevel extends ManagedScene {
 
 			public void onClick(ButtonSprite pButtonSprite,
 					float pTouchAreaLocalX, float pTouchAreaLocalY) {
+				SFXManager.getInstance().playSound("a_click");
 				
 			}});
 		fadableBGRect.attachChild(otherBS);
 		
 		//游戏开始倒计时动画
-		final AnimatedSprite clockTimeAS = new AnimatedSprite(0f,0f,ResourceManager.clockTime,mVertexBufferObjectManager);
+		clockTimeAS = new AnimatedSprite(0f,0f,ResourceManager.clockTime,mVertexBufferObjectManager);
 		clockTimeAS.setPosition(mCameraWidth/2f, mCameraHeight/2f);
 		EntityUtil.setSize("height", 1f / 4f, clockTimeAS);
 		clockTimeAS.animate(1000,0,new IAnimationListener(){
@@ -392,10 +400,29 @@ public class GameLevel extends ManagedScene {
 	 * @since 1.0
 	 */
 	public void onResumeGameLevel(){
-		registerUpdateHandler(gameRunTimer);
-		setIgnoreUpdate(false);
-		registerTouchArea(greenButtonBS);
-		registerTouchArea(redButtonBS);
+		clockTimeAS.animate(1000,0,new IAnimationListener(){
+
+			public void onAnimationStarted(AnimatedSprite pAnimatedSprite,
+					int pInitialLoopCount) {
+			}
+
+			public void onAnimationFrameChanged(AnimatedSprite pAnimatedSprite,
+					int pOldFrameIndex, int pNewFrameIndex) {
+			}
+
+			public void onAnimationLoopFinished(AnimatedSprite pAnimatedSprite,
+					int pRemainingLoopCount, int pInitialLoopCount) {
+			}
+
+			public void onAnimationFinished(AnimatedSprite pAnimatedSprite) {
+				detachChild(clockTimeAS);
+				registerUpdateHandler(gameRunTimer);
+				setIgnoreUpdate(false);
+				registerTouchArea(greenButtonBS);
+				registerTouchArea(redButtonBS);
+			}
+		});
+		attachChild(clockTimeAS);
 	}
 	
 	/**
@@ -425,7 +452,7 @@ public class GameLevel extends ManagedScene {
 
 			public void onAnimationFinished(AnimatedSprite pAnimatedSprite) {
 				SceneManager.getInstance().showLayer(GameWinLayer.getInstance(), false, false, false);
-				
+				SFXManager.getInstance().playSound("g_win");
 			}
 		});
 		attachChild(bigBang);
@@ -441,13 +468,13 @@ public class GameLevel extends ManagedScene {
 
 			public void onModifierStarted(IModifier<IEntity> pModifier,
 					IEntity pItem) {
-				//游戏失败的音效
 				
 			}
 
 			public void onModifierFinished(IModifier<IEntity> pModifier,
 					IEntity pItem) {
 				SceneManager.getInstance().showLayer(GameFailLayer.getInstance(), false, false, false);
+				SFXManager.getInstance().playSound("g_fail");
 			}
 		});
 		
@@ -662,9 +689,5 @@ public class GameLevel extends ManagedScene {
 		}
 	}
 	
-	public void onBackPressed() {
-		
-		
-	}
 
 }

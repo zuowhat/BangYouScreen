@@ -65,7 +65,9 @@ public class SFXManager {
     public void loadMusic(String paramString, MusicManager paramMusicManager, Context paramContext){
     	MusicFactory.setAssetBasePath("mfx/");
     	try {
-			mMusicMap.put(paramString, MusicFactory.createMusicFromAsset(paramMusicManager, paramContext, paramString + ".ogg"));
+    		if (!mMusicMap.containsKey(paramString)){
+    			mMusicMap.put(paramString, MusicFactory.createMusicFromAsset(paramMusicManager, paramContext, paramString + ".ogg"));
+    		}
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -80,7 +82,9 @@ public class SFXManager {
     	MusicFactory.setAssetBasePath("mfx/");
     	try {
     		for(String s:paramString){
-    			mMusicMap.put(s, MusicFactory.createMusicFromAsset(paramMusicManager, paramContext, s + ".ogg"));
+    			if (!mMusicMap.containsKey(s)){
+    				mMusicMap.put(s, MusicFactory.createMusicFromAsset(paramMusicManager, paramContext, s + ".ogg"));
+    			}
     		}
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -159,7 +163,9 @@ public class SFXManager {
     public void loadSound(String paramString, SoundManager paramSoundManager, Context paramContext){
     	SoundFactory.setAssetBasePath("sfx/");
     	try {
-    		mSoundsMap.put(paramString, SoundFactory.createSoundFromAsset(paramSoundManager, paramContext, paramString + ".ogg"));
+    		if(!mSoundsMap.containsKey(paramString)){
+        		mSoundsMap.put(paramString, SoundFactory.createSoundFromAsset(paramSoundManager, paramContext, paramString + ".ogg"));	
+    		}
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -174,7 +180,9 @@ public class SFXManager {
     	SoundFactory.setAssetBasePath("sfx/");
     	try {
     		for(String s:paramString){
-    			mSoundsMap.put(s, SoundFactory.createSoundFromAsset(paramSoundManager, paramContext, s + ".ogg"));
+    			if(!mSoundsMap.containsKey(s)){
+    				mSoundsMap.put(s, SoundFactory.createSoundFromAsset(paramSoundManager, paramContext, s + ".ogg"));
+    			}
     		}
 		} catch (IOException e) {
 			e.printStackTrace();

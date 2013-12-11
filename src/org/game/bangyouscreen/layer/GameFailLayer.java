@@ -12,6 +12,7 @@ import org.andengine.opengl.vbo.VertexBufferObjectManager;
 import org.game.bangyouscreen.gameLevels.GameLevel;
 import org.game.bangyouscreen.managers.ManagedLayer;
 import org.game.bangyouscreen.managers.ResourceManager;
+import org.game.bangyouscreen.managers.SFXManager;
 import org.game.bangyouscreen.managers.SceneManager;
 import org.game.bangyouscreen.scene.MainMenuScene;
 import org.game.bangyouscreen.util.EntityUtil;
@@ -104,6 +105,7 @@ public class GameFailLayer extends ManagedLayer{
 		continueBS.setOnClickListener(new OnClickListener(){
 			public void onClick(ButtonSprite pButtonSprite,
 					float pTouchAreaLocalX, float pTouchAreaLocalY) {
+					SFXManager.getInstance().playSound("a_click");
 					onHideLayer();
 					SceneManager.getInstance().showScene(new GameLevel(GameLevel.bossModel,GameLevel.playerModel));
 			}});
@@ -117,6 +119,7 @@ public class GameFailLayer extends ManagedLayer{
 		goBackBS.setOnClickListener(new OnClickListener(){
 			public void onClick(ButtonSprite pButtonSprite,
 					float pTouchAreaLocalX, float pTouchAreaLocalY) {
+					SFXManager.getInstance().playSound("a_click");
 					onHideLayer();
 					SceneManager.getInstance().showScene(MainMenuScene.getInstance());
 			}});
