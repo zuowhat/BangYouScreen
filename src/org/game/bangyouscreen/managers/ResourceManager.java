@@ -73,6 +73,7 @@ public class ResourceManager extends Object{
 	public static TiledTextureRegion bigBang;
 	public static TiledTextureRegion wuya;
 	public static TiledTextureRegion clockTime;
+	public static TiledTextureRegion iconCooling;
 	
 	public ResourceManager(){
 	}
@@ -304,7 +305,7 @@ public class ResourceManager extends Object{
 	
 	private void loadThemeBoss(){
 		//下面一行是测试代码,待删除
-		BangYouScreenActivity.writeIntToSharedPreferences(DataConstant.SHARED_PREFS_THEME_1, 7);
+		//BangYouScreenActivity.writeIntToSharedPreferences(DataConstant.SHARED_PREFS_THEME_1, 7);
 		
 		
 		//根据完成的关卡数来加载BOSS纹理
@@ -389,6 +390,9 @@ public class ResourceManager extends Object{
 		}
 		if(clockTime == null){
 			clockTime = getLimitableTTR("clockTime.png",2,2,mNormalTextureOption);
+		}
+		if(iconCooling == null){
+			iconCooling = getLimitableTTR("iconCooling.png",3,3,mNormalTextureOption);
 		}
 		BitmapTextureAtlasTextureRegionFactory.setAssetBasePath(mPreviousAssetBasePath);
 	}
