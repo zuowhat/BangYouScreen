@@ -383,7 +383,7 @@ public class GameLevel extends ManagedScene {
 			gameTime-=pSecondsElapsed;
 			if(gameTime<=0) {
 				mGameTime.adjustTime(0f);
-				disableButtons();
+				disableButtons(true);
 				bossAS.unregisterUpdateHandler(mPhysicsHandler);
 				mGameTime.mDigitsSprite[3].clearEntityModifiers();
 				mGameTime.mDigitsSprite[2].clearEntityModifiers();
@@ -439,7 +439,7 @@ public class GameLevel extends ManagedScene {
 	 * @since 1.0
 	 */
 	public void onPauseGameLevel(){
-		disableButtons();
+		disableButtons(true);
 	}
 	
 	/**
@@ -569,7 +569,7 @@ public class GameLevel extends ManagedScene {
 		mGameScore.addScore(mScore);
 		if(bossHP <= 0 && gameTime > 0){
 			bossAS.unregisterUpdateHandler(mPhysicsHandler);
-			disableButtons();
+			disableButtons(false);
 			gameWin();
 		}
 	}
@@ -738,8 +738,8 @@ public class GameLevel extends ManagedScene {
 		}
 	}
 	
-	private void disableButtons(){
-		setIgnoreUpdate(true);
+	private void disableButtons(boolean type){
+		setIgnoreUpdate(type);
 		unregisterUpdateHandler(gameRunTimer);
 		unregisterTouchArea(greenButtonBS);
 		unregisterTouchArea(redButtonBS);

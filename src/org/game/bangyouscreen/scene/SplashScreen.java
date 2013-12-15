@@ -47,7 +47,7 @@ public class SplashScreen extends ManagedScene{
 	
 	//旋转光环
 	private static final BitmapTextureAtlas nimbusBG = new BitmapTextureAtlas(ResourceManager.getEngine().getTextureManager(), 512, 512, TextureOptions.BILINEAR);
-	private static final ITextureRegion nimbusBGTextureRegion = BitmapTextureAtlasTextureRegionFactory.createFromAsset(nimbusBG, ResourceManager.getContext(), "gfx/menu/loadingBG1.png", 0, 0);
+	private static final ITextureRegion nimbusBGTextureRegion = BitmapTextureAtlasTextureRegionFactory.createFromAsset(nimbusBG, ResourceManager.getContext(), "gfx/splash/loadingBG1.png", 0, 0);
 	private static final Sprite nimbusSprite = new Sprite(beginOneSprite.getX(), beginOneSprite.getY(), nimbusBGTextureRegion, ResourceManager.getEngine().getVertexBufferObjectManager());
 	
 	RotationModifier mRotationModifier = new RotationModifier(34.0F, 0.0F, 360.0F, new IEntityModifier.IEntityModifierListener(){

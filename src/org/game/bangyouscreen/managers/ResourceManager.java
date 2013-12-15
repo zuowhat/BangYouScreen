@@ -74,6 +74,11 @@ public class ResourceManager extends Object{
 	public static TiledTextureRegion wuya;
 	public static TiledTextureRegion clockTime;
 	public static TiledTextureRegion iconCooling;
+	public static TextureRegion shopBG;
+	public static TextureRegion shopMenuBG;
+	public static TiledTextureRegion shopMenu;
+	public static TextureRegion shopInfoBG;
+	public static TiledTextureRegion shopInfoRowsBG;
 	
 	public ResourceManager(){
 	}
@@ -166,6 +171,10 @@ public class ResourceManager extends Object{
 		return tiledTextureRegion;
 	}
 	
+	public static void loadLoadingResources(){
+		getInstance().loadLoadingTextures();
+	}
+	
 	public static void loadMenuResources(){
 		getInstance().loadMenuTextures();
 		getInstance().loadSharedResources();
@@ -181,6 +190,11 @@ public class ResourceManager extends Object{
 		getInstance().loadSharedResources();
 	}
 	
+	public static void loadShopResources(){
+		getInstance().loadShopTextures();
+		getInstance().loadSharedResources();
+	}
+	
 	/**
 	 * 完成关卡后，加载下一个BOSS资源 
 	 * @author zuowhat 2013-11-25
@@ -191,10 +205,28 @@ public class ResourceManager extends Object{
 	}
 	
 	private void loadSharedResources(){
-		getInstance().loadWareHouseTextures();
 		getInstance().loadSharedTextures();
 		getInstance().loadFonts();
 	}
+	
+	// ============================ 菜单纹理  ================= //
+	private void loadLoadingTextures(){
+		mPreviousAssetBasePath = BitmapTextureAtlasTextureRegionFactory.getAssetBasePath();
+		BitmapTextureAtlasTextureRegionFactory.setAssetBasePath("gfx/loading/");
+		if(loadingBG == null){
+			loadingBG = getLimitableTR("loadingBG.png",mNormalTextureOption);
+		}
+		if(loadingBG2 == null){
+			loadingBG2 = getLimitableTTR("loadingBG2.png",2,1,mNormalTextureOption);
+		}
+		if(loadingFont == null){
+			loadingFont = getLimitableTTR("loadingFont.png",1,3,mNormalTextureOption);
+		}
+		
+		
+	}
+	
+	
 	
 	// ============================ 菜单纹理  ================= //
 	private void loadMenuTextures(){
@@ -215,51 +247,29 @@ public class ResourceManager extends Object{
 		if(menuClouds2 == null){
 			menuClouds2 = getLimitableTR("menuClouds2.png",mNormalTextureOption);
 		}
-		if(loadingBG == null){
-			loadingBG = getLimitableTR("loadingBG.png",mNormalTextureOption);
-		}
-		if(loadingBG1 == null){
-			loadingBG1 = getLimitableTR("loadingBG1.png",mNormalTextureOption);
-		}
-		if(loadingBG2 == null){
-			loadingBG2 = getLimitableTTR("loadingBG2.png",2,1,mNormalTextureOption);
-		}
-		if(loadingFont == null){
-			loadingFont = getLimitableTTR("loadingFont.png",1,3,mNormalTextureOption);
-		}
+
 		BitmapTextureAtlasTextureRegionFactory.setAssetBasePath(mPreviousAssetBasePath);
 	}
 	
 	// ============================ 装备库纹理  ================= //
-	private void loadWareHouseTextures(){
+	private void loadShopTextures(){
 		mPreviousAssetBasePath = BitmapTextureAtlasTextureRegionFactory.getAssetBasePath();
-		BitmapTextureAtlasTextureRegionFactory.setAssetBasePath("gfx/warehouse/");
-		if(weaponTTR == null){
-			weaponTTR = getLimitableTTR("weapon.png",3,4,mNormalTextureOption);
+		BitmapTextureAtlasTextureRegionFactory.setAssetBasePath("gfx/shop/");
+		if(shopMenu == null){
+			shopMenu = getLimitableTTR("shopMenu.png",2,3,mNormalTextureOption);
 		}
-		if(magicTTR == null){
-			magicTTR = getLimitableTTR("magic.png",3,4,mNormalTextureOption);
+		if(shopMenuBG == null){
+			shopMenuBG = getLimitableTR("shopMenuBG.png",mNormalTextureOption);
 		}
-		if(propsTTR == null){
-			propsTTR = getLimitableTTR("props.png",2,2,mNormalTextureOption);
+		if(shopBG == null){
+			shopBG = getLimitableTR("shopBG.png",mNormalTextureOption);
 		}
-		if(gameGold == null){
-			gameGold = getLimitableTR("gold.png",mNormalTextureOption);
+		if(shopInfoBG == null){
+			shopInfoBG = getLimitableTR("shopInfoBG.png",mNormalTextureOption);
 		}
-		//未完待写
-		for(int i=0; i<magicASTTRArray.length; i++){
-			if(magicASTTRArray[i] == null){
-				switch(i){
-				case 0:
-					magicASTTRArray[i] = getLimitableTTR("magic_as_0.png",3,4,mNormalTextureOption);
-				break;
-				case 1:
-					magicASTTRArray[i] = getLimitableTTR("magic_as_11.png",3,4,mNormalTextureOption);
-				break;
-				}
-			}
+		if(shopInfoRowsBG == null){
+			shopInfoRowsBG = getLimitableTTR("shopInfoRowsBG.png",1,2,mNormalTextureOption);
 		}
-		
 		BitmapTextureAtlasTextureRegionFactory.setAssetBasePath(mPreviousAssetBasePath);
 	}
 	
@@ -399,7 +409,38 @@ public class ResourceManager extends Object{
 	
 	// ============================ 公共纹理  ================= //
 	private void loadSharedTextures(){
+		mPreviousAssetBasePath = BitmapTextureAtlasTextureRegionFactory.getAssetBasePath();
+		BitmapTextureAtlasTextureRegionFactory.setAssetBasePath("gfx/shop/");
+		if(weaponTTR == null){
+			weaponTTR = getLimitableTTR("weapon.png",3,4,mNormalTextureOption);
+		}
+		if(magicTTR == null){
+			magicTTR = getLimitableTTR("magic.png",3,4,mNormalTextureOption);
+		}
+		if(propsTTR == null){
+			propsTTR = getLimitableTTR("props.png",2,2,mNormalTextureOption);
+		}
+		if(gameGold == null){
+			gameGold = getLimitableTR("gold.png",mNormalTextureOption);
+		}
 		
+		//未完待写
+		for(int i=0; i<magicASTTRArray.length; i++){
+			if(magicASTTRArray[i] == null){
+				switch(i){
+				case 0:
+					magicASTTRArray[i] = getLimitableTTR("magic_as_0.png",3,4,mNormalTextureOption);
+				break;
+				case 1:
+					magicASTTRArray[i] = getLimitableTTR("magic_as_11.png",3,4,mNormalTextureOption);
+				break;
+				}
+			}
+		}
+		
+		
+		
+		BitmapTextureAtlasTextureRegionFactory.setAssetBasePath(mPreviousAssetBasePath);
 	}
 	
 	// ============================ 字体  ================= //

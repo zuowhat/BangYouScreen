@@ -63,6 +63,9 @@ public class GameWinLayer extends ManagedLayer{
 	};
 
 	public void onLoadLayer() {
+		//加载新BOSS
+		ResourceManager.loadBossResources();
+		
 		//父背景变成半透明
 		final Rectangle fadableBGRect = new Rectangle(0f, 0f,mCameraWidth,mCameraHeight, mVertexBufferObjectManager);
 		fadableBGRect.setPosition(mCameraWidth/2f, mCameraHeight/2f);

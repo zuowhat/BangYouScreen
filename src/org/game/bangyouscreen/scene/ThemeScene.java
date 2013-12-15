@@ -81,7 +81,6 @@ public class ThemeScene extends ManagedScene implements IScrollDetectorListener{
 		attachChild(backBS);
 		backBS.setOnClickListener(new OnClickListener(){
 			
-			@Override
 			public void onClick(ButtonSprite pButtonSprite, float pTouchAreaLocalX, float pTouchAreaLocalY) {
 				SFXManager.getInstance().playSound("a_click");
 				SceneManager.getInstance().showScene(MainMenuScene.getInstance());
@@ -97,7 +96,6 @@ public class ThemeScene extends ManagedScene implements IScrollDetectorListener{
 		attachChild(homeBS);
 		homeBS.setOnClickListener(new OnClickListener(){
 			
-			@Override
 			public void onClick(ButtonSprite pButtonSprite, float pTouchAreaLocalX, float pTouchAreaLocalY) {
 				SFXManager.getInstance().playSound("a_click");
 				SceneManager.getInstance().showScene(MainMenuScene.getInstance());

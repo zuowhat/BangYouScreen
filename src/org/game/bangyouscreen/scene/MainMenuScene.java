@@ -8,7 +8,7 @@ import org.andengine.entity.sprite.ButtonSprite.OnClickListener;
 import org.andengine.entity.sprite.Sprite;
 import org.andengine.opengl.vbo.VertexBufferObjectManager;
 import org.andengine.util.math.MathUtils;
-import org.game.bangyouscreen.gameLevels.GameLevel;
+import org.andengine.util.modifier.ease.EaseElasticInOut;
 import org.game.bangyouscreen.managers.ManagedScene;
 import org.game.bangyouscreen.managers.ResourceManager;
 import org.game.bangyouscreen.managers.SFXManager;
@@ -45,10 +45,7 @@ public class MainMenuScene extends ManagedScene{
 //		backgroundSprite.setPosition(mCameraWidth / 2f, mCameraHeight / 2f);
 //		backgroundSprite.setZIndex(-5000);
 //		attachChild(backgroundSprite);
-		
-		ResourceManager.loadMenuResources();
-		ResourceManager.setupForMenus();
-
+		ResourceManager.loadLoadingResources();
 		LoadingScene.getInstance().onLoadScene();
 		return LoadingScene.getInstance();
 	}
@@ -60,6 +57,8 @@ public class MainMenuScene extends ManagedScene{
 	
 	@Override
 	public void onLoadScene() {
+		ResourceManager.loadMenuResources();
+		ResourceManager.setupForMenus();
 		//SFXManager.getInstance().loadMusic("mainMusic", ResourceManager.getActivity().getMusicManager(), ResourceManager.getActivity());
 		SFXManager.getInstance().loadSound("a_click", ResourceManager.getActivity().getSoundManager(), ResourceManager.getActivity());
 		ResourceManager.loadThemeResources();
@@ -121,7 +120,7 @@ public class MainMenuScene extends ManagedScene{
 				super.onManagedUpdate(pSecondsElapsed);
 				if(!hasLoaded){
 					hasLoaded = true;
-					this.registerEntityModifier(new MoveModifier (0.7f,0,-mCameraHeight,0,0));
+					this.registerEntityModifier(new MoveModifier (0.5f,0,-mCameraHeight,0,0,EaseElasticInOut.getInstance()));
 				}
 			}
 		};
@@ -129,8 +128,8 @@ public class MainMenuScene extends ManagedScene{
 		mainMenuTitleSprite = new Sprite(0f, mCameraHeight + ResourceManager.mainMenuTitleTR.getHeight(), ResourceManager.mainMenuTitleTR, mVertexBufferObjectManager);
 		//mainMenuTitleSprite.setSize(0.5f * mCameraWidth, (0.5f * mCameraWidth)/(mainMenuTitleSprite.getWidth() / mainMenuTitleSprite.getHeight()));
 		EntityUtil.setSize("width", 0.4f, mainMenuTitleSprite);
-		mainMenuTitleSprite.registerEntityModifier(new MoveModifier(0.7f, mCameraWidth / 2f, 
-				mainMenuTitleSprite.getY(), mCameraWidth / 2f, mCameraHeight - (mainMenuTitleSprite.getHeight() / 2f)));
+		mainMenuTitleSprite.registerEntityModifier(new MoveModifier(0.5f, mCameraWidth / 2f, 
+				mainMenuTitleSprite.getY(), mCameraWidth / 2f, mCameraHeight - (mainMenuTitleSprite.getHeight() / 2f),EaseElasticInOut.getInstance()));
 		mainMenuTitleSprite.setZIndex(-80);
 		
 		//主题模式
@@ -141,7 +140,6 @@ public class MainMenuScene extends ManagedScene{
 		mainMenuScreen.attachChild(themeModeBS);
 		themeModeBS.setOnClickListener(new OnClickListener(){
 			
-			@Override
 			public void onClick(ButtonSprite pButtonSprite, float pTouchAreaLocalX, float pTouchAreaLocalY) {
 				SFXManager.getInstance().playSound("a_click");
 				SceneManager.getInstance().showScene(ThemeScene.getInstance());
@@ -157,10 +155,9 @@ public class MainMenuScene extends ManagedScene{
 		mainMenuScreen.attachChild(shopModeBS);
 		shopModeBS.setOnClickListener(new OnClickListener(){
 			
-			@Override
 			public void onClick(ButtonSprite pButtonSprite, float pTouchAreaLocalX, float pTouchAreaLocalY) {
 				SFXManager.getInstance().playSound("a_click");
-				//SceneManager.getInstance().showScene(new ThemeScene());
+				SceneManager.getInstance().showScene(ShopScene.getInstance());
 			}
 		});
 		registerTouchArea(shopModeBS);
@@ -173,7 +170,6 @@ public class MainMenuScene extends ManagedScene{
 		mainMenuScreen.attachChild(aboutModeBS);
 		aboutModeBS.setOnClickListener(new OnClickListener(){
 			
-			@Override
 			public void onClick(ButtonSprite pButtonSprite, float pTouchAreaLocalX, float pTouchAreaLocalY) {
 				SFXManager.getInstance().playSound("a_click");
 				//SceneManager.getInstance().showScene(new ThemeScene());
