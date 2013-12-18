@@ -58,7 +58,7 @@ public class ShopScene extends ManagedScene implements IOnSceneTouchListener{
 
 	public void onLoadScene() {
 		ResourceManager.loadShopResources();
-		
+		setOnSceneTouchListener(this);
 		Sprite backgroundSprite = new Sprite(0f,0f, ResourceManager.shopBG,mVertexBufferObjectManager);
 		backgroundSprite.setScale(ResourceManager.getInstance().cameraWidth / ResourceManager.mainMenuBackgroundTR.getWidth());
 		backgroundSprite.setPosition(mCameraWidth / 2f, mCameraHeight / 2f);
@@ -66,17 +66,16 @@ public class ShopScene extends ManagedScene implements IOnSceneTouchListener{
 		attachChild(backgroundSprite);
 		
 		//主页按钮
-		ButtonSprite homeBS = new ButtonSprite(0f,0f,ResourceManager.homeTR,mVertexBufferObjectManager);
-		homeBS.setPosition(10f+homeBS.getWidth()/2f, mCameraHeight-10f-homeBS.getHeight()/2f);
-		attachChild(homeBS);
-		homeBS.setOnClickListener(new OnClickListener(){
-			
-			public void onClick(ButtonSprite pButtonSprite, float pTouchAreaLocalX, float pTouchAreaLocalY) {
-				SFXManager.getInstance().playSound("a_click");
-				SceneManager.getInstance().showScene(MainMenuScene.getInstance());
-			}
-		});
-		registerTouchArea(homeBS);
+//		ButtonSprite homeBS = new ButtonSprite(0f,0f,ResourceManager.homeTR,mVertexBufferObjectManager);
+//		homeBS.setPosition(10f+homeBS.getWidth()/2f, mCameraHeight-10f-homeBS.getHeight()/2f);
+//		attachChild(homeBS);
+//		homeBS.setOnClickListener(new OnClickListener(){
+//			public void onClick(ButtonSprite pButtonSprite, float pTouchAreaLocalX, float pTouchAreaLocalY) {
+//				SFXManager.getInstance().playSound("a_click");
+//				SceneManager.getInstance().showScene(MainMenuScene.getInstance());
+//			}
+//		});
+//		registerTouchArea(homeBS);
 		
 		//菜单背景
 		Sprite shopMenuBG = new Sprite(0f,0f, ResourceManager.shopMenuBG,mVertexBufferObjectManager);
@@ -160,6 +159,18 @@ public class ShopScene extends ManagedScene implements IOnSceneTouchListener{
 		});
 		shareFontBS = weaponFontBS;
 		
+		Sprite propTopBG = new Sprite(0f,0f,ResourceManager.shopPropBG.getTextureRegion(0),mVertexBufferObjectManager);
+		EntityUtil.setSize("width", 342f/800f, propTopBG);
+		propTopBG.setPosition(propTopBG.getWidth()/2f, mCameraHeight+propTopBG.getHeight()/2f);
+		propTopBG.registerEntityModifier(new MoveModifier(0.5f, propTopBG.getX(), propTopBG.getY(),propTopBG.getX(), mCameraHeight-propTopBG.getHeight()/2f, EaseElasticInOut.getInstance()));
+		attachChild(propTopBG);
+		
+		Sprite propBottomBG = new Sprite(0f,0f,ResourceManager.shopPropBG.getTextureRegion(1),mVertexBufferObjectManager);
+		propBottomBG.setSize(propTopBG.getWidth(), propTopBG.getHeight());
+		propBottomBG.setPosition(propBottomBG.getWidth()/2f, -propBottomBG.getHeight()/2f);
+		propBottomBG.registerEntityModifier(new MoveModifier(0.5f, propBottomBG.getX(), propBottomBG.getY(),propBottomBG.getX(), propBottomBG.getHeight()/2f, EaseElasticInOut.getInstance()));
+		attachChild(propBottomBG);
+		
 		weaponInfoBG = new Sprite(0f,0f,ResourceManager.shopInfoBG,mVertexBufferObjectManager){
 		      public boolean onAreaTouched(TouchEvent paramTouchEvent, float paramFloat1, float paramFloat2){
 		        if (paramTouchEvent.getAction() == 0)
@@ -172,10 +183,10 @@ public class ShopScene extends ManagedScene implements IOnSceneTouchListener{
 		        return super.onAreaTouched(paramTouchEvent, paramFloat1, paramFloat2);
 		      }
 		};
-		EntityUtil.setSize("width", 5f/8f, weaponInfoBG);
-		float f1 = (mCameraWidth - shopMenuBG.getWidth() - weaponInfoBG.getWidth())/2f;
-		weaponInfoBG.setPosition(mCameraWidth+shopMenuBG.getWidth()+f1+weaponInfoBG.getWidth()/2f, shopMenuBG.getY()+shopMenuBG.getHeight()/2f-weaponInfoBG.getHeight()/2f);
-		weaponInfoBG.registerEntityModifier(new MoveModifier(0.5f, weaponInfoBG.getX(), weaponInfoBG.getY(), shopMenuBG.getWidth()+f1+weaponInfoBG.getWidth()/2f, weaponInfoBG.getY(), EaseElasticInOut.getInstance()));
+		EntityUtil.setSize("height", 1f, weaponInfoBG);
+		//float f1 = (mCameraWidth - shopMenuBG.getWidth() - weaponInfoBG.getWidth())/2f;
+		weaponInfoBG.setPosition(mCameraWidth+weaponInfoBG.getWidth()/2f, mCameraHeight/2f);
+		weaponInfoBG.registerEntityModifier(new MoveModifier(0.5f, weaponInfoBG.getX(), weaponInfoBG.getY(),mCameraWidth-weaponInfoBG.getWidth()/2f, weaponInfoBG.getY(), EaseElasticInOut.getInstance()));
 		
 		//参照物
 		final Sprite tempSprite = new Sprite(0f,0f,ResourceManager.shopInfoRowsBG.getTextureRegion(0),mVertexBufferObjectManager);
@@ -194,8 +205,9 @@ public class ShopScene extends ManagedScene implements IOnSceneTouchListener{
 		      }
 		};
 		infoBackground.setPosition(weaponInfoBG.getX(), weaponInfoBG.getY());
-		infoBackground.setSize(tempSprite.getWidth(), tempSprite.getHeight());
+		infoBackground.setSize(9f*tempSprite.getWidth(), 9f*tempSprite.getHeight());
 		infoBackground.setAlpha(0f);
+		//infoBackground.setColor(4f, 1f, 5f);
 		attachChild(infoBackground);
 		registerTouchArea(infoBackground);
 		registerUpdateHandler(infoBackground);
@@ -203,6 +215,16 @@ public class ShopScene extends ManagedScene implements IOnSceneTouchListener{
 		attachChild(weaponInfoBG);
 		registerTouchArea(weaponInfoBG);
 		attachChild(shopMenuBG);
+		
+		Sprite a = new Sprite(0f,0f,ResourceManager.shopInfoRowsBG.getTextureRegion(1),mVertexBufferObjectManager);
+		a.setPosition(infoBackground.getWidth()/2f, infoBackground.getHeight()/2f);
+		a.setSize(tempSprite.getWidth(), tempSprite.getHeight());
+		infoBackground.attachChild(a);
+		
+		
+		
+		
+		
 	}
 
 	public void onShowScene() {

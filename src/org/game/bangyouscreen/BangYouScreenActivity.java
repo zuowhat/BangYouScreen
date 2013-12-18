@@ -16,6 +16,8 @@ import org.game.bangyouscreen.layer.GamePauseLayer;
 import org.game.bangyouscreen.managers.ResourceManager;
 import org.game.bangyouscreen.managers.SFXManager;
 import org.game.bangyouscreen.managers.SceneManager;
+import org.game.bangyouscreen.scene.MainMenuScene;
+import org.game.bangyouscreen.scene.ShopScene;
 import org.game.bangyouscreen.scene.SplashScreen;
 import org.game.bangyouscreen.util.DataConstant;
 
@@ -181,6 +183,8 @@ public class BangYouScreenActivity extends BaseGameActivity {
 					  ((GameLevel) SceneManager.getInstance().mCurrentScene).onPauseGameLevel();
 					  SceneManager.getInstance().showLayer(GamePauseLayer.getInstance(), false, false, false);
 				  }
+			  }else if(SceneManager.getInstance().mCurrentScene.getClass().equals(ShopScene.class)){
+				  SceneManager.getInstance().showScene(MainMenuScene.getInstance());
 			  }else{
 				  showExitConfirmDialog(); 
 			  }

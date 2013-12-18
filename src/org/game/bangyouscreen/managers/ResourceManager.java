@@ -79,6 +79,7 @@ public class ResourceManager extends Object{
 	public static TiledTextureRegion shopMenu;
 	public static TextureRegion shopInfoBG;
 	public static TiledTextureRegion shopInfoRowsBG;
+	public static TiledTextureRegion shopPropBG;
 	
 	public ResourceManager(){
 	}
@@ -209,7 +210,7 @@ public class ResourceManager extends Object{
 		getInstance().loadFonts();
 	}
 	
-	// ============================ 菜单纹理  ================= //
+	// ============================ 加载画面纹理  ================= //
 	private void loadLoadingTextures(){
 		mPreviousAssetBasePath = BitmapTextureAtlasTextureRegionFactory.getAssetBasePath();
 		BitmapTextureAtlasTextureRegionFactory.setAssetBasePath("gfx/loading/");
@@ -269,6 +270,9 @@ public class ResourceManager extends Object{
 		}
 		if(shopInfoRowsBG == null){
 			shopInfoRowsBG = getLimitableTTR("shopInfoRowsBG.png",1,2,mNormalTextureOption);
+		}
+		if(shopPropBG == null){
+			shopPropBG = getLimitableTTR("shopPropBG.png",1,2,mNormalTextureOption);
 		}
 		BitmapTextureAtlasTextureRegionFactory.setAssetBasePath(mPreviousAssetBasePath);
 	}
