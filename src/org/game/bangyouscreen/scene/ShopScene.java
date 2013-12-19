@@ -2,19 +2,21 @@ package org.game.bangyouscreen.scene;
 
 import org.andengine.entity.Entity;
 import org.andengine.entity.modifier.MoveModifier;
+import org.andengine.entity.modifier.MoveYModifier;
 import org.andengine.entity.primitive.Rectangle;
-import org.andengine.entity.scene.IOnSceneTouchListener;
 import org.andengine.entity.scene.Scene;
 import org.andengine.entity.sprite.ButtonSprite;
 import org.andengine.entity.sprite.ButtonSprite.OnClickListener;
 import org.andengine.entity.sprite.Sprite;
 import org.andengine.input.touch.TouchEvent;
+import org.andengine.input.touch.detector.ScrollDetector;
+import org.andengine.input.touch.detector.ScrollDetector.IScrollDetectorListener;
+import org.andengine.input.touch.detector.SurfaceScrollDetector;
 import org.andengine.opengl.vbo.VertexBufferObjectManager;
 import org.andengine.util.modifier.ease.EaseElasticInOut;
 import org.game.bangyouscreen.managers.ManagedScene;
 import org.game.bangyouscreen.managers.ResourceManager;
 import org.game.bangyouscreen.managers.SFXManager;
-import org.game.bangyouscreen.managers.SceneManager;
 import org.game.bangyouscreen.util.EntityUtil;
 
 /**
@@ -22,7 +24,7 @@ import org.game.bangyouscreen.util.EntityUtil;
  * @author zuowhat 2013-12-14
  * @version 1.0
  */
-public class ShopScene extends ManagedScene implements IOnSceneTouchListener{
+public class ShopScene extends ManagedScene implements IScrollDetectorListener{
 
 	private static final ShopScene INSTANCE = new ShopScene();
 	private float mCameraWidth = ResourceManager.getCamera().getWidth();
@@ -41,8 +43,9 @@ public class ShopScene extends ManagedScene implements IOnSceneTouchListener{
 	private Sprite magicInfoBG;
 	private Sprite propsInfoBG;
 	private boolean mIsScrolling = false;
-	private Rectangle infoBackground;
-    private float prevY = 0.0F;
+	private Rectangle weaponInfoBG_S;
+	private SurfaceScrollDetector mScrollDetector;
+	private Sprite temp;
 	
 	public static ShopScene getInstance(){
 		return INSTANCE;
@@ -58,7 +61,10 @@ public class ShopScene extends ManagedScene implements IOnSceneTouchListener{
 
 	public void onLoadScene() {
 		ResourceManager.loadShopResources();
-		setOnSceneTouchListener(this);
+		if(mScrollDetector == null){
+			mScrollDetector = new SurfaceScrollDetector(this);
+		}
+		mScrollDetector.setTriggerScrollMinimumDistance(10f);
 		Sprite backgroundSprite = new Sprite(0f,0f, ResourceManager.shopBG,mVertexBufferObjectManager);
 		backgroundSprite.setScale(ResourceManager.getInstance().cameraWidth / ResourceManager.mainMenuBackgroundTR.getWidth());
 		backgroundSprite.setPosition(mCameraWidth / 2f, mCameraHeight / 2f);
@@ -171,55 +177,54 @@ public class ShopScene extends ManagedScene implements IOnSceneTouchListener{
 		propBottomBG.registerEntityModifier(new MoveModifier(0.5f, propBottomBG.getX(), propBottomBG.getY(),propBottomBG.getX(), propBottomBG.getHeight()/2f, EaseElasticInOut.getInstance()));
 		attachChild(propBottomBG);
 		
-		weaponInfoBG = new Sprite(0f,0f,ResourceManager.shopInfoBG,mVertexBufferObjectManager){
-		      public boolean onAreaTouched(TouchEvent paramTouchEvent, float paramFloat1, float paramFloat2){
-		        if (paramTouchEvent.getAction() == 0)
-		          prevY = paramTouchEvent.getY();
-		        if (paramTouchEvent.getAction() == 2){
-		          float f = paramTouchEvent.getY() - prevY;
-		          infoBackground.setPosition(infoBackground.getX(), f + infoBackground.getY());
-		          prevY = paramTouchEvent.getY();
-		        }
-		        return super.onAreaTouched(paramTouchEvent, paramFloat1, paramFloat2);
-		      }
-		};
+		weaponInfoBG = new Sprite(0f,0f,ResourceManager.shopInfoBG,mVertexBufferObjectManager);
 		EntityUtil.setSize("height", 1f, weaponInfoBG);
 		//float f1 = (mCameraWidth - shopMenuBG.getWidth() - weaponInfoBG.getWidth())/2f;
 		weaponInfoBG.setPosition(mCameraWidth+weaponInfoBG.getWidth()/2f, mCameraHeight/2f);
 		weaponInfoBG.registerEntityModifier(new MoveModifier(0.5f, weaponInfoBG.getX(), weaponInfoBG.getY(),mCameraWidth-weaponInfoBG.getWidth()/2f, weaponInfoBG.getY(), EaseElasticInOut.getInstance()));
 		
 		//参照物
-		final Sprite tempSprite = new Sprite(0f,0f,ResourceManager.shopInfoRowsBG.getTextureRegion(0),mVertexBufferObjectManager);
-		tempSprite.setPosition(weaponInfoBG.getWidth()/2f, weaponInfoBG.getHeight()/2f);
-		EntityUtil.setSizeInParent("width", 1f, tempSprite,weaponInfoBG);
-		tempSprite.setVisible(false);
-		attachChild(tempSprite);
-		
-		infoBackground = new Rectangle(0f, 0f, 0f, 0f, mVertexBufferObjectManager){
+		temp = new Sprite(0f,0f,ResourceManager.shopInfoRowsBG.getTextureRegion(0),mVertexBufferObjectManager);
+		EntityUtil.setSizeInParent("width", 41f/44f, temp, weaponInfoBG);
+		temp.setAlpha(0f);
+		weaponInfoBG.attachChild(temp);
+		weaponInfoBG_S = new Rectangle(0f, 0f, 0f, 0f, mVertexBufferObjectManager){
 		      protected void onManagedUpdate(float paramFloat){
-		        if ((infoBackground.getY() > weaponInfoBG.getY()) && (!mIsScrolling))
-		          setPosition(getX(), getY() - 3.0F);
-		        if ((infoBackground.getY() + infoBackground.getHeightScaled() - tempSprite.getHeight()/2f < weaponInfoBG.getY()) && (!mIsScrolling))
-		          setPosition(getX(), 3.0F + getY());
+//		    	if(weaponPosition){
+//		    		setPosition(mCameraWidth-weaponInfoBG_S.getWidth()/2f, mCameraHeight-weaponInfoBG_S.getHeight()/2f);
+//		    		weaponPosition = false;
+//		    	}
 		        super.onManagedUpdate(paramFloat);
 		      }
 		};
-		infoBackground.setPosition(weaponInfoBG.getX(), weaponInfoBG.getY());
-		infoBackground.setSize(9f*tempSprite.getWidth(), 9f*tempSprite.getHeight());
-		infoBackground.setAlpha(0f);
-		//infoBackground.setColor(4f, 1f, 5f);
-		attachChild(infoBackground);
-		registerTouchArea(infoBackground);
-		registerUpdateHandler(infoBackground);
+		weaponInfoBG_S.setSize(weaponInfoBG.getWidth()*(41f/44f), temp.getHeight()*9f+80f);
+		weaponInfoBG_S.setPosition(mCameraWidth+weaponInfoBG_S.getWidth()/2f, mCameraHeight-weaponInfoBG_S.getHeight()/2f);
+		weaponInfoBG_S.registerEntityModifier(new MoveModifier(0.5f, weaponInfoBG_S.getX(), weaponInfoBG_S.getY(),mCameraWidth-weaponInfoBG_S.getWidth()/2f, mCameraHeight-weaponInfoBG_S.getHeight()/2f, EaseElasticInOut.getInstance()));
+		
+		weaponInfoBG_S.setAlpha(0f);
+		attachChild(weaponInfoBG_S);
+		registerTouchArea(weaponInfoBG_S);
+		registerUpdateHandler(weaponInfoBG_S);
 		
 		attachChild(weaponInfoBG);
-		registerTouchArea(weaponInfoBG);
+		//registerTouchArea(weaponInfoBG);
 		attachChild(shopMenuBG);
 		
-		Sprite a = new Sprite(0f,0f,ResourceManager.shopInfoRowsBG.getTextureRegion(1),mVertexBufferObjectManager);
-		a.setPosition(infoBackground.getWidth()/2f, infoBackground.getHeight()/2f);
-		a.setSize(tempSprite.getWidth(), tempSprite.getHeight());
-		infoBackground.attachChild(a);
+		Sprite[] weaponArray = new Sprite[9];
+		for(int i=0; i<weaponArray.length; i++){
+			if(i%2==0){
+				weaponArray[i] = new Sprite(0f,0f,ResourceManager.shopInfoRowsBG.getTextureRegion(1),mVertexBufferObjectManager); 
+			}else{
+				weaponArray[i] = new Sprite(0f,0f,ResourceManager.shopInfoRowsBG.getTextureRegion(0),mVertexBufferObjectManager); 
+			}
+			weaponArray[i].setSize(temp.getWidth(), temp.getHeight());
+			if(i == 0){
+				weaponArray[i].setPosition(weaponInfoBG_S.getWidth()/2f, weaponInfoBG_S.getHeight()-weaponArray[i].getHeight()/2f);
+			}else{
+				weaponArray[i].setPosition(weaponInfoBG_S.getWidth()/2f, weaponArray[i-1].getY()-weaponArray[i].getHeight()-10f);
+			}
+			weaponInfoBG_S.attachChild(weaponArray[i]);
+		}
 		
 		
 		
@@ -268,16 +273,35 @@ public class ShopScene extends ManagedScene implements IOnSceneTouchListener{
 		registerTouchArea(shareFontBS);
 	}
 
-	public boolean onSceneTouchEvent(Scene pScene, TouchEvent pSceneTouchEvent) {
-	    if (pSceneTouchEvent.getAction() == 0){
-	      mIsScrolling = true;
-	      return true;
-	    }
-	    if (pSceneTouchEvent.getAction() == 1){
-	      mIsScrolling = false;
-	      return true;
-	    }
-		return false;
+	public boolean onSceneTouchEvent(TouchEvent paramTouchEvent){
+	    this.mScrollDetector.onTouchEvent(paramTouchEvent);
+	    return super.onSceneTouchEvent(paramTouchEvent);
+	}
+	
+	@Override
+	public void onScrollStarted(ScrollDetector pScollDetector, int pPointerID,
+			float pDistanceX, float pDistanceY) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void onScroll(ScrollDetector pScollDetector, int pPointerID,
+			float pDistanceX, float pDistanceY) {
+		//System.out.println("Y---->"+weaponInfoBG_S.getY());
+		weaponInfoBG_S.setY(weaponInfoBG_S.getY()-pDistanceY);
+		
+	}
+
+	@Override
+	public void onScrollFinished(ScrollDetector pScollDetector, int pPointerID,
+			float pDistanceX, float pDistanceY) {
+		if(weaponInfoBG_S.getY()+weaponInfoBG_S.getHeight()/2f <= mCameraHeight){
+			weaponInfoBG_S.registerEntityModifier(new MoveYModifier(0.5f,weaponInfoBG_S.getY(),mCameraHeight-weaponInfoBG_S.getHeight()/2f));
+		}else if(weaponInfoBG_S.getY()-weaponInfoBG_S.getHeight()/2f >= 0f){
+			weaponInfoBG_S.registerEntityModifier(new MoveYModifier(0.5f,weaponInfoBG_S.getY(),weaponInfoBG_S.getHeight()/2f));
+		}
+		
 	}
 
 }
