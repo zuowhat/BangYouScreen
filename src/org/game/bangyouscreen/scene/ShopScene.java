@@ -12,6 +12,7 @@ import org.andengine.input.touch.TouchEvent;
 import org.andengine.input.touch.detector.ScrollDetector;
 import org.andengine.input.touch.detector.ScrollDetector.IScrollDetectorListener;
 import org.andengine.input.touch.detector.SurfaceScrollDetector;
+import org.andengine.opengl.texture.region.TiledTextureRegion;
 import org.andengine.opengl.vbo.VertexBufferObjectManager;
 import org.andengine.util.modifier.ease.EaseElasticInOut;
 import org.game.bangyouscreen.managers.ManagedScene;
@@ -42,10 +43,12 @@ public class ShopScene extends ManagedScene implements IScrollDetectorListener{
 	private Sprite weaponInfoBG;
 	private Sprite magicInfoBG;
 	private Sprite propsInfoBG;
-	private boolean mIsScrolling = false;
 	private Rectangle weaponInfoBG_S;
+	private Rectangle magicInfoBG_S;
+	private Rectangle propsInfoBG_S;
 	private SurfaceScrollDetector mScrollDetector;
-	private Sprite temp;
+	
+	
 	
 	public static ShopScene getInstance(){
 		return INSTANCE;
@@ -87,7 +90,8 @@ public class ShopScene extends ManagedScene implements IScrollDetectorListener{
 		Sprite shopMenuBG = new Sprite(0f,0f, ResourceManager.shopMenuBG,mVertexBufferObjectManager);
 		EntityUtil.setSize("height", 0.5f, shopMenuBG);
 		shopMenuBG.setPosition(0f-shopMenuBG.getWidth()/2f, mCameraHeight/2f);
-		shopMenuBG.registerEntityModifier(new MoveModifier(0.5f, shopMenuBG.getX(), shopMenuBG.getY(), shopMenuBG.getWidth()/2f, shopMenuBG.getY(), EaseElasticInOut.getInstance()));
+		shopMenuBG.registerEntityModifier(new MoveModifier(0.5f, shopMenuBG.getX(), shopMenuBG.getY(), 
+				shopMenuBG.getWidth()/2f, shopMenuBG.getY(), EaseElasticInOut.getInstance()));
 		
 		
 		//道具文本
@@ -168,69 +172,145 @@ public class ShopScene extends ManagedScene implements IScrollDetectorListener{
 		Sprite propTopBG = new Sprite(0f,0f,ResourceManager.shopPropBG.getTextureRegion(0),mVertexBufferObjectManager);
 		EntityUtil.setSize("width", 342f/800f, propTopBG);
 		propTopBG.setPosition(propTopBG.getWidth()/2f, mCameraHeight+propTopBG.getHeight()/2f);
-		propTopBG.registerEntityModifier(new MoveModifier(0.5f, propTopBG.getX(), propTopBG.getY(),propTopBG.getX(), mCameraHeight-propTopBG.getHeight()/2f, EaseElasticInOut.getInstance()));
+		propTopBG.registerEntityModifier(new MoveModifier(0.5f, propTopBG.getX(), propTopBG.getY(),propTopBG.getX(), 
+				mCameraHeight-propTopBG.getHeight()/2f, EaseElasticInOut.getInstance()));
 		attachChild(propTopBG);
 		
 		Sprite propBottomBG = new Sprite(0f,0f,ResourceManager.shopPropBG.getTextureRegion(1),mVertexBufferObjectManager);
 		propBottomBG.setSize(propTopBG.getWidth(), propTopBG.getHeight());
 		propBottomBG.setPosition(propBottomBG.getWidth()/2f, -propBottomBG.getHeight()/2f);
-		propBottomBG.registerEntityModifier(new MoveModifier(0.5f, propBottomBG.getX(), propBottomBG.getY(),propBottomBG.getX(), propBottomBG.getHeight()/2f, EaseElasticInOut.getInstance()));
+		propBottomBG.registerEntityModifier(new MoveModifier(0.5f, propBottomBG.getX(), propBottomBG.getY(),
+				propBottomBG.getX(), propBottomBG.getHeight()/2f, EaseElasticInOut.getInstance()));
 		attachChild(propBottomBG);
 		
-		weaponInfoBG = new Sprite(0f,0f,ResourceManager.shopInfoBG,mVertexBufferObjectManager);
-		EntityUtil.setSize("height", 1f, weaponInfoBG);
-		//float f1 = (mCameraWidth - shopMenuBG.getWidth() - weaponInfoBG.getWidth())/2f;
-		weaponInfoBG.setPosition(mCameraWidth+weaponInfoBG.getWidth()/2f, mCameraHeight/2f);
-		weaponInfoBG.registerEntityModifier(new MoveModifier(0.5f, weaponInfoBG.getX(), weaponInfoBG.getY(),mCameraWidth-weaponInfoBG.getWidth()/2f, weaponInfoBG.getY(), EaseElasticInOut.getInstance()));
-		
-		//参照物
-		temp = new Sprite(0f,0f,ResourceManager.shopInfoRowsBG.getTextureRegion(0),mVertexBufferObjectManager);
-		EntityUtil.setSizeInParent("width", 41f/44f, temp, weaponInfoBG);
-		temp.setAlpha(0f);
-		weaponInfoBG.attachChild(temp);
-		weaponInfoBG_S = new Rectangle(0f, 0f, 0f, 0f, mVertexBufferObjectManager){
-		      protected void onManagedUpdate(float paramFloat){
-//		    	if(weaponPosition){
-//		    		setPosition(mCameraWidth-weaponInfoBG_S.getWidth()/2f, mCameraHeight-weaponInfoBG_S.getHeight()/2f);
-//		    		weaponPosition = false;
-//		    	}
-		        super.onManagedUpdate(paramFloat);
-		      }
-		};
-		weaponInfoBG_S.setSize(weaponInfoBG.getWidth()*(41f/44f), temp.getHeight()*9f+80f);
-		weaponInfoBG_S.setPosition(mCameraWidth+weaponInfoBG_S.getWidth()/2f, mCameraHeight-weaponInfoBG_S.getHeight()/2f);
-		weaponInfoBG_S.registerEntityModifier(new MoveModifier(0.5f, weaponInfoBG_S.getX(), weaponInfoBG_S.getY(),mCameraWidth-weaponInfoBG_S.getWidth()/2f, mCameraHeight-weaponInfoBG_S.getHeight()/2f, EaseElasticInOut.getInstance()));
-		
-		weaponInfoBG_S.setAlpha(0f);
-		attachChild(weaponInfoBG_S);
-		registerTouchArea(weaponInfoBG_S);
-		registerUpdateHandler(weaponInfoBG_S);
-		
-		attachChild(weaponInfoBG);
-		//registerTouchArea(weaponInfoBG);
+		addInfoBGByType("weapon",weaponInfoBG,weaponInfoBG_S,9);
+		addInfoBGByType("magic",magicInfoBG,magicInfoBG_S,9);
+		addInfoBGByType("prop",propsInfoBG,propsInfoBG_S,3);
 		attachChild(shopMenuBG);
 		
-		Sprite[] weaponArray = new Sprite[9];
-		for(int i=0; i<weaponArray.length; i++){
-			if(i%2==0){
-				weaponArray[i] = new Sprite(0f,0f,ResourceManager.shopInfoRowsBG.getTextureRegion(1),mVertexBufferObjectManager); 
-			}else{
-				weaponArray[i] = new Sprite(0f,0f,ResourceManager.shopInfoRowsBG.getTextureRegion(0),mVertexBufferObjectManager); 
-			}
-			weaponArray[i].setSize(temp.getWidth(), temp.getHeight());
-			if(i == 0){
-				weaponArray[i].setPosition(weaponInfoBG_S.getWidth()/2f, weaponInfoBG_S.getHeight()-weaponArray[i].getHeight()/2f);
-			}else{
-				weaponArray[i].setPosition(weaponInfoBG_S.getWidth()/2f, weaponArray[i-1].getY()-weaponArray[i].getHeight()-10f);
-			}
-			weaponInfoBG_S.attachChild(weaponArray[i]);
-		}
+//		weaponInfoBG = new Sprite(0f,0f,ResourceManager.shopInfoBG,mVertexBufferObjectManager);
+//		EntityUtil.setSize("height", 1f, weaponInfoBG);
+//		//float f1 = (mCameraWidth - shopMenuBG.getWidth() - weaponInfoBG.getWidth())/2f;
+//		weaponInfoBG.setPosition(mCameraWidth+weaponInfoBG.getWidth()/2f, mCameraHeight/2f);
+//		weaponInfoBG.registerEntityModifier(new MoveModifier(0.5f, weaponInfoBG.getX(), weaponInfoBG.getY(),
+//				mCameraWidth-weaponInfoBG.getWidth()/2f, weaponInfoBG.getY(), EaseElasticInOut.getInstance()));
+//		
+//		//参照物
+//		temp = new Sprite(0f,0f,ResourceManager.shopInfoRowsBG.getTextureRegion(0),mVertexBufferObjectManager);
+//		EntityUtil.setSizeInParent("width", 41f/44f, temp, weaponInfoBG);
+//		temp.setAlpha(0f);
+//		weaponInfoBG.attachChild(temp);
+		
+//		weaponInfoBG_S = new Rectangle(0f, 0f, 0f, 0f, mVertexBufferObjectManager);
+//		weaponInfoBG_S.setSize(weaponInfoBG.getWidth()*(41f/44f), temp.getHeight()*9f+80f);
+//		weaponInfoBG_S.setPosition(mCameraWidth+weaponInfoBG_S.getWidth()/2f, mCameraHeight-weaponInfoBG_S.getHeight()/2f);
+//		weaponInfoBG_S.registerEntityModifier(new MoveModifier(0.5f, weaponInfoBG_S.getX(), weaponInfoBG_S.getY(),
+//				mCameraWidth-weaponInfoBG_S.getWidth()/2f, mCameraHeight-weaponInfoBG_S.getHeight()/2f, EaseElasticInOut.getInstance()));
+//		
+//		weaponInfoBG_S.setAlpha(0f);
+//		attachChild(weaponInfoBG_S);
+//		registerTouchArea(weaponInfoBG_S);
+//		registerUpdateHandler(weaponInfoBG_S);
+//		attachChild(weaponInfoBG);
+		
+		//============ 武器信息 ============//
+//		Sprite[] infoArray = new Sprite[9];
+//		for(int i=0; i<infoArray.length; i++){
+//			if(i%2==0){
+//				infoArray[i] = new Sprite(0f,0f,ResourceManager.shopInfoRowsBG.getTextureRegion(1),mVertexBufferObjectManager); 
+//			}else{
+//				infoArray[i] = new Sprite(0f,0f,ResourceManager.shopInfoRowsBG.getTextureRegion(0),mVertexBufferObjectManager); 
+//			}
+//			infoArray[i].setSize(temp.getWidth(), temp.getHeight());
+//			if(i == 0){
+//				infoArray[i].setPosition(weaponInfoBG_S.getWidth()/2f, weaponInfoBG_S.getHeight()-infoArray[i].getHeight()/2f);
+//			}else{
+//				infoArray[i].setPosition(weaponInfoBG_S.getWidth()/2f, infoArray[i-1].getY()-infoArray[i].getHeight()-10f);
+//			}
+//			weaponInfoBG_S.attachChild(infoArray[i]);
+//		}
 		
 		
 		
 		
 		
 	}
+	
+	/**
+	 * 添加道具展示区域背景(包括块和栏)
+	 * @author zuowhat 2013-12-20
+	 * @param type 类型(包含武器,魔法,道具)
+	 * @param infoBG 右侧圆角白色大背景
+	 * @param infoBG_S 可以滚动的背景(不显示),包含所有栏目
+	 * @param infoNum 栏目的数量
+	 * @since 1.0
+	 */
+	private void addInfoBGByType(String type, Sprite infoBG, Rectangle infoBG_S, int infoNum){
+		infoBG = new Sprite(0f,0f,ResourceManager.shopInfoBG,mVertexBufferObjectManager);
+		EntityUtil.setSize("height", 1f, infoBG);
+		infoBG.setPosition(mCameraWidth+infoBG.getWidth()/2f, mCameraHeight/2f);
+		
+		//参照物
+		Sprite temp = new Sprite(0f,0f,ResourceManager.shopInfoRowsBG.getTextureRegion(0),mVertexBufferObjectManager);
+		EntityUtil.setSizeInParent("width", 41f/44f, temp, infoBG);
+		temp.setAlpha(0f);
+		infoBG.attachChild(temp);
+		
+		infoBG_S = new Rectangle(0f, 0f, 0f, 0f, mVertexBufferObjectManager);
+		infoBG_S.setSize(infoBG.getWidth()*(41f/44f), temp.getHeight()*9f+80f);
+		infoBG_S.setPosition(mCameraWidth+infoBG_S.getWidth()/2f, mCameraHeight-infoBG_S.getHeight()/2f);
+		
+		
+		infoBG_S.setAlpha(0f);
+		attachChild(infoBG_S);
+		
+		attachChild(infoBG);
+		
+		Sprite[] infoArray = new Sprite[infoNum];
+		for(int i=0; i<infoArray.length; i++){
+			if(i%2==0){
+				infoArray[i] = new Sprite(0f,0f,ResourceManager.shopInfoRowsBG.getTextureRegion(1),mVertexBufferObjectManager); 
+			}else{
+				infoArray[i] = new Sprite(0f,0f,ResourceManager.shopInfoRowsBG.getTextureRegion(0),mVertexBufferObjectManager); 
+			}
+			infoArray[i].setSize(temp.getWidth(), temp.getHeight());
+			if(i == 0){
+				infoArray[i].setPosition(infoBG_S.getWidth()/2f, infoBG_S.getHeight()-infoArray[i].getHeight()/2f);
+			}else{
+				infoArray[i].setPosition(infoBG_S.getWidth()/2f, infoArray[i-1].getY()-infoArray[i].getHeight()-10f);
+			}
+			infoBG_S.attachChild(infoArray[i]);
+		}
+		
+		if("weapon".equals(type)){
+			infoBG.registerEntityModifier(new MoveModifier(0.5f, infoBG.getX(), infoBG.getY(),
+					mCameraWidth-infoBG.getWidth()/2f, infoBG.getY(), EaseElasticInOut.getInstance()));
+			infoBG_S.registerEntityModifier(new MoveModifier(0.5f, infoBG_S.getX(), infoBG_S.getY(),
+					mCameraWidth-infoBG_S.getWidth()/2f, mCameraHeight-infoBG_S.getHeight()/2f, EaseElasticInOut.getInstance()));
+			registerTouchArea(infoBG_S);
+			//addInfoByType(infoArray);
+		}else if("magic".equals(type)){
+			
+		}else{
+			
+		}
+		
+		
+	}
+	
+	/**
+	 * 添加道具信息(包括图标,描述,金币,购买,装备)
+	 * @author zuowhat 2013-12-20
+	 * @param infoSpriteArray 栏目精灵数组
+	 * @param infoPicTTR 图标
+	 * @param infoContentTTR 描述信息
+	 * @since 1.0
+	 */
+	private void addInfoByType(Sprite[] infoSpriteArray, TiledTextureRegion infoPicTTR, TiledTextureRegion infoContentTTR){
+		// TODO Auto-generated method stub
+	}
+	
+	
 
 	public void onShowScene() {
 		// TODO Auto-generated method stub
@@ -271,6 +351,11 @@ public class ShopScene extends ManagedScene implements IScrollDetectorListener{
 		shareFontClickSprite.setVisible(false);
 		shareFontBS.setVisible(true);
 		registerTouchArea(shareFontBS);
+		
+		
+		
+		
+		
 	}
 
 	public boolean onSceneTouchEvent(TouchEvent paramTouchEvent){
@@ -281,7 +366,6 @@ public class ShopScene extends ManagedScene implements IScrollDetectorListener{
 	@Override
 	public void onScrollStarted(ScrollDetector pScollDetector, int pPointerID,
 			float pDistanceX, float pDistanceY) {
-		// TODO Auto-generated method stub
 		
 	}
 
