@@ -58,6 +58,7 @@ public class ThemeScene extends ManagedScene implements IScrollDetectorListener{
 
 	@Override
 	public void onLoadScene() {
+		mCurrentTheme = 1;
 		//ResourceManager.loadGameResources();
 		Sprite themeBGSprite = new Sprite(0f,0f,ResourceManager.themeBG,mVertexBufferObjectManager);
 		//themeBGSprite.setScale(ResourceManager.getInstance().cameraHeight / ResourceManager.themeBG.getHeight());

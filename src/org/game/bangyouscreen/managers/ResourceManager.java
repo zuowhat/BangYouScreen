@@ -80,6 +80,8 @@ public class ResourceManager extends Object{
 	public static TextureRegion shopInfoBG;
 	public static TiledTextureRegion shopInfoRowsBG;
 	public static TiledTextureRegion shopPropBG;
+	public static TiledTextureRegion weaponInfosTTR;
+	
 	
 	public ResourceManager(){
 	}
@@ -274,6 +276,9 @@ public class ResourceManager extends Object{
 		if(shopPropBG == null){
 			shopPropBG = getLimitableTTR("shopPropBG.png",1,2,mNormalTextureOption);
 		}
+		if(weaponInfosTTR == null){
+			weaponInfosTTR = getLimitableTTR("weaponInfos.png",1,9,mNormalTextureOption);
+		}
 		BitmapTextureAtlasTextureRegionFactory.setAssetBasePath(mPreviousAssetBasePath);
 	}
 	
@@ -425,7 +430,7 @@ public class ResourceManager extends Object{
 			propsTTR = getLimitableTTR("props.png",2,2,mNormalTextureOption);
 		}
 		if(gameGold == null){
-			gameGold = getLimitableTR("gold.png",mNormalTextureOption);
+			gameGold = getLimitableTR("coin.png",mNormalTextureOption);
 		}
 		
 		//未完待写
