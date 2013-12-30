@@ -12,11 +12,15 @@ import org.game.bangyouscreen.model.PlayerModel;
  */
 public class DataConstant {
 	
-	public static final String SHARED_PREFS_MAIN = "BangYouScreenSettings";
+	public static final String SHARED_PREFS_MAIN = "BangYouScreenSettings";//主表名
 	public static final String SHARED_PREFS_THEME_1 = "ThemeScene1";
 	public static final String SHARED_PREFS_THEME_2 = "ThemeScene2";
-	public static final String CURRENT_WEAPON = "CurrentWeapon";
-	public static final String CURRENT_MAGIC = "CurrentMagic";
+	public static final String CURRENT_WEAPON = "CurrentWeapon";//当前使用的武器
+	public static final String CURRENT_MAGIC = "CurrentMagic";//当前使用的魔法
+	public static final String WEAPON_BUY = "WeaponBuy_";//标记哪些武器被购买
+	public static final String MY_GOLD = "MyGold";//标记哪些武器被购买
+	
+	
 	/** 冒险岛主题BOSS个数 */
 	public static final int THEME_1_BOSS_NUM = 8;
 	/** 魔法效果个数 */

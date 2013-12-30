@@ -81,6 +81,7 @@ public class ResourceManager extends Object{
 	public static TiledTextureRegion shopInfoRowsBG;
 	public static TiledTextureRegion shopPropBG;
 	public static TiledTextureRegion weaponInfosTTR;
+	public static TiledTextureRegion buyOrUse;
 	
 	
 	public ResourceManager(){
@@ -278,6 +279,9 @@ public class ResourceManager extends Object{
 		}
 		if(weaponInfosTTR == null){
 			weaponInfosTTR = getLimitableTTR("weaponInfos.png",1,9,mNormalTextureOption);
+		}
+		if(buyOrUse == null){
+			buyOrUse = getLimitableTTR("buyOrUse.png",1,2,mNormalTextureOption);
 		}
 		BitmapTextureAtlasTextureRegionFactory.setAssetBasePath(mPreviousAssetBasePath);
 	}
