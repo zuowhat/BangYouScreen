@@ -23,7 +23,8 @@ public class SFXManager {
 	
 	private static SFXManager INSTANCE = null;
 	
-	private static Sound mClick;
+	private Sound mClick;
+	private Music mMusic;
     private HashMap<String, Music> mMusicMap = new HashMap();
     private HashMap<String, Sound> mSoundsMap = new HashMap();
 	
@@ -41,9 +42,9 @@ public class SFXManager {
 	 * @since 1.0
 	 */
     public void playMusic(String paramString){
-        Music localMusic = mMusicMap.get(paramString);
-        localMusic.setLooping(true);
-        localMusic.play();
+    	mMusic = mMusicMap.get(paramString);
+    	mMusic.setLooping(true);
+    	mMusic.play();
     }
     
 	/**
@@ -52,9 +53,9 @@ public class SFXManager {
 	 * @since 1.0
 	 */
     public void pauseMusic(String paramString){
-        Music localMusic = mMusicMap.get(paramString);
-        if (localMusic.isPlaying())
-          localMusic.pause();
+    	//mMusic = mMusicMap.get(paramString);
+        if (mMusic.isPlaying())
+        	mMusic.pause();
     }
     
 	/**

@@ -59,12 +59,12 @@ public class MainMenuScene extends ManagedScene{
 	public void onLoadScene() {
 		ResourceManager.loadMenuResources();
 		ResourceManager.setupForMenus();
-		//SFXManager.getInstance().loadMusic("mainMusic", ResourceManager.getActivity().getMusicManager(), ResourceManager.getActivity());
+		SFXManager.getInstance().loadMusic("mainMusic", ResourceManager.getActivity().getMusicManager(), ResourceManager.getActivity());
 		SFXManager.getInstance().loadSound("a_click", ResourceManager.getActivity().getSoundManager(), ResourceManager.getActivity());
 		ResourceManager.loadThemeResources();
 		ResourceManager.loadBossResources();
 		ResourceManager.loadGameResources();
-		//SFXManager.getInstance().playMusic("mainMusic");
+		SFXManager.getInstance().playMusic("mainMusic");
 		
 		//白云
 //		Sprite mMenuCloudsLayerOne = new Sprite(0.0F, mCameraHeight, ResourceManager.menuClouds1, mVertexBufferObjectManager);

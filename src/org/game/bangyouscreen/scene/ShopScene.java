@@ -5,6 +5,7 @@ import org.andengine.entity.modifier.MoveModifier;
 import org.andengine.entity.modifier.MoveYModifier;
 import org.andengine.entity.primitive.Rectangle;
 import org.andengine.entity.scene.Scene;
+import org.andengine.entity.sprite.AnimatedSprite;
 import org.andengine.entity.sprite.ButtonSprite;
 import org.andengine.entity.sprite.ButtonSprite.OnClickListener;
 import org.andengine.entity.sprite.Sprite;
@@ -55,7 +56,8 @@ public class ShopScene extends ManagedScene implements IScrollDetectorListener{
 	private boolean isScrolling = false;
 	private boolean isTouch = true;//控制道具栏不能滚动
 	private int myGold;
-	
+	private GameScore mGameScore;
+	private Sprite propTopBG;
 	
 	public static ShopScene getInstance(){
 		return INSTANCE;
@@ -185,18 +187,24 @@ public class ShopScene extends ManagedScene implements IScrollDetectorListener{
 			}
 		});
 		shareFontBS = weaponFontBS;
-		
-		Sprite propTopBG = new Sprite(0f,0f,ResourceManager.shopPropBG.getTextureRegion(0),mVertexBufferObjectManager);
+		//顶部云
+		propTopBG = new Sprite(0f,0f,ResourceManager.shopPropBG.getTextureRegion(0),mVertexBufferObjectManager);
 		EntityUtil.setSize("width", 342f/800f, propTopBG);
 		propTopBG.setPosition(propTopBG.getWidth()/2f, mCameraHeight+propTopBG.getHeight()/2f);
 		propTopBG.registerEntityModifier(new MoveModifier(0.5f, propTopBG.getX(), propTopBG.getY(),propTopBG.getX(), 
 				mCameraHeight-propTopBG.getHeight()/2f, EaseElasticInOut.getInstance()));
 		attachChild(propTopBG);
-		GameScore mGameScore = new GameScore();
+		mGameScore = new GameScore();
 		mGameScore.addGoldToLayer(propTopBG,myGold);
-		//mGameScore.addGold1(myGold);
+		//金币
+		Sprite goldSprite = new Sprite(0f,0f,ResourceManager.gameGold,mVertexBufferObjectManager);
+		//EntityUtil.setSize("width", 20f/800f, goldSprite);
+		AnimatedSprite lastAS = mGameScore.myGoldAS[mGameScore.myGoldAS.length-1];//最右边的数字
+		goldSprite.setSize(lastAS.getHeight(), lastAS.getHeight());
+		goldSprite.setPosition(lastAS.getX()+2*lastAS.getWidth(), lastAS.getY());
+		propTopBG.attachChild(goldSprite);
 		
-		
+		//底部云
 		Sprite propBottomBG = new Sprite(0f,0f,ResourceManager.shopPropBG.getTextureRegion(1),mVertexBufferObjectManager);
 		propBottomBG.setSize(propTopBG.getWidth(), propTopBG.getHeight());
 		propBottomBG.setPosition(propBottomBG.getWidth()/2f, -propBottomBG.getHeight()/2f);
@@ -310,14 +318,19 @@ public class ShopScene extends ManagedScene implements IScrollDetectorListener{
 					}});
 			}else{
 				//购买
+				final int weaponPrice = DataConstant.weaponPrice[i];
 				s1 = new ButtonSprite(0f,0f,ResourceManager.buyOrUse.getTextureRegion(0),mVertexBufferObjectManager);
 				s1.setOnClickListener(new OnClickListener(){
 					public void onClick(ButtonSprite pButtonSprite,
 							float pTouchAreaLocalX, float pTouchAreaLocalY) {
-							SFXManager.getInstance().playSound("a_click");
-							
-							
-							
+							if(myGold >= weaponPrice){
+								SFXManager.getInstance().playSound("a_click");
+								myGold = myGold - weaponPrice;
+								mGameScore.addGoldToLayer(propTopBG, myGold);
+							}else{
+								//不能购买的音效
+								
+							}
 					}});
 			}
 			//Sprite s1 = new Sprite(0f,0f,ResourceManager.buy,mVertexBufferObjectManager);

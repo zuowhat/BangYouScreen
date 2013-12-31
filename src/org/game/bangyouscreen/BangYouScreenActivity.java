@@ -42,7 +42,7 @@ public class BangYouScreenActivity extends BaseGameActivity {
 	//第一次进入游戏时获取初始化100金币
 	public static int getGoldFromSharedPreferences() {
 		return ResourceManager.getActivity()
-				.getSharedPreferences(DataConstant.SHARED_PREFS_MAIN, 0).getInt(DataConstant.MY_GOLD, 100);
+				.getSharedPreferences(DataConstant.SHARED_PREFS_MAIN, 0).getInt(DataConstant.MY_GOLD, 5389);
 	}
 
 	public static void writeBooleanToSharedPreferences(final String pStr,
@@ -172,9 +172,16 @@ public class BangYouScreenActivity extends BaseGameActivity {
 	@Override
 	protected synchronized void onResume() {
 		super.onResume();
-		System.gc();
-//		if(this.isGameLoaded())
-//			SFXManager.resumeMusic();
+		//System.gc();
+		if(this.isGameLoaded())
+			SFXManager.getInstance().playMusic("mainMusic");
+	}
+	
+	protected void onPause() {
+		super.onPause();
+		if (this.isGameLoaded()) {
+			SFXManager.getInstance().pauseMusic("mainMusic");
+		}
 	}
 	
 	  public void onBackPressed() {

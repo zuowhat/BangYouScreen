@@ -19,6 +19,8 @@ public class DataConstant {
 	public static final String CURRENT_MAGIC = "CurrentMagic";//当前使用的魔法
 	public static final String WEAPON_BUY = "WeaponBuy_";//标记哪些武器被购买
 	public static final String MY_GOLD = "MyGold";//标记哪些武器被购买
+	public static final int[] weaponPrice = {500,1500,3000,650,1800,3500,800,2000,5000};//武器价格
+	
 	
 	
 	/** 冒险岛主题BOSS个数 */

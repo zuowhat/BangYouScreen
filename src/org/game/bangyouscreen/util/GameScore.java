@@ -7,6 +7,7 @@ import org.game.bangyouscreen.managers.ResourceManager;
 public class GameScore{
 private float mCurrentScore = 0.0F;
 public AnimatedSprite[] mDigitsSprite = new AnimatedSprite[5];
+public AnimatedSprite[] myGoldAS;
 float mScale = 1.0F;
 private int mScore = 0;
 boolean mShowZero = false;
@@ -59,87 +60,30 @@ public void addToLayer(Entity paramEntity){
 
 
 public void addGoldToLayer(Entity paramEntity,int mGold){
-	  AnimatedSprite[] myGoldAS = new AnimatedSprite[(mGold+"").length()];
-	  for (int i = 0;i< myGoldAS.length; i++){
-	    myGoldAS[i] = new AnimatedSprite(0f, 0f, ResourceManager.numberTTR.deepCopy(),ResourceManager.getEngine().getVertexBufferObjectManager());
-	    EntityUtil.setSize("width", 20f/800f, myGoldAS[i]);
-	    myGoldAS[i].setPosition(myGoldAS[i].getWidth()/2f + i * myGoldAS[i].getWidth(), paramEntity.getHeight()/2f);
-	    paramEntity.attachChild(myGoldAS[i]);
-	    
-	    
-	  }
-	  
-	  for(int n = myGoldAS.length-1; n>=0; n--){
-		  int m = mGold % 10;
-		  myGoldAS[n].setCurrentTileIndex(m);
-		  mGold = mGold / 10;
-	  }
-	  
-	  
-}
-
-
-/*
-public void addGold(float scoreNum){
-	if(scoreNum >= 1000000 && scoreNum<=9999999){
-		myGoldAS[0].setCurrentTileIndex((int)(scoreNum/1000000));
-		myGoldAS[0].setVisible(true);
-		scoreNum = scoreNum%1000000;
-	}else{
-		myGoldAS[0].setCurrentTileIndex(0);
-		myGoldAS[0].setVisible(false);
+	if(myGoldAS != null){
+		for(AnimatedSprite a:myGoldAS){
+			paramEntity.detachChild(a);
+			a = null;
+		}
+		myGoldAS = null;
 	}
-	if(scoreNum >= 100000 && scoreNum<=999999){
-		myGoldAS[1].setCurrentTileIndex((int)(scoreNum/100000));
-		myGoldAS[1].setVisible(true);
-		scoreNum = scoreNum%100000;
+	if(mGold <= 0){
+		myGoldAS = new AnimatedSprite[1];
 	}else{
-		myGoldAS[1].setCurrentTileIndex(0);
-		myGoldAS[1].setVisible(false);
+		myGoldAS = new AnimatedSprite[(mGold+"").length()];
 	}
-	if(scoreNum >= 10000 && scoreNum<=99999){
-		myGoldAS[2].setCurrentTileIndex((int)(scoreNum/10000));
-		myGoldAS[2].setVisible(true);
-		scoreNum = scoreNum%10000;
-	}else{
-		myGoldAS[2].setCurrentTileIndex(0);
-		myGoldAS[2].setVisible(false);
+	for (int i = 0;i< myGoldAS.length; i++){
+		myGoldAS[i] = new AnimatedSprite(0f, 0f, ResourceManager.numberTTR.deepCopy(),ResourceManager.getEngine().getVertexBufferObjectManager());
+		EntityUtil.setSize("width", 20f/800f, myGoldAS[i]);
+		myGoldAS[i].setPosition(paramEntity.getWidth()*(1f/8f)+myGoldAS[i].getWidth()/2f + i * myGoldAS[i].getWidth(), paramEntity.getHeight()*(2f/3f));
+		paramEntity.attachChild(myGoldAS[i]);
 	}
-	if(scoreNum >= 1000 && scoreNum <= 9999){
-		myGoldAS[3].setCurrentTileIndex((int)(scoreNum/1000));
-		myGoldAS[3].setVisible(true);
-		scoreNum = scoreNum%1000;
-	}else{
-		myGoldAS[3].setCurrentTileIndex(0);
-		myGoldAS[3].setVisible(false);
-	}
-	if(scoreNum >= 100 && scoreNum <= 999){
-		myGoldAS[4].setCurrentTileIndex((int)(scoreNum/100));
-		myGoldAS[4].setVisible(true);
-		scoreNum = scoreNum%100;
-	}else{
-		myGoldAS[4].setCurrentTileIndex(0);
-		myGoldAS[4].setVisible(false);
-	}
-	if(scoreNum >= 10 && scoreNum <= 99){
-		myGoldAS[5].setCurrentTileIndex((int)(scoreNum/10));
-		myGoldAS[5].setVisible(true);
-		scoreNum = scoreNum%10;
-	}else{
-		myGoldAS[5].setCurrentTileIndex(0);
-		myGoldAS[5].setVisible(false);
-	}
-	if(scoreNum >= 1 && scoreNum <= 9){
-		myGoldAS[6].setCurrentTileIndex((int)(scoreNum/1));
-		myGoldAS[6].setVisible(true);
-		//scoreNum = scoreNum%10;
-	}else{
-		myGoldAS[6].setCurrentTileIndex(0);
-		myGoldAS[6].setVisible(false);
+	for(int n = myGoldAS.length-1; n>=0; n--){
+		int m = mGold % 10;
+		myGoldAS[n].setCurrentTileIndex(m);
+		mGold = mGold / 10;
 	}
 }
-
-*/
 
 //======================未使用的方法====================//
 
