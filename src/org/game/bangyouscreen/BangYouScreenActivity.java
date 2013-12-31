@@ -38,6 +38,12 @@ public class BangYouScreenActivity extends BaseGameActivity {
 		return ResourceManager.getActivity()
 				.getSharedPreferences(DataConstant.SHARED_PREFS_MAIN, 0).getInt(pStr, 0);
 	}
+	
+	//第一次进入游戏时获取初始化100金币
+	public static int getGoldFromSharedPreferences() {
+		return ResourceManager.getActivity()
+				.getSharedPreferences(DataConstant.SHARED_PREFS_MAIN, 0).getInt(DataConstant.MY_GOLD, 100);
+	}
 
 	public static void writeBooleanToSharedPreferences(final String pStr,
 			final boolean pValue) {
