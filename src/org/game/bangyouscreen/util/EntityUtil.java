@@ -1,6 +1,6 @@
 package org.game.bangyouscreen.util;
 
-import org.andengine.entity.Entity;
+import org.andengine.entity.IEntity;
 import org.game.bangyouscreen.managers.ResourceManager;
 
 /**
@@ -15,7 +15,7 @@ public class EntityUtil {
 	 * @author zuowhat 2013-12-08
 	 * @since 1.0
 	 */
-	public static void setSize(String sizeType, float size, Entity entity){
+	public static void setSize(String sizeType, float size, IEntity entity){
 		if("width".equals(sizeType)){
 			entity.setSize(size * ResourceManager.getCamera().getWidth(), (size * ResourceManager.getCamera().getWidth()) / (entity.getWidth() / entity.getHeight()));
 		}else if("height".equals(sizeType)){
@@ -28,7 +28,7 @@ public class EntityUtil {
 	 * @author zuowhat 2013-12-08
 	 * @since 1.0
 	 */
-	public static void setSizeInParent(String sizeType, float size, Entity sEntity, Entity pEntity){
+	public static void setSizeInParent(String sizeType, float size, IEntity sEntity, IEntity pEntity){
 		if("width".equals(sizeType)){
 			sEntity.setSize(size * pEntity.getWidth(), (size * pEntity.getWidth()) / (sEntity.getWidth() / sEntity.getHeight()));
 		}else if("height".equals(sizeType)){
