@@ -49,7 +49,18 @@ public void addScore(float scoreNum){
 	}
 }
 
+public void detachSelf(){
+	  for (int i = 0; ; i++){
+	    if (i >= this.mDigitsSprite.length)
+	      return;
+	    if (this.mDigitsSprite[i] == null)
+	      continue;
+	    this.mDigitsSprite[i].detachSelf();
+	  }
+}
+
 public void addToLayer(Entity paramEntity){
+	  detachSelf();
 	  for (int i = 0;i< mDigitsSprite.length; i++){
 	    this.mDigitsSprite[i] = new AnimatedSprite(0f, 0f, ResourceManager.numberTTR.deepCopy(),ResourceManager.getEngine().getVertexBufferObjectManager());
 	    EntityUtil.setSize("width", 20f/800f, mDigitsSprite[i]);
@@ -87,17 +98,7 @@ public void addGoldToLayer(Entity paramEntity,int mGold){
 
 //======================未使用的方法====================//
 
-public void detachSelf()
-{
-  for (int i = 0; ; i++)
-  {
-    if (i >= this.mDigitsSprite.length)
-      return;
-    if (this.mDigitsSprite[i] == null)
-      continue;
-    this.mDigitsSprite[i].detachSelf();
-  }
-}
+
 
 public int getCurrentScore()
 {

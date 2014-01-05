@@ -17,12 +17,10 @@ import org.game.bangyouscreen.managers.ManagedScene;
 import org.game.bangyouscreen.managers.ResourceManager;
 import org.game.bangyouscreen.managers.SFXManager;
 import org.game.bangyouscreen.managers.SceneManager;
-import org.game.bangyouscreen.model.BossModel;
-import org.game.bangyouscreen.model.PlayerModel;
 import org.game.bangyouscreen.scene.MainMenuScene;
 import org.game.bangyouscreen.scene.ThemeScene;
 import org.game.bangyouscreen.util.AnimatedButtonSprite;
-import org.game.bangyouscreen.util.AnimatedButtonSprite.OnClickListener;
+import org.game.bangyouscreen.util.AnimatedButtonSprite.OnClickListenerABS;
 import org.game.bangyouscreen.util.DataConstant;
 import org.game.bangyouscreen.util.EntityUtil;
 
@@ -244,7 +242,7 @@ public class ThemeBossForMXD extends ManagedScene implements IScrollDetectorList
 					break;	
 				}
 				
-				bossPics[i].setOnClickListener(new OnClickListener(){
+				bossPics[i].setOnClickListenerABS(new OnClickListenerABS(){
 					public void onClick(AnimatedButtonSprite pButtonSprite,
 							float pTouchAreaLocalX, float pTouchAreaLocalY) {
 						SFXManager.getInstance().playSound("a_click");

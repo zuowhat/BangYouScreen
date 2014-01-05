@@ -2,11 +2,8 @@ package org.game.bangyouscreen.util;
 
 import org.andengine.entity.sprite.AnimatedSprite;
 import org.andengine.entity.sprite.AnimationData;
-import org.andengine.entity.sprite.ButtonSprite;
 import org.andengine.entity.sprite.IAnimationData;
 import org.andengine.entity.sprite.TiledSprite;
-import org.andengine.entity.sprite.ButtonSprite.OnClickListener;
-import org.andengine.entity.sprite.ButtonSprite.State;
 import org.andengine.entity.sprite.vbo.ITiledSpriteVertexBufferObject;
 import org.andengine.input.touch.TouchEvent;
 import org.andengine.opengl.shader.PositionColorTextureCoordinatesShaderProgram;
@@ -37,7 +34,7 @@ public class AnimatedButtonSprite extends TiledSprite {
 	// ===========================================================
 	
 	private int mStateCount;
-	private OnClickListener mOnClickListener;
+	private OnClickListenerABS mOnClickListener;
 
 	private boolean mEnabled = true;
 	private State mState;
@@ -59,6 +56,7 @@ public class AnimatedButtonSprite extends TiledSprite {
 
 	public AnimatedButtonSprite(final float pX, final float pY, final ITiledTextureRegion pTiledTextureRegion, final VertexBufferObjectManager pVertexBufferObjectManager) {
 		super(pX, pY, pTiledTextureRegion, pVertexBufferObjectManager, DrawType.DYNAMIC);
+		//this.mStateCount = pTiledTextureRegion.getTileCount();
 	}
 
 	public AnimatedButtonSprite(final float pX, final float pY, final ITiledTextureRegion pTiledTextureRegion, final VertexBufferObjectManager pVertexBufferObjectManager, final ShaderProgram pShaderProgram) {
@@ -369,7 +367,7 @@ public class AnimatedButtonSprite extends TiledSprite {
 		this.mAnimationRunning = true;
 	}
 
-	public void setOnClickListener(final OnClickListener pOnClickListener) {
+	public void setOnClickListenerABS(final OnClickListenerABS pOnClickListener) {
 		this.mOnClickListener = pOnClickListener;
 	}
 	
@@ -404,14 +402,14 @@ public class AnimatedButtonSprite extends TiledSprite {
 
 		final int stateTiledTextureRegionIndex = this.mState.getTiledTextureRegionIndex();
 		if (stateTiledTextureRegionIndex >= this.mStateCount) {
-			this.setCurrentTileIndex(0);
+			//this.setCurrentTileIndex(0);
 			Debug.w(this.getClass().getSimpleName() + " changed its " + State.class.getSimpleName() + " to " + pState.toString() + ", which doesn't have a " + ITextureRegion.class.getSimpleName() + " supplied. Applying default " + ITextureRegion.class.getSimpleName() + ".");
 		} else {
-			this.setCurrentTileIndex(stateTiledTextureRegionIndex);
+			//this.setCurrentTileIndex(stateTiledTextureRegionIndex);
 		}
 	}
 	
-	public interface OnClickListener {
+	public interface OnClickListenerABS {
 		// ===========================================================
 		// Constants
 		// ===========================================================

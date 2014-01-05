@@ -20,6 +20,8 @@ import org.game.bangyouscreen.BangYouScreenActivity;
 import org.game.bangyouscreen.managers.ManagedScene;
 import org.game.bangyouscreen.managers.ResourceManager;
 import org.game.bangyouscreen.managers.SFXManager;
+import org.game.bangyouscreen.util.AnimatedButtonSprite;
+import org.game.bangyouscreen.util.AnimatedButtonSprite.OnClickListenerABS;
 import org.game.bangyouscreen.util.DataConstant;
 import org.game.bangyouscreen.util.EntityUtil;
 import org.game.bangyouscreen.util.GameScore;
@@ -58,6 +60,8 @@ public class ShopScene extends ManagedScene implements IScrollDetectorListener{
 	private int myGold;
 	private GameScore mGameScore;
 	private Sprite propTopBG;
+	private String b;//武器或魔法数据存储名称
+	private String type;//当前操作的界面类型
 	
 	public static ShopScene getInstance(){
 		return INSTANCE;
@@ -74,6 +78,7 @@ public class ShopScene extends ManagedScene implements IScrollDetectorListener{
 	public void onLoadScene() {
 		myGold = BangYouScreenActivity.getGoldFromSharedPreferences();
 		ResourceManager.loadShopResources();
+		//SFXManager.getInstance().loadSound("a_click", ResourceManager.getActivity().getSoundManager(), ResourceManager.getActivity());
 		weaponInfoBG = new Sprite(0f,0f,ResourceManager.shopInfoBG,mVertexBufferObjectManager);
 		magicInfoBG = new Sprite(0f,0f,ResourceManager.shopInfoBG,mVertexBufferObjectManager);
 		propsInfoBG = new Sprite(0f,0f,ResourceManager.shopInfoBG,mVertexBufferObjectManager);
@@ -126,6 +131,7 @@ public class ShopScene extends ManagedScene implements IScrollDetectorListener{
 				shareInfoBG = propsInfoBG;
 				shareInfoBG_S = propsInfoBG_S;
 				isTouch = false;
+				type = "prop";
 			}
 		});
 		registerTouchArea(propFontBS);
@@ -151,6 +157,7 @@ public class ShopScene extends ManagedScene implements IScrollDetectorListener{
 				shareInfoBG = magicInfoBG;
 				shareInfoBG_S = magicInfoBG_S;
 				isTouch = true;
+				type = "magic";
 			}
 		});
 		registerTouchArea(magicFontBS);
@@ -184,9 +191,11 @@ public class ShopScene extends ManagedScene implements IScrollDetectorListener{
 				shareInfoBG = weaponInfoBG;
 				shareInfoBG_S = weaponInfoBG_S;
 				isTouch = true;
+				type = "weapon";
 			}
 		});
 		shareFontBS = weaponFontBS;
+		type = "weapon";
 		//顶部云
 		propTopBG = new Sprite(0f,0f,ResourceManager.shopPropBG.getTextureRegion(0),mVertexBufferObjectManager);
 		EntityUtil.setSize("width", 342f/800f, propTopBG);
@@ -212,9 +221,9 @@ public class ShopScene extends ManagedScene implements IScrollDetectorListener{
 				propBottomBG.getX(), propBottomBG.getHeight()/2f, EaseElasticInOut.getInstance()));
 		attachChild(propBottomBG);
 		
-		addInfoBGByType("weapon",weaponInfoBG,weaponInfoBG_S,9);
-		addInfoBGByType("magic",magicInfoBG,magicInfoBG_S,9);
-		addInfoBGByType("prop",propsInfoBG,propsInfoBG_S,3);
+		addInfoBGByType(weaponInfoBG,weaponInfoBG_S,DataConstant.WEAPON_NUM);
+		addInfoBGByType(magicInfoBG,magicInfoBG_S,DataConstant.MAGIC_NUM);
+		addInfoBGByType(propsInfoBG,propsInfoBG_S,DataConstant.PROP_NUM);
 		attachChild(shopMenuBG);
 		
 
@@ -234,7 +243,7 @@ public class ShopScene extends ManagedScene implements IScrollDetectorListener{
 	 * @param infoNum 栏目的数量
 	 * @since 1.0
 	 */
-	private void addInfoBGByType(String type, Sprite infoBG, Rectangle infoBG_S, int infoNum){
+	private void addInfoBGByType(Sprite infoBG, Rectangle infoBG_S, int infoNum){
 		EntityUtil.setSize("height", 1f, infoBG);
 		infoBG.setPosition(mCameraWidth+infoBG.getWidth()/2f, mCameraHeight/2f);
 		
@@ -291,49 +300,67 @@ public class ShopScene extends ManagedScene implements IScrollDetectorListener{
 	 * @param infoSpriteArray 栏目精灵数组
 	 * @param infoPicTTR 图标
 	 * @param infoContentTTR 描述信息
+	 * @param type 道具类型
 	 * @since 1.0
 	 */
 	private void addInfoByType(Sprite[] infoSpriteArray, TiledTextureRegion infoContentTTR){
 		for(int i=0; i<infoSpriteArray.length; i++){
 			Sprite s = new Sprite(0f,0f,infoContentTTR.getTextureRegion(i),mVertexBufferObjectManager);
 			EntityUtil.setSizeInParent("height", 4f/5f, s, infoSpriteArray[i]);
-			//s.setSize(infoSpriteArray[i].getWidth()*(4f/5f), infoSpriteArray[i].getHeight()*(4f/5f));
 			s.setPosition(s.getWidth()/2f, infoSpriteArray[i].getHeight()/2f);
-			//s.setZIndex(100);
 			infoSpriteArray[i].attachChild(s);
 			
 			//购买或装备
-			boolean isBuy = BangYouScreenActivity.getBooleanFromSharedPreferences(DataConstant.WEAPON_BUY+i);
-			ButtonSprite s1;
+			boolean isBuy;
+			if("weapon".equals(type)){
+				b = DataConstant.WEAPON_BUY+i;
+				isBuy = BangYouScreenActivity.getBooleanFromSharedPreferences(b);
+			}else if("magic".equals(type)){
+				b = DataConstant.MAGIC_BUY+i;
+				isBuy = BangYouScreenActivity.getBooleanFromSharedPreferences(b);
+			}else{
+				isBuy = false;
+			}
+			//boolean isBuy = BangYouScreenActivity.getBooleanFromSharedPreferences(b);
+		    AnimatedButtonSprite s1;
 			if(isBuy){
 				//装备
-				s1 = new ButtonSprite(0f,0f,ResourceManager.buyOrUse.getTextureRegion(1),mVertexBufferObjectManager);
-				s1.setOnClickListener(new OnClickListener(){
-					public void onClick(ButtonSprite pButtonSprite,
-							float pTouchAreaLocalX, float pTouchAreaLocalY) {
-							SFXManager.getInstance().playSound("a_click");
-							
-							
-							
-					}});
+				s1 = new AnimatedButtonSprite(0f,0f,ResourceManager.buyOrUse,mVertexBufferObjectManager);
+				useGoods(s1,i);
 			}else{
 				//购买
-				final int weaponPrice = DataConstant.weaponPrice[i];
-				s1 = new ButtonSprite(0f,0f,ResourceManager.buyOrUse.getTextureRegion(0),mVertexBufferObjectManager);
-				s1.setOnClickListener(new OnClickListener(){
-					public void onClick(ButtonSprite pButtonSprite,
+				final int goodsPrice;//物品价格
+				if("weapon".equals(type)){
+					goodsPrice = DataConstant.weaponPrice[i];
+				}else if("magic".equals(type)){
+					goodsPrice = DataConstant.magicPrice[i];
+				}else{
+					goodsPrice = DataConstant.propPrice[i];
+				}
+				final int weaponNum = i;
+				s1 = new AnimatedButtonSprite(0f,0f,ResourceManager.buyOrUse,mVertexBufferObjectManager);
+				s1.setCurrentTileIndex(0);
+				s1.setOnClickListenerABS(new OnClickListenerABS(){
+					public void onClick(AnimatedButtonSprite pButtonSprite,
 							float pTouchAreaLocalX, float pTouchAreaLocalY) {
-							if(myGold >= weaponPrice){
+							if(myGold >= goodsPrice){
+								//pButtonSprite.setCurrentTileIndex(1);
 								SFXManager.getInstance().playSound("a_click");
-								myGold = myGold - weaponPrice;
+								myGold = myGold - goodsPrice;
 								mGameScore.addGoldToLayer(propTopBG, myGold);
+								BangYouScreenActivity.writeIntToSharedPreferences(DataConstant.MY_GOLD, myGold);
+								if(!"prop".equals(type)){
+									BangYouScreenActivity.writeBooleanToSharedPreferences(b, true);
+									useGoods(pButtonSprite,weaponNum);
+								}else{
+									
+								}
 							}else{
 								//不能购买的音效
 								
 							}
 					}});
 			}
-			//Sprite s1 = new Sprite(0f,0f,ResourceManager.buy,mVertexBufferObjectManager);
 			EntityUtil.setSizeInParent("height", 3f/5f, s1, infoSpriteArray[i]);
 			s1.setPosition((infoSpriteArray[i].getWidth()+s.getWidth())/2f, infoSpriteArray[i].getHeight()/2f);
 			infoSpriteArray[i].attachChild(s1);
@@ -341,7 +368,26 @@ public class ShopScene extends ManagedScene implements IScrollDetectorListener{
 		}
 	}
 	
-	
+	/**
+	 * 使用装备功能
+	 * @author zuowhat 2014-1-3
+	 * @param abs 按钮
+	 * @param weaponNum 物品编号
+	 * @since 1.0
+	 */
+	private void useGoods(AnimatedButtonSprite abs, final int goodsNum){
+		abs.setCurrentTileIndex(1);
+		abs.setOnClickListenerABS(new OnClickListenerABS(){
+			public void onClick(AnimatedButtonSprite pButtonSprite,
+					float pTouchAreaLocalX, float pTouchAreaLocalY) {
+					SFXManager.getInstance().playSound("a_click");
+					if("weapon".equals(type)){
+						BangYouScreenActivity.writeIntToSharedPreferences(DataConstant.CURRENT_WEAPON, goodsNum);
+					}else if("magic".equals(type)){
+						BangYouScreenActivity.writeIntToSharedPreferences(DataConstant.CURRENT_MAGIC, goodsNum);
+					}
+			}});
+	}
 
 	public void onShowScene() {
 		// TODO Auto-generated method stub

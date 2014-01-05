@@ -484,7 +484,7 @@ public class GameLevel extends ManagedScene {
 	 * @since 1.0
 	 */
 	private void gameWin(){
-		BangYouScreenActivity.writeIntToSharedPreferences(DataConstant.SHARED_PREFS_THEME_1, bossModel.getBossLevel());
+		BangYouScreenActivity.writeIntToSharedPreferences(DataConstant.SHARED_PREFS_THEME_MXD, bossModel.getBossLevel());
 		AnimatedSprite bigBang = new AnimatedSprite(0f,0f,ResourceManager.bigBang,mVertexBufferObjectManager);
 		bigBang.setPosition(bossAS.getX(), bossAS.getY());
 		EntityUtil.setSize("height", 0.5f, bigBang);

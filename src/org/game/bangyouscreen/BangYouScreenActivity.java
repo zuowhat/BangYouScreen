@@ -42,7 +42,19 @@ public class BangYouScreenActivity extends BaseGameActivity {
 	//第一次进入游戏时获取初始化100金币
 	public static int getGoldFromSharedPreferences() {
 		return ResourceManager.getActivity()
-				.getSharedPreferences(DataConstant.SHARED_PREFS_MAIN, 0).getInt(DataConstant.MY_GOLD, 5389);
+				.getSharedPreferences(DataConstant.SHARED_PREFS_MAIN, 0).getInt(DataConstant.MY_GOLD, DataConstant.GOLD_INIT);
+	}
+	
+	//第一次进入游戏时获取初始化武器
+	public static int getWeaponFromSharedPreferences() {
+		return ResourceManager.getActivity()
+				.getSharedPreferences(DataConstant.SHARED_PREFS_MAIN, 0).getInt(DataConstant.CURRENT_WEAPON, DataConstant.WEAPON_INIT);
+	}
+	
+	//第一次进入游戏时获取初始化魔法
+	public static int getMagicFromSharedPreferences() {
+		return ResourceManager.getActivity()
+				.getSharedPreferences(DataConstant.SHARED_PREFS_MAIN, 0).getInt(DataConstant.CURRENT_MAGIC, DataConstant.MAGIC_INIT);
 	}
 
 	public static void writeBooleanToSharedPreferences(final String pStr,
@@ -52,12 +64,11 @@ public class BangYouScreenActivity extends BaseGameActivity {
 				.putBoolean(pStr, pValue).apply();
 	}
 
-	public static int writeIntToSharedPreferences(final String pStr,
+	public static void writeIntToSharedPreferences(final String pStr,
 			final int pValue) {
 		ResourceManager.getActivity()
 				.getSharedPreferences(DataConstant.SHARED_PREFS_MAIN, 0).edit()
 				.putInt(pStr, pValue).apply();
-		return pValue;
 	}
 	
 	//开发时使用的手机屏幕分辨率

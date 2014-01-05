@@ -335,7 +335,7 @@ public class ResourceManager extends Object{
 		mPreviousAssetBasePath = BitmapTextureAtlasTextureRegionFactory.getAssetBasePath();
 		BitmapTextureAtlasTextureRegionFactory.setAssetBasePath("gfx/theme/");
 		
-		int themeSceneOneBossTotal = BangYouScreenActivity.getIntFromSharedPreferences(DataConstant.SHARED_PREFS_THEME_1);
+		int themeSceneOneBossTotal = BangYouScreenActivity.getIntFromSharedPreferences(DataConstant.SHARED_PREFS_THEME_MXD);
 		
 		for(int i=0; i<themeSceneOneBossTotal+1; i++){
 			if(mxdBoss_TTRArray[i] == null){
