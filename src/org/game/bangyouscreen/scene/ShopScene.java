@@ -60,6 +60,7 @@ public class ShopScene extends ManagedScene implements IScrollDetectorListener{
 	private int myGold;
 	private GameScore mGameScore;
 	private Sprite propTopBG;
+	private Sprite propBottomBG;
 	private Sprite isUseWeaponSprite;
 	private Sprite isUseMagicSprite;
 	private int currentWeapon;
@@ -200,7 +201,6 @@ public class ShopScene extends ManagedScene implements IScrollDetectorListener{
 			}
 		});
 		shareFontBS = weaponFontBS;
-		//type = "weapon";
 		//顶部云
 		propTopBG = new Sprite(0f,0f,ResourceManager.shopPropBG.getTextureRegion(0),mVertexBufferObjectManager);
 		EntityUtil.setSize("width", 342f/800f, propTopBG);
@@ -217,26 +217,30 @@ public class ShopScene extends ManagedScene implements IScrollDetectorListener{
 		goldSprite.setSize(lastAS.getHeight(), lastAS.getHeight());
 		goldSprite.setPosition(lastAS.getX()+2*lastAS.getWidth(), lastAS.getY());
 		propTopBG.attachChild(goldSprite);
+		//时钟
+		Sprite clockSprite = new Sprite(0f,0f,ResourceManager.propsTTR.getTextureRegion(3),mVertexBufferObjectManager);
+		clockSprite.setSize(goldSprite.getWidth(), goldSprite.getHeight());
+		clockSprite.setPosition(goldSprite.getX()+2*goldSprite.getWidth(), goldSprite.getY());
+		propTopBG.attachChild(clockSprite);
 		
 		//底部云
-		Sprite propBottomBG = new Sprite(0f,0f,ResourceManager.shopPropBG.getTextureRegion(1),mVertexBufferObjectManager);
+		propBottomBG = new Sprite(0f,0f,ResourceManager.shopPropBG.getTextureRegion(1),mVertexBufferObjectManager);
 		propBottomBG.setSize(propTopBG.getWidth(), propTopBG.getHeight());
 		propBottomBG.setPosition(propBottomBG.getWidth()/2f, -propBottomBG.getHeight()/2f);
 		propBottomBG.registerEntityModifier(new MoveModifier(0.5f, propBottomBG.getX(), propBottomBG.getY(),
 				propBottomBG.getX(), propBottomBG.getHeight()/2f, EaseElasticInOut.getInstance()));
 		attachChild(propBottomBG);
+		//魔龙之血
+		Sprite weaponPotion = new Sprite(0f,0f,ResourceManager.propsTTR.getTextureRegion(0),mVertexBufferObjectManager);
+		
+		//天使之泪
+		Sprite magicPotion = new Sprite(0f,0f,ResourceManager.propsTTR.getTextureRegion(1),mVertexBufferObjectManager);
+		
 		
 		addInfoBGByType("weapon",weaponInfoBG,weaponInfoBG_S,DataConstant.WEAPON_NUM);
 		addInfoBGByType("magic",magicInfoBG,magicInfoBG_S,DataConstant.MAGIC_NUM);
 		addInfoBGByType("prop",propsInfoBG,propsInfoBG_S,DataConstant.PROP_NUM);
 		attachChild(shopMenuBG);
-		
-
-		
-		
-		
-		
-		
 	}
 	
 	/**
