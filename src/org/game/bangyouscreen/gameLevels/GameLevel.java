@@ -25,7 +25,7 @@ import org.game.bangyouscreen.model.BossModel;
 import org.game.bangyouscreen.model.PlayerModel;
 import org.game.bangyouscreen.util.DataConstant;
 import org.game.bangyouscreen.util.EntityUtil;
-import org.game.bangyouscreen.util.GameScore;
+import org.game.bangyouscreen.util.GameNumberUtil;
 import org.game.bangyouscreen.util.GameTimer;
 
 public class GameLevel extends ManagedScene {
@@ -41,7 +41,7 @@ public class GameLevel extends ManagedScene {
 	private int mScore = 0;
 	private GameTimer mGameTime;
 	private boolean mTenSeconds = false;
-	private GameScore mGameScore;
+	private GameNumberUtil mGameScore;
 	private AnimatedSprite magicAS;
 	private AnimatedSprite bossAS;
 	private static final float BOSS_VELOCITY = 50.0f;//BOSS移动速度
@@ -106,7 +106,7 @@ public class GameLevel extends ManagedScene {
 		mGameTime.addToLayer(this);
 		
 		//得分
-		mGameScore = new GameScore();
+		mGameScore = new GameNumberUtil();
 		mGameScore.addToLayer(this);
 		
 		//BOSS血条

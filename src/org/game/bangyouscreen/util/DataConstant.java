@@ -21,6 +21,9 @@ public class DataConstant {
 	public static final int MAGIC_NUM = 9;//装备库中魔法的个数
 	public static final int PROP_NUM = 3;//装备库中道具的个数
 	
+	public static final String WEAPON_NAME = "Weapon";//武器代号
+	public static final String MAGIC_NAME = "Magic";//魔法代号
+	public static final String PROP_NAME = "Prop";//道具代号
 	public static final String SHARED_PREFS_MAIN = "BangYouScreenSettings";//主表名
 	public static final String SHARED_PREFS_THEME_MXD = "ThemeSceneMXD";
 	public static final String SHARED_PREFS_THEME_22 = "ThemeScene2";
@@ -32,7 +35,7 @@ public class DataConstant {
 	public static final String MY_GOLD = "MyGold";//拥有的金币
 	public static final int[] weaponPrice = {500,1500,3000,650,1800,3500,800,2000,5000};//武器价格
 	public static final int[] magicPrice = {500,1500,3000,650,1800,3500,800,2000,5000};//魔法价格
-	public static final int[] propPrice = {500,1500,3000,650};//道具价格
+	public static final int[] propPrice = {200,350,300};//道具价格
 	
 	/** 冒险岛主题BOSS个数 */
 	public static final int THEME_1_BOSS_NUM = 8;
