@@ -15,9 +15,9 @@ public class GameNumberUtil{
 private VertexBufferObjectManager mVertexBufferObjectManager = ResourceManager.getEngine().getVertexBufferObjectManager();
 public AnimatedSprite[] mDigitsSprite = new AnimatedSprite[5];
 public AnimatedSprite[] myGoldAS;
-public AnimatedSprite[] weaponPotionNum = new AnimatedSprite[3];//魔龙之血数量
-public AnimatedSprite[] magicPotionNum = new AnimatedSprite[3];//蓝色冰魄数量
-public AnimatedSprite[] clockNum = new AnimatedSprite[3];//时光沙漏数量
+public AnimatedSprite[] tiamatPotionNum;//魔龙之血数量
+public AnimatedSprite[] bingpoPotionNum;//蓝色冰魄数量
+public AnimatedSprite[] clockNum;//时光沙漏数量
 
 float mScale = 1.0F;
 private int mScore = 0;
@@ -115,20 +115,23 @@ public void addGoldToLayer(IEntity paramEntity,int mGold){
 }
 
 /**
- * 显示物品数量
+ * 显示物品数量(ShopScene)
  * @author zuowhat 2014-1-6
  * @param type 物品类型
  * @param pEntity 父层
  * @param bEntity 兄弟实体
  * @since 1.0
  */
-public void addGoodsNumToLayer(String type, IEntity pEntity,IEntity bEntity){
+public void addGoodsNumInShopScene(String type, IEntity pEntity,IEntity bEntity){
 	AnimatedSprite[] goodsNum = null;
 	if(DataConstant.WEAPON_NAME.equals(type)){
-		goodsNum = weaponPotionNum;
+		tiamatPotionNum  = new AnimatedSprite[3];
+		goodsNum = tiamatPotionNum;
 	}else if(DataConstant.MAGIC_NAME.equals(type)){
-		goodsNum = magicPotionNum;
+		bingpoPotionNum  = new AnimatedSprite[3];
+		goodsNum = bingpoPotionNum;
 	}else{
+		clockNum  = new AnimatedSprite[3];
 		goodsNum = clockNum;
 	}
 	 for (int i = 0;i< goodsNum.length; i++){
@@ -149,9 +152,9 @@ public void addGoodsNumToLayer(String type, IEntity pEntity,IEntity bEntity){
 public void updateGoodsNum(String type, int num){
 	AnimatedSprite[] goodsNum = null;
 	if(DataConstant.WEAPON_NAME.equals(type)){
-		goodsNum = weaponPotionNum;
+		goodsNum = tiamatPotionNum;
 	}else if(DataConstant.MAGIC_NAME.equals(type)){
-		goodsNum = magicPotionNum;
+		goodsNum = bingpoPotionNum;
 	}else{
 		goodsNum = clockNum;
 	}
@@ -174,6 +177,33 @@ public void updateGoodsNum(String type, int num){
 		}else{
 			goodsNum[n].setVisible(false);
 		}
+	}
+}
+
+/**
+ * 显示物品数量(GameLevel)
+ * @author zuowhat 2014-1-7
+ * @param type 物品类型
+ * @param pEntity 父层
+ * @since 1.0
+ */
+public void addGoodsNumInGameLevel(String type, IEntity pEntity){
+	AnimatedSprite[] goodsNum = null;
+	if(DataConstant.WEAPON_NAME.equals(type)){
+		tiamatPotionNum  = new AnimatedSprite[3];
+		goodsNum = tiamatPotionNum;
+	}else if(DataConstant.MAGIC_NAME.equals(type)){
+		bingpoPotionNum  = new AnimatedSprite[3];
+		goodsNum = bingpoPotionNum;
+	}else{
+		clockNum  = new AnimatedSprite[3];
+		goodsNum = clockNum;
+	}
+	 for (int i = 0;i< goodsNum.length; i++){
+	    goodsNum[i] = new AnimatedSprite(0f, 0f, ResourceManager.numberTTR.deepCopy(),mVertexBufferObjectManager);
+	    EntityUtil.setSizeInParent("height", 1f/3f, goodsNum[i],pEntity);
+	    goodsNum[i].setPosition(pEntity.getWidth() - (goodsNum.length-i) * goodsNum[i].getWidth()/2f,goodsNum[i].getHeight()/2f);
+	    pEntity.attachChild(goodsNum[i]);
 	}
 }
 

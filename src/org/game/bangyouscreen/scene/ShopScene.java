@@ -228,7 +228,7 @@ public class ShopScene extends ManagedScene implements IScrollDetectorListener{
 		clockSprite.setSize(goldSprite.getWidth(), goldSprite.getHeight());
 		clockSprite.setPosition(goldSprite.getX()+2*goldSprite.getWidth(), goldSprite.getY());
 		propTopBG.attachChild(clockSprite);
-		mGameNumber.addGoodsNumToLayer(DataConstant.PROP_NAME,propTopBG, clockSprite);
+		mGameNumber.addGoodsNumInShopScene(DataConstant.PROP_NAME,propTopBG, clockSprite);
 		mGameNumber.updateGoodsNum(DataConstant.PROP_NAME,clockNum);
 		
 		//底部云
@@ -244,7 +244,7 @@ public class ShopScene extends ManagedScene implements IScrollDetectorListener{
 		weaponPotion.setSize(goldSprite.getWidth(), goldSprite.getHeight());
 		weaponPotion.setPosition(propBottomBG.getWidth()*(2f/8f), propBottomBG.getHeight()*(1f/3f));
 		propBottomBG.attachChild(weaponPotion);
-		mGameNumber.addGoodsNumToLayer(DataConstant.WEAPON_NAME,propBottomBG, weaponPotion);
+		mGameNumber.addGoodsNumInShopScene(DataConstant.WEAPON_NAME,propBottomBG, weaponPotion);
 		mGameNumber.updateGoodsNum(DataConstant.WEAPON_NAME,weaponPotionNum);
 		
 		//蓝色冰魄
@@ -252,7 +252,7 @@ public class ShopScene extends ManagedScene implements IScrollDetectorListener{
 		magicPotion.setSize(goldSprite.getWidth(), goldSprite.getHeight());
 		magicPotion.setPosition(propBottomBG.getWidth()*(5f/8f), propBottomBG.getHeight()*(1f/3f));
 		propBottomBG.attachChild(magicPotion);
-		mGameNumber.addGoodsNumToLayer(DataConstant.MAGIC_NAME,propBottomBG, magicPotion);
+		mGameNumber.addGoodsNumInShopScene(DataConstant.MAGIC_NAME,propBottomBG, magicPotion);
 		mGameNumber.updateGoodsNum(DataConstant.MAGIC_NAME,magicPotionNum);
 		
 		

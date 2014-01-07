@@ -16,11 +16,9 @@ import org.andengine.util.debug.Debug;
 import org.andengine.util.time.TimeConstants;
 
 /**
- * (c) 2010 Nicolas Gramlich
- * (c) 2011 Zynga Inc.
- *
- * @author Nicolas Gramlich
- * @since 15:25:46 - 10.03.2010
+ * 结合AnimatedSprite 和 ButtonSprite 的功能
+ * @author zuowhat 2013-11-25
+ * @version 1.0
  */
 public class AnimatedButtonSprite extends TiledSprite {
 	// ===========================================================

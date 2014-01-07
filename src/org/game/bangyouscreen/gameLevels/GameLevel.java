@@ -37,14 +37,13 @@ public class GameLevel extends ManagedScene {
 	
 	//private static final String TIME_FORMAT = "00:00";
 	//private Text mTimeText;
-	private float gameTime = 10f;//初始游戏时间
+	private float gameTime = DataConstant.GAMETIME_INIT;//初始游戏时间
 	private int mScore = 0;
 	private GameTimer mGameTime;
 	private boolean mTenSeconds = false;
-	private GameNumberUtil mGameScore;
+	private GameNumberUtil mGameNumber;
 	private AnimatedSprite magicAS;
 	private AnimatedSprite bossAS;
-	private static final float BOSS_VELOCITY = 50.0f;//BOSS移动速度
 	private PhysicsHandler mPhysicsHandler;
 	private long[] frameDur;
 	private float xue3P;
@@ -55,8 +54,8 @@ public class GameLevel extends ManagedScene {
 	private ButtonSprite redButtonBS;
 	private ButtonSprite magicBS;
 	private ButtonSprite clockBS;
-	private ButtonSprite propsBS;
-	private ButtonSprite otherBS;
+	private ButtonSprite tiamatBS;
+	private ButtonSprite bingpoBS;
 	
 	public static BossModel bossModel;
 	public static PlayerModel playerModel;
@@ -70,6 +69,14 @@ public class GameLevel extends ManagedScene {
 	private Rectangle fadableBGRect;
 	private AnimatedSprite clockCooling;
 	private AnimatedSprite magicCooling;
+	private AnimatedSprite tiamatCooling;
+	private Sprite bingpoCooling;
+	private boolean isAddAOE = false;
+	private boolean isAddDPS = false;
+	private float tiamatTime;
+	private int weaponPotionNum;
+	private int magicPotionNum;
+	private int clockNum;
 	
 	public GameLevel (BossModel pBossModel, PlayerModel pPlayerModel){
 		bossModel = pBossModel;
@@ -88,6 +95,9 @@ public class GameLevel extends ManagedScene {
 
 	@Override
 	public void onLoadScene() {
+		weaponPotionNum = BangYouScreenActivity.getIntFromSharedPreferences(DataConstant.Prop_BUY+0);
+		magicPotionNum = BangYouScreenActivity.getIntFromSharedPreferences(DataConstant.Prop_BUY+1);
+		clockNum = BangYouScreenActivity.getIntFromSharedPreferences(DataConstant.Prop_BUY+2);
 		SFXManager.getInstance().loadSounds(sounds, ResourceManager.getActivity().getSoundManager(), ResourceManager.getActivity());
 		countDpsXS();
 		countAoeXS();
@@ -106,12 +116,12 @@ public class GameLevel extends ManagedScene {
 		mGameTime.addToLayer(this);
 		
 		//得分
-		mGameScore = new GameNumberUtil();
-		mGameScore.addToLayer(this);
+		mGameNumber = new GameNumberUtil();
+		mGameNumber.addToLayer(this);
 		
 		//BOSS血条
 		xue1Sprite = new Sprite(0f,0f,ResourceManager.xue1,mVertexBufferObjectManager);
-		xue1Sprite.setPosition(mCameraWidth/2f, mGameScore.mDigitsSprite[0].getY());
+		xue1Sprite.setPosition(mCameraWidth/2f, mGameNumber.mDigitsSprite[0].getY());
 		xue1Sprite.setSize(0.6875f*mCameraWidth, 0.05833f*mCameraHeight);
 		attachChild(xue1Sprite);
 		xue2Sprite = new Sprite(0f,0f,ResourceManager.xue2,mVertexBufferObjectManager);
@@ -130,7 +140,7 @@ public class GameLevel extends ManagedScene {
 		//bossAS.registerEntityModifier(pEntityModifier);
 		mPhysicsHandler = new PhysicsHandler(bossAS);
 		bossAS.registerUpdateHandler(mPhysicsHandler);
-		mPhysicsHandler.setVelocity(BOSS_VELOCITY);
+		mPhysicsHandler.setVelocity(DataConstant.BOSS_VELOCITY);
 		attachChild(bossAS);
 		
 		//操作区半透明背景
@@ -174,38 +184,49 @@ public class GameLevel extends ManagedScene {
 
 			public void onClick(ButtonSprite pButtonSprite,
 					float pTouchAreaLocalX, float pTouchAreaLocalY) {
-				unregisterTouchArea(clockBS);
-				SFXManager.getInstance().playSound("g_time");
-				gameTime+=30f;
+				if(clockNum > 0){
+					unregisterTouchArea(clockBS);
+					SFXManager.getInstance().playSound("g_time");
+					gameTime+=DataConstant.CLOCKTIME;
+					clockNum--;
+					mGameNumber.updateGoodsNum(DataConstant.PROP_NAME, clockNum);
+					BangYouScreenActivity.writeIntToSharedPreferences(DataConstant.Prop_BUY+2, clockNum);
 				clockCooling = new AnimatedSprite(0f,0f,ResourceManager.iconCooling,mVertexBufferObjectManager);
-				clockCooling.setPosition(clockBS.getWidth()/2f,clockBS.getHeight()/2f);
-				clockCooling.setSize(clockBS.getWidth(), clockBS.getHeight());
-				//时钟冷却时间9秒，待定
-				clockCooling.animate(1000,0,new IAnimationListener(){
-
-					public void onAnimationStarted(AnimatedSprite pAnimatedSprite,int pInitialLoopCount) {
-						
-					}
-
-					public void onAnimationFrameChanged(AnimatedSprite pAnimatedSprite, int pOldFrameIndex,int pNewFrameIndex) {
-						
-					}
-
-					public void onAnimationLoopFinished(AnimatedSprite pAnimatedSprite,int pRemainingLoopCount, int pInitialLoopCount) {
-						
-					}
-
-					public void onAnimationFinished(AnimatedSprite pAnimatedSprite) {
-						clockBS.detachChild(clockCooling);
-						clockCooling = null;
-						if(gameTime > 0){
-							registerTouchArea(clockBS);
+					clockCooling.setPosition(clockBS.getWidth()/2f,clockBS.getHeight()/2f);
+					clockCooling.setSize(clockBS.getWidth(), clockBS.getHeight());
+					//时钟冷却时间14秒，待定
+					clockCooling.animate(1500,0,new IAnimationListener(){
+	
+						public void onAnimationStarted(AnimatedSprite pAnimatedSprite,int pInitialLoopCount) {
+							
 						}
-					}
-				});
-				clockBS.attachChild(clockCooling);
+	
+						public void onAnimationFrameChanged(AnimatedSprite pAnimatedSprite, int pOldFrameIndex,int pNewFrameIndex) {
+							
+						}
+	
+						public void onAnimationLoopFinished(AnimatedSprite pAnimatedSprite,int pRemainingLoopCount, int pInitialLoopCount) {
+							
+						}
+	
+						public void onAnimationFinished(AnimatedSprite pAnimatedSprite) {
+							clockBS.detachChild(clockCooling);
+							clockCooling = null;
+							if(gameTime > 0){
+								registerTouchArea(clockBS);
+							}
+						}
+					});
+					clockBS.attachChild(clockCooling);
+				}else{
+					//数量不足音效
+					
+					
+				}
 			}});
 		fadableBGRect.attachChild(clockBS);
+		mGameNumber.addGoodsNumInGameLevel(DataConstant.PROP_NAME, clockBS);
+		mGameNumber.updateGoodsNum(DataConstant.PROP_NAME, clockNum);
 		
 		//魔法按钮
 		magicBS = new ButtonSprite(0f,0f,playerModel.getMagicTR(),mVertexBufferObjectManager);
@@ -286,32 +307,87 @@ public class GameLevel extends ManagedScene {
 		weaponBS.setPosition(magicBS.getX()-(53f/400f)*mCameraWidth, clockBS.getY());
 		fadableBGRect.attachChild(weaponBS);
 
-		//道具
-		propsBS = new ButtonSprite(0f,0f,ResourceManager.propsTTR.getTextureRegion(0),mVertexBufferObjectManager);
-		EntityUtil.setSize("width", 1f / 10f, propsBS);
-		propsBS.setPosition(clockBS.getX()+(53f/400f)*mCameraWidth, clockBS.getY());
-		propsBS.setOnClickListener(new OnClickListener(){
+		//魔龙
+		tiamatBS = new ButtonSprite(0f,0f,ResourceManager.propsTTR.getTextureRegion(0),mVertexBufferObjectManager);
+		EntityUtil.setSize("width", 1f / 10f, tiamatBS);
+		tiamatBS.setPosition(clockBS.getX()+(53f/400f)*mCameraWidth, clockBS.getY());
+		tiamatBS.setOnClickListener(new OnClickListener(){
 
 			public void onClick(ButtonSprite pButtonSprite,
 					float pTouchAreaLocalX, float pTouchAreaLocalY) {
-				SFXManager.getInstance().playSound("a_click");
-				
+				if(weaponPotionNum > 0){
+					SFXManager.getInstance().playSound("a_click");
+					isAddDPS = true;
+					tiamatTime = DataConstant.ADD_DPS_TIME;
+					weaponPotionNum--;
+					mGameNumber.updateGoodsNum(DataConstant.WEAPON_NAME, weaponPotionNum);
+					BangYouScreenActivity.writeIntToSharedPreferences(DataConstant.Prop_BUY+0, weaponPotionNum);
+					tiamatCooling = new AnimatedSprite(0f,0f,ResourceManager.iconCooling,mVertexBufferObjectManager); 
+					tiamatCooling.setPosition(tiamatBS.getWidth()/2f,tiamatBS.getHeight()/2f);
+					tiamatCooling.setSize(tiamatBS.getWidth(), tiamatBS.getHeight());
+					//冷却时间为14秒，待定
+					tiamatCooling.animate(1500, 0, new IAnimationListener(){
+						public void onAnimationStarted(
+								AnimatedSprite pAnimatedSprite,
+								int pInitialLoopCount) {
+						}
+
+						public void onAnimationFrameChanged(
+								AnimatedSprite pAnimatedSprite, int pOldFrameIndex,
+								int pNewFrameIndex) {
+						}
+
+						public void onAnimationLoopFinished(
+								AnimatedSprite pAnimatedSprite,
+								int pRemainingLoopCount, int pInitialLoopCount) {
+						}
+
+						public void onAnimationFinished(
+								AnimatedSprite pAnimatedSprite) {
+							tiamatBS.detachChild(tiamatCooling);
+							tiamatCooling = null;
+							if(gameTime > 0){
+								registerTouchArea(tiamatBS);
+							}
+						}
+					});
+					tiamatBS.attachChild(tiamatCooling);
+				}else{
+					//数量不足音效
+					
+				}
 			}});
-		fadableBGRect.attachChild(propsBS);
-		
-		
-		//其他
-		otherBS = new ButtonSprite(0f,0f,ResourceManager.propsTTR.getTextureRegion(1),mVertexBufferObjectManager);
-		EntityUtil.setSize("width", 1f / 10f, otherBS);
-		otherBS.setPosition(propsBS.getX()+(53f/400f)*mCameraWidth, clockBS.getY());
-		otherBS.setOnClickListener(new OnClickListener(){
+		fadableBGRect.attachChild(tiamatBS);
+		mGameNumber.addGoodsNumInGameLevel(DataConstant.WEAPON_NAME, tiamatBS);
+		mGameNumber.updateGoodsNum(DataConstant.WEAPON_NAME, weaponPotionNum);
+
+		//冰魄
+		bingpoBS = new ButtonSprite(0f,0f,ResourceManager.propsTTR.getTextureRegion(1),mVertexBufferObjectManager);
+		EntityUtil.setSize("width", 1f / 10f, bingpoBS);
+		bingpoBS.setPosition(tiamatBS.getX()+(53f/400f)*mCameraWidth, clockBS.getY());
+		bingpoBS.setOnClickListener(new OnClickListener(){
 
 			public void onClick(ButtonSprite pButtonSprite,
 					float pTouchAreaLocalX, float pTouchAreaLocalY) {
-				SFXManager.getInstance().playSound("a_click");
-				
+				if(magicPotionNum > 0){
+					SFXManager.getInstance().playSound("a_click");
+					isAddAOE = true;
+					magicPotionNum--;
+					mGameNumber.updateGoodsNum(DataConstant.MAGIC_NAME, magicPotionNum);
+					BangYouScreenActivity.writeIntToSharedPreferences(DataConstant.Prop_BUY+1, magicPotionNum);
+					bingpoCooling = new Sprite(0f,0f,ResourceManager.iconCooling.getTextureRegion(0),mVertexBufferObjectManager);
+					bingpoCooling.setSize(bingpoBS.getWidth(), bingpoBS.getHeight());
+					bingpoCooling.setPosition(bingpoBS.getWidth()/2f, bingpoBS.getHeight()/2f);
+					bingpoBS.attachChild(bingpoCooling);
+					//可以增加一些动画效果
+				}else{
+					//数量不足音效
+					
+				}
 			}});
-		fadableBGRect.attachChild(otherBS);
+		fadableBGRect.attachChild(bingpoBS);
+		mGameNumber.addGoodsNumInGameLevel(DataConstant.MAGIC_NAME, bingpoBS);
+		mGameNumber.updateGoodsNum(DataConstant.MAGIC_NAME, magicPotionNum);
 		
 		//游戏开始倒计时动画
 		//long [] frameDur = new long[3];
@@ -381,6 +457,13 @@ public class GameLevel extends ManagedScene {
 		public void onUpdate(float pSecondsElapsed) {
 			//倒计时
 			gameTime-=pSecondsElapsed;
+			if(isAddDPS){
+				tiamatTime-=pSecondsElapsed;
+				System.out.println("魔龙增益时间 --> "+ tiamatTime);
+				if(tiamatTime <= 0f){
+					isAddDPS = false;
+				}
+			}
 			if(gameTime<=0) {
 				mGameTime.adjustTime(0f);
 				disableButtons(true);
@@ -415,18 +498,18 @@ public class GameLevel extends ManagedScene {
 			
 			//BOSS移动
 			if(bossAS.getY() - bossAS.getHeight()/2f < redButtonBS.getY() + redButtonBS.getHeight()/2f) {
-				mPhysicsHandler.setVelocityY(BOSS_VELOCITY);
+				mPhysicsHandler.setVelocityY(DataConstant.BOSS_VELOCITY);
 			} else if(bossAS.getY() + (bossAS.getHeight() * 0.5f) > xue1Sprite.getY() - xue1Sprite.getHeight()/2f) {
-				mPhysicsHandler.setVelocityY(-BOSS_VELOCITY);
+				mPhysicsHandler.setVelocityY(-DataConstant.BOSS_VELOCITY);
 			}
 			if(bossAS.getX() - bossAS.getWidth()/2f < 2f) {
-				mPhysicsHandler.setVelocityX(BOSS_VELOCITY);
+				mPhysicsHandler.setVelocityX(DataConstant.BOSS_VELOCITY);
 			} else if(bossAS.getX() + (bossAS.getWidth() * 0.5f) > mCameraWidth - 2f) {
-				mPhysicsHandler.setVelocityX(-BOSS_VELOCITY);
+				mPhysicsHandler.setVelocityX(-DataConstant.BOSS_VELOCITY);
 			}
 			
 			//统计得分
-			mGameScore.addScore(mScore);
+			mGameNumber.addScore(mScore);
 		}
 
 		@Override
@@ -546,6 +629,11 @@ public class GameLevel extends ManagedScene {
 		mScore++;
 		if(type == 1){
 			int dps = countPlayerDPS();
+			System.out.println("普通DPS --> "+ dps);
+			if(isAddDPS){
+				dps = dps + DataConstant.ADD_DPS;
+				System.out.println("加强DPS --> "+ dps);
+			}
 			//mScore = mScore + dps;
 			xue3S = xue2Sprite.getWidth()-(xue2Sprite.getWidth()*dps)/bossHP;
 			xue3P = xue3S/2f;
@@ -553,12 +641,18 @@ public class GameLevel extends ManagedScene {
 			System.out.println("BOSSHP之后 --> "+ bossHP);
 		}else{
 			int aoe = countPlayerAOE();
+			System.out.println("普通AOE --> "+ aoe);
+			if(isAddAOE){
+				aoe = aoe + DataConstant.ADD_AOE;
+				System.out.println("加强AOE --> "+ aoe);
+			}
 			//mScore = mScore + aoe;
 			xue3S = xue2Sprite.getWidth()-(xue2Sprite.getWidth()*aoe)/bossHP;
 			xue3P = xue3S/2f;
 			bossHP = bossHP - aoe;
 			System.out.println("BOSSHP之后 --> "+ bossHP);
 		}
+		
 		if(bossHP <= 0){
 			xue2Sprite.setPosition(0, xue2Sprite.getY());
 			xue2Sprite.setSize(0, xue2Sprite.getHeight());
@@ -566,7 +660,7 @@ public class GameLevel extends ManagedScene {
 			xue2Sprite.setPosition(xue3P, xue2Sprite.getY());
 			xue2Sprite.setSize(xue3S, xue2Sprite.getHeight());
 		}
-		mGameScore.addScore(mScore);
+		mGameNumber.addScore(mScore);
 		if(bossHP <= 0 && gameTime > 0){
 			bossAS.unregisterUpdateHandler(mPhysicsHandler);
 			disableButtons(false);
@@ -743,16 +837,16 @@ public class GameLevel extends ManagedScene {
 		unregisterUpdateHandler(gameRunTimer);
 		unregisterTouchArea(greenButtonBS);
 		unregisterTouchArea(redButtonBS);
-		unregisterTouchArea(otherBS);
-		unregisterTouchArea(propsBS);
+		unregisterTouchArea(bingpoBS);
+		unregisterTouchArea(tiamatBS);
 		unregisterTouchArea(magicBS);
 		unregisterTouchArea(clockBS);
 	}
 	
 	private void enableButtons(){
 		setIgnoreUpdate(false);
-		registerTouchArea(otherBS);
-		registerTouchArea(propsBS);
+		registerTouchArea(bingpoBS);
+		registerTouchArea(tiamatBS);
 		registerTouchArea(magicBS);
 		registerTouchArea(clockBS);
 		registerTouchArea(redButtonBS);

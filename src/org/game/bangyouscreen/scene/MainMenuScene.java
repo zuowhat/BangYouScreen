@@ -173,6 +173,9 @@ public class MainMenuScene extends ManagedScene{
 			public void onClick(ButtonSprite pButtonSprite, float pTouchAreaLocalX, float pTouchAreaLocalY) {
 				SFXManager.getInstance().playSound("a_click");
 				//SceneManager.getInstance().showScene(new ThemeScene());
+				//待完善
+				
+				
 			}
 		});
 		registerTouchArea(aboutModeBS);
