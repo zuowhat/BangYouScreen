@@ -65,7 +65,7 @@ public class GameLevel extends ManagedScene {
 	private float aoeXS;//魔法伤害系数
 	private int bossHP;
 	private AnimatedSprite clockTimeAS;
-	private String[] sounds = {"g_win","g_fail","g_time","g_bomb","g_button","g_countdown","g_go"};
+	private String[] sounds = {"g_win","g_fail","g_time","g_bomb","g_button","g_countdown","g_go","g_notenough"};
 	private Rectangle fadableBGRect;
 	private AnimatedSprite clockCooling;
 	private AnimatedSprite magicCooling;
@@ -220,8 +220,7 @@ public class GameLevel extends ManagedScene {
 					clockBS.attachChild(clockCooling);
 				}else{
 					//数量不足音效
-					
-					
+					SFXManager.getInstance().playSound("g_notenough");
 				}
 			}});
 		fadableBGRect.attachChild(clockBS);
@@ -354,7 +353,7 @@ public class GameLevel extends ManagedScene {
 					tiamatBS.attachChild(tiamatCooling);
 				}else{
 					//数量不足音效
-					
+					SFXManager.getInstance().playSound("g_notenough");
 				}
 			}});
 		fadableBGRect.attachChild(tiamatBS);
@@ -382,7 +381,7 @@ public class GameLevel extends ManagedScene {
 					//可以增加一些动画效果
 				}else{
 					//数量不足音效
-					
+					SFXManager.getInstance().playSound("g_notenough");
 				}
 			}});
 		fadableBGRect.attachChild(bingpoBS);
@@ -434,6 +433,7 @@ public class GameLevel extends ManagedScene {
 				INSTANCE.clearEntityModifiers();
 				INSTANCE.clearTouchAreas();
 				INSTANCE.clearUpdateHandlers();
+				SFXManager.getInstance().unloadAllSound(sounds);
 			}});
 	}
 

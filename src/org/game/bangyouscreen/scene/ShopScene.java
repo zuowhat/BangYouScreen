@@ -68,6 +68,7 @@ public class ShopScene extends ManagedScene implements IScrollDetectorListener{
 	private int weaponPotionNum;
 	private int magicPotionNum;
 	private int clockNum;
+	private String[] sounds = {"s_nomoney"};
 	
 	public static ShopScene getInstance(){
 		return INSTANCE;
@@ -90,7 +91,7 @@ public class ShopScene extends ManagedScene implements IScrollDetectorListener{
 		myGold = BangYouScreenActivity.getGoldFromSharedPreferences();
 		ResourceManager.loadShopResources();
 		
-		//SFXManager.getInstance().loadSound("a_click", ResourceManager.getActivity().getSoundManager(), ResourceManager.getActivity());
+		SFXManager.getInstance().loadSounds(sounds, ResourceManager.getActivity().getSoundManager(), ResourceManager.getActivity());
 		weaponInfoBG = new Sprite(0f,0f,ResourceManager.shopInfoBG,mVertexBufferObjectManager);
 		magicInfoBG = new Sprite(0f,0f,ResourceManager.shopInfoBG,mVertexBufferObjectManager);
 		propsInfoBG = new Sprite(0f,0f,ResourceManager.shopInfoBG,mVertexBufferObjectManager);
@@ -414,7 +415,7 @@ public class ShopScene extends ManagedScene implements IScrollDetectorListener{
 								}
 							}else{
 								//不能购买的音效
-								
+								SFXManager.getInstance().playSound("s_nomoney");
 							}
 					}});
 			}
@@ -480,6 +481,7 @@ public class ShopScene extends ManagedScene implements IScrollDetectorListener{
 				INSTANCE.clearEntityModifiers();
 				INSTANCE.clearTouchAreas();
 				INSTANCE.clearUpdateHandlers();
+				SFXManager.getInstance().unloadAllSound(sounds);
 			}});
 	}
 	
