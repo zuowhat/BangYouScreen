@@ -10,6 +10,7 @@ import org.andengine.engine.options.WakeLockOptions;
 import org.andengine.engine.options.resolutionpolicy.FillResolutionPolicy;
 import org.andengine.engine.options.resolutionpolicy.IResolutionPolicy;
 import org.andengine.entity.scene.Scene;
+import org.andengine.opengl.view.RenderSurfaceView;
 import org.andengine.ui.activity.BaseGameActivity;
 import org.game.bangyouscreen.gameLevels.GameLevel;
 import org.game.bangyouscreen.layer.GamePauseLayer;
@@ -22,8 +23,13 @@ import org.game.bangyouscreen.scene.SplashScreen;
 import org.game.bangyouscreen.util.DataConstant;
 
 import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.DialogInterface;
+import android.view.Gravity;
 import android.view.View.MeasureSpec;
+import android.view.ViewGroup.LayoutParams;
+import android.widget.FrameLayout;
+import cn.waps.AppConnect;
 
 
 public class BangYouScreenActivity extends BaseGameActivity {
@@ -155,6 +161,7 @@ public class BangYouScreenActivity extends BaseGameActivity {
 	@Override
 	public void onCreateResources(
 			OnCreateResourcesCallback pOnCreateResourcesCallback){
+		AppConnect.getInstance("681104266ab9df58bc9c0614544623b6","default",this); 
 		ResourceManager.setup(this,  (FixedStepEngine)this.getEngine(), this.getApplicationContext(), 
 				cameraWidth, cameraHeight, cameraWidth/DESIGN_WINDOW_WIDTH_PIXELS, cameraHeight/DESIGN_WINDOW_HEIGHT_PIXELS);
 		//System.out.println("onCreateResources");
@@ -226,6 +233,7 @@ public class BangYouScreenActivity extends BaseGameActivity {
 	          
 			public void onClick(DialogInterface paramDialogInterface, int paramInt){
 	        	 // BangYouScreenActivity.this.finish();
+				  AppConnect.getInstance(BangYouScreenActivity.this).close();
 	        	  System.exit(0);
 	          }
 	        });
@@ -239,5 +247,5 @@ public class BangYouScreenActivity extends BaseGameActivity {
 	      }
 	    });
 	  }
-   
+	  
 }

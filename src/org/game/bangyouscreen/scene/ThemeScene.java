@@ -22,6 +22,8 @@ import org.game.bangyouscreen.managers.ResourceManager;
 import org.game.bangyouscreen.managers.SFXManager;
 import org.game.bangyouscreen.managers.SceneManager;
 
+import cn.waps.AppConnect;
+
 public class ThemeScene extends ManagedScene implements IScrollDetectorListener{
 
 	private static final ThemeScene INSTANCE = new ThemeScene();
@@ -58,6 +60,7 @@ public class ThemeScene extends ManagedScene implements IScrollDetectorListener{
 
 	@Override
 	public void onLoadScene() {
+		//AppConnect.getInstance(ResourceManager.getInstance().activity).initPopAd(ResourceManager.getInstance().activity); 
 		mCurrentTheme = 1;
 		//ResourceManager.loadGameResources();
 		Sprite themeBGSprite = new Sprite(0f,0f,ResourceManager.themeBG,mVertexBufferObjectManager);
@@ -221,6 +224,7 @@ public class ThemeScene extends ManagedScene implements IScrollDetectorListener{
 		 themePics[1].setOnClickListener(new OnClickListener(){
 				
 				public void onClick(ButtonSprite pButtonSprite, float pTouchAreaLocalX, float pTouchAreaLocalY) {
+					//AppConnect.getInstance(ResourceManager.getInstance().activity).showPopAd(ResourceManager.getInstance().activity); 
 					//mCurrentScreen = ThemeSceneScreens.LevelSelector;
 					//SceneManager.getInstance().showLayer(GamePauseLayer.getInstance(), false, false, false);
 				}

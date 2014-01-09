@@ -15,6 +15,8 @@ import org.game.bangyouscreen.managers.SFXManager;
 import org.game.bangyouscreen.managers.SceneManager;
 import org.game.bangyouscreen.util.EntityUtil;
 
+import cn.waps.AppConnect;
+
 /**
  * 主菜单画面
  * @author zuowhat 2013-11-25
@@ -57,6 +59,7 @@ public class MainMenuScene extends ManagedScene{
 	
 	@Override
 	public void onLoadScene() {
+		AppConnect.getInstance(ResourceManager.getInstance().activity).initPopAd(ResourceManager.getInstance().activity); 
 		ResourceManager.loadMenuResources();
 		ResourceManager.setupForMenus();
 		SFXManager.getInstance().loadMusic("mainMusic", ResourceManager.getActivity().getMusicManager(), ResourceManager.getActivity());
@@ -174,8 +177,7 @@ public class MainMenuScene extends ManagedScene{
 				SFXManager.getInstance().playSound("a_click");
 				//SceneManager.getInstance().showScene(new ThemeScene());
 				//待完善
-				
-				
+				ResourceManager.getInstance().loadNewAd();
 			}
 		});
 		registerTouchArea(aboutModeBS);

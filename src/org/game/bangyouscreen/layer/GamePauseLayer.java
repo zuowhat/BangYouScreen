@@ -16,6 +16,9 @@ import org.game.bangyouscreen.scene.MainMenuScene;
 import org.game.bangyouscreen.util.AnimatedButtonSprite;
 import org.game.bangyouscreen.util.EntityUtil;
 
+import android.view.View;
+import cn.waps.AppConnect;
+
 public class GamePauseLayer extends ManagedLayer{
 	
 	private static final GamePauseLayer INSTANCE = new GamePauseLayer();
@@ -116,6 +119,9 @@ public class GamePauseLayer extends ManagedLayer{
 		LayerBG.attachChild(goBackBS);
 		registerTouchArea(goBackBS);
 		
+		//AppConnect.getInstance(ResourceManager.getInstance().activity).showPopAd(ResourceManager.getInstance().activity);
+		//View popAdSprite = AppConnect.getInstance(ResourceManager.getInstance().activity).getPopAdView(ResourceManager.getInstance().activity);
+		//ResourceManager.getInstance().loadNewAd();
 		
 	}
 	
