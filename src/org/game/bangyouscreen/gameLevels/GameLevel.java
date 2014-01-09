@@ -28,6 +28,8 @@ import org.game.bangyouscreen.util.EntityUtil;
 import org.game.bangyouscreen.util.GameNumberUtil;
 import org.game.bangyouscreen.util.GameTimer;
 
+import cn.waps.AppConnect;
+
 public class GameLevel extends ManagedScene {
 	
 	public GameLevel INSTANCE = this;
@@ -433,7 +435,7 @@ public class GameLevel extends ManagedScene {
 				INSTANCE.clearEntityModifiers();
 				INSTANCE.clearTouchAreas();
 				INSTANCE.clearUpdateHandlers();
-				SFXManager.getInstance().unloadAllSound(sounds);
+				//SFXManager.getInstance().unloadAllSound(sounds);
 			}});
 	}
 
@@ -614,7 +616,6 @@ public class GameLevel extends ManagedScene {
 //		r.setPosition(mCameraWidth/2f, mCameraHeight/2f);
 //		r.registerEntityModifier(a);
 //		attachChild(r);
-		
 		SceneManager.getInstance().showLayer(GameFailLayer.getInstance(), false, false, false);
 		SFXManager.getInstance().playSound("g_fail");
 	}

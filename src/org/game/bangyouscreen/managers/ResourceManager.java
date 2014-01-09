@@ -487,24 +487,26 @@ public class ResourceManager extends Object{
 	}
 	
 	// ============================ 广告  ================= //
-	
-	 public void loadNewAd(){
+	 public void loadAdResources(){
+		 AppConnect.getInstance(activity).initPopAd(activity); 
+		 
+	 }
+	 
+	 public void showPopAd(){
 		 activity.runOnUiThread(new Runnable() {
 				public void run() {
 					 //按钮点击后，广告全屏显示，按返回键广告退出
-					 AppConnect.getInstance(activity).showPopAd(activity);
-					 View v = AppConnect.getInstance(activity).getPopAdView(activity);
-					 LinearLayout adlayout = new LinearLayout(activity); 
-					 adlayout.setGravity(Gravity.CENTER_HORIZONTAL); 
-					 RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(v.getWidth(),v.getHeight());
-					 adlayout.addView(v, layoutParams);
-					 layoutParams.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
-					 activity.addContentView(adlayout, layoutParams); 
-					 
-					 
-					 
-					 
-					 
+					 boolean hasPopAd = AppConnect.getInstance(activity).hasPopAd(activity);
+					 if(hasPopAd){
+						 AppConnect.getInstance(activity).showPopAd(activity);
+						 View v = AppConnect.getInstance(activity).getPopAdView(activity);
+						 LinearLayout adlayout = new LinearLayout(activity); 
+						 adlayout.setGravity(Gravity.CENTER_HORIZONTAL); 
+						 RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(v.getWidth(),v.getHeight());
+						 adlayout.addView(v, layoutParams);
+						 layoutParams.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
+						 activity.addContentView(adlayout, layoutParams); 
+					 }
 				}});
 	  }
 	

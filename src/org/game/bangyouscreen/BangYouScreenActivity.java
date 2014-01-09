@@ -10,7 +10,8 @@ import org.andengine.engine.options.WakeLockOptions;
 import org.andengine.engine.options.resolutionpolicy.FillResolutionPolicy;
 import org.andengine.engine.options.resolutionpolicy.IResolutionPolicy;
 import org.andengine.entity.scene.Scene;
-import org.andengine.opengl.view.RenderSurfaceView;
+import org.andengine.entity.util.FPSLogger;
+import org.andengine.entity.util.MemoryLogger;
 import org.andengine.ui.activity.BaseGameActivity;
 import org.game.bangyouscreen.gameLevels.GameLevel;
 import org.game.bangyouscreen.layer.GamePauseLayer;
@@ -23,12 +24,8 @@ import org.game.bangyouscreen.scene.SplashScreen;
 import org.game.bangyouscreen.util.DataConstant;
 
 import android.app.AlertDialog;
-import android.app.Dialog;
 import android.content.DialogInterface;
-import android.view.Gravity;
 import android.view.View.MeasureSpec;
-import android.view.ViewGroup.LayoutParams;
-import android.widget.FrameLayout;
 import cn.waps.AppConnect;
 
 
@@ -173,6 +170,8 @@ public class BangYouScreenActivity extends BaseGameActivity {
 
 	@Override
 	public void onCreateScene(OnCreateSceneCallback pOnCreateSceneCallback){
+		this.mEngine.registerUpdateHandler(new FPSLogger());
+		this.mEngine.registerUpdateHandler(new MemoryLogger());
 		//System.out.println("onCreateScene");
 		SceneManager.getInstance().showScene(new SplashScreen());
 		

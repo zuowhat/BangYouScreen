@@ -59,7 +59,8 @@ public class MainMenuScene extends ManagedScene{
 	
 	@Override
 	public void onLoadScene() {
-		AppConnect.getInstance(ResourceManager.getInstance().activity).initPopAd(ResourceManager.getInstance().activity); 
+		ResourceManager.getInstance().loadAdResources();
+		//AppConnect.getInstance(ResourceManager.getActivity()).initPopAd(ResourceManager.getActivity());
 		ResourceManager.loadMenuResources();
 		ResourceManager.setupForMenus();
 		SFXManager.getInstance().loadMusic("mainMusic", ResourceManager.getActivity().getMusicManager(), ResourceManager.getActivity());
@@ -177,7 +178,7 @@ public class MainMenuScene extends ManagedScene{
 				SFXManager.getInstance().playSound("a_click");
 				//SceneManager.getInstance().showScene(new ThemeScene());
 				//待完善
-				ResourceManager.getInstance().loadNewAd();
+				//ResourceManager.getInstance().showPopAd();
 			}
 		});
 		registerTouchArea(aboutModeBS);

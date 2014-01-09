@@ -127,6 +127,7 @@ public class GamePauseLayer extends ManagedLayer{
 	
 	public void onShowLayer() {
 		registerUpdateHandler(mSlideInUpdateHandler);
+		ResourceManager.getInstance().showPopAd();
 	}
 	
 	public void onHideLayer() {

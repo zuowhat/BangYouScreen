@@ -21,7 +21,7 @@ public class DataConstant {
 	public static final int ADD_DPS = 50;//魔龙之血增益效果
 	public static final float ADD_DPS_TIME = 10f;//魔龙之血增益时间
 	public static final int ADD_AOE = 80;//蓝色冰魄增益效果
-	public static final float GAMETIME_INIT = 300f;//初始化游戏时间
+	public static final float GAMETIME_INIT = 10f;//初始化游戏时间
 	public static final float BOSS_VELOCITY = 50.0f;//BOSS移动速度
 	
 	public static final int WEAPON_INIT = 9;//初始化武器编号
