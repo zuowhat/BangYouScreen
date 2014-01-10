@@ -22,6 +22,7 @@ import org.game.bangyouscreen.scene.MainMenuScene;
 import org.game.bangyouscreen.scene.ShopScene;
 import org.game.bangyouscreen.scene.SplashScreen;
 import org.game.bangyouscreen.util.DataConstant;
+import org.game.bangyouscreen.util.QuitGame;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -201,6 +202,12 @@ public class BangYouScreenActivity extends BaseGameActivity {
 		}
 	}
 	
+	protected void onDestroy() {
+		// 释放资源，原finalize()方法名修改为close()
+		AppConnect.getInstance(this).close();
+		super.onDestroy();
+	}
+	
 	  public void onBackPressed() {
 		  SFXManager.getInstance().playSound("a_click");
 		  if (ResourceManager.getInstance().engine != null) {
@@ -216,35 +223,9 @@ public class BangYouScreenActivity extends BaseGameActivity {
 			  }else if(SceneManager.getInstance().mCurrentScene.getClass().equals(ShopScene.class)){
 				  SceneManager.getInstance().showScene(MainMenuScene.getInstance());
 			  }else{
-				  showExitConfirmDialog(); 
+				  QuitGame.getInstance().show(this); 
 			  }
 		  }
-	  }
-	  
-	  public void showExitConfirmDialog(){
-	    runOnUiThread(new Runnable(){
-	      
-		public void run(){
-	        AlertDialog localAlertDialog = new AlertDialog.Builder(BangYouScreenActivity.this).create();
-	        localAlertDialog.setTitle("QUIT GAME");
-	        localAlertDialog.setMessage("Are you sure?");
-	        localAlertDialog.setButton("EXIT", new DialogInterface.OnClickListener(){
-	          
-			public void onClick(DialogInterface paramDialogInterface, int paramInt){
-	        	 // BangYouScreenActivity.this.finish();
-				  AppConnect.getInstance(BangYouScreenActivity.this).close();
-	        	  System.exit(0);
-	          }
-	        });
-	        localAlertDialog.setButton3("CANCEL", new DialogInterface.OnClickListener(){
-	          @Override
-			public void onClick(DialogInterface paramDialogInterface, int paramInt)
-	          {
-	          }
-	        });
-	        localAlertDialog.show();
-	      }
-	    });
 	  }
 	  
 }
