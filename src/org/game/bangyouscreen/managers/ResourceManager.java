@@ -1,5 +1,8 @@
 package org.game.bangyouscreen.managers;
 
+import net.youmi.android.AdManager;
+import net.youmi.android.spot.SpotManager;
+
 import org.andengine.engine.FixedStepEngine;
 import org.andengine.engine.camera.SmoothCamera;
 import org.andengine.opengl.font.Font;
@@ -20,7 +23,6 @@ import android.content.Context;
 import android.graphics.Typeface;
 import android.view.Gravity;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import cn.waps.AppConnect;
@@ -487,11 +489,20 @@ public class ResourceManager extends Object{
 	}
 	
 	// ============================ 广告  ================= //
-	 public void loadAdResources(){
-		 AppConnect.getInstance(activity).initPopAd(activity); 
+	 public void initAdResources(){
+		// AppConnect.getInstance("681104266ab9df58bc9c0614544623b6","default",activity);
+		 AdManager.getInstance(activity).init("46912f93a4a168af","1cd388ab8b458a36", true); 
 		 
 	 }
 	 
+	 public void loadAdResources(){
+		// AppConnect.getInstance(activity).initPopAd(activity); 
+		 SpotManager.getInstance(activity).loadSpotAds();
+		 
+		 
+	 }
+	 
+	 //万普
 	 public void showPopAd(){
 		 activity.runOnUiThread(new Runnable() {
 				public void run() {
@@ -499,33 +510,24 @@ public class ResourceManager extends Object{
 					 boolean hasPopAd = AppConnect.getInstance(activity).hasPopAd(activity);
 					 if(hasPopAd){
 						 AppConnect.getInstance(activity).showPopAd(activity);
-						 View v = AppConnect.getInstance(activity).getPopAdView(activity);
-						 LinearLayout adlayout = new LinearLayout(activity); 
-						 adlayout.setGravity(Gravity.CENTER_HORIZONTAL); 
-						 RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(v.getWidth(),v.getHeight());
-						 adlayout.addView(v, layoutParams);
-						 layoutParams.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
-						 activity.addContentView(adlayout, layoutParams); 
+//						 View v = AppConnect.getInstance(activity).getPopAdView(activity);
+//						 LinearLayout adlayout = new LinearLayout(activity); 
+//						 adlayout.setGravity(Gravity.CENTER_HORIZONTAL); 
+//						 RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(v.getWidth(),v.getHeight());
+//						 adlayout.addView(v, layoutParams);
+//						 layoutParams.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
+//						 activity.addContentView(adlayout, layoutParams); 
 					 }
 				}});
 	  }
 	
-	 public void loadNewAd1(final View v){
+	 //有米
+	 public void showYouMiAd(){
 		 activity.runOnUiThread(new Runnable() {
 				public void run() {
-					 //AppConnect.getInstance(activity).showPopAd(activity);
-					 LinearLayout adlayout = new LinearLayout(activity); 
-					 adlayout.setGravity(Gravity.CENTER_HORIZONTAL); 
-					 RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(v.getWidth(),v.getHeight());
-					 adlayout.addView(v, layoutParams);
-					 layoutParams.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
-					 activity.addContentView(adlayout, layoutParams); 
-					 
-					 
-					 
-					 
+					 //有米广告
+					SpotManager.getInstance(activity).showSpotAds(activity);
 				}});
-		 
 	  }
 	
 	

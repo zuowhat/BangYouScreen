@@ -1,6 +1,8 @@
 package org.game.bangyouscreen;
 
 
+import net.youmi.android.AdManager;
+
 import org.andengine.engine.Engine;
 import org.andengine.engine.FixedStepEngine;
 import org.andengine.engine.camera.SmoothCamera;
@@ -24,8 +26,6 @@ import org.game.bangyouscreen.scene.SplashScreen;
 import org.game.bangyouscreen.util.DataConstant;
 import org.game.bangyouscreen.util.QuitGame;
 
-import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.view.View.MeasureSpec;
 import cn.waps.AppConnect;
 
@@ -159,13 +159,12 @@ public class BangYouScreenActivity extends BaseGameActivity {
 	@Override
 	public void onCreateResources(
 			OnCreateResourcesCallback pOnCreateResourcesCallback){
-		AppConnect.getInstance("681104266ab9df58bc9c0614544623b6","default",this); 
+		
 		ResourceManager.setup(this,  (FixedStepEngine)this.getEngine(), this.getApplicationContext(), 
 				cameraWidth, cameraHeight, cameraWidth/DESIGN_WINDOW_WIDTH_PIXELS, cameraHeight/DESIGN_WINDOW_HEIGHT_PIXELS);
 		//System.out.println("onCreateResources");
 		
-		
-		
+		ResourceManager.getInstance().initAdResources();
 		pOnCreateResourcesCallback.onCreateResourcesFinished();
 	}
 
@@ -191,20 +190,21 @@ public class BangYouScreenActivity extends BaseGameActivity {
 	protected synchronized void onResume() {
 		super.onResume();
 		//System.gc();
-		if(this.isGameLoaded())
-			SFXManager.getInstance().playMusic("mainMusic");
+		if(this.isGameLoaded()){
+			//SFXManager.getInstance().playMusic("mainMusic");
+		}
 	}
 	
 	protected void onPause() {
 		super.onPause();
 		if (this.isGameLoaded()) {
-			SFXManager.getInstance().pauseMusic("mainMusic");
+			//SFXManager.getInstance().pauseMusic("mainMusic");
 		}
 	}
 	
 	protected void onDestroy() {
 		// 释放资源，原finalize()方法名修改为close()
-		AppConnect.getInstance(this).close();
+		//AppConnect.getInstance(this).close();
 		super.onDestroy();
 	}
 	
@@ -223,7 +223,8 @@ public class BangYouScreenActivity extends BaseGameActivity {
 			  }else if(SceneManager.getInstance().mCurrentScene.getClass().equals(ShopScene.class)){
 				  SceneManager.getInstance().showScene(MainMenuScene.getInstance());
 			  }else{
-				  QuitGame.getInstance().show(this); 
+				  //QuitGame.getInstance().show(this); 
+				  ResourceManager.getInstance().showYouMiAd();
 			  }
 		  }
 	  }
