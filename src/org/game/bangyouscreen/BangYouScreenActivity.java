@@ -24,10 +24,8 @@ import org.game.bangyouscreen.scene.MainMenuScene;
 import org.game.bangyouscreen.scene.ShopScene;
 import org.game.bangyouscreen.scene.SplashScreen;
 import org.game.bangyouscreen.util.DataConstant;
-import org.game.bangyouscreen.util.QuitGame;
 
 import android.view.View.MeasureSpec;
-import cn.waps.AppConnect;
 
 
 public class BangYouScreenActivity extends BaseGameActivity {
@@ -164,7 +162,8 @@ public class BangYouScreenActivity extends BaseGameActivity {
 				cameraWidth, cameraHeight, cameraWidth/DESIGN_WINDOW_WIDTH_PIXELS, cameraHeight/DESIGN_WINDOW_HEIGHT_PIXELS);
 		//System.out.println("onCreateResources");
 		
-		ResourceManager.getInstance().initAdResources();
+		//ResourceManager.getInstance().initAdResources();
+		
 		pOnCreateResourcesCallback.onCreateResourcesFinished();
 	}
 
@@ -223,8 +222,9 @@ public class BangYouScreenActivity extends BaseGameActivity {
 			  }else if(SceneManager.getInstance().mCurrentScene.getClass().equals(ShopScene.class)){
 				  SceneManager.getInstance().showScene(MainMenuScene.getInstance());
 			  }else{
+				  this.finish();
 				  //QuitGame.getInstance().show(this); 
-				  ResourceManager.getInstance().showYouMiAd();
+				 // ResourceManager.getInstance().showYouMiAd();
 			  }
 		  }
 	  }

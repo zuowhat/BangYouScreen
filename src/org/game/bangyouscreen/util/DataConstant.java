@@ -21,7 +21,7 @@ public class DataConstant {
 	public static final int ADD_DPS = 50;//魔龙之血增益效果
 	public static final float ADD_DPS_TIME = 10f;//魔龙之血增益时间
 	public static final int ADD_AOE = 80;//蓝色冰魄增益效果
-	public static final float GAMETIME_INIT = 10f;//初始化游戏时间
+	public static final float GAMETIME_INIT = 30f;//初始化游戏时间
 	public static final float BOSS_VELOCITY = 50.0f;//BOSS移动速度
 	
 	public static final int WEAPON_INIT = 9;//初始化武器编号
@@ -47,8 +47,19 @@ public class DataConstant {
 	/** 魔法效果个数 */
 	public static final int MAGIC_AS_NUM = 10;
 	
+	/**测试数据*/
+	public static final String TEST_BOSSHP = "bossHP";//BOSS血量
+	public static final String TEST_BOSSTYPE = "bossType";//BOSS属性
+	public static final String TEST_BOSSMAXDEF = "bossMaxDef";//BOSS防御力上限
+	public static final String TEST_BOSSMINDEF = "bossMinDef";//BOSS防御力下限
 	
+	public static final String TEST_WEAPONTYPE = "weaponType";//武器类型
+	public static final String TEST_WEAPONMAXDPS = "weaponMaxDps";//武器类型
+	public static final String TEST_WEAPONMINDPS = "weaponMinDps";//武器类型
 	
+	public static final String TEST_MAGICTYPE = "magicType";//武器类型
+	public static final String TEST_MAGICMAXAOE = "magicMaxAoe";//武器类型
+	public static final String TEST_MAGICMINAOE = "magicMinAoe";//武器类型
 	
 	/**
 	 * 冒险岛BOSS属性
@@ -60,6 +71,15 @@ public class DataConstant {
 		b.setBossLevel(bossNum);
 		b.setGameBGTR(ResourceManager.shareGameBG);
 		b.setBossTTR(ResourceManager.mxdBoss_TTRArray[bossNum-1]);
+		
+		//测试语句
+		b.setBossHP(BangYouScreenActivity.getIntFromSharedPreferences(TEST_BOSSHP));
+		b.setBossDefType(BangYouScreenActivity.getIntFromSharedPreferences(TEST_BOSSTYPE));
+		b.setMaxBossDEF(BangYouScreenActivity.getIntFromSharedPreferences(TEST_BOSSMAXDEF));
+		b.setMinBossDEF(BangYouScreenActivity.getIntFromSharedPreferences(TEST_BOSSMINDEF));
+		
+		
+		/*
 		switch(bossNum){
 			case 1:
 				b.setBossHP(500);
@@ -117,6 +137,8 @@ public class DataConstant {
 				b.setMinBossDEF(5);
 			break;
 		}
+		*/
+		
 		return b;
 	}
 	
@@ -131,7 +153,21 @@ public class DataConstant {
 		PlayerModel p = new PlayerModel();
 		p.setWeaponNum(weaponNum);
 		p.setMagicNum(magicNum);
-		//武器
+		p.setWeaponTR(ResourceManager.weaponTTR.getTextureRegion(weaponNum));
+		p.setMagicTR(ResourceManager.magicTTR.getTextureRegion(magicNum));
+		
+		//测试语句
+		p.setWeaponType(BangYouScreenActivity.getIntFromSharedPreferences(TEST_WEAPONTYPE));
+		p.setWeaponDPSMax(BangYouScreenActivity.getIntFromSharedPreferences(TEST_WEAPONMAXDPS));
+		p.setWeaponDPSMin(BangYouScreenActivity.getIntFromSharedPreferences(TEST_WEAPONMINDPS));
+		
+		p.setMagicType(BangYouScreenActivity.getIntFromSharedPreferences(TEST_MAGICTYPE));
+		p.setMagicAOEMax(BangYouScreenActivity.getIntFromSharedPreferences(TEST_MAGICMAXAOE));
+		p.setMagicAOEMin(BangYouScreenActivity.getIntFromSharedPreferences(TEST_MAGICMINAOE));
+		p.setMagicTTR(ResourceManager.magicASTTRArray[0]);
+		
+		/*
+		//武器属性
 		switch(weaponNum){
 			case 9:
 				p.setWeaponType(4);
@@ -194,9 +230,8 @@ public class DataConstant {
 			break;
 		
 		}
-		p.setWeaponTR(ResourceManager.weaponTTR.getTextureRegion(weaponNum));
 		
-		//魔法
+		//魔法属性
 		switch(magicNum){
 			case 9:
 				p.setMagicType(4);
@@ -219,7 +254,7 @@ public class DataConstant {
 				p.setMagicTTR(ResourceManager.magicASTTRArray[1]);
 			break;
 		}
-		p.setMagicTR(ResourceManager.magicTTR.getTextureRegion(magicNum));
+		*/
 		
 		return p;
 	}

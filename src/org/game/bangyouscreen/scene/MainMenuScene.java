@@ -15,8 +15,6 @@ import org.game.bangyouscreen.managers.SFXManager;
 import org.game.bangyouscreen.managers.SceneManager;
 import org.game.bangyouscreen.util.EntityUtil;
 
-import cn.waps.AppConnect;
-
 /**
  * 主菜单画面
  * @author zuowhat 2013-11-25
@@ -176,9 +174,9 @@ public class MainMenuScene extends ManagedScene{
 			
 			public void onClick(ButtonSprite pButtonSprite, float pTouchAreaLocalX, float pTouchAreaLocalY) {
 				SFXManager.getInstance().playSound("a_click");
-				//SceneManager.getInstance().showScene(new ThemeScene());
+				SceneManager.getInstance().showScene(new TestDataScene());
 				//待完善
-				ResourceManager.getInstance().showPopAd();
+				//ResourceManager.getInstance().showPopAd();
 				//ResourceManager.getInstance().showYouMiAd();
 				
 			}

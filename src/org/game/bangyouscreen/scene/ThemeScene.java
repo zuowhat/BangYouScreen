@@ -22,7 +22,6 @@ import org.game.bangyouscreen.managers.ResourceManager;
 import org.game.bangyouscreen.managers.SFXManager;
 import org.game.bangyouscreen.managers.SceneManager;
 
-import cn.waps.AppConnect;
 
 public class ThemeScene extends ManagedScene implements IScrollDetectorListener{
 

@@ -28,7 +28,6 @@ import org.game.bangyouscreen.util.EntityUtil;
 import org.game.bangyouscreen.util.GameNumberUtil;
 import org.game.bangyouscreen.util.GameTimer;
 
-import cn.waps.AppConnect;
 
 public class GameLevel extends ManagedScene {
 	
