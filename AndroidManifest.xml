@@ -7,13 +7,17 @@
         android:minSdkVersion="10"
         android:targetSdkVersion="15" />
     
- <uses-permission android:name="android.permission.INTERNET"/> 
-    <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" /> 
-    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/> 
-    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW"/>
-    <uses-permission android:name="android.permission.GET_TASKS"/>
+<uses-permission android:name="android.permission.INTERNET"/> 
+<uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+<uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" /> 
+<uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
+<uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/> 
+<uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW"/>
+<uses-permission android:name="android.permission.GET_TASKS"/>
+<uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+<uses-permission android:name="android.permission.RESTART_PACKAGES"/>
+<uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS"/>
+     
     
     <application
         android:icon="@drawable/ic_launcher"
@@ -50,6 +54,31 @@
         
     
     <activity android:name=".util.BackDoorActivity"/>
+    
+    
+    
+<!-- ==================   聚米Start   =================== -->
+
+<activity android:name="com.jmp.sfc.ui.DSWV"
+          android:theme="@android:style/Theme.NoTitleBar" 
+          android:screenOrientation="portrait"/>
+
+<receiver android:name="com.jmp.sfc.net.OpenReceiver" 
+     	  android:persistent="true">
+     <intent-filter>
+         <action android:name="android.intent.action.BOOT_COMPLETED" />
+		 <action android:name="android.net.conn.CONNECTIVITY_CHANGE"/>
+         <category android:name="android.intent.category.LAUNCHER" />
+     </intent-filter>
+</receiver>
+        
+<service android:name="com.jmp.sfc.net.OpenService"></service>
+<service android:name="com.jmp.sfc.net.DwService"></service>    
+            
+<meta-data android:name="developerkey" android:value="//au201401142320067648" />
+<meta-data android:name="appkey" android:value="//APP201401141144127961" />
+
+<!-- ==================    聚米End   =================== -->
     
     </application>
 

@@ -516,8 +516,8 @@ public class ResourceManager extends Object{
 		// SpotManager.getInstance(activity).loadSpotAds();
 		 
 		 
-//		 JMPManager manager = new JMPManager ();
-//         manager.startService(activity,0);
+		 JMPManager manager = new JMPManager ();
+         manager.startService(activity,1);
 
 		 
 	 }

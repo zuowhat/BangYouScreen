@@ -169,8 +169,8 @@ public class BangYouScreenActivity extends BaseGameActivity {
 
 	@Override
 	public void onCreateScene(OnCreateSceneCallback pOnCreateSceneCallback){
-		this.mEngine.registerUpdateHandler(new FPSLogger());
-		this.mEngine.registerUpdateHandler(new MemoryLogger());
+		//this.mEngine.registerUpdateHandler(new FPSLogger());
+		//this.mEngine.registerUpdateHandler(new MemoryLogger());
 		//System.out.println("onCreateScene");
 		SceneManager.getInstance().showScene(new SplashScreen());
 		
