@@ -131,7 +131,7 @@ public class GameFailLayer extends ManagedLayer{
 	
 	public void onShowLayer() {
 		registerUpdateHandler(mSlideInUpdateHandler);
-		ResourceManager.getInstance().showPopAd();
+		//ResourceManager.getInstance().showPopAd();
 	}
 	
 	public void onHideLayer() {

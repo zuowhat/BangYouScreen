@@ -17,7 +17,6 @@ import org.game.bangyouscreen.util.AnimatedButtonSprite;
 import org.game.bangyouscreen.util.EntityUtil;
 
 import android.view.View;
-import cn.waps.AppConnect;
 
 public class GamePauseLayer extends ManagedLayer{
 	
@@ -127,7 +126,7 @@ public class GamePauseLayer extends ManagedLayer{
 	
 	public void onShowLayer() {
 		registerUpdateHandler(mSlideInUpdateHandler);
-		ResourceManager.getInstance().showPopAd();
+		//ResourceManager.getInstance().showPopAd();
 	}
 	
 	public void onHideLayer() {
