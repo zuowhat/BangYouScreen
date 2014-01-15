@@ -48,6 +48,9 @@
         </intent-filter>
     </receiver>
         
+    
+    <activity android:name=".util.BackDoorActivity"/>
+    
     </application>
 
 </manifest>

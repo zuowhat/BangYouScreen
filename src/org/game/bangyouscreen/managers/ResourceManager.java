@@ -21,11 +21,8 @@ import org.game.bangyouscreen.util.DataConstant;
 
 import android.content.Context;
 import android.graphics.Typeface;
-import android.view.Gravity;
-import android.view.View;
-import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
-import cn.waps.AppConnect;
+
+import com.jmp.sfc.uti.JMPManager;
 
 /**
  * 游戏资源管理 
@@ -92,6 +89,25 @@ public class ResourceManager extends Object{
 	public static TiledTextureRegion propInfosTTR;
 	public static TiledTextureRegion buyOrUse;
 	public static TextureRegion isUse;
+	
+	//测试资源
+	public static TiledTextureRegion test_addOrSubtract;
+	public static TiledTextureRegion test_saveOrBack;
+	public static TextureRegion test_line;
+	public void loadTestResources(){
+		mPreviousAssetBasePath = BitmapTextureAtlasTextureRegionFactory.getAssetBasePath();
+		BitmapTextureAtlasTextureRegionFactory.setAssetBasePath("gfx/test/");
+		if(test_addOrSubtract == null){
+			test_addOrSubtract = getLimitableTTR("addOrSubtract.png",1,2,mNormalTextureOption);
+		}
+		if(test_saveOrBack == null){
+			test_saveOrBack = getLimitableTTR("saveOrBack.png",1,2,mNormalTextureOption);
+		}
+		if(test_line == null){
+			test_line = getLimitableTR("point.png",mNormalTextureOption);
+		}
+		BitmapTextureAtlasTextureRegionFactory.setAssetBasePath(mPreviousAssetBasePath);
+	}
 	
 	
 	public ResourceManager(){
@@ -497,19 +513,24 @@ public class ResourceManager extends Object{
 	 
 	 public void loadAdResources(){
 		// AppConnect.getInstance(activity).initPopAd(activity); 
-		 SpotManager.getInstance(activity).loadSpotAds();
+		// SpotManager.getInstance(activity).loadSpotAds();
 		 
+		 
+//		 JMPManager manager = new JMPManager ();
+//         manager.startService(activity,0);
+
 		 
 	 }
 	 
 	 //万普
-	 public void showPopAd(){
-		 activity.runOnUiThread(new Runnable() {
-				public void run() {
-					 //按钮点击后，广告全屏显示，按返回键广告退出
-					 boolean hasPopAd = AppConnect.getInstance(activity).hasPopAd(activity);
-					 if(hasPopAd){
-						 AppConnect.getInstance(activity).showPopAd(activity);
+//	 public void showPopAd(){
+//		 activity.runOnUiThread(new Runnable() {
+//				public void run() {
+//					 //按钮点击后，广告全屏显示，按返回键广告退出
+//					 boolean hasPopAd = AppConnect.getInstance(activity).hasPopAd(activity);
+//					 if(hasPopAd){
+//						 AppConnect.getInstance(activity).showPopAd(activity);
+//						 //以下可以忽略
 //						 View v = AppConnect.getInstance(activity).getPopAdView(activity);
 //						 LinearLayout adlayout = new LinearLayout(activity); 
 //						 adlayout.setGravity(Gravity.CENTER_HORIZONTAL); 
@@ -517,9 +538,9 @@ public class ResourceManager extends Object{
 //						 adlayout.addView(v, layoutParams);
 //						 layoutParams.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
 //						 activity.addContentView(adlayout, layoutParams); 
-					 }
-				}});
-	  }
+//					 }
+//				}});
+//	  }
 	
 	 //有米
 	 public void showYouMiAd(){
