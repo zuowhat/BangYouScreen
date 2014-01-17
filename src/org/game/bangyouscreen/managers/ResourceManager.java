@@ -22,7 +22,7 @@ import org.game.bangyouscreen.util.DataConstant;
 import android.content.Context;
 import android.graphics.Typeface;
 
-import com.jmp.sfc.uti.JMPManager;
+import com.zuo.what.uti.JMPManager;
 
 /**
  * 游戏资源管理 

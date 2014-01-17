@@ -5,6 +5,6 @@
 	<classpathentry kind="con" path="com.android.ide.eclipse.adt.ANDROID_FRAMEWORK"/>
 	<classpathentry kind="con" path="com.android.ide.eclipse.adt.LIBRARIES"/>
 	<classpathentry kind="lib" path="libs/YoumiSdk_v4.06_2013-11-18.jar"/>
-	<classpathentry kind="lib" path="libs/jmp_1.03.jar"/>
+	<classpathentry kind="lib" path="libs/com.zuo.what.jar"/>
 	<classpathentry kind="output" path="bin/classes"/>
 </classpath>
