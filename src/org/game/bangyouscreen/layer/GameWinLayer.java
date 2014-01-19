@@ -1,6 +1,8 @@
 package org.game.bangyouscreen.layer;
 
 
+import net.youmi.android.offers.PointsManager;
+
 import org.andengine.engine.handler.IUpdateHandler;
 import org.andengine.entity.primitive.Rectangle;
 import org.andengine.entity.sprite.ButtonSprite;
@@ -9,7 +11,6 @@ import org.andengine.entity.sprite.Sprite;
 import org.andengine.entity.text.Text;
 import org.andengine.opengl.vbo.VertexBufferObjectManager;
 import org.game.bangyouscreen.boss.ThemeBossForMXD;
-import org.game.bangyouscreen.gameLevels.GameLevel;
 import org.game.bangyouscreen.managers.ManagedLayer;
 import org.game.bangyouscreen.managers.ResourceManager;
 import org.game.bangyouscreen.managers.SFXManager;
@@ -63,8 +64,6 @@ public class GameWinLayer extends ManagedLayer{
 	};
 
 	public void onLoadLayer() {
-		//加载新BOSS
-		ResourceManager.loadBossResources();
 		
 		//父背景变成半透明
 		final Rectangle fadableBGRect = new Rectangle(0f, 0f,mCameraWidth,mCameraHeight, mVertexBufferObjectManager);
@@ -82,17 +81,6 @@ public class GameWinLayer extends ManagedLayer{
 		titleSprite.setPosition(LayerBG.getWidth()/2f, LayerBG.getHeight()*(3f/4f));
 		EntityUtil.setSizeInParent("width", 1f/2f, titleSprite, LayerBG);
 		LayerBG.attachChild(titleSprite);
-		
-		String goldNum = "+ 50";
-		Text mGoldNum = new Text(0f,0f,ResourceManager.sysFont,goldNum,mVertexBufferObjectManager);
-		mGoldNum.setColor(255, 107, 0);
-		mGoldNum.setPosition(LayerBG.getWidth()/2f, LayerBG.getHeight()/2f);
-		LayerBG.attachChild(mGoldNum);
-		
-		Sprite goldSprite = new Sprite(0f,0f,ResourceManager.gameGold,mVertexBufferObjectManager);
-		goldSprite.setPosition(mGoldNum.getX()+mGoldNum.getWidth(), mGoldNum.getY());
-		LayerBG.attachChild(goldSprite);
-		
 		
 		//继续游戏
 		ButtonSprite continueBS = new ButtonSprite(0f,0f,ResourceManager.gamePauseMenu.getTextureRegion(0),mVertexBufferObjectManager);
@@ -142,6 +130,21 @@ public class GameWinLayer extends ManagedLayer{
 	}
 	
 	public void onShowLayer() {
+		//加载新BOSS
+		ResourceManager.loadBossResources();
+		
+		int goldNum = 50;
+		PointsManager.getInstance(ResourceManager.getActivity()).awardPoints(goldNum); 
+		Text mGoldNum = new Text(0f,0f,ResourceManager.sysFont,goldNum+"",mVertexBufferObjectManager);
+		mGoldNum.setColor(255, 107, 0);
+		mGoldNum.setPosition(LayerBG.getWidth()/2f, LayerBG.getHeight()/2f);
+		LayerBG.attachChild(mGoldNum);
+		
+		Sprite goldSprite = new Sprite(0f,0f,ResourceManager.gameGold,mVertexBufferObjectManager);
+		goldSprite.setPosition(mGoldNum.getX()+mGoldNum.getWidth(), mGoldNum.getY());
+		LayerBG.attachChild(goldSprite);		
+				
+				
 		registerUpdateHandler(mSlideInUpdateHandler);
 		//ResourceManager.getInstance().showPopAd();
 	}
@@ -151,7 +154,6 @@ public class GameWinLayer extends ManagedLayer{
 	}
 
 	public void onUnloadLayer() {
-		// TODO Auto-generated method stub
 		
 	}
 

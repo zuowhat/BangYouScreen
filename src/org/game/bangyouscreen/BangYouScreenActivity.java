@@ -1,7 +1,7 @@
 package org.game.bangyouscreen;
 
 
-import net.youmi.android.AdManager;
+import net.youmi.android.offers.PointsChangeNotify;
 
 import org.andengine.engine.Engine;
 import org.andengine.engine.FixedStepEngine;
@@ -12,8 +12,6 @@ import org.andengine.engine.options.WakeLockOptions;
 import org.andengine.engine.options.resolutionpolicy.FillResolutionPolicy;
 import org.andengine.engine.options.resolutionpolicy.IResolutionPolicy;
 import org.andengine.entity.scene.Scene;
-import org.andengine.entity.util.FPSLogger;
-import org.andengine.entity.util.MemoryLogger;
 import org.andengine.ui.activity.BaseGameActivity;
 import org.game.bangyouscreen.gameLevels.GameLevel;
 import org.game.bangyouscreen.layer.GamePauseLayer;
@@ -28,7 +26,7 @@ import org.game.bangyouscreen.util.DataConstant;
 import android.view.View.MeasureSpec;
 
 
-public class BangYouScreenActivity extends BaseGameActivity {
+public class BangYouScreenActivity extends BaseGameActivity implements PointsChangeNotify{
 	
 	public static boolean getBooleanFromSharedPreferences(final String pStr) {
 		return ResourceManager.getActivity()
@@ -41,7 +39,7 @@ public class BangYouScreenActivity extends BaseGameActivity {
 				.getSharedPreferences(DataConstant.SHARED_PREFS_MAIN, 0).getInt(pStr, 0);
 	}
 	
-	//第一次进入游戏时获取初始化100金币
+	//第一次进入游戏时获取初始化金币
 	public static int getGoldFromSharedPreferences() {
 		return ResourceManager.getActivity()
 				.getSharedPreferences(DataConstant.SHARED_PREFS_MAIN, 0).getInt(DataConstant.MY_GOLD, DataConstant.GOLD_INIT);
@@ -162,7 +160,7 @@ public class BangYouScreenActivity extends BaseGameActivity {
 				cameraWidth, cameraHeight, cameraWidth/DESIGN_WINDOW_WIDTH_PIXELS, cameraHeight/DESIGN_WINDOW_HEIGHT_PIXELS);
 		//System.out.println("onCreateResources");
 		
-		//ResourceManager.getInstance().initAdResources();
+		ResourceManager.getInstance().initAdResources();
 		
 		pOnCreateResourcesCallback.onCreateResourcesFinished();
 	}
@@ -173,7 +171,7 @@ public class BangYouScreenActivity extends BaseGameActivity {
 		//this.mEngine.registerUpdateHandler(new MemoryLogger());
 		//System.out.println("onCreateScene");
 		SceneManager.getInstance().showScene(new SplashScreen());
-		
+		System.out.println("程序启动");
 		
 		pOnCreateSceneCallback.onCreateSceneFinished(mEngine.getScene());
 	}
@@ -187,6 +185,7 @@ public class BangYouScreenActivity extends BaseGameActivity {
 
 	@Override
 	protected synchronized void onResume() {
+		System.out.println("程序重新启动");
 		super.onResume();
 		//System.gc();
 		if(this.isGameLoaded()){
@@ -195,6 +194,7 @@ public class BangYouScreenActivity extends BaseGameActivity {
 	}
 	
 	protected void onPause() {
+		System.out.println("程序暂停");
 		super.onPause();
 		if (this.isGameLoaded()) {
 			//SFXManager.getInstance().pauseMusic("mainMusic");
@@ -202,9 +202,12 @@ public class BangYouScreenActivity extends BaseGameActivity {
 	}
 	
 	protected void onDestroy() {
+		System.out.println("游戏关闭");
 		// 释放资源，原finalize()方法名修改为close()
 		//AppConnect.getInstance(this).close();
+		ResourceManager.getInstance().unloadAdResources();
 		super.onDestroy();
+		System.exit(0);
 	}
 	
 	  public void onBackPressed() {
@@ -222,11 +225,19 @@ public class BangYouScreenActivity extends BaseGameActivity {
 			  }else if(SceneManager.getInstance().mCurrentScene.getClass().equals(ShopScene.class)){
 				  SceneManager.getInstance().showScene(MainMenuScene.getInstance());
 			  }else{
-				  this.finish();
+				  //this.finish();
 				  //QuitGame.getInstance().show(this); 
 				 // ResourceManager.getInstance().showYouMiAd();
+				 // ResourceManager.getInstance().unloadAdResources();
+				  System.exit(0);
 			  }
 		  }
 	  }
+
+	public void onPointBalanceChange(int arg0) {
+		//System.out.println("积分变动");
+		ShopScene.getInstance().myGold = arg0;
+		ShopScene.getInstance().mGameNumber.addGoldToLayer(ShopScene.getInstance().propTopBG, ShopScene.getInstance().myGold);
+	}
 	  
 }

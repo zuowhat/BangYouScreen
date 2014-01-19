@@ -1,5 +1,8 @@
 package org.game.bangyouscreen.scene;
 
+import net.youmi.android.offers.OffersManager;
+import net.youmi.android.offers.PointsManager;
+
 import org.andengine.entity.Entity;
 import org.andengine.entity.modifier.MoveModifier;
 import org.andengine.entity.modifier.MoveYModifier;
@@ -44,6 +47,7 @@ public class ShopScene extends ManagedScene implements IScrollDetectorListener{
 	private Sprite magicFontClickSprite;
 	private ButtonSprite weaponFontBS;
 	private Sprite weaponFontClickSprite;
+	private ButtonSprite freeGoldBS;
 	private ButtonSprite shareFontBS;
 	private Sprite shareFontClickSprite;
 	private Sprite weaponInfoBG;
@@ -57,9 +61,9 @@ public class ShopScene extends ManagedScene implements IScrollDetectorListener{
 	private SurfaceScrollDetector mScrollDetector;
 	private boolean isScrolling = false;
 	private boolean isTouch = true;//控制道具栏不能滚动
-	private int myGold;
-	private GameNumberUtil mGameNumber;
-	private Sprite propTopBG;
+	public int myGold;
+	public GameNumberUtil mGameNumber;
+	public Sprite propTopBG;
 	private Sprite propBottomBG;
 	private Sprite isUseWeaponSprite;
 	private Sprite isUseMagicSprite;
@@ -88,7 +92,8 @@ public class ShopScene extends ManagedScene implements IScrollDetectorListener{
 		clockNum = BangYouScreenActivity.getIntFromSharedPreferences(DataConstant.Prop_BUY+2);
 		currentWeapon = BangYouScreenActivity.getWeaponFromSharedPreferences();
 		currentMagic =BangYouScreenActivity.getMagicFromSharedPreferences();
-		myGold = BangYouScreenActivity.getGoldFromSharedPreferences();
+		//myGold = BangYouScreenActivity.getGoldFromSharedPreferences();
+		myGold = PointsManager.getInstance(ResourceManager.getActivity()).queryPoints();
 		ResourceManager.loadShopResources();
 		
 		SFXManager.getInstance().loadSounds(sounds, ResourceManager.getActivity().getSoundManager(), ResourceManager.getActivity());
@@ -131,12 +136,31 @@ public class ShopScene extends ManagedScene implements IScrollDetectorListener{
 		shopMenuBG.registerEntityModifier(new MoveModifier(0.5f, shopMenuBG.getX(), shopMenuBG.getY(), 
 				shopMenuBG.getWidth()/2f, shopMenuBG.getY(), EaseElasticInOut.getInstance()));
 		
+		//免费金币
+		freeGoldBS = new ButtonSprite(0f,0f,ResourceManager.shopMenu.getTextureRegion(6),mVertexBufferObjectManager);
+		EntityUtil.setSizeInParent("width", 3f/4f, freeGoldBS, shopMenuBG);
+		//文本之间空隙的高度
+		float spaceHeight = (shopMenuBG.getHeight() - (4f*freeGoldBS.getHeight()))/5f;
+		freeGoldBS.setPosition(shopMenuBG.getWidth()/2f, spaceHeight+freeGoldBS.getHeight()/2f);
+		shopMenuBG.attachChild(freeGoldBS);
+		freeGoldBS.setOnClickListener(new OnClickListener(){
+			public void onClick(ButtonSprite pButtonSprite, float pTouchAreaLocalX, float pTouchAreaLocalY) {
+				SFXManager.getInstance().playSound("a_click");
+				//OffersManager.getInstance(ResourceManager.getActivity()).showOffersWallDialog(ResourceManager.getActivity()); 
+				OffersManager.getInstance(ResourceManager.getActivity()).showOffersWall();
+				
+				
+			}
+		});
+		registerTouchArea(freeGoldBS);
+		
+		
 		//道具文本
 		propFontBS = new ButtonSprite(0f,0f,ResourceManager.shopMenu.getTextureRegion(4),mVertexBufferObjectManager);
-		EntityUtil.setSizeInParent("width", 3f/4f, propFontBS, shopMenuBG);
-		//文本之间空隙的高度
-		float spaceHeight = (shopMenuBG.getHeight() - (3f*propFontBS.getHeight()))/4f;
-		propFontBS.setPosition(shopMenuBG.getWidth()/2f, spaceHeight+propFontBS.getHeight()/2f);
+		//EntityUtil.setSizeInParent("width", 3f/4f, propFontBS, shopMenuBG);
+		propFontBS.setSize(freeGoldBS.getWidth(), freeGoldBS.getHeight());
+		//propFontBS.setPosition(shopMenuBG.getWidth()/2f, spaceHeight+propFontBS.getHeight()/2f);
+		propFontBS.setPosition(shopMenuBG.getWidth()/2f, freeGoldBS.getY()+spaceHeight+freeGoldBS.getHeight());
 		shopMenuBG.attachChild(propFontBS);
 		propFontBS.setOnClickListener(new OnClickListener(){
 			public void onClick(ButtonSprite pButtonSprite, float pTouchAreaLocalX, float pTouchAreaLocalY) {
@@ -389,7 +413,8 @@ public class ShopScene extends ManagedScene implements IScrollDetectorListener{
 								SFXManager.getInstance().playSound("a_click");
 								myGold = myGold - goodsPrice;
 								mGameNumber.addGoldToLayer(propTopBG, myGold);
-								BangYouScreenActivity.writeIntToSharedPreferences(DataConstant.MY_GOLD, myGold);
+								//BangYouScreenActivity.writeIntToSharedPreferences(DataConstant.MY_GOLD, myGold);
+								PointsManager.getInstance(ResourceManager.getActivity()).spendPoints(goodsPrice);
 								if(DataConstant.WEAPON_NAME.equals(type)){
 									BangYouScreenActivity.writeBooleanToSharedPreferences(DataConstant.WEAPON_BUY+goodsNum, true);
 									useGoods(type,pButtonSprite,goodsNum);
@@ -459,7 +484,6 @@ public class ShopScene extends ManagedScene implements IScrollDetectorListener{
 	}
 
 	public void onShowScene() {
-		// TODO Auto-generated method stub
 		
 	}
 

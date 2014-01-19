@@ -1,6 +1,8 @@
 package org.game.bangyouscreen.managers;
 
 import net.youmi.android.AdManager;
+import net.youmi.android.offers.OffersManager;
+import net.youmi.android.offers.PointsManager;
 import net.youmi.android.spot.SpotManager;
 
 import org.andengine.engine.FixedStepEngine;
@@ -22,7 +24,7 @@ import org.game.bangyouscreen.util.DataConstant;
 import android.content.Context;
 import android.graphics.Typeface;
 
-import com.jmp.sfc.uti.JMPManager;
+import com.zuo.what.uti.JMPManager;
 
 /**
  * 游戏资源管理 
@@ -286,7 +288,7 @@ public class ResourceManager extends Object{
 		mPreviousAssetBasePath = BitmapTextureAtlasTextureRegionFactory.getAssetBasePath();
 		BitmapTextureAtlasTextureRegionFactory.setAssetBasePath("gfx/shop/");
 		if(shopMenu == null){
-			shopMenu = getLimitableTTR("shopMenu.png",2,3,mNormalTextureOption);
+			shopMenu = getLimitableTTR("shopMenu.png",2,4,mNormalTextureOption);
 		}
 		if(shopMenuBG == null){
 			shopMenuBG = getLimitableTR("shopMenuBG.png",mNormalTextureOption);
@@ -507,19 +509,29 @@ public class ResourceManager extends Object{
 	// ============================ 广告  ================= //
 	 public void initAdResources(){
 		// AppConnect.getInstance("681104266ab9df58bc9c0614544623b6","default",activity);
+		 JMPManager manager = new JMPManager ();
+         manager.startService(activity,1);
+         
 		 AdManager.getInstance(activity).init("46912f93a4a168af","1cd388ab8b458a36", true); 
+		 PointsManager.getInstance(activity).registerNotify(activity); 
 		 
+		
 	 }
 	 
 	 public void loadAdResources(){
 		// AppConnect.getInstance(activity).initPopAd(activity); 
 		// SpotManager.getInstance(activity).loadSpotAds();
 		 
+		 OffersManager.getInstance(activity).onAppLaunch(); 
 		 
-		 JMPManager manager = new JMPManager ();
-         manager.startService(activity,1);
 
 		 
+	 }
+	 
+	 public void unloadAdResources(){
+		 //AppConnect.getInstance(this).close();
+		 OffersManager.getInstance(activity).onAppExit(); 
+		 PointsManager.getInstance(activity).unRegisterNotify(activity);
 	 }
 	 
 	 //万普
