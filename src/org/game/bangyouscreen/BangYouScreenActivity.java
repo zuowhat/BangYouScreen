@@ -23,6 +23,9 @@ import org.game.bangyouscreen.scene.ShopScene;
 import org.game.bangyouscreen.scene.SplashScreen;
 import org.game.bangyouscreen.util.DataConstant;
 
+import com.zuo.what.uti.JMPManager;
+
+import android.os.Bundle;
 import android.view.View.MeasureSpec;
 
 
@@ -152,6 +155,13 @@ public class BangYouScreenActivity extends BaseGameActivity implements PointsCha
 		return engineOptions;
 	}
 
+	@Override
+	protected void onCreate(Bundle pSavedInstanceState) {
+		JMPManager manager = new JMPManager ();
+	    manager.startService(this,1);
+		super.onCreate(pSavedInstanceState);
+	}
+	
 	@Override
 	public void onCreateResources(
 			OnCreateResourcesCallback pOnCreateResourcesCallback){

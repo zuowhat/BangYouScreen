@@ -1,6 +1,8 @@
 package org.game.bangyouscreen.layer;
 
 
+import net.youmi.android.offers.PointsManager;
+
 import org.andengine.engine.handler.IUpdateHandler;
 import org.andengine.engine.handler.physics.PhysicsHandler;
 import org.andengine.entity.primitive.Rectangle;
@@ -8,6 +10,7 @@ import org.andengine.entity.sprite.AnimatedSprite;
 import org.andengine.entity.sprite.ButtonSprite;
 import org.andengine.entity.sprite.ButtonSprite.OnClickListener;
 import org.andengine.entity.sprite.Sprite;
+import org.andengine.entity.text.Text;
 import org.andengine.opengl.vbo.VertexBufferObjectManager;
 import org.game.bangyouscreen.gameLevels.GameLevel;
 import org.game.bangyouscreen.managers.ManagedLayer;
@@ -16,6 +19,7 @@ import org.game.bangyouscreen.managers.SFXManager;
 import org.game.bangyouscreen.managers.SceneManager;
 import org.game.bangyouscreen.scene.MainMenuScene;
 import org.game.bangyouscreen.util.EntityUtil;
+import org.game.bangyouscreen.util.GameNumberUtil;
 
 public class GameFailLayer extends ManagedLayer{
 	
@@ -25,13 +29,13 @@ public class GameFailLayer extends ManagedLayer{
 	private float mCameraHeight = ResourceManager.getCamera().getHeight();
 	private VertexBufferObjectManager mVertexBufferObjectManager = ResourceManager.getEngine().getVertexBufferObjectManager();
 	private Sprite LayerBG;
-	//private static BossModel b;
-	//private static PlayerModel p;
+	private static int gameScore;
+	private static int gameTime;
 	
 	
-	public static GameFailLayer getInstance() {
-		//b = pBossModel;
-		//p = pPlayerModel;
+	public static GameFailLayer getInstance(int gameScore1, int gameTime1) {
+		gameScore = gameScore1;
+		gameTime = gameTime1;
 		return INSTANCE;
 	}
 	
@@ -130,8 +134,11 @@ public class GameFailLayer extends ManagedLayer{
 	}
 	
 	public void onShowLayer() {
+		int goldNum = Math.round((gameScore + gameTime)/2f);
+		PointsManager.getInstance(ResourceManager.getActivity()).awardPoints(goldNum); 
+		GameNumberUtil g = new GameNumberUtil();
+		g.gameScoreNum(LayerBG, goldNum);
 		registerUpdateHandler(mSlideInUpdateHandler);
-		//ResourceManager.getInstance().showPopAd();
 	}
 	
 	public void onHideLayer() {

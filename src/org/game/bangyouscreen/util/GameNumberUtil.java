@@ -2,6 +2,8 @@ package org.game.bangyouscreen.util;
 
 import org.andengine.entity.IEntity;
 import org.andengine.entity.sprite.AnimatedSprite;
+import org.andengine.entity.sprite.Sprite;
+import org.andengine.entity.text.Text;
 import org.andengine.opengl.vbo.VertexBufferObjectManager;
 import org.game.bangyouscreen.managers.ResourceManager;
 
@@ -205,6 +207,54 @@ public void addGoodsNumInGameLevel(String type, IEntity pEntity){
 	    goodsNum[i].setPosition(pEntity.getWidth() - (goodsNum.length-i) * goodsNum[i].getWidth()/2f,goodsNum[i].getHeight()/2f);
 	    pEntity.attachChild(goodsNum[i]);
 	}
+}
+
+/**
+ * 显示得分(GameWinLayer)
+ * @author zuowhat 2014-1-20
+ * @param pEntity 父层
+ * @since 1.0
+ */
+public void gameScoreNum(IEntity pEntity, int getGold){
+	AnimatedSprite[] goldNum = new AnimatedSprite[3];
+	for (int i = 0;i< goldNum.length; i++){
+		goldNum[i] = new AnimatedSprite(0f, 0f, ResourceManager.numberTTR.deepCopy(),mVertexBufferObjectManager);
+	    EntityUtil.setSizeInParent("height", 1f/7f, goldNum[i],pEntity);
+	    goldNum[i].setPosition(pEntity.getWidth()/2f - (goldNum.length-i) * goldNum[i].getWidth()/2f,pEntity.getHeight()/2f);
+	    pEntity.attachChild(goldNum[i]);
+	}
+	int len = (getGold+"").length();
+	int offsetPosition = goldNum.length-len;
+	for(int n = goldNum.length-1; n>=0; n--){
+		if(n > 0){
+			//位置初始化
+			goldNum[n].setPosition(goldNum[0].getX()+n*goldNum[0].getWidth(), goldNum[n].getY());
+		}
+		if(n >= offsetPosition){
+			int m = getGold % 10;
+			goldNum[n].setCurrentTileIndex(m);
+			getGold = getGold / 10;
+			if(offsetPosition > 0){
+				//根据偏移量重新定位
+				goldNum[n].setPosition(goldNum[n].getX()-offsetPosition*goldNum[n].getWidth(),goldNum[n].getY());
+			}
+			goldNum[n].setVisible(true);
+		}else{
+			goldNum[n].setVisible(false);
+		}
+	}
+	
+	Text mGoldNum = new Text(0f,0f,ResourceManager.sysFont,"获得",mVertexBufferObjectManager);
+	mGoldNum.setColor(0f, 0f, 0f);
+	EntityUtil.setSizeInParent("height", 1f/7f, mGoldNum,pEntity);
+	mGoldNum.setPosition(goldNum[0].getX() - goldNum[2].getWidth()*2f, goldNum[2].getY());
+	pEntity.attachChild(mGoldNum);
+	
+	Sprite goldSprite = new Sprite(0f,0f,ResourceManager.gameGold,mVertexBufferObjectManager);
+	EntityUtil.setSizeInParent("height", 1f/7f, goldSprite,pEntity);
+	goldSprite.setPosition(goldNum[2].getX() + goldNum[2].getWidth()*2f, mGoldNum.getY());
+	pEntity.attachChild(goldSprite);
+	
 }
 
 //======================未使用的方法====================//

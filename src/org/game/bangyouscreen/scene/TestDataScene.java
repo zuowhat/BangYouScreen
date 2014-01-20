@@ -170,6 +170,9 @@ public class TestDataScene extends ManagedScene{
 			}else if(num == 3){
 				//titleType = "混沌系";
 				titleType = "3";
+			}else if(num == 4){
+				//titleType = "无";
+				titleType = "4";
 			}
 			bossHPValue = new Text(0f,0f,ResourceManager.sysFont,titleType,99,mVertexBufferObjectManager);
 		}else{
@@ -191,7 +194,7 @@ public class TestDataScene extends ManagedScene{
 					bossHPValue.setText(String.valueOf(boss_hp));
 				}else if(type == 12){
 					boss_type++;
-					if(boss_type > 3){
+					if(boss_type > 4){
 						boss_type = 1;
 					}
 					String titleType1 = "";
@@ -204,6 +207,9 @@ public class TestDataScene extends ManagedScene{
 					}else if(boss_type == 3){
 						//titleType1 = "混沌系";
 						titleType1 = "3";
+					}else if(boss_type == 4){
+						//titleType1 = "无";
+						titleType1 = "4";
 					}
 					bossHPValue.setText(titleType1);
 				}else if(type == 13){
@@ -214,7 +220,7 @@ public class TestDataScene extends ManagedScene{
 					bossHPValue.setText(String.valueOf(boss_mindef));
 				}else if(type == 21){
 					weapon_type++;
-					if(weapon_type > 3){
+					if(weapon_type > 4){
 						weapon_type = 1;
 					}
 					bossHPValue.setText(String.valueOf(weapon_type));
@@ -226,7 +232,7 @@ public class TestDataScene extends ManagedScene{
 					bossHPValue.setText(String.valueOf(weapon_mindps));
 				}else if(type == 31){
 					magic_type++;
-					if(magic_type > 3){
+					if(magic_type > 4){
 						magic_type = 1;
 					}
 					bossHPValue.setText(String.valueOf(magic_type));
@@ -258,7 +264,7 @@ public class TestDataScene extends ManagedScene{
 				}else if(type == 12){
 					boss_type--;
 					if(boss_type < 1){
-						boss_type = 3;
+						boss_type = 4;
 					}
 					String titleType1 = "";
 					if(boss_type == 1){
@@ -270,6 +276,9 @@ public class TestDataScene extends ManagedScene{
 					}else if(boss_type == 3){
 						//titleType1 = "混沌系";
 						titleType1 = "3";
+					}else if(boss_type == 4){
+						//titleType1 = "无";
+						titleType1 = "4";
 					}
 					bossHPValue.setText(titleType1);
 				}else if(type == 13){
@@ -286,8 +295,8 @@ public class TestDataScene extends ManagedScene{
 					bossHPValue.setText(String.valueOf(boss_mindef));
 				}else if(type == 21){
 					weapon_type--;
-					if(weapon_type < 0){
-						weapon_type = 3;
+					if(weapon_type < 1){
+						weapon_type = 4;
 					}
 					bossHPValue.setText(String.valueOf(weapon_type));
 					
@@ -305,8 +314,8 @@ public class TestDataScene extends ManagedScene{
 					bossHPValue.setText(String.valueOf(weapon_mindps));
 				}else if(type == 31){
 					magic_type--;
-					if(magic_type < 0){
-						magic_type = 3;
+					if(magic_type < 1){
+						magic_type = 4;
 					}
 					bossHPValue.setText(String.valueOf(magic_type));
 					

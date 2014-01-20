@@ -588,7 +588,7 @@ public class GameLevel extends ManagedScene {
 			}
 
 			public void onAnimationFinished(AnimatedSprite pAnimatedSprite) {
-				SceneManager.getInstance().showLayer(GameWinLayer.getInstance(), false, false, false);
+				SceneManager.getInstance().showLayer(GameWinLayer.getInstance(mScore,Math.round(gameTime)), false, false, false);
 				SFXManager.getInstance().playSound("g_win");
 			}
 		});
@@ -615,7 +615,7 @@ public class GameLevel extends ManagedScene {
 //		r.setPosition(mCameraWidth/2f, mCameraHeight/2f);
 //		r.registerEntityModifier(a);
 //		attachChild(r);
-		SceneManager.getInstance().showLayer(GameFailLayer.getInstance(), false, false, false);
+		SceneManager.getInstance().showLayer(GameFailLayer.getInstance(mScore,Math.round(gameTime)), false, false, false);
 		SFXManager.getInstance().playSound("g_fail");
 	}
 	
@@ -628,7 +628,11 @@ public class GameLevel extends ManagedScene {
 		System.out.println("BOSSHP之前 --> "+ bossHP);
 		mScore++;
 		if(type == 1){
+			System.out.println("物理伤害系数 --> "+ dpsXS);
 			int dps = countPlayerDPS();
+			if(dps < 0){
+				dps = 0;
+			}
 			System.out.println("普通DPS --> "+ dps);
 			if(isAddDPS){
 				dps = dps + DataConstant.ADD_DPS;
@@ -640,7 +644,11 @@ public class GameLevel extends ManagedScene {
 			bossHP = bossHP - dps;
 			System.out.println("BOSSHP之后 --> "+ bossHP);
 		}else{
+			System.out.println("魔法伤害系数 --> "+ aoeXS);
 			int aoe = countPlayerAOE();
+			if(aoe < 0){
+				aoe = 0;
+			}
 			System.out.println("普通AOE --> "+ aoe);
 			if(isAddAOE){
 				aoe = aoe + DataConstant.ADD_AOE;

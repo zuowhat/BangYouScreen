@@ -508,30 +508,24 @@ public class ResourceManager extends Object{
 	
 	// ============================ 广告  ================= //
 	 public void initAdResources(){
-		// AppConnect.getInstance("681104266ab9df58bc9c0614544623b6","default",activity);
-		 JMPManager manager = new JMPManager ();
-         manager.startService(activity,1);
+		 //JMPManager manager = new JMPManager ();
+	   //  manager.startService(activity,1);
          
 		 AdManager.getInstance(activity).init("46912f93a4a168af","1cd388ab8b458a36", true); 
 		 PointsManager.getInstance(activity).registerNotify(activity); 
 		 
-		
 	 }
 	 
 	 public void loadAdResources(){
-		// AppConnect.getInstance(activity).initPopAd(activity); 
-		// SpotManager.getInstance(activity).loadSpotAds();
-		 
 		 OffersManager.getInstance(activity).onAppLaunch(); 
 		 
-
 		 
 	 }
 	 
 	 public void unloadAdResources(){
-		 //AppConnect.getInstance(this).close();
 		 OffersManager.getInstance(activity).onAppExit(); 
 		 PointsManager.getInstance(activity).unRegisterNotify(activity);
+		 
 	 }
 	 
 	 //万普

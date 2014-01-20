@@ -17,6 +17,7 @@ import org.game.bangyouscreen.managers.SFXManager;
 import org.game.bangyouscreen.managers.SceneManager;
 import org.game.bangyouscreen.scene.MainMenuScene;
 import org.game.bangyouscreen.util.EntityUtil;
+import org.game.bangyouscreen.util.GameNumberUtil;
 
 public class GameWinLayer extends ManagedLayer{
 	
@@ -26,10 +27,12 @@ public class GameWinLayer extends ManagedLayer{
 	private float mCameraHeight = ResourceManager.getCamera().getHeight();
 	private VertexBufferObjectManager mVertexBufferObjectManager = ResourceManager.getEngine().getVertexBufferObjectManager();
 	private Sprite LayerBG;
+	private static int gameScore;
+	private static int gameTime;
 	
-	
-	public static GameWinLayer getInstance() {
-		//themeNum = theme;
+	public static GameWinLayer getInstance(int gameScore1, int gameTime1) {
+		gameScore = gameScore1;
+		gameTime = gameTime1;
 		return INSTANCE;
 	}
 	
@@ -132,21 +135,20 @@ public class GameWinLayer extends ManagedLayer{
 	public void onShowLayer() {
 		//加载新BOSS
 		ResourceManager.loadBossResources();
-		
-		int goldNum = 50;
+		int goldNum = gameScore + gameTime;
 		PointsManager.getInstance(ResourceManager.getActivity()).awardPoints(goldNum); 
-		Text mGoldNum = new Text(0f,0f,ResourceManager.sysFont,goldNum+"",mVertexBufferObjectManager);
-		mGoldNum.setColor(255, 107, 0);
-		mGoldNum.setPosition(LayerBG.getWidth()/2f, LayerBG.getHeight()/2f);
-		LayerBG.attachChild(mGoldNum);
+		GameNumberUtil g = new GameNumberUtil();
+		g.gameScoreNum(LayerBG, goldNum);
 		
-		Sprite goldSprite = new Sprite(0f,0f,ResourceManager.gameGold,mVertexBufferObjectManager);
-		goldSprite.setPosition(mGoldNum.getX()+mGoldNum.getWidth(), mGoldNum.getY());
-		LayerBG.attachChild(goldSprite);		
-				
+//		Text mGoldNum = new Text(0f,0f,ResourceManager.sysFont,goldNum+"",mVertexBufferObjectManager);
+//		mGoldNum.setColor(255, 107, 0);
+//		mGoldNum.setPosition(LayerBG.getWidth()/2f, LayerBG.getHeight()/2f);
+//		LayerBG.attachChild(mGoldNum);
+//		Sprite goldSprite = new Sprite(0f,0f,ResourceManager.gameGold,mVertexBufferObjectManager);
+//		goldSprite.setPosition(mGoldNum.getX()+mGoldNum.getWidth(), mGoldNum.getY());
+//		LayerBG.attachChild(goldSprite);		
 				
 		registerUpdateHandler(mSlideInUpdateHandler);
-		//ResourceManager.getInstance().showPopAd();
 	}
 	
 	public void onHideLayer() {
