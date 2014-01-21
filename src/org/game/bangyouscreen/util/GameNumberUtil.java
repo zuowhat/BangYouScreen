@@ -215,7 +215,7 @@ public void addGoodsNumInGameLevel(String type, IEntity pEntity){
  * @param pEntity 父层
  * @since 1.0
  */
-public void gameScoreNum(IEntity pEntity, int getGold){
+public AnimatedSprite[] gameScoreNum(IEntity pEntity, int getGold){
 	AnimatedSprite[] goldNum = new AnimatedSprite[3];
 	for (int i = 0;i< goldNum.length; i++){
 		goldNum[i] = new AnimatedSprite(0f, 0f, ResourceManager.numberTTR.deepCopy(),mVertexBufferObjectManager);
@@ -244,17 +244,7 @@ public void gameScoreNum(IEntity pEntity, int getGold){
 		}
 	}
 	
-	Text mGoldNum = new Text(0f,0f,ResourceManager.sysFont,"获得",mVertexBufferObjectManager);
-	mGoldNum.setColor(0f, 0f, 0f);
-	EntityUtil.setSizeInParent("height", 1f/7f, mGoldNum,pEntity);
-	mGoldNum.setPosition(goldNum[0].getX() - goldNum[2].getWidth()*2f, goldNum[2].getY());
-	pEntity.attachChild(mGoldNum);
-	
-	Sprite goldSprite = new Sprite(0f,0f,ResourceManager.gameGold,mVertexBufferObjectManager);
-	EntityUtil.setSizeInParent("height", 1f/7f, goldSprite,pEntity);
-	goldSprite.setPosition(goldNum[2].getX() + goldNum[2].getWidth()*2f, mGoldNum.getY());
-	pEntity.attachChild(goldSprite);
-	
+	return goldNum;
 }
 
 //======================未使用的方法====================//

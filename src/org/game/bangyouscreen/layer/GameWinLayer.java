@@ -5,6 +5,7 @@ import net.youmi.android.offers.PointsManager;
 
 import org.andengine.engine.handler.IUpdateHandler;
 import org.andengine.entity.primitive.Rectangle;
+import org.andengine.entity.sprite.AnimatedSprite;
 import org.andengine.entity.sprite.ButtonSprite;
 import org.andengine.entity.sprite.ButtonSprite.OnClickListener;
 import org.andengine.entity.sprite.Sprite;
@@ -29,6 +30,9 @@ public class GameWinLayer extends ManagedLayer{
 	private Sprite LayerBG;
 	private static int gameScore;
 	private static int gameTime;
+	private Text mGoldNum;
+	private Sprite goldSprite;
+	private AnimatedSprite[] goldNumAS;
 	
 	public static GameWinLayer getInstance(int gameScore1, int gameTime1) {
 		gameScore = gameScore1;
@@ -135,19 +139,22 @@ public class GameWinLayer extends ManagedLayer{
 	public void onShowLayer() {
 		//加载新BOSS
 		ResourceManager.loadBossResources();
-		int goldNum = gameScore + gameTime;
+		int goldNum = Math.round((gameScore + gameTime)/2f);
 		PointsManager.getInstance(ResourceManager.getActivity()).awardPoints(goldNum); 
 		GameNumberUtil g = new GameNumberUtil();
-		g.gameScoreNum(LayerBG, goldNum);
+		goldNumAS = g.gameScoreNum(LayerBG, goldNum);
 		
-//		Text mGoldNum = new Text(0f,0f,ResourceManager.sysFont,goldNum+"",mVertexBufferObjectManager);
-//		mGoldNum.setColor(255, 107, 0);
-//		mGoldNum.setPosition(LayerBG.getWidth()/2f, LayerBG.getHeight()/2f);
-//		LayerBG.attachChild(mGoldNum);
-//		Sprite goldSprite = new Sprite(0f,0f,ResourceManager.gameGold,mVertexBufferObjectManager);
-//		goldSprite.setPosition(mGoldNum.getX()+mGoldNum.getWidth(), mGoldNum.getY());
-//		LayerBG.attachChild(goldSprite);		
-				
+		mGoldNum = new Text(0f,0f,ResourceManager.sysFont,"获得",mVertexBufferObjectManager);
+		mGoldNum.setColor(0f, 0f, 0f);
+		EntityUtil.setSizeInParent("height", 1f/7f, mGoldNum,LayerBG);
+		mGoldNum.setPosition(goldNumAS[0].getX() - goldNumAS[2].getWidth()*2f, goldNumAS[2].getY());
+		LayerBG.attachChild(mGoldNum);
+		
+		goldSprite = new Sprite(0f,0f,ResourceManager.gameGold,mVertexBufferObjectManager);
+		EntityUtil.setSizeInParent("height", 1f/7f, goldSprite,LayerBG);
+		goldSprite.setPosition(goldNumAS[2].getX() + goldNumAS[2].getWidth()*2f, mGoldNum.getY());
+		LayerBG.attachChild(goldSprite);
+		
 		registerUpdateHandler(mSlideInUpdateHandler);
 	}
 	
@@ -156,7 +163,20 @@ public class GameWinLayer extends ManagedLayer{
 	}
 
 	public void onUnloadLayer() {
-		
+		ResourceManager.getInstance().engine.runOnUpdateThread(new Runnable() {
+			public void run() {
+				if(goldNumAS != null){
+					for(AnimatedSprite a:goldNumAS){
+						LayerBG.detachChild(a);
+						a = null;
+					}
+					goldNumAS = null;
+					LayerBG.detachChild(mGoldNum);
+					LayerBG.detachChild(goldSprite);
+					mGoldNum = null;
+					goldSprite = null;
+				}
+			}});
 	}
 
 }

@@ -14,6 +14,8 @@ import org.game.bangyouscreen.managers.SceneManager;
 import org.game.bangyouscreen.util.DataConstant;
 import org.game.bangyouscreen.util.EntityUtil;
 
+import android.widget.Toast;
+
 public class TestDataScene extends ManagedScene{
 	
 	private static final TestDataScene INSTANCE = new TestDataScene();
@@ -127,6 +129,8 @@ public class TestDataScene extends ManagedScene{
 				BangYouScreenActivity.writeIntToSharedPreferences(DataConstant.TEST_MAGICTYPE, magic_type);
 				BangYouScreenActivity.writeIntToSharedPreferences(DataConstant.TEST_MAGICMAXAOE, magic_maxaoe);
 				BangYouScreenActivity.writeIntToSharedPreferences(DataConstant.TEST_MAGICMINAOE, magic_minaoe);
+				
+				//Toast.makeText(ResourceManager.getActivity(), "保存成功!", Toast.LENGTH_LONG).show();
 			}
 		});
 		registerTouchArea(saveBS);

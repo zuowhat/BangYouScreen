@@ -82,17 +82,17 @@ public class DataConstant {
 		/*
 		switch(bossNum){
 			case 1:
-				b.setBossHP(2000);
+				b.setBossHP(3000);
 				b.setBossDefType(3);
 				b.setMaxBossDEF(10);
 				b.setMinBossDEF(0);
 			break;
 				
 			case 2:
-				b.setBossHP(2700);
-				b.setBossDefType(3);
-				b.setMaxBossDEF(10);
-				b.setMinBossDEF(5);
+				b.setBossHP(3500);
+				b.setBossDefType(1);
+				b.setMaxBossDEF(20);
+				b.setMinBossDEF(10);
 			break;
 			
 			case 3:
@@ -235,8 +235,8 @@ public class DataConstant {
 		switch(magicNum){
 			case 9:
 				p.setMagicType(4);
-				p.setMagicAOEMax(50);
-				p.setMagicAOEMin(20);
+				p.setMagicAOEMax(100);
+				p.setMagicAOEMin(50);
 				p.setMagicTTR(ResourceManager.magicASTTRArray[0]);
 			break;
 		

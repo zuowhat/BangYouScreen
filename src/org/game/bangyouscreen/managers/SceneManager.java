@@ -122,6 +122,7 @@ public class SceneManager {
 	
 	public void hideLayer() {
 		if (this.mIsLayerShown) {
+			mCurrentLayer.onUnloadLayer();
 			// Clear the HUD's child scene to remove modal properties.
 			this.mEngine.getCamera().getHUD().clearChildScene();
 			// If we had to use a place-holder scene, clear it.
