@@ -1,13 +1,19 @@
 package org.game.bangyouscreen.scene;
 
 import org.andengine.entity.Entity;
+import org.andengine.entity.IEntity;
+import org.andengine.entity.modifier.IEntityModifier.IEntityModifierListener;
+import org.andengine.entity.modifier.LoopEntityModifier;
 import org.andengine.entity.modifier.MoveModifier;
+import org.andengine.entity.modifier.ScaleModifier;
+import org.andengine.entity.modifier.SequenceEntityModifier;
 import org.andengine.entity.scene.Scene;
 import org.andengine.entity.sprite.ButtonSprite;
 import org.andengine.entity.sprite.ButtonSprite.OnClickListener;
 import org.andengine.entity.sprite.Sprite;
 import org.andengine.opengl.vbo.VertexBufferObjectManager;
 import org.andengine.util.math.MathUtils;
+import org.andengine.util.modifier.IModifier;
 import org.andengine.util.modifier.ease.EaseElasticInOut;
 import org.game.bangyouscreen.managers.ManagedScene;
 import org.game.bangyouscreen.managers.ResourceManager;
@@ -127,11 +133,27 @@ public class MainMenuScene extends ManagedScene{
 			}
 		};
 		
+		
+		
 		mainMenuTitleSprite = new Sprite(0f, mCameraHeight + ResourceManager.mainMenuTitleTR.getHeight(), ResourceManager.mainMenuTitleTR, mVertexBufferObjectManager);
 		//mainMenuTitleSprite.setSize(0.5f * mCameraWidth, (0.5f * mCameraWidth)/(mainMenuTitleSprite.getWidth() / mainMenuTitleSprite.getHeight()));
 		EntityUtil.setSize("width", 0.4f, mainMenuTitleSprite);
 		mainMenuTitleSprite.registerEntityModifier(new MoveModifier(0.5f, mCameraWidth / 2f, 
-				mainMenuTitleSprite.getY(), mCameraWidth / 2f, mCameraHeight - (mainMenuTitleSprite.getHeight() / 2f),EaseElasticInOut.getInstance()));
+				mainMenuTitleSprite.getY(), mCameraWidth / 2f, mCameraHeight*(4f/5f),new IEntityModifierListener(){
+
+					public void onModifierStarted(IModifier<IEntity> pModifier,
+							IEntity pItem) {
+						
+					}
+
+					public void onModifierFinished(
+							IModifier<IEntity> pModifier, IEntity pItem) {
+						pItem.registerEntityModifier(new LoopEntityModifier(new SequenceEntityModifier(
+								new ScaleModifier(2, 1f, 1.1f),
+								new ScaleModifier(2, 1.1f, 1f)
+								)));
+						
+					}},EaseElasticInOut.getInstance()));
 		mainMenuTitleSprite.setZIndex(-80);
 		
 		//主题模式
@@ -141,7 +163,6 @@ public class MainMenuScene extends ManagedScene{
 		themeModeBS.setPosition(mCameraWidth / 2f, mCameraHeight / 2f);
 		mainMenuScreen.attachChild(themeModeBS);
 		themeModeBS.setOnClickListener(new OnClickListener(){
-			
 			public void onClick(ButtonSprite pButtonSprite, float pTouchAreaLocalX, float pTouchAreaLocalY) {
 				SFXManager.getInstance().playSound("a_click");
 				SceneManager.getInstance().showScene(ThemeScene.getInstance());

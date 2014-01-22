@@ -2,6 +2,7 @@ package org.game.bangyouscreen.scene;
 
 import net.youmi.android.offers.PointsManager;
 
+import org.andengine.entity.modifier.ScaleModifier;
 import org.andengine.entity.scene.Scene;
 import org.andengine.entity.sprite.ButtonSprite;
 import org.andengine.entity.sprite.ButtonSprite.OnClickListener;
@@ -15,6 +16,8 @@ import org.game.bangyouscreen.managers.SFXManager;
 import org.game.bangyouscreen.managers.SceneManager;
 import org.game.bangyouscreen.util.DataConstant;
 import org.game.bangyouscreen.util.EntityUtil;
+
+import android.widget.Toast;
 
 public class TestDataScene extends ManagedScene{
 	
@@ -138,6 +141,7 @@ public class TestDataScene extends ManagedScene{
 				BangYouScreenActivity.writeIntToSharedPreferences(DataConstant.TEST_MAGICMAXAOE, magic_maxaoe);
 				BangYouScreenActivity.writeIntToSharedPreferences(DataConstant.TEST_MAGICMINAOE, magic_minaoe);
 				
+				ResourceManager.getActivity().toastOnUiThread("保存成功!", Toast.LENGTH_SHORT);
 			}
 		});
 		registerTouchArea(saveBS);

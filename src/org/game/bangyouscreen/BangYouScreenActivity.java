@@ -234,7 +234,7 @@ public class BangYouScreenActivity extends BaseGameActivity implements PointsCha
 				  }
 			  }else if(SceneManager.getInstance().mCurrentScene.getClass().equals(ShopScene.class)){
 				  SceneManager.getInstance().showScene(MainMenuScene.getInstance());
-			  }else{
+			  }else if(SceneManager.getInstance().mCurrentScene.getClass().equals(MainMenuScene.class)){
 				  //this.finish();
 				  //QuitGame.getInstance().show(this); 
 				 // ResourceManager.getInstance().showYouMiAd();
