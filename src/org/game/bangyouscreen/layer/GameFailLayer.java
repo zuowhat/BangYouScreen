@@ -31,13 +31,15 @@ public class GameFailLayer extends ManagedLayer{
 	private Sprite LayerBG;
 	private static int gameScore;
 	private static int gameTime;
-	private Text mGoldNum;
+	private static int bossHP;
+	//private Text mGoldNum;
 	private Sprite goldSprite;
 	private AnimatedSprite[] goldNumAS;
 	
-	public static GameFailLayer getInstance(int gameScore1, int gameTime1) {
+	public static GameFailLayer getInstance(int gameScore1, int gameTime1, int bossHP1) {
 		gameScore = gameScore1;
 		gameTime = gameTime1;
+		bossHP = bossHP1;
 		return INSTANCE;
 	}
 	
@@ -136,19 +138,20 @@ public class GameFailLayer extends ManagedLayer{
 	}
 	
 	public void onShowLayer() {
-		int goldNum = Math.round((gameScore + gameTime)/4f);
+		int goldNum = Math.round((gameScore + gameTime + bossHP/100f)/4f);
 		PointsManager.getInstance(ResourceManager.getActivity()).awardPoints(goldNum); 
 		GameNumberUtil g = new GameNumberUtil();
 		goldNumAS = g.gameScoreNum(LayerBG, goldNum);
-		mGoldNum = new Text(0f,0f,ResourceManager.sysFont,"获得",mVertexBufferObjectManager);
-		mGoldNum.setColor(0f, 0f, 0f);
-		EntityUtil.setSizeInParent("height", 1f/7f, mGoldNum,LayerBG);
-		mGoldNum.setPosition(goldNumAS[0].getX() - goldNumAS[2].getWidth()*2f, goldNumAS[2].getY());
-		LayerBG.attachChild(mGoldNum);
+		
+//		mGoldNum = new Text(0f,0f,ResourceManager.sysFont,"获得",mVertexBufferObjectManager);
+//		mGoldNum.setColor(0f, 0f, 0f);
+//		EntityUtil.setSizeInParent("height", 1f/7f, mGoldNum,LayerBG);
+//		mGoldNum.setPosition(goldNumAS[0].getX() - goldNumAS[2].getWidth()*2f, goldNumAS[2].getY());
+//		LayerBG.attachChild(mGoldNum);
 		
 		goldSprite = new Sprite(0f,0f,ResourceManager.gameGold,mVertexBufferObjectManager);
 		EntityUtil.setSizeInParent("height", 1f/7f, goldSprite,LayerBG);
-		goldSprite.setPosition(goldNumAS[2].getX() + goldNumAS[2].getWidth()*2f, mGoldNum.getY());
+		goldSprite.setPosition(goldNumAS[2].getX() + goldNumAS[2].getWidth()*2f, goldNumAS[2].getY());
 		LayerBG.attachChild(goldSprite);
 		
 		registerUpdateHandler(mSlideInUpdateHandler);
@@ -167,9 +170,9 @@ public class GameFailLayer extends ManagedLayer{
 						a = null;
 					}
 					goldNumAS = null;
-					LayerBG.detachChild(mGoldNum);
+					//LayerBG.detachChild(mGoldNum);
 					LayerBG.detachChild(goldSprite);
-					mGoldNum = null;
+					//mGoldNum = null;
 					goldSprite = null;
 				}
 			}});

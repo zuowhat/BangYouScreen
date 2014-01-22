@@ -16,7 +16,7 @@ public class DataConstant {
 	public static final int GOLD_INIT = 10000;//初始化游戏金币
 	public static final int[] weaponPrice = {500,1500,3000,650,1800,3500,800,2000,5000};//武器价格
 	public static final int[] magicPrice = {500,1500,3000,650,1800,3500,800,2000,5000};//魔法价格
-	public static final int[] propPrice = {200,350,300};//道具价格
+	public static final int[] propPrice = {200,350,500};//道具价格
 	public static final float CLOCKTIME = 10f;//时光沙漏增益时间
 	public static final int ADD_DPS = 50;//魔龙之血增益效果
 	public static final float ADD_DPS_TIME = 10f;//魔龙之血增益时间
@@ -90,9 +90,9 @@ public class DataConstant {
 				
 			case 2:
 				b.setBossHP(3500);
-				b.setBossDefType(1);
-				b.setMaxBossDEF(20);
-				b.setMinBossDEF(10);
+				b.setBossDefType(2);
+				b.setMaxBossDEF(10);
+				b.setMinBossDEF(5);
 			break;
 			
 			case 3:
@@ -131,10 +131,10 @@ public class DataConstant {
 			break;
 			
 			case 8:
-				b.setBossHP(120);
-				b.setBossDefType(3);
-				b.setMaxBossDEF(10);
-				b.setMinBossDEF(5);
+				b.setBossHP(18000);
+				b.setBossDefType(5);
+				b.setMaxBossDEF(300);
+				b.setMinBossDEF(200);
 			break;
 		}
 		*/
@@ -225,8 +225,8 @@ public class DataConstant {
 			
 			case 8:
 				p.setWeaponType(1);
-				p.setWeaponDPSMax(280);
-				p.setWeaponDPSMin(280);
+				p.setWeaponDPSMax(500);
+				p.setWeaponDPSMin(500);
 			break;
 		
 		}
@@ -247,10 +247,38 @@ public class DataConstant {
 				p.setMagicTTR(ResourceManager.magicASTTRArray[0]);
 			break;
 	
-			case 11:
+			case 1:
 				p.setMagicType(4);
 				p.setMagicAOEMax(20);
 				p.setMagicAOEMin(15);
+				p.setMagicTTR(ResourceManager.magicASTTRArray[1]);
+			break;
+			
+			case 2:
+				p.setMagicType(4);
+				p.setMagicAOEMax(20);
+				p.setMagicAOEMin(15);
+				p.setMagicTTR(ResourceManager.magicASTTRArray[1]);
+			break;
+			
+			case 3:
+				p.setMagicType(4);
+				p.setMagicAOEMax(20);
+				p.setMagicAOEMin(15);
+				p.setMagicTTR(ResourceManager.magicASTTRArray[1]);
+			break;
+			
+			case 4:
+				p.setMagicType(4);
+				p.setMagicAOEMax(20);
+				p.setMagicAOEMin(15);
+				p.setMagicTTR(ResourceManager.magicASTTRArray[1]);
+			break;
+			
+			case 5:
+				p.setMagicType(1);
+				p.setMagicAOEMax(900);
+				p.setMagicAOEMin(900);
 				p.setMagicTTR(ResourceManager.magicASTTRArray[1]);
 			break;
 		}

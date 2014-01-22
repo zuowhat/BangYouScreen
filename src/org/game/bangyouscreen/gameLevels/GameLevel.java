@@ -65,6 +65,7 @@ public class GameLevel extends ManagedScene {
 	private float dpsXS;//物理伤害系数
 	private float aoeXS;//魔法伤害系数
 	private int bossHP;
+	private int allBossHP;
 	private AnimatedSprite clockTimeAS;
 	private String[] sounds = {"g_win","g_fail","g_time","g_bomb","g_button","g_countdown","g_go","g_notenough"};
 	private Rectangle fadableBGRect;
@@ -105,6 +106,7 @@ public class GameLevel extends ManagedScene {
 		ResourceManager.getInstance().engine.getEngineOptions().getTouchOptions().setNeedsMultiTouch(true);
 		ResourceManager.getInstance().engine.setTouchController(new MultiTouchController());
 		bossHP = bossModel.getBossHP();
+		allBossHP = bossModel.getBossHP();
 		//背景
 		Sprite gameBG = new Sprite(0f,0f,bossModel.getGameBGTR(),mVertexBufferObjectManager);
 		gameBG.setScale(ResourceManager.getInstance().cameraHeight / bossModel.getGameBGTR().getHeight());
@@ -192,11 +194,11 @@ public class GameLevel extends ManagedScene {
 					clockNum--;
 					mGameNumber.updateGoodsNum(DataConstant.PROP_NAME, clockNum);
 					BangYouScreenActivity.writeIntToSharedPreferences(DataConstant.Prop_BUY+2, clockNum);
-				clockCooling = new AnimatedSprite(0f,0f,ResourceManager.iconCooling,mVertexBufferObjectManager);
+					clockCooling = new AnimatedSprite(0f,0f,ResourceManager.iconCooling,mVertexBufferObjectManager);
 					clockCooling.setPosition(clockBS.getWidth()/2f,clockBS.getHeight()/2f);
 					clockCooling.setSize(clockBS.getWidth(), clockBS.getHeight());
-					//时钟冷却时间14秒，待定
-					clockCooling.animate(1500,0,new IAnimationListener(){
+					//时钟冷却时间10秒，待定
+					clockCooling.animate(2000,0,new IAnimationListener(){
 	
 						public void onAnimationStarted(AnimatedSprite pAnimatedSprite,int pInitialLoopCount) {
 							
@@ -316,6 +318,7 @@ public class GameLevel extends ManagedScene {
 			public void onClick(ButtonSprite pButtonSprite,
 					float pTouchAreaLocalX, float pTouchAreaLocalY) {
 				if(weaponPotionNum > 0){
+					unregisterTouchArea(tiamatBS);
 					SFXManager.getInstance().playSound("a_click");
 					isAddDPS = true;
 					tiamatTime = DataConstant.ADD_DPS_TIME;
@@ -370,6 +373,7 @@ public class GameLevel extends ManagedScene {
 			public void onClick(ButtonSprite pButtonSprite,
 					float pTouchAreaLocalX, float pTouchAreaLocalY) {
 				if(magicPotionNum > 0){
+					unregisterTouchArea(bingpoBS);
 					SFXManager.getInstance().playSound("a_click");
 					isAddAOE = true;
 					magicPotionNum--;
@@ -390,12 +394,12 @@ public class GameLevel extends ManagedScene {
 		mGameNumber.updateGoodsNum(DataConstant.MAGIC_NAME, magicPotionNum);
 		
 		//游戏开始倒计时动画
-		//long [] frameDur = new long[3];
-		//Arrays.fill(frameDur, 1000);
+		long [] frameDur = new long[3];
+		Arrays.fill(frameDur, 1000);
 		clockTimeAS = new AnimatedSprite(0f,0f,ResourceManager.clockTime,mVertexBufferObjectManager);
 		clockTimeAS.setPosition(mCameraWidth/2f, mCameraHeight/2f);
 		EntityUtil.setSize("height", 1f / 4f, clockTimeAS);
-		clockTimeAS.animate(1000,0,new IAnimationListener(){
+		clockTimeAS.animate(frameDur,0,2,0,new IAnimationListener(){
 
 			public void onAnimationStarted(AnimatedSprite pAnimatedSprite,
 					int pInitialLoopCount) {
@@ -460,7 +464,7 @@ public class GameLevel extends ManagedScene {
 			gameTime-=pSecondsElapsed;
 			if(isAddDPS){
 				tiamatTime-=pSecondsElapsed;
-				System.out.println("魔龙增益时间 --> "+ tiamatTime);
+				//System.out.println("魔龙增益时间 --> "+ tiamatTime);
 				if(tiamatTime <= 0f){
 					isAddDPS = false;
 				}
@@ -588,7 +592,7 @@ public class GameLevel extends ManagedScene {
 			}
 
 			public void onAnimationFinished(AnimatedSprite pAnimatedSprite) {
-				SceneManager.getInstance().showLayer(GameWinLayer.getInstance(mScore,Math.round(gameTime)), false, false, false);
+				SceneManager.getInstance().showLayer(GameWinLayer.getInstance(mScore,Math.round(gameTime),allBossHP), false, false, false);
 				SFXManager.getInstance().playSound("g_win");
 			}
 		});
@@ -615,7 +619,7 @@ public class GameLevel extends ManagedScene {
 //		r.setPosition(mCameraWidth/2f, mCameraHeight/2f);
 //		r.registerEntityModifier(a);
 //		attachChild(r);
-		SceneManager.getInstance().showLayer(GameFailLayer.getInstance(mScore,Math.round(gameTime)), false, false, false);
+		SceneManager.getInstance().showLayer(GameFailLayer.getInstance(mScore,Math.round(gameTime), allBossHP - bossHP), false, false, false);
 		SFXManager.getInstance().playSound("g_fail");
 	}
 	
@@ -633,11 +637,7 @@ public class GameLevel extends ManagedScene {
 			if(dps < 0){
 				dps = 0;
 			}
-			System.out.println("普通DPS --> "+ dps);
-			if(isAddDPS){
-				dps = dps + DataConstant.ADD_DPS;
-				System.out.println("加强DPS --> "+ dps);
-			}
+			System.out.println("DPS --> "+ dps);
 			//mScore = mScore + dps;
 			xue3S = xue2Sprite.getWidth()-(xue2Sprite.getWidth()*dps)/bossHP;
 			xue3P = xue3S/2f;
@@ -649,11 +649,7 @@ public class GameLevel extends ManagedScene {
 			if(aoe < 0){
 				aoe = 0;
 			}
-			System.out.println("普通AOE --> "+ aoe);
-			if(isAddAOE){
-				aoe = aoe + DataConstant.ADD_AOE;
-				System.out.println("加强AOE --> "+ aoe);
-			}
+			System.out.println("AOE --> "+ aoe);
 			//mScore = mScore + aoe;
 			xue3S = xue2Sprite.getWidth()-(xue2Sprite.getWidth()*aoe)/bossHP;
 			xue3P = xue3S/2f;
@@ -684,6 +680,9 @@ public class GameLevel extends ManagedScene {
 	private int countPlayerDPS(){
 		float playerDPS = (float)(Math.random()*(playerModel.getWeaponDPSMax() - playerModel.getWeaponDPSMin())) + playerModel.getWeaponDPSMin();
 		float bossDEF = (float)(Math.random()*(bossModel.getMaxBossDEF() - bossModel.getMinBossDEF())) + bossModel.getMinBossDEF();
+		if(isAddDPS){
+			playerDPS = playerDPS + DataConstant.ADD_DPS;
+		}
 		return Math.round(playerDPS * dpsXS - bossDEF);
 	}
 	
@@ -766,6 +765,9 @@ public class GameLevel extends ManagedScene {
 	private int countPlayerAOE(){
 		float playerAOE = (float)(Math.random()*(playerModel.getMagicAOEMax() - playerModel.getMagicAOEMin())) + playerModel.getMagicAOEMin();
 		float bossDEF = (float)(Math.random()*(bossModel.getMaxBossDEF() - bossModel.getMinBossDEF())) + bossModel.getMinBossDEF();
+		if(isAddAOE){
+			playerAOE = playerAOE + DataConstant.ADD_AOE;
+		}
 		return Math.round(playerAOE * aoeXS - bossDEF);
 	}
 	

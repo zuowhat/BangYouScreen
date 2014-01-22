@@ -1,5 +1,7 @@
 package org.game.bangyouscreen.scene;
 
+import net.youmi.android.offers.PointsManager;
+
 import org.andengine.entity.scene.Scene;
 import org.andengine.entity.sprite.ButtonSprite;
 import org.andengine.entity.sprite.ButtonSprite.OnClickListener;
@@ -13,8 +15,6 @@ import org.game.bangyouscreen.managers.SFXManager;
 import org.game.bangyouscreen.managers.SceneManager;
 import org.game.bangyouscreen.util.DataConstant;
 import org.game.bangyouscreen.util.EntityUtil;
-
-import android.widget.Toast;
 
 public class TestDataScene extends ManagedScene{
 	
@@ -35,6 +35,10 @@ public class TestDataScene extends ManagedScene{
 	private int magic_type;
 	private int magic_maxaoe;
 	private int magic_minaoe;
+	
+	private int gold;
+	
+	//private Text bossHPValue;
 	
 	public static TestDataScene getInstance(){
 		return INSTANCE;
@@ -69,6 +73,8 @@ public class TestDataScene extends ManagedScene{
 		magic_maxaoe = BangYouScreenActivity.getIntFromSharedPreferences(DataConstant.TEST_MAGICMAXAOE);
 		magic_minaoe = BangYouScreenActivity.getIntFromSharedPreferences(DataConstant.TEST_MAGICMINAOE);
 		
+		gold = PointsManager.getInstance(ResourceManager.getActivity()).queryPoints();
+		
 		Sprite backgroundSprite = new Sprite(0f,0f, ResourceManager.loadingBG,mVertexBufferObjectManager);
 		backgroundSprite.setScale(ResourceManager.getInstance().cameraWidth / ResourceManager.loadingBG.getWidth());
 		backgroundSprite.setPosition(mCameraWidth / 2f, mCameraHeight / 2f);
@@ -100,7 +106,9 @@ public class TestDataScene extends ManagedScene{
 		weaponProperty.setPosition(mCameraWidth/2f, mCameraHeight*(11f/12f));
 		attachChild(weaponProperty);
 		
-		Text magicProperty = new Text(0f,0f,ResourceManager.sysFont,"魔",mVertexBufferObjectManager);
+		
+		
+		Text magicProperty = new Text(0f,0f,ResourceManager.sysFont,"Magic",mVertexBufferObjectManager);
 		magicProperty.setColor(255, 255, 255);
 		magicProperty.setPosition(mCameraWidth*(5f/6f), mCameraHeight*(11f/12f));
 		attachChild(magicProperty);
@@ -130,7 +138,6 @@ public class TestDataScene extends ManagedScene{
 				BangYouScreenActivity.writeIntToSharedPreferences(DataConstant.TEST_MAGICMAXAOE, magic_maxaoe);
 				BangYouScreenActivity.writeIntToSharedPreferences(DataConstant.TEST_MAGICMINAOE, magic_minaoe);
 				
-				//Toast.makeText(ResourceManager.getActivity(), "保存成功!", Toast.LENGTH_LONG).show();
 			}
 		});
 		registerTouchArea(saveBS);
@@ -147,6 +154,37 @@ public class TestDataScene extends ManagedScene{
 			}
 		});
 		registerTouchArea(backBS);
+		
+		Text goldTitle = new Text(0f,0f,ResourceManager.sysFont,"金币",mVertexBufferObjectManager);
+		goldTitle.setColor(255, 255, 255);
+		goldTitle.setPosition(mCameraWidth/2f, backBS.getY()+backBS.getHeight());
+		attachChild(goldTitle);
+		
+		final Text glodText = new Text(0f,0f,ResourceManager.sysFont,String.valueOf(gold),99,mVertexBufferObjectManager);
+		glodText.setColor(255, 255, 255);
+		glodText.setPosition(saveBS.getX()+saveBS.getWidth(), goldTitle.getHeight());
+		attachChild(glodText);
+		
+		ButtonSprite goldAddBS = new ButtonSprite(0f,0f,ResourceManager.test_addOrSubtract.getTextureRegion(0),mVertexBufferObjectManager);
+		goldAddBS.setSize(goldTitle.getHeight(), goldTitle.getHeight());
+		goldAddBS.setPosition(backBS.getX()-backBS.getWidth(), goldAddBS.getHeight());
+		goldAddBS.setOnClickListener(new OnClickListener(){
+			public void onClick(ButtonSprite pButtonSprite, float pTouchAreaLocalX, float pTouchAreaLocalY) {
+				SFXManager.getInstance().playSound("a_click");
+				PointsManager.getInstance(ResourceManager.getActivity()).awardPoints(1000);
+				gold = gold + 1000;
+				glodText.setText(String.valueOf(gold));
+				
+			}
+		});
+		attachChild(goldAddBS);
+		registerTouchArea(goldAddBS);
+		
+		
+		
+		
+		
+		
 	}
 	
 	public void addItem(final int type, String title, int num, float rows, float cols){
@@ -160,25 +198,28 @@ public class TestDataScene extends ManagedScene{
 		subtractBossHPButton.setPosition(bossHPText.getX()+2*subtractBossHPButton.getWidth(), bossHPText.getY());
 		attachChild(subtractBossHPButton);
 		final Text bossHPValue;
-		if(type == 12){
+		if(type == 12 || type == 21 || type ==31){
 			String titleType = "";
 			if(num == 0){
 				num = 1;
 			}
 			if(num == 1){
-				//titleType = "光明系";
-				titleType = "1";
+				titleType = "Bright";
+				//titleType = "1";
 			}else if(num == 2){
-				//titleType = "暗黑系";
-				titleType = "2";
+				titleType = "Diablo";
+				//titleType = "2";
 			}else if(num == 3){
-				//titleType = "混沌系";
-				titleType = "3";
+				titleType = "Chaos";
+				//titleType = "3";
 			}else if(num == 4){
-				//titleType = "无";
-				titleType = "4";
+				titleType = "None";
+				//titleType = "4";
+			}else if(num == 5){
+				titleType = "Holy";
+				//titleType = "5";
 			}
-			bossHPValue = new Text(0f,0f,ResourceManager.sysFont,titleType,99,mVertexBufferObjectManager);
+			bossHPValue = new Text(0f,0f,ResourceManager.sysFont,titleType,9999,mVertexBufferObjectManager);
 		}else{
 			bossHPValue = new Text(0f,0f,ResourceManager.sysFont,String.valueOf(num),99,mVertexBufferObjectManager);
 		}
@@ -198,36 +239,22 @@ public class TestDataScene extends ManagedScene{
 					bossHPValue.setText(String.valueOf(boss_hp));
 				}else if(type == 12){
 					boss_type++;
-					if(boss_type > 4){
+					if(boss_type > 5){
 						boss_type = 1;
 					}
-					String titleType1 = "";
-					if(boss_type == 1){
-						//titleType1 = "光明系";
-						titleType1 = "1";
-					}else if(boss_type == 2){
-						//titleType1 = "暗黑系";
-						titleType1 = "2";
-					}else if(boss_type == 3){
-						//titleType1 = "混沌系";
-						titleType1 = "3";
-					}else if(boss_type == 4){
-						//titleType1 = "无";
-						titleType1 = "4";
-					}
-					bossHPValue.setText(titleType1);
+					updateType(boss_type, bossHPValue);
 				}else if(type == 13){
-					boss_maxdef = boss_maxdef + 10;
+					boss_maxdef = boss_maxdef + 5;
 					bossHPValue.setText(String.valueOf(boss_maxdef));
 				}else if(type == 14){
-					boss_mindef = boss_mindef + 10;
+					boss_mindef = boss_mindef + 5;
 					bossHPValue.setText(String.valueOf(boss_mindef));
 				}else if(type == 21){
 					weapon_type++;
-					if(weapon_type > 4){
+					if(weapon_type > 5){
 						weapon_type = 1;
 					}
-					bossHPValue.setText(String.valueOf(weapon_type));
+					updateType(weapon_type, bossHPValue);
 				}else if(type == 22){
 					weapon_maxdps = weapon_maxdps + 10;
 					bossHPValue.setText(String.valueOf(weapon_maxdps));
@@ -236,10 +263,10 @@ public class TestDataScene extends ManagedScene{
 					bossHPValue.setText(String.valueOf(weapon_mindps));
 				}else if(type == 31){
 					magic_type++;
-					if(magic_type > 4){
+					if(magic_type > 5){
 						magic_type = 1;
 					}
-					bossHPValue.setText(String.valueOf(magic_type));
+					updateType(magic_type, bossHPValue);
 				}else if(type == 32){
 					magic_maxaoe = magic_maxaoe + 10;
 					bossHPValue.setText(String.valueOf(magic_maxaoe));
@@ -268,31 +295,17 @@ public class TestDataScene extends ManagedScene{
 				}else if(type == 12){
 					boss_type--;
 					if(boss_type < 1){
-						boss_type = 4;
+						boss_type = 5;
 					}
-					String titleType1 = "";
-					if(boss_type == 1){
-						//titleType1 = "光明系";
-						titleType1 = "1";
-					}else if(boss_type == 2){
-						//titleType1 = "暗黑系";
-						titleType1 = "2";
-					}else if(boss_type == 3){
-						//titleType1 = "混沌系";
-						titleType1 = "3";
-					}else if(boss_type == 4){
-						//titleType1 = "无";
-						titleType1 = "4";
-					}
-					bossHPValue.setText(titleType1);
+					updateType(boss_type, bossHPValue);
 				}else if(type == 13){
-					boss_maxdef = boss_maxdef - 10;
+					boss_maxdef = boss_maxdef - 5;
 					if(boss_maxdef < 0){
 						boss_maxdef = 0;
 					}
 					bossHPValue.setText(String.valueOf(boss_maxdef));
 				}else if(type == 14){
-					boss_mindef = boss_mindef - 10;
+					boss_mindef = boss_mindef - 5;
 					if(boss_mindef < 0){
 						boss_mindef = 0;
 					}
@@ -300,9 +313,9 @@ public class TestDataScene extends ManagedScene{
 				}else if(type == 21){
 					weapon_type--;
 					if(weapon_type < 1){
-						weapon_type = 4;
+						weapon_type = 5;
 					}
-					bossHPValue.setText(String.valueOf(weapon_type));
+					updateType(weapon_type, bossHPValue);
 					
 				}else if(type == 22){
 					weapon_maxdps = weapon_maxdps - 10;
@@ -319,9 +332,9 @@ public class TestDataScene extends ManagedScene{
 				}else if(type == 31){
 					magic_type--;
 					if(magic_type < 1){
-						magic_type = 4;
+						magic_type = 5;
 					}
-					bossHPValue.setText(String.valueOf(magic_type));
+					updateType(magic_type, bossHPValue);
 					
 				}else if(type == 32){
 					magic_maxaoe = magic_maxaoe - 10;
@@ -345,6 +358,37 @@ public class TestDataScene extends ManagedScene{
 			}
 		});
 		registerTouchArea(subtractBossHPButton);
+	}
+	
+	
+	private void updateType(int type, Text s){
+		String titleType1 = "";
+		if(type == 1){
+			titleType1 = "Bright";
+			//titleType1 = "1";
+		}else if(type == 2){
+			titleType1 = "Diablo";
+			//titleType1 = "2";
+		}else if(type == 3){
+			titleType1 = "Chaos";
+			//titleType1 = "3";
+		}else if(type == 4){
+			titleType1 = "None";
+			//titleType1 = "4";
+		}else if(type == 5){
+			titleType1 = "Holy";
+			//titleType1 = "5";
+		}
+		//float f = FontUtils.measureText(ResourceManager.sysFont, "ghjghgj");
+		//System.out.println(f);
+//		Text t1 = new Text(0f,0f,ResourceManager.sysFont,titleType1,titleType1.length(),mVertexBufferObjectManager);
+//		t1.setSize(s.getWidth(), s.getHeight());
+//		t1.setPosition(s.getX(), s.getY());
+//		attachChild(t1);
+//		detachChild(s);
+		
+		s.setText(titleType1);
+		
 	}
 
 	@Override
