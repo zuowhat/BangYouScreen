@@ -18,15 +18,16 @@ import org.game.bangyouscreen.layer.GamePauseLayer;
 import org.game.bangyouscreen.managers.ResourceManager;
 import org.game.bangyouscreen.managers.SFXManager;
 import org.game.bangyouscreen.managers.SceneManager;
+import org.game.bangyouscreen.scene.HelpScene;
 import org.game.bangyouscreen.scene.MainMenuScene;
 import org.game.bangyouscreen.scene.ShopScene;
 import org.game.bangyouscreen.scene.SplashScreen;
 import org.game.bangyouscreen.util.DataConstant;
 
-import com.zuo.what.uti.JMPManager;
-
 import android.os.Bundle;
 import android.view.View.MeasureSpec;
+
+import com.zuo.what.uti.JMPManager;
 
 
 public class BangYouScreenActivity extends BaseGameActivity implements PointsChangeNotify{
@@ -240,6 +241,8 @@ public class BangYouScreenActivity extends BaseGameActivity implements PointsCha
 				 // ResourceManager.getInstance().showYouMiAd();
 				 // ResourceManager.getInstance().unloadAdResources();
 				  System.exit(0);
+			  }else if(SceneManager.getInstance().mCurrentScene.getClass().equals(HelpScene.class)){
+				  SceneManager.getInstance().showScene(MainMenuScene.getInstance());
 			  }
 		  }
 	  }

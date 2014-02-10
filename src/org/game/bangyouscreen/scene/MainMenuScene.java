@@ -195,7 +195,7 @@ public class MainMenuScene extends ManagedScene{
 			
 			public void onClick(ButtonSprite pButtonSprite, float pTouchAreaLocalX, float pTouchAreaLocalY) {
 				SFXManager.getInstance().playSound("a_click");
-				SceneManager.getInstance().showScene(new TestDataScene());
+				SceneManager.getInstance().showScene(new HelpScene());
 				//待完善
 				//ResourceManager.getInstance().showPopAd();
 				//ResourceManager.getInstance().showYouMiAd();

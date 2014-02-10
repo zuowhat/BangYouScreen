@@ -24,7 +24,6 @@ import org.game.bangyouscreen.util.DataConstant;
 import android.content.Context;
 import android.graphics.Typeface;
 
-import com.zuo.what.uti.JMPManager;
 
 /**
  * 游戏资源管理 
@@ -91,8 +90,12 @@ public class ResourceManager extends Object{
 	public static TiledTextureRegion propInfosTTR;
 	public static TiledTextureRegion buyOrUse;
 	public static TextureRegion isUse;
+	public static TextureRegion helpBG;
+	public static TiledTextureRegion helpTitleTTR;
 	
-	//测试资源
+	
+	
+	//***************测试资源 start ********************//
 	public static TiledTextureRegion test_addOrSubtract;
 	public static TiledTextureRegion test_saveOrBack;
 	public static TextureRegion test_line;
@@ -110,6 +113,7 @@ public class ResourceManager extends Object{
 		}
 		BitmapTextureAtlasTextureRegionFactory.setAssetBasePath(mPreviousAssetBasePath);
 	}
+	//*************** 测试资源 end ********************//
 	
 	
 	public ResourceManager(){
@@ -227,6 +231,11 @@ public class ResourceManager extends Object{
 		getInstance().loadSharedResources();
 	}
 	
+	public static void loadHelpResources(){
+		getInstance().loadHelpTextures();
+		getInstance().loadSharedResources();
+	}
+	
 	/**
 	 * 完成关卡后，加载下一个BOSS资源 
 	 * @author zuowhat 2013-11-25
@@ -283,21 +292,15 @@ public class ResourceManager extends Object{
 		BitmapTextureAtlasTextureRegionFactory.setAssetBasePath(mPreviousAssetBasePath);
 	}
 	
-	// ============================ 装备库纹理  ================= //
+	// ============================ 商店纹理  ================= //
 	private void loadShopTextures(){
 		mPreviousAssetBasePath = BitmapTextureAtlasTextureRegionFactory.getAssetBasePath();
 		BitmapTextureAtlasTextureRegionFactory.setAssetBasePath("gfx/shop/");
 		if(shopMenu == null){
 			shopMenu = getLimitableTTR("shopMenu.png",2,4,mNormalTextureOption);
 		}
-		if(shopMenuBG == null){
-			shopMenuBG = getLimitableTR("shopMenuBG.png",mNormalTextureOption);
-		}
 		if(shopBG == null){
 			shopBG = getLimitableTR("shopBG.png",mNormalTextureOption);
-		}
-		if(shopInfoBG == null){
-			shopInfoBG = getLimitableTR("shopInfoBG.png",mNormalTextureOption);
 		}
 		if(shopInfoRowsBG == null){
 			shopInfoRowsBG = getLimitableTTR("shopInfoRowsBG.png",1,2,mNormalTextureOption);
@@ -321,7 +324,7 @@ public class ResourceManager extends Object{
 	}
 	
 	
-	// ============================ 主题纹理  ================= //
+	// ============================ BOSS模式  ================= //
 	private void loadThemeTextures(){
 		mPreviousAssetBasePath = BitmapTextureAtlasTextureRegionFactory.getAssetBasePath();
 		BitmapTextureAtlasTextureRegionFactory.setAssetBasePath("gfx/theme/");
@@ -407,7 +410,21 @@ public class ResourceManager extends Object{
 		
 		BitmapTextureAtlasTextureRegionFactory.setAssetBasePath(mPreviousAssetBasePath);
 	}
+	
+	// ============================ 帮助纹理  ================= //
+	private void loadHelpTextures(){
+		mPreviousAssetBasePath = BitmapTextureAtlasTextureRegionFactory.getAssetBasePath();
+		BitmapTextureAtlasTextureRegionFactory.setAssetBasePath("gfx/help/");
+		if(helpBG == null){
+			helpBG = getLimitableTR("helpBG.jpg",mNormalTextureOption);
+		}
+		if(helpTitleTTR == null){
+			helpTitleTTR = getLimitableTTR("helpTitle.png",2,3,mNormalTextureOption);
+		}
 		
+		BitmapTextureAtlasTextureRegionFactory.setAssetBasePath(mPreviousAssetBasePath);
+	}
+	
 	// ============================ 游戏纹理  ================= //
 	private void loadGameTextures(){
 		mPreviousAssetBasePath = BitmapTextureAtlasTextureRegionFactory.getAssetBasePath();
@@ -457,7 +474,7 @@ public class ResourceManager extends Object{
 	// ============================ 公共纹理  ================= //
 	private void loadSharedTextures(){
 		mPreviousAssetBasePath = BitmapTextureAtlasTextureRegionFactory.getAssetBasePath();
-		BitmapTextureAtlasTextureRegionFactory.setAssetBasePath("gfx/shop/");
+		BitmapTextureAtlasTextureRegionFactory.setAssetBasePath("gfx/share/");
 		if(weaponTTR == null){
 			weaponTTR = getLimitableTTR("weapon.png",3,4,mNormalTextureOption);
 		}
@@ -470,6 +487,13 @@ public class ResourceManager extends Object{
 		if(gameGold == null){
 			gameGold = getLimitableTR("coin.png",mNormalTextureOption);
 		}
+		if(shopMenuBG == null){
+			shopMenuBG = getLimitableTR("shopMenuBG.png",mNormalTextureOption);
+		}
+		if(shopInfoBG == null){
+			shopInfoBG = getLimitableTR("shopInfoBG.png",mNormalTextureOption);
+		}
+		
 		
 		//未完待写
 		for(int i=0; i<magicASTTRArray.length; i++){
