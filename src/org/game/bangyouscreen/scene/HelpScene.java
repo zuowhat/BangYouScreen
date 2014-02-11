@@ -22,15 +22,18 @@ public class HelpScene extends ManagedScene{
 	private float mCameraHeight = ResourceManager.getCamera().getHeight();
 	private VertexBufferObjectManager mVertexBufferObjectManager = ResourceManager.getEngine().getVertexBufferObjectManager();
 	
-	private Sprite shareFontClickSprite;
-	private ButtonSprite shareFontBS;
+	private Sprite currentFontClickSprite;
+	private ButtonSprite currentFontBS;
 	private Sprite playClickSprite;
 	private ButtonSprite playBS;
 	private Sprite statisticsClickSprite;
 	private ButtonSprite statisticsBS;
 	private Sprite authorClickSprite;
 	private ButtonSprite authorBS;
-	private Sprite helpInfoBG;
+	private Sprite playInfoBG;
+	private Sprite statisticsInfoBG;
+	private Sprite authorInfoBG;
+	private Sprite currentInfoBG;
 	
 	public static HelpScene getInstance(){
 		return INSTANCE;
@@ -73,7 +76,7 @@ public class HelpScene extends ManagedScene{
 		
 		
 		//菜单背景
-		Sprite helpMenuBG = new Sprite(0f,0f, ResourceManager.shopMenuBG,mVertexBufferObjectManager);
+		Sprite helpMenuBG = new Sprite(0f,0f, ResourceManager.helpMenuBG,mVertexBufferObjectManager);
 		EntityUtil.setSize("height", 0.5f, helpMenuBG);
 		helpMenuBG.setPosition(0f-helpMenuBG.getWidth()/2f, mCameraHeight/2f);
 		helpMenuBG.registerEntityModifier(new MoveModifier(0.5f, helpMenuBG.getX(), helpMenuBG.getY(), 
@@ -90,9 +93,10 @@ public class HelpScene extends ManagedScene{
 		authorBS.setOnClickListener(new OnClickListener(){
 			public void onClick(ButtonSprite pButtonSprite, float pTouchAreaLocalX, float pTouchAreaLocalY) {
 				SFXManager.getInstance().playSound("a_click");
-				clickMenu(authorBS,authorClickSprite);
-				shareFontClickSprite = authorClickSprite;
-				shareFontBS = authorBS;	
+				clickMenu(authorBS,authorClickSprite,authorInfoBG);
+				currentFontClickSprite = authorClickSprite;
+				currentFontBS = authorBS;	
+				currentInfoBG = authorInfoBG;
 			}
 		});
 		registerTouchArea(authorBS);
@@ -112,9 +116,10 @@ public class HelpScene extends ManagedScene{
 		statisticsBS.setOnClickListener(new OnClickListener(){
 			public void onClick(ButtonSprite pButtonSprite, float pTouchAreaLocalX, float pTouchAreaLocalY) {
 				SFXManager.getInstance().playSound("a_click");
-				clickMenu(statisticsBS,statisticsClickSprite);
-				shareFontClickSprite = statisticsClickSprite;
-				shareFontBS = statisticsBS;	
+				clickMenu(statisticsBS,statisticsClickSprite,statisticsInfoBG);
+				currentFontClickSprite = statisticsClickSprite;
+				currentFontBS = statisticsBS;	
+				currentInfoBG = statisticsInfoBG;
 			}
 		});
 		registerTouchArea(statisticsBS);
@@ -131,7 +136,7 @@ public class HelpScene extends ManagedScene{
 		playClickSprite.setSize(authorBS.getWidth(), authorBS.getHeight());
 		playClickSprite.setPosition(helpMenuBG.getWidth()/2f, statisticsBS.getY()+spaceHeight+statisticsBS.getHeight());
 		helpMenuBG.attachChild(playClickSprite);
-		shareFontClickSprite = playClickSprite;
+		currentFontClickSprite = playClickSprite;
 		
 		//玩法文本
 		playBS = new ButtonSprite(0f,0f,ResourceManager.helpTitleTTR.getTextureRegion(0),mVertexBufferObjectManager);
@@ -142,14 +147,35 @@ public class HelpScene extends ManagedScene{
 		playBS.setOnClickListener(new OnClickListener(){
 			public void onClick(ButtonSprite pButtonSprite, float pTouchAreaLocalX, float pTouchAreaLocalY) {
 				SFXManager.getInstance().playSound("a_click");
-				clickMenu(playBS,playClickSprite);
-				shareFontClickSprite = playClickSprite;
-				shareFontBS = playBS;
+				clickMenu(playBS,playClickSprite,playInfoBG);
+				currentFontClickSprite = playClickSprite;
+				currentFontBS = playBS;
+				currentInfoBG = playInfoBG;
 			}
 		});
-		shareFontBS = playBS;
+		currentFontBS = playBS;
+		currentInfoBG = playInfoBG;
 		
-		helpInfoBG = new Sprite(0f,0f,ResourceManager.shopInfoBG,mVertexBufferObjectManager);
+		playInfoBG = new Sprite(0f,0f,ResourceManager.helpInfoBG,mVertexBufferObjectManager);
+		playInfoBG.setSize(mCameraWidth-(3f/2f)*helpMenuBG.getWidth(), mCameraHeight);
+		playInfoBG.setPosition(mCameraWidth+playInfoBG.getWidth()/2f, mCameraHeight/2f);
+		attachChild(playInfoBG);
+		playInfoBG.registerEntityModifier(new MoveModifier(0.5f, playInfoBG.getX(), playInfoBG.getY(),
+				mCameraWidth-playInfoBG.getWidth()/2f, playInfoBG.getY(), EaseElasticInOut.getInstance()));
+		
+		statisticsInfoBG = new Sprite(0f,0f,ResourceManager.helpInfoBG,mVertexBufferObjectManager);
+		statisticsInfoBG.setSize(mCameraWidth-(3f/2f)*helpMenuBG.getWidth(), mCameraHeight);
+		statisticsInfoBG.setPosition(mCameraWidth+statisticsInfoBG.getWidth()/2f, mCameraHeight/2f);
+		statisticsInfoBG.setVisible(false);
+		attachChild(statisticsInfoBG);
+		
+		authorInfoBG = new Sprite(0f,0f,ResourceManager.helpInfoBG,mVertexBufferObjectManager);
+		authorInfoBG.setSize(mCameraWidth-(3f/2f)*helpMenuBG.getWidth(), mCameraHeight);
+		authorInfoBG.setPosition(mCameraWidth+authorInfoBG.getWidth()/2f, mCameraHeight/2f);
+		authorInfoBG.setVisible(false);
+		attachChild(authorInfoBG);
+		
+		
 		
 		
 	}
@@ -177,14 +203,17 @@ public class HelpScene extends ManagedScene{
 	 * @author zuowhat 2014-02-10
 	 * @since 1.0
 	 */
-	private void clickMenu(Entity entityBS,Entity entitySprite){
+	private void clickMenu(Entity entityBS,Entity entitySprite, Sprite bgSprite){
 		entityBS.setVisible(false);
 		unregisterTouchArea(entityBS);
 		entitySprite.setVisible(true);
 		
-		shareFontClickSprite.setVisible(false);
-		shareFontBS.setVisible(true);
-		registerTouchArea(shareFontBS);
+		currentFontClickSprite.setVisible(false);
+		currentFontBS.setVisible(true);
+		registerTouchArea(currentFontBS);
+		
+		currentInfoBG.setVisible(false);
+		bgSprite.setVisible(true);
 		
 	}
 

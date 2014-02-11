@@ -48,16 +48,16 @@ public class ShopScene extends ManagedScene implements IScrollDetectorListener{
 	private ButtonSprite weaponFontBS;
 	private Sprite weaponFontClickSprite;
 	private ButtonSprite freeGoldBS;
-	private ButtonSprite shareFontBS;
-	private Sprite shareFontClickSprite;
+	private ButtonSprite currentFontBS;
+	private Sprite currentFontClickSprite;
 	private Sprite weaponInfoBG;
 	private Sprite magicInfoBG;
 	private Sprite propsInfoBG;
-	private Sprite shareInfoBG;
+	private Sprite currentInfoBG;
 	private Rectangle weaponInfoBG_S;
 	private Rectangle magicInfoBG_S;
 	private Rectangle propsInfoBG_S;
-	private Rectangle shareInfoBG_S;
+	private Rectangle currentInfoBG_S;
 	private SurfaceScrollDetector mScrollDetector;
 	private boolean isScrolling = false;
 	private boolean isTouch = true;//控制道具栏不能滚动
@@ -166,10 +166,10 @@ public class ShopScene extends ManagedScene implements IScrollDetectorListener{
 			public void onClick(ButtonSprite pButtonSprite, float pTouchAreaLocalX, float pTouchAreaLocalY) {
 				SFXManager.getInstance().playSound("a_click");
 				clickMenu(propFontBS,propFontClickSprite,propsInfoBG,propsInfoBG_S);
-				shareFontClickSprite = propFontClickSprite;
-				shareFontBS = propFontBS;	
-				shareInfoBG = propsInfoBG;
-				shareInfoBG_S = propsInfoBG_S;
+				currentFontClickSprite = propFontClickSprite;
+				currentFontBS = propFontBS;	
+				currentInfoBG = propsInfoBG;
+				currentInfoBG_S = propsInfoBG_S;
 				isTouch = false;
 			}
 		});
@@ -191,10 +191,10 @@ public class ShopScene extends ManagedScene implements IScrollDetectorListener{
 			public void onClick(ButtonSprite pButtonSprite, float pTouchAreaLocalX, float pTouchAreaLocalY) {
 				SFXManager.getInstance().playSound("a_click");
 				clickMenu(magicFontBS,magicFontClickSprite,magicInfoBG,magicInfoBG_S);
-				shareFontClickSprite = magicFontClickSprite;
-				shareFontBS = magicFontBS;	
-				shareInfoBG = magicInfoBG;
-				shareInfoBG_S = magicInfoBG_S;
+				currentFontClickSprite = magicFontClickSprite;
+				currentFontBS = magicFontBS;	
+				currentInfoBG = magicInfoBG;
+				currentInfoBG_S = magicInfoBG_S;
 				isTouch = true;
 			}
 		});
@@ -212,7 +212,7 @@ public class ShopScene extends ManagedScene implements IScrollDetectorListener{
 		weaponFontClickSprite.setSize(propFontBS.getWidth(), propFontBS.getHeight());
 		weaponFontClickSprite.setPosition(shopMenuBG.getWidth()/2f, magicFontBS.getY()+spaceHeight+magicFontBS.getHeight());
 		shopMenuBG.attachChild(weaponFontClickSprite);
-		shareFontClickSprite = weaponFontClickSprite;
+		currentFontClickSprite = weaponFontClickSprite;
 		
 		//武器文本
 		weaponFontBS = new ButtonSprite(0f,0f,ResourceManager.shopMenu.getTextureRegion(0),mVertexBufferObjectManager);
@@ -224,14 +224,14 @@ public class ShopScene extends ManagedScene implements IScrollDetectorListener{
 			public void onClick(ButtonSprite pButtonSprite, float pTouchAreaLocalX, float pTouchAreaLocalY) {
 				SFXManager.getInstance().playSound("a_click");
 				clickMenu(weaponFontBS,weaponFontClickSprite,weaponInfoBG,weaponInfoBG_S);
-				shareFontClickSprite = weaponFontClickSprite;
-				shareFontBS = weaponFontBS;
-				shareInfoBG = weaponInfoBG;
-				shareInfoBG_S = weaponInfoBG_S;
+				currentFontClickSprite = weaponFontClickSprite;
+				currentFontBS = weaponFontBS;
+				currentInfoBG = weaponInfoBG;
+				currentInfoBG_S = weaponInfoBG_S;
 				isTouch = true;
 			}
 		});
-		shareFontBS = weaponFontBS;
+		currentFontBS = weaponFontBS;
 		//顶部云
 		propTopBG = new Sprite(0f,0f,ResourceManager.shopPropBG.getTextureRegion(0),mVertexBufferObjectManager);
 		EntityUtil.setSize("width", 342f/800f, propTopBG);
@@ -333,8 +333,8 @@ public class ShopScene extends ManagedScene implements IScrollDetectorListener{
 					mCameraWidth-infoBG.getWidth()/2f, infoBG.getY(), EaseElasticInOut.getInstance()));
 			infoBG_S.registerEntityModifier(new MoveModifier(0.5f, infoBG_S.getX(), infoBG_S.getY(),
 					mCameraWidth-infoBG_S.getWidth()/2f, mCameraHeight-infoBG_S.getHeight()/2f, EaseElasticInOut.getInstance()));
-			shareInfoBG = infoBG;
-			shareInfoBG_S = infoBG_S;
+			currentInfoBG = infoBG;
+			currentInfoBG_S = infoBG_S;
 			addInfoByType(type,infoArray,ResourceManager.weaponInfosTTR);
 		}else if(DataConstant.MAGIC_NAME.equals(type)){
 			//待修改
@@ -519,12 +519,12 @@ public class ShopScene extends ManagedScene implements IScrollDetectorListener{
 		unregisterTouchArea(entityBS);
 		entitySprite.setVisible(true);
 		
-		shareFontClickSprite.setVisible(false);
-		shareFontBS.setVisible(true);
-		registerTouchArea(shareFontBS);
+		currentFontClickSprite.setVisible(false);
+		currentFontBS.setVisible(true);
+		registerTouchArea(currentFontBS);
 		
-		shareInfoBG.registerEntityModifier(new MoveYModifier(0.2f, shareInfoBG.getY(), -shareInfoBG.getHeight()/2f));
-		shareInfoBG_S.registerEntityModifier(new MoveYModifier(0.2f, shareInfoBG_S.getY(), -shareInfoBG_S.getHeight()/2f));
+		currentInfoBG.registerEntityModifier(new MoveYModifier(0.2f, currentInfoBG.getY(), -currentInfoBG.getHeight()/2f));
+		currentInfoBG_S.registerEntityModifier(new MoveYModifier(0.2f, currentInfoBG_S.getY(), -currentInfoBG_S.getHeight()/2f));
 		infoBG.registerEntityModifier(new MoveModifier(0.5f, mCameraWidth+infoBG.getWidth()/2f, mCameraHeight/2f,
 				mCameraWidth-infoBG.getWidth()/2f, mCameraHeight/2f, EaseElasticInOut.getInstance()));
 		infoBG_S.registerEntityModifier(new MoveModifier(0.5f, mCameraWidth+infoBG_S.getWidth()/2f, mCameraHeight-infoBG_S.getHeight()/2f,
@@ -532,7 +532,7 @@ public class ShopScene extends ManagedScene implements IScrollDetectorListener{
 	}
 
 	public boolean onSceneTouchEvent(TouchEvent paramTouchEvent){
-		if(paramTouchEvent.getX() > shareInfoBG.getX()-shareInfoBG.getWidth()/2f){
+		if(paramTouchEvent.getX() > currentInfoBG.getX()-currentInfoBG.getWidth()/2f){
 			isScrolling = true;
 		}else{
 			isScrolling = false;
@@ -551,17 +551,17 @@ public class ShopScene extends ManagedScene implements IScrollDetectorListener{
 	public void onScroll(ScrollDetector pScollDetector, int pPointerID,
 			float pDistanceX, float pDistanceY) {
 		if(isScrolling && isTouch){
-			shareInfoBG_S.setY(shareInfoBG_S.getY()-pDistanceY);
+			currentInfoBG_S.setY(currentInfoBG_S.getY()-pDistanceY);
 		}
 	}
 
 	@Override
 	public void onScrollFinished(ScrollDetector pScollDetector, int pPointerID,
 			float pDistanceX, float pDistanceY) {
-		if(shareInfoBG_S.getY()+shareInfoBG_S.getHeight()/2f <= mCameraHeight){
-			shareInfoBG_S.registerEntityModifier(new MoveYModifier(0.5f,shareInfoBG_S.getY(),mCameraHeight-shareInfoBG_S.getHeight()/2f));
-		}else if(shareInfoBG_S.getY()-shareInfoBG_S.getHeight()/2f >= 0f){
-			shareInfoBG_S.registerEntityModifier(new MoveYModifier(0.5f,shareInfoBG_S.getY(),shareInfoBG_S.getHeight()/2f));
+		if(currentInfoBG_S.getY()+currentInfoBG_S.getHeight()/2f <= mCameraHeight){
+			currentInfoBG_S.registerEntityModifier(new MoveYModifier(0.5f,currentInfoBG_S.getY(),mCameraHeight-currentInfoBG_S.getHeight()/2f));
+		}else if(currentInfoBG_S.getY()-currentInfoBG_S.getHeight()/2f >= 0f){
+			currentInfoBG_S.registerEntityModifier(new MoveYModifier(0.5f,currentInfoBG_S.getY(),currentInfoBG_S.getHeight()/2f));
 		}
 	}
 

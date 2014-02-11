@@ -92,6 +92,8 @@ public class ResourceManager extends Object{
 	public static TextureRegion isUse;
 	public static TextureRegion helpBG;
 	public static TiledTextureRegion helpTitleTTR;
+	public static TextureRegion helpMenuBG;
+	public static TextureRegion helpInfoBG;
 	
 	
 	
@@ -421,7 +423,12 @@ public class ResourceManager extends Object{
 		if(helpTitleTTR == null){
 			helpTitleTTR = getLimitableTTR("helpTitle.png",2,3,mNormalTextureOption);
 		}
-		
+		if(helpMenuBG == null){
+			helpMenuBG = getLimitableTR("helpMenuBG.png",mNormalTextureOption);
+		}
+		if(helpInfoBG == null){
+			helpInfoBG = getLimitableTR("helpInfoBG.png",mNormalTextureOption);
+		}
 		BitmapTextureAtlasTextureRegionFactory.setAssetBasePath(mPreviousAssetBasePath);
 	}
 	
