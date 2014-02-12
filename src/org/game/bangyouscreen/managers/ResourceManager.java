@@ -94,7 +94,7 @@ public class ResourceManager extends Object{
 	public static TiledTextureRegion helpTitleTTR;
 	public static TextureRegion helpMenuBG;
 	public static TextureRegion helpInfoBG;
-	
+	public static TextureRegion authorInfo;
 	
 	
 	//***************测试资源 start ********************//
@@ -322,6 +322,12 @@ public class ResourceManager extends Object{
 		if(isUse == null){
 			isUse = getLimitableTR("isUse.png",mNormalTextureOption);
 		}
+		if(shopMenuBG == null){
+			shopMenuBG = getLimitableTR("shopMenuBG.png",mNormalTextureOption);
+		}
+		if(shopInfoBG == null){
+			shopInfoBG = getLimitableTR("shopInfoBG.png",mNormalTextureOption);
+		}
 		BitmapTextureAtlasTextureRegionFactory.setAssetBasePath(mPreviousAssetBasePath);
 	}
 	
@@ -429,6 +435,10 @@ public class ResourceManager extends Object{
 		if(helpInfoBG == null){
 			helpInfoBG = getLimitableTR("helpInfoBG.png",mNormalTextureOption);
 		}
+		if(authorInfo == null){
+			authorInfo = getLimitableTR("authorInfo.png",mNormalTextureOption);
+		}
+		
 		BitmapTextureAtlasTextureRegionFactory.setAssetBasePath(mPreviousAssetBasePath);
 	}
 	
@@ -494,12 +504,7 @@ public class ResourceManager extends Object{
 		if(gameGold == null){
 			gameGold = getLimitableTR("coin.png",mNormalTextureOption);
 		}
-		if(shopMenuBG == null){
-			shopMenuBG = getLimitableTR("shopMenuBG.png",mNormalTextureOption);
-		}
-		if(shopInfoBG == null){
-			shopInfoBG = getLimitableTR("shopInfoBG.png",mNormalTextureOption);
-		}
+		
 		
 		
 		//未完待写

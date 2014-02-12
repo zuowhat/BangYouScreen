@@ -154,7 +154,6 @@ public class HelpScene extends ManagedScene{
 			}
 		});
 		currentFontBS = playBS;
-		currentInfoBG = playInfoBG;
 		
 		playInfoBG = new Sprite(0f,0f,ResourceManager.helpInfoBG,mVertexBufferObjectManager);
 		playInfoBG.setSize(mCameraWidth-(3f/2f)*helpMenuBG.getWidth(), mCameraHeight);
@@ -162,20 +161,37 @@ public class HelpScene extends ManagedScene{
 		attachChild(playInfoBG);
 		playInfoBG.registerEntityModifier(new MoveModifier(0.5f, playInfoBG.getX(), playInfoBG.getY(),
 				mCameraWidth-playInfoBG.getWidth()/2f, playInfoBG.getY(), EaseElasticInOut.getInstance()));
+		currentInfoBG = playInfoBG;
+		
+		Sprite authorInfo1 = new Sprite(0f,0f,ResourceManager.helpTitleTTR.getTextureRegion(0),mVertexBufferObjectManager);
+		EntityUtil.setSizeInParent("width", 3f/4f, authorInfo1, playInfoBG);
+		authorInfo1.setPosition(playInfoBG.getWidth()/2f, playInfoBG.getHeight()/2f);
+		playInfoBG.attachChild(authorInfo1);
 		
 		statisticsInfoBG = new Sprite(0f,0f,ResourceManager.helpInfoBG,mVertexBufferObjectManager);
 		statisticsInfoBG.setSize(mCameraWidth-(3f/2f)*helpMenuBG.getWidth(), mCameraHeight);
-		statisticsInfoBG.setPosition(mCameraWidth+statisticsInfoBG.getWidth()/2f, mCameraHeight/2f);
+		statisticsInfoBG.setPosition(mCameraWidth-statisticsInfoBG.getWidth()/2f, mCameraHeight/2f);
 		statisticsInfoBG.setVisible(false);
 		attachChild(statisticsInfoBG);
 		
+		Sprite authorInfo2 = new Sprite(0f,0f,ResourceManager.helpTitleTTR.getTextureRegion(1),mVertexBufferObjectManager);
+		EntityUtil.setSizeInParent("width", 3f/4f, authorInfo2, statisticsInfoBG);
+		authorInfo2.setPosition(statisticsInfoBG.getWidth()/2f, statisticsInfoBG.getHeight()/2f);
+		statisticsInfoBG.attachChild(authorInfo2);
+		
 		authorInfoBG = new Sprite(0f,0f,ResourceManager.helpInfoBG,mVertexBufferObjectManager);
 		authorInfoBG.setSize(mCameraWidth-(3f/2f)*helpMenuBG.getWidth(), mCameraHeight);
-		authorInfoBG.setPosition(mCameraWidth+authorInfoBG.getWidth()/2f, mCameraHeight/2f);
+		authorInfoBG.setPosition(mCameraWidth-authorInfoBG.getWidth()/2f, mCameraHeight/2f);
 		authorInfoBG.setVisible(false);
 		attachChild(authorInfoBG);
-		
-		
+		Sprite authorTitle = new Sprite(0f,0f,ResourceManager.mainMenuTitleTR,mVertexBufferObjectManager);
+		EntityUtil.setSizeInParent("height", 1f/5f, authorTitle, authorInfoBG);
+		authorTitle.setPosition(authorInfoBG.getWidth()/2f, mCameraHeight-authorTitle.getHeight()*(3f/4f));
+		authorInfoBG.attachChild(authorTitle);
+		Sprite authorInfo = new Sprite(0f,0f,ResourceManager.authorInfo,mVertexBufferObjectManager);
+		EntityUtil.setSizeInParent("width", 3f/4f, authorInfo, authorInfoBG);
+		authorInfo.setPosition(authorInfoBG.getWidth()/2f, authorTitle.getHeight()/2f+authorInfo.getHeight()/2f);
+		authorInfoBG.attachChild(authorInfo);
 		
 		
 	}
