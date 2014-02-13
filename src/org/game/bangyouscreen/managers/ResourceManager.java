@@ -95,7 +95,7 @@ public class ResourceManager extends Object{
 	public static TextureRegion helpMenuBG;
 	public static TextureRegion helpInfoBG;
 	public static TextureRegion authorInfo;
-	
+	public static TiledTextureRegion statPicTTR;
 	
 	//***************测试资源 start ********************//
 	public static TiledTextureRegion test_addOrSubtract;
@@ -304,9 +304,6 @@ public class ResourceManager extends Object{
 		if(shopBG == null){
 			shopBG = getLimitableTR("shopBG.png",mNormalTextureOption);
 		}
-		if(shopInfoRowsBG == null){
-			shopInfoRowsBG = getLimitableTTR("shopInfoRowsBG.png",1,2,mNormalTextureOption);
-		}
 		if(shopPropBG == null){
 			shopPropBG = getLimitableTTR("shopPropBG.png",1,2,mNormalTextureOption);
 		}
@@ -438,7 +435,9 @@ public class ResourceManager extends Object{
 		if(authorInfo == null){
 			authorInfo = getLimitableTR("authorInfo.png",mNormalTextureOption);
 		}
-		
+		if(statPicTTR == null){
+			statPicTTR = getLimitableTTR("statPic.png",1,5,mNormalTextureOption);
+		}
 		BitmapTextureAtlasTextureRegionFactory.setAssetBasePath(mPreviousAssetBasePath);
 	}
 	
@@ -504,7 +503,9 @@ public class ResourceManager extends Object{
 		if(gameGold == null){
 			gameGold = getLimitableTR("coin.png",mNormalTextureOption);
 		}
-		
+		if(shopInfoRowsBG == null){
+			shopInfoRowsBG = getLimitableTTR("shopInfoRowsBG.png",1,2,mNormalTextureOption);
+		}
 		
 		
 		//未完待写

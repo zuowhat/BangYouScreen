@@ -3,6 +3,7 @@ package org.game.bangyouscreen.scene;
 
 import org.andengine.entity.Entity;
 import org.andengine.entity.modifier.MoveModifier;
+import org.andengine.entity.primitive.Rectangle;
 import org.andengine.entity.scene.Scene;
 import org.andengine.entity.sprite.ButtonSprite;
 import org.andengine.entity.sprite.Sprite;
@@ -155,6 +156,7 @@ public class HelpScene extends ManagedScene{
 		});
 		currentFontBS = playBS;
 		
+		//玩法介绍
 		playInfoBG = new Sprite(0f,0f,ResourceManager.helpInfoBG,mVertexBufferObjectManager);
 		playInfoBG.setSize(mCameraWidth-(3f/2f)*helpMenuBG.getWidth(), mCameraHeight);
 		playInfoBG.setPosition(mCameraWidth+playInfoBG.getWidth()/2f, mCameraHeight/2f);
@@ -168,17 +170,40 @@ public class HelpScene extends ManagedScene{
 		authorInfo1.setPosition(playInfoBG.getWidth()/2f, playInfoBG.getHeight()/2f);
 		playInfoBG.attachChild(authorInfo1);
 		
+		//数据统计
 		statisticsInfoBG = new Sprite(0f,0f,ResourceManager.helpInfoBG,mVertexBufferObjectManager);
 		statisticsInfoBG.setSize(mCameraWidth-(3f/2f)*helpMenuBG.getWidth(), mCameraHeight);
 		statisticsInfoBG.setPosition(mCameraWidth-statisticsInfoBG.getWidth()/2f, mCameraHeight/2f);
 		statisticsInfoBG.setVisible(false);
 		attachChild(statisticsInfoBG);
 		
-		Sprite authorInfo2 = new Sprite(0f,0f,ResourceManager.helpTitleTTR.getTextureRegion(1),mVertexBufferObjectManager);
-		EntityUtil.setSizeInParent("width", 3f/4f, authorInfo2, statisticsInfoBG);
-		authorInfo2.setPosition(statisticsInfoBG.getWidth()/2f, statisticsInfoBG.getHeight()/2f);
-		statisticsInfoBG.attachChild(authorInfo2);
+		Rectangle statisticsInfoBG_S = new Rectangle(0f, 0f, 0f, 0f, mVertexBufferObjectManager);
+		statisticsInfoBG_S.setSize(statisticsInfoBG.getWidth()*(41f/44f), statisticsInfoBG.getHeight());
+		statisticsInfoBG_S.setPosition(statisticsInfoBG.getWidth()-statisticsInfoBG_S.getWidth()/2f, statisticsInfoBG.getHeight()/2f);
+		statisticsInfoBG_S.setAlpha(0f);
+		statisticsInfoBG.attachChild(statisticsInfoBG_S);
 		
+		Sprite[] infoArray = new Sprite[5];
+		for(int i=0; i<infoArray.length; i++){
+			if(i%2==0){
+				infoArray[i] = new Sprite(0f,0f,ResourceManager.shopInfoRowsBG.getTextureRegion(1),mVertexBufferObjectManager); 
+			}else{
+				infoArray[i] = new Sprite(0f,0f,ResourceManager.shopInfoRowsBG.getTextureRegion(0),mVertexBufferObjectManager); 
+			}
+			infoArray[i].setSize(statisticsInfoBG_S.getWidth(), statisticsInfoBG_S.getHeight()/6f);
+			if(i == 0){
+				infoArray[i].setPosition(statisticsInfoBG_S.getWidth()/2f, statisticsInfoBG_S.getHeight()-infoArray[i].getHeight()/2f);
+			}else{
+				infoArray[i].setPosition(statisticsInfoBG_S.getWidth()/2f, infoArray[i-1].getY()-infoArray[i].getHeight()-statisticsInfoBG_S.getHeight()/24f);
+			}
+			statisticsInfoBG_S.attachChild(infoArray[i]);
+			Sprite s = new Sprite(0f,0f,ResourceManager.statPicTTR.getTextureRegion(i),mVertexBufferObjectManager);
+			EntityUtil.setSizeInParent("height", 4f/5f, s, infoArray[i]);
+			s.setPosition(5f+s.getWidth()/2f, infoArray[i].getHeight()/2f);
+			infoArray[i].attachChild(s);
+		}
+		
+		//制作方
 		authorInfoBG = new Sprite(0f,0f,ResourceManager.helpInfoBG,mVertexBufferObjectManager);
 		authorInfoBG.setSize(mCameraWidth-(3f/2f)*helpMenuBG.getWidth(), mCameraHeight);
 		authorInfoBG.setPosition(mCameraWidth-authorInfoBG.getWidth()/2f, mCameraHeight/2f);
