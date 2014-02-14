@@ -160,26 +160,7 @@ public void updateGoodsNum(String type, int num){
 	}else{
 		goodsNum = clockNum;
 	}
-	int len = (num+"").length();
-	int offsetPosition = goodsNum.length-len;
-	for(int n = goodsNum.length-1; n>=0; n--){
-		if(n > 0){
-			//位置初始化
-			goodsNum[n].setPosition(goodsNum[0].getX()+n*goodsNum[0].getWidth(), goodsNum[n].getY());
-		}
-		if(n >= offsetPosition){
-			int m = num % 10;
-			goodsNum[n].setCurrentTileIndex(m);
-			num = num / 10;
-			if(offsetPosition > 0){
-				//根据偏移量重新定位
-				goodsNum[n].setPosition(goodsNum[n].getX()-offsetPosition*goodsNum[n].getWidth(),goodsNum[n].getY());
-			}
-			goodsNum[n].setVisible(true);
-		}else{
-			goodsNum[n].setVisible(false);
-		}
-	}
+	dataSort(num,goodsNum,0);
 }
 
 /**
@@ -223,28 +204,81 @@ public AnimatedSprite[] gameScoreNum(IEntity pEntity, int getGold){
 	    goldNum[i].setPosition(pEntity.getWidth()/2f - (goldNum.length-i) * goldNum[i].getWidth()/2f,pEntity.getHeight()/2f);
 	    pEntity.attachChild(goldNum[i]);
 	}
-	int len = (getGold+"").length();
-	int offsetPosition = goldNum.length-len;
-	for(int n = goldNum.length-1; n>=0; n--){
-		if(n > 0){
-			//位置初始化
-			goldNum[n].setPosition(goldNum[0].getX()+n*goldNum[0].getWidth(), goldNum[n].getY());
+	dataSort(getGold,goldNum,0);
+	return goldNum;
+}
+
+/**
+ * 数据统计(HelpScene)
+ * @author zuowhat 2014-2-14
+ * @param type 统计类型
+ * @param pWidth 位置
+ * @param pEntity 父层
+ * @param num 数值
+ * @since 1.0
+ */
+public void addNumInHelpScene(int type, float pWidth, IEntity pEntity, int num){
+	AnimatedSprite[] goodsNum = new AnimatedSprite[7];
+	 for (int i = 0;i< goodsNum.length; i++){
+	    goodsNum[i] = new AnimatedSprite(0f, 0f, ResourceManager.numWhiteTTR.deepCopy(),mVertexBufferObjectManager);
+	    EntityUtil.setSizeInParent("height", 1f/2f, goodsNum[i],pEntity);
+	    goodsNum[i].setPosition(pWidth - (goodsNum.length-i) * goodsNum[i].getWidth()/2f,pEntity.getHeight()/2f);
+	    pEntity.attachChild(goodsNum[i]);
+	}
+	dataSort(num,goodsNum,2);
+	
+	if(type == 3 || type == 4){
+		//int len = (num+"").length();
+		//int offsetPosition = goodsNum.length-len;
+		Sprite slash = new Sprite(0f,0f,ResourceManager.numWhiteTTR.getTextureRegion(1),mVertexBufferObjectManager);
+		slash.setSize(goodsNum[0].getWidth(), goodsNum[0].getHeight());
+		slash.setPosition(goodsNum[goodsNum.length-1].getX()+goodsNum[0].getWidth(), goodsNum[0].getY());
+		pEntity.attachChild(slash);
+		
+		AnimatedSprite[] goodsNumAll = new AnimatedSprite[2];
+		for (int i = 0;i< goodsNumAll.length; i++){
+			goodsNumAll[i] = new AnimatedSprite(0f, 0f, ResourceManager.numWhiteTTR.deepCopy(),mVertexBufferObjectManager);
+		    EntityUtil.setSizeInParent("height", 1f/2f, goodsNumAll[i],pEntity);
+		    goodsNumAll[i].setPosition((slash.getX()+slash.getWidth()+goodsNum[goodsNum.length-1].getWidth()) - (goodsNumAll.length-i) * goodsNumAll[i].getWidth()/2f,pEntity.getHeight()/2f);
+		    pEntity.attachChild(goodsNumAll[i]);
 		}
-		if(n >= offsetPosition){
-			int m = getGold % 10;
-			goldNum[n].setCurrentTileIndex(m);
-			getGold = getGold / 10;
-			if(offsetPosition > 0){
-				//根据偏移量重新定位
-				goldNum[n].setPosition(goldNum[n].getX()-offsetPosition*goldNum[n].getWidth(),goldNum[n].getY());
-			}
-			goldNum[n].setVisible(true);
-		}else{
-			goldNum[n].setVisible(false);
+		
+		if(type == 3){
+			dataSort(DataConstant.ALL_GOOD_INT,goodsNumAll,2);
+		}else if(type == 4){
+			dataSort(DataConstant.ALL_APPS_INT,goodsNumAll,2);
 		}
 	}
-	
-	return goldNum;
+}
+
+/**
+ * 数据值排序(公共方法)
+ * @author zuowhat 2014-2-14
+ * @param num 数值
+ * @param goodsNum 精灵数组
+ * @since 1.0
+ */
+private void dataSort(int num, AnimatedSprite[] goodsNum, int offs){
+	int len = (num+"").length();
+	int offsetPosition = goodsNum.length-len;
+	for(int n = goodsNum.length-1; n>=0; n--){
+		if(n > 0){
+			//位置初始化
+			goodsNum[n].setPosition(goodsNum[0].getX()+n*goodsNum[0].getWidth(), goodsNum[n].getY());
+		}
+		if(n >= offsetPosition){
+			int m = num % 10;
+			goodsNum[n].setCurrentTileIndex(m+offs);
+			num = num / 10;
+			if(offsetPosition > 0){
+				//根据偏移量重新定位
+				goodsNum[n].setPosition(goodsNum[n].getX()-offsetPosition*goodsNum[n].getWidth(),goodsNum[n].getY());
+			}
+			goodsNum[n].setVisible(true);
+		}else{
+			goodsNum[n].setVisible(false);
+		}
+	}
 }
 
 //======================未使用的方法====================//

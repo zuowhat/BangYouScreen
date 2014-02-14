@@ -64,7 +64,6 @@ public class MainMenuScene extends ManagedScene{
 	@Override
 	public void onLoadScene() {
 		ResourceManager.getInstance().loadAdResources();
-		//AppConnect.getInstance(ResourceManager.getActivity()).initPopAd(ResourceManager.getActivity());
 		ResourceManager.loadMenuResources();
 		ResourceManager.setupForMenus();
 		//SFXManager.getInstance().loadMusic("mainMusic", ResourceManager.getActivity().getMusicManager(), ResourceManager.getActivity());

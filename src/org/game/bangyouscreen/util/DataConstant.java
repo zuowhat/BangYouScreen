@@ -42,6 +42,15 @@ public class DataConstant {
 	public static final String Prop_BUY = "PropBuy_";//标记拥有道具的个数
 	public static final String MY_GOLD = "MyGold";//拥有的金币
 	
+	/** 数据统计 */
+	public static final String ALL_GOLD = "AllGold";
+	public static final String ALL_BOSS = "AllBoss";
+	public static final String ALL_DPS = "AllDps";
+	public static final String ALL_GOOD = "AllGood";
+	public static final int ALL_GOOD_INT = 15;//一共多少件装备
+	public static final String ALL_APPS = "AllApps";
+	public static final int ALL_APPS_INT = 18;//安装试用应用
+	
 	/** 冒险岛主题BOSS个数 */
 	public static final int THEME_1_BOSS_NUM = 8;
 	/** 魔法效果个数 */

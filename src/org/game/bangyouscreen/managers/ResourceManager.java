@@ -96,6 +96,11 @@ public class ResourceManager extends Object{
 	public static TextureRegion helpInfoBG;
 	public static TextureRegion authorInfo;
 	public static TiledTextureRegion statPicTTR;
+	public static TiledTextureRegion numWhiteTTR;
+	
+	
+	
+	
 	
 	//***************测试资源 start ********************//
 	public static TiledTextureRegion test_addOrSubtract;
@@ -437,6 +442,9 @@ public class ResourceManager extends Object{
 		}
 		if(statPicTTR == null){
 			statPicTTR = getLimitableTTR("statPic.png",1,5,mNormalTextureOption);
+		}
+		if(numWhiteTTR == null){
+			numWhiteTTR = getLimitableTTR("numwhite.png",12,1,mNormalTextureOption);
 		}
 		BitmapTextureAtlasTextureRegionFactory.setAssetBasePath(mPreviousAssetBasePath);
 	}

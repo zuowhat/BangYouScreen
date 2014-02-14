@@ -6,8 +6,8 @@ import org.andengine.entity.modifier.MoveModifier;
 import org.andengine.entity.primitive.Rectangle;
 import org.andengine.entity.scene.Scene;
 import org.andengine.entity.sprite.ButtonSprite;
-import org.andengine.entity.sprite.Sprite;
 import org.andengine.entity.sprite.ButtonSprite.OnClickListener;
+import org.andengine.entity.sprite.Sprite;
 import org.andengine.opengl.vbo.VertexBufferObjectManager;
 import org.andengine.util.modifier.ease.EaseElasticInOut;
 import org.game.bangyouscreen.managers.ManagedScene;
@@ -15,6 +15,7 @@ import org.game.bangyouscreen.managers.ResourceManager;
 import org.game.bangyouscreen.managers.SFXManager;
 import org.game.bangyouscreen.managers.SceneManager;
 import org.game.bangyouscreen.util.EntityUtil;
+import org.game.bangyouscreen.util.GameNumberUtil;
 
 public class HelpScene extends ManagedScene{
 
@@ -183,6 +184,7 @@ public class HelpScene extends ManagedScene{
 		statisticsInfoBG_S.setAlpha(0f);
 		statisticsInfoBG.attachChild(statisticsInfoBG_S);
 		
+		GameNumberUtil gnUtil = new GameNumberUtil();
 		Sprite[] infoArray = new Sprite[5];
 		for(int i=0; i<infoArray.length; i++){
 			if(i%2==0){
@@ -198,9 +200,12 @@ public class HelpScene extends ManagedScene{
 			}
 			statisticsInfoBG_S.attachChild(infoArray[i]);
 			Sprite s = new Sprite(0f,0f,ResourceManager.statPicTTR.getTextureRegion(i),mVertexBufferObjectManager);
-			EntityUtil.setSizeInParent("height", 4f/5f, s, infoArray[i]);
+			EntityUtil.setSizeInParent("height", 9f/10f, s, infoArray[i]);
 			s.setPosition(5f+s.getWidth()/2f, infoArray[i].getHeight()/2f);
 			infoArray[i].attachChild(s);
+			float f = infoArray[i].getWidth()-(infoArray[i].getWidth()-(s.getX()+s.getWidth()/2f))/3f;
+			//待修改
+			gnUtil.addNumInHelpScene(i,f,infoArray[i], 736);
 		}
 		
 		//制作方
