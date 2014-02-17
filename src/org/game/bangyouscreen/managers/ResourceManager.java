@@ -97,7 +97,7 @@ public class ResourceManager extends Object{
 	public static TextureRegion authorInfo;
 	public static TiledTextureRegion statPicTTR;
 	public static TiledTextureRegion numWhiteTTR;
-	
+	public static TiledTextureRegion arrowTTR;
 	
 	
 	
@@ -446,6 +446,9 @@ public class ResourceManager extends Object{
 		if(numWhiteTTR == null){
 			numWhiteTTR = getLimitableTTR("numwhite.png",12,1,mNormalTextureOption);
 		}
+		if(arrowTTR == null){
+			arrowTTR = getLimitableTTR("arrow.png",1,2,mNormalTextureOption);
+		}
 		BitmapTextureAtlasTextureRegionFactory.setAssetBasePath(mPreviousAssetBasePath);
 	}
 	
@@ -558,7 +561,7 @@ public class ResourceManager extends Object{
          
 		 AdManager.getInstance(activity).init("46912f93a4a168af","1cd388ab8b458a36", true); 
 		 PointsManager.getInstance(activity).registerNotify(activity); 
-		 
+		 SpotManager.getInstance(activity).loadSpotAds();
 	 }
 	 
 	 public void loadAdResources(){

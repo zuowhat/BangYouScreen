@@ -2,6 +2,7 @@ package org.game.bangyouscreen;
 
 
 import net.youmi.android.offers.PointsChangeNotify;
+import net.youmi.android.spot.SpotManager;
 
 import org.andengine.engine.Engine;
 import org.andengine.engine.FixedStepEngine;
@@ -24,6 +25,8 @@ import org.game.bangyouscreen.scene.ShopScene;
 import org.game.bangyouscreen.scene.SplashScreen;
 import org.game.bangyouscreen.util.DataConstant;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.View.MeasureSpec;
 
@@ -236,11 +239,27 @@ public class BangYouScreenActivity extends BaseGameActivity implements PointsCha
 			  }else if(SceneManager.getInstance().mCurrentScene.getClass().equals(ShopScene.class)){
 				  SceneManager.getInstance().showScene(MainMenuScene.getInstance());
 			  }else if(SceneManager.getInstance().mCurrentScene.getClass().equals(MainMenuScene.class)){
-				  //this.finish();
-				  //QuitGame.getInstance().show(this); 
-				 // ResourceManager.getInstance().showYouMiAd();
-				 // ResourceManager.getInstance().unloadAdResources();
-				  System.exit(0);
+				  //SpotManager.getInstance(this).showSpotAds(this);
+				  AlertDialog.Builder exitBuilder = new AlertDialog.Builder(this);
+					exitBuilder.setMessage("确定要退出吗?");
+					exitBuilder.setCancelable(false); //返回键是否可以关闭对话框
+					exitBuilder.setPositiveButton("是", new DialogInterface.OnClickListener() {
+						public void onClick(DialogInterface dialog, int which) {
+							//playSoundPool.playSound(1);
+							System.exit(0);
+						}
+					});
+					
+					exitBuilder.setNegativeButton("否", new DialogInterface.OnClickListener() {
+						public void onClick(DialogInterface dialog, int which) {
+							//playSoundPool.playSound(1);
+							dialog.cancel();
+						}
+					});
+					exitBuilder.show();
+					exitBuilder.create();
+					
+				  //System.exit(0);
 			  }else if(SceneManager.getInstance().mCurrentScene.getClass().equals(HelpScene.class)){
 				  SceneManager.getInstance().showScene(MainMenuScene.getInstance());
 			  }
@@ -248,9 +267,15 @@ public class BangYouScreenActivity extends BaseGameActivity implements PointsCha
 	  }
 
 	public void onPointBalanceChange(int arg0) {
-		//System.out.println("积分变动");
+		System.out.println("积分变动");
 		ShopScene.getInstance().myGold = arg0;
 		ShopScene.getInstance().mGameNumber.addGoldToLayer(ShopScene.getInstance().propTopBG, ShopScene.getInstance().myGold);
+		if(ShopScene.getInstance().myApps != -1 && ShopScene.getInstance().myApps != arg0){
+			int appNum = BangYouScreenActivity.getIntFromSharedPreferences(DataConstant.ALL_APPS) + 1;
+			BangYouScreenActivity.writeIntToSharedPreferences(DataConstant.ALL_APPS, appNum);
+			System.out.println("安装应用数 +1");
+		}
+		ShopScene.getInstance().myApps = -1;
 	}
 	  
 }

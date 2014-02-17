@@ -2,18 +2,24 @@ package org.game.bangyouscreen.scene;
 
 
 import org.andengine.entity.Entity;
+import org.andengine.entity.IEntity;
+import org.andengine.entity.modifier.IEntityModifier.IEntityModifierListener;
 import org.andengine.entity.modifier.MoveModifier;
+import org.andengine.entity.modifier.MoveYModifier;
 import org.andengine.entity.primitive.Rectangle;
 import org.andengine.entity.scene.Scene;
 import org.andengine.entity.sprite.ButtonSprite;
 import org.andengine.entity.sprite.ButtonSprite.OnClickListener;
 import org.andengine.entity.sprite.Sprite;
 import org.andengine.opengl.vbo.VertexBufferObjectManager;
+import org.andengine.util.modifier.IModifier;
 import org.andengine.util.modifier.ease.EaseElasticInOut;
+import org.game.bangyouscreen.BangYouScreenActivity;
 import org.game.bangyouscreen.managers.ManagedScene;
 import org.game.bangyouscreen.managers.ResourceManager;
 import org.game.bangyouscreen.managers.SFXManager;
 import org.game.bangyouscreen.managers.SceneManager;
+import org.game.bangyouscreen.util.DataConstant;
 import org.game.bangyouscreen.util.EntityUtil;
 import org.game.bangyouscreen.util.GameNumberUtil;
 
@@ -36,6 +42,12 @@ public class HelpScene extends ManagedScene{
 	private Sprite statisticsInfoBG;
 	private Sprite authorInfoBG;
 	private Sprite currentInfoBG;
+	private int arrowNum = 1;
+	private Rectangle playInfoBG_S;
+	private boolean isArrowUp = true;
+	private boolean isArrowDown = true;
+	
+	
 	
 	public static HelpScene getInstance(){
 		return INSTANCE;
@@ -166,10 +178,88 @@ public class HelpScene extends ManagedScene{
 				mCameraWidth-playInfoBG.getWidth()/2f, playInfoBG.getY(), EaseElasticInOut.getInstance()));
 		currentInfoBG = playInfoBG;
 		
-		Sprite authorInfo1 = new Sprite(0f,0f,ResourceManager.helpTitleTTR.getTextureRegion(0),mVertexBufferObjectManager);
-		EntityUtil.setSizeInParent("width", 3f/4f, authorInfo1, playInfoBG);
-		authorInfo1.setPosition(playInfoBG.getWidth()/2f, playInfoBG.getHeight()/2f);
-		playInfoBG.attachChild(authorInfo1);
+		//假设有3层
+		playInfoBG_S = new Rectangle(0f,0f,0f,0f,mVertexBufferObjectManager);
+		playInfoBG_S.setSize(playInfoBG.getWidth()*(41f/44f), playInfoBG.getHeight()*3);
+		playInfoBG_S.setPosition(playInfoBG.getWidth()-playInfoBG_S.getWidth()/2f, -mCameraHeight/2f);
+		playInfoBG_S.setAlpha(0f);
+		playInfoBG.attachChild(playInfoBG_S);
+		
+		for(int i=0; i<3; i++){
+			Sprite s = new Sprite(0f,0f,ResourceManager.statPicTTR.getTextureRegion(i),mVertexBufferObjectManager);
+			EntityUtil.setSizeInParent("width", 4f/5f, s, playInfoBG_S);
+			s.setPosition(playInfoBG_S.getWidth()/2f, playInfoBG_S.getHeight()*(5f/6f)-i*playInfoBG_S.getHeight()/3f);
+			playInfoBG_S.attachChild(s);
+		}
+		
+		//向上箭头
+		ButtonSprite arrowUpSprite = new ButtonSprite(0f,0f,ResourceManager.arrowTTR.getTextureRegion(0),mVertexBufferObjectManager);
+		EntityUtil.setSize("height", 1f/10f, arrowUpSprite);
+		arrowUpSprite.setPosition(playInfoBG_S.getWidth()/2f, playInfoBG.getHeight()-10f-arrowUpSprite.getHeight()/2f);
+		playInfoBG.attachChild(arrowUpSprite);
+		arrowUpSprite.setOnClickListener(new OnClickListener(){
+			public void onClick(ButtonSprite pButtonSprite, float pTouchAreaLocalX, float pTouchAreaLocalY) {
+				SFXManager.getInstance().playSound("a_click");
+				if(arrowNum >= 1 && arrowNum < 3 && isArrowUp){
+					isArrowUp = false;
+					playInfoBG_S.registerEntityModifier(new MoveYModifier(0.3F, playInfoBG_S.getY(), playInfoBG_S.getY()-playInfoBG_S.getHeight()/3f,
+							new IEntityModifierListener(){
+
+						@Override
+						public void onModifierStarted(
+								IModifier<IEntity> pModifier,
+								IEntity pItem) {
+							// TODO Auto-generated method stub
+						}
+
+						@Override
+						public void onModifierFinished(
+								IModifier<IEntity> pModifier,
+								IEntity pItem) {
+							isArrowUp = true;
+						}
+			}));
+					arrowNum++;
+				}
+			}
+		});
+		registerTouchArea(arrowUpSprite);
+		//向下箭头
+		ButtonSprite arrowDownSprite = new ButtonSprite(0f,0f,ResourceManager.arrowTTR.getTextureRegion(1),mVertexBufferObjectManager);
+		EntityUtil.setSize("height", 1f/10f, arrowDownSprite);
+		arrowDownSprite.setPosition(playInfoBG_S.getWidth()/2f, 10f+arrowDownSprite.getHeight()/2f);
+		playInfoBG.attachChild(arrowDownSprite);
+		arrowDownSprite.setOnClickListener(new OnClickListener(){
+			public void onClick(ButtonSprite pButtonSprite, float pTouchAreaLocalX, float pTouchAreaLocalY) {
+				SFXManager.getInstance().playSound("a_click");
+				if(arrowNum <= 3 && arrowNum > 1 && isArrowDown){
+					isArrowDown = false;
+					playInfoBG_S.registerEntityModifier(new MoveYModifier(0.3F, playInfoBG_S.getY(), playInfoBG_S.getY()+playInfoBG_S.getHeight()/3f,
+							new IEntityModifierListener(){
+
+						@Override
+						public void onModifierStarted(
+								IModifier<IEntity> pModifier,
+								IEntity pItem) {
+							// TODO Auto-generated method stub
+						}
+
+						@Override
+						public void onModifierFinished(
+								IModifier<IEntity> pModifier,
+								IEntity pItem) {
+							isArrowDown = true;
+						}
+			}));
+					arrowNum--;
+				}
+			}
+		});
+		registerTouchArea(arrowDownSprite);
+		
+		
+		
+		
 		
 		//数据统计
 		statisticsInfoBG = new Sprite(0f,0f,ResourceManager.helpInfoBG,mVertexBufferObjectManager);
@@ -185,6 +275,13 @@ public class HelpScene extends ManagedScene{
 		statisticsInfoBG.attachChild(statisticsInfoBG_S);
 		
 		GameNumberUtil gnUtil = new GameNumberUtil();
+		int[] statAll = new int[5];
+		statAll[0] = BangYouScreenActivity.getIntFromSharedPreferences(DataConstant.ALL_BOSS);
+		statAll[1] = BangYouScreenActivity.getIntFromSharedPreferences(DataConstant.ALL_GOLD);
+		statAll[2] = BangYouScreenActivity.getIntFromSharedPreferences(DataConstant.ALL_DPS);
+		statAll[3] = BangYouScreenActivity.getIntFromSharedPreferences(DataConstant.ALL_GOOD);
+		statAll[4] = BangYouScreenActivity.getIntFromSharedPreferences(DataConstant.ALL_APPS);
+		
 		Sprite[] infoArray = new Sprite[5];
 		for(int i=0; i<infoArray.length; i++){
 			if(i%2==0){
@@ -205,7 +302,7 @@ public class HelpScene extends ManagedScene{
 			infoArray[i].attachChild(s);
 			float f = infoArray[i].getWidth()-(infoArray[i].getWidth()-(s.getX()+s.getWidth()/2f))/3f;
 			//待修改
-			gnUtil.addNumInHelpScene(i,f,infoArray[i], 736);
+			gnUtil.addNumInHelpScene(i,f,infoArray[i], statAll[i]);
 		}
 		
 		//制作方

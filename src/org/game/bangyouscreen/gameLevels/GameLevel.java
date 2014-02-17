@@ -40,6 +40,7 @@ public class GameLevel extends ManagedScene {
 	//private Text mTimeText;
 	private float gameTime = DataConstant.GAMETIME_INIT;//初始游戏时间
 	private int mScore = 0;
+	private int clickNum = 0;
 	private GameTimer mGameTime;
 	private boolean mTenSeconds = false;
 	private GameNumberUtil mGameNumber;
@@ -572,6 +573,7 @@ public class GameLevel extends ManagedScene {
 	 * @since 1.0
 	 */
 	private void gameWin(){
+		updateGameStatDPSNum();
 		BangYouScreenActivity.writeIntToSharedPreferences(DataConstant.SHARED_PREFS_THEME_MXD, bossModel.getBossLevel());
 		AnimatedSprite bigBang = new AnimatedSprite(0f,0f,ResourceManager.bigBang,mVertexBufferObjectManager);
 		bigBang.setPosition(bossAS.getX(), bossAS.getY());
@@ -605,6 +607,7 @@ public class GameLevel extends ManagedScene {
 	 * @since 1.0
 	 */
 	private void gameFail(){
+		updateGameStatDPSNum();
 //		AlphaModifier a = new AlphaModifier(3,0.1f,0.5f,new IEntityModifier.IEntityModifierListener(){
 //			public void onModifierStarted(IModifier<IEntity> pModifier,
 //					IEntity pItem) {}
@@ -631,6 +634,7 @@ public class GameLevel extends ManagedScene {
 	private void updateHP(int type){
 		System.out.println("BOSSHP之前 --> "+ bossHP);
 		mScore++;
+		clickNum++;
 		if(type == 1){
 			System.out.println("物理伤害系数 --> "+ dpsXS);
 			int dps = countPlayerDPS();
@@ -862,6 +866,11 @@ public class GameLevel extends ManagedScene {
 		registerTouchArea(redButtonBS);
 		registerTouchArea(greenButtonBS);
 		registerUpdateHandler(gameRunTimer);
+	}
+	
+	private void updateGameStatDPSNum(){
+		int num = BangYouScreenActivity.getIntFromSharedPreferences(DataConstant.ALL_DPS) + clickNum;
+		BangYouScreenActivity.writeIntToSharedPreferences(DataConstant.ALL_DPS, num);
 	}
 
 }

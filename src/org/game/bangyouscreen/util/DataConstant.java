@@ -43,8 +43,8 @@ public class DataConstant {
 	public static final String MY_GOLD = "MyGold";//拥有的金币
 	
 	/** 数据统计 */
-	public static final String ALL_GOLD = "AllGold";
 	public static final String ALL_BOSS = "AllBoss";
+	public static final String ALL_GOLD = "AllGold";
 	public static final String ALL_DPS = "AllDps";
 	public static final String ALL_GOOD = "AllGood";
 	public static final int ALL_GOOD_INT = 15;//一共多少件装备

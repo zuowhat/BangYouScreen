@@ -62,6 +62,7 @@ public class ShopScene extends ManagedScene implements IScrollDetectorListener{
 	private boolean isScrolling = false;
 	private boolean isTouch = true;//控制道具栏不能滚动
 	public int myGold;
+	public int myApps = -1;
 	public GameNumberUtil mGameNumber;
 	public Sprite propTopBG;
 	private Sprite propBottomBG;
@@ -146,10 +147,9 @@ public class ShopScene extends ManagedScene implements IScrollDetectorListener{
 		freeGoldBS.setOnClickListener(new OnClickListener(){
 			public void onClick(ButtonSprite pButtonSprite, float pTouchAreaLocalX, float pTouchAreaLocalY) {
 				SFXManager.getInstance().playSound("a_click");
+				myApps = myGold;
 				//OffersManager.getInstance(ResourceManager.getActivity()).showOffersWallDialog(ResourceManager.getActivity()); 
 				OffersManager.getInstance(ResourceManager.getActivity()).showOffersWall();
-				
-				
 			}
 		});
 		registerTouchArea(freeGoldBS);
@@ -415,10 +415,13 @@ public class ShopScene extends ManagedScene implements IScrollDetectorListener{
 								mGameNumber.addGoldToLayer(propTopBG, myGold);
 								//BangYouScreenActivity.writeIntToSharedPreferences(DataConstant.MY_GOLD, myGold);
 								PointsManager.getInstance(ResourceManager.getActivity()).spendPoints(goodsPrice);
+								int goodNumTemp = BangYouScreenActivity.getIntFromSharedPreferences(DataConstant.ALL_GOOD);
 								if(DataConstant.WEAPON_NAME.equals(type)){
+									goodNumTemp++;
 									BangYouScreenActivity.writeBooleanToSharedPreferences(DataConstant.WEAPON_BUY+goodsNum, true);
 									useGoods(type,pButtonSprite,goodsNum);
 								}else if(DataConstant.MAGIC_NAME.equals(type)){
+									goodNumTemp++;
 									BangYouScreenActivity.writeBooleanToSharedPreferences(DataConstant.MAGIC_BUY+goodsNum, true);
 									useGoods(type,pButtonSprite,goodsNum);
 								}else if(DataConstant.PROP_NAME.equals(type)){
@@ -438,6 +441,7 @@ public class ShopScene extends ManagedScene implements IScrollDetectorListener{
 									}
 									
 								}
+								BangYouScreenActivity.writeIntToSharedPreferences(DataConstant.ALL_GOOD, goodNumTemp);
 							}else{
 								//不能购买的音效
 								SFXManager.getInstance().playSound("s_nomoney");

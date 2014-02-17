@@ -11,12 +11,14 @@ import org.andengine.entity.sprite.ButtonSprite.OnClickListener;
 import org.andengine.entity.sprite.Sprite;
 import org.andengine.entity.text.Text;
 import org.andengine.opengl.vbo.VertexBufferObjectManager;
+import org.game.bangyouscreen.BangYouScreenActivity;
 import org.game.bangyouscreen.boss.ThemeBossForMXD;
 import org.game.bangyouscreen.managers.ManagedLayer;
 import org.game.bangyouscreen.managers.ResourceManager;
 import org.game.bangyouscreen.managers.SFXManager;
 import org.game.bangyouscreen.managers.SceneManager;
 import org.game.bangyouscreen.scene.MainMenuScene;
+import org.game.bangyouscreen.util.DataConstant;
 import org.game.bangyouscreen.util.EntityUtil;
 import org.game.bangyouscreen.util.GameNumberUtil;
 
@@ -157,6 +159,11 @@ public class GameWinLayer extends ManagedLayer{
 		goldSprite.setPosition(goldNumAS[2].getX() + goldNumAS[2].getWidth()*2f, goldNumAS[2].getY());
 		LayerBG.attachChild(goldSprite);
 		
+		int bossNum = BangYouScreenActivity.getIntFromSharedPreferences(DataConstant.ALL_BOSS) + 1;
+		BangYouScreenActivity.writeIntToSharedPreferences(DataConstant.ALL_BOSS, bossNum);
+		
+		int goldNumTemp = BangYouScreenActivity.getIntFromSharedPreferences(DataConstant.ALL_GOLD) + goldNum;
+		BangYouScreenActivity.writeIntToSharedPreferences(DataConstant.ALL_GOLD, goldNumTemp);
 		registerUpdateHandler(mSlideInUpdateHandler);
 	}
 	
