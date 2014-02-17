@@ -200,7 +200,7 @@ public class HelpScene extends ManagedScene{
 		arrowUpSprite.setOnClickListener(new OnClickListener(){
 			public void onClick(ButtonSprite pButtonSprite, float pTouchAreaLocalX, float pTouchAreaLocalY) {
 				SFXManager.getInstance().playSound("a_click");
-				if(arrowNum >= 1 && arrowNum < 3 && isArrowUp){
+				if(arrowNum > 1 && arrowNum <= 3 && isArrowUp){
 					isArrowUp = false;
 					playInfoBG_S.registerEntityModifier(new MoveYModifier(0.3F, playInfoBG_S.getY(), playInfoBG_S.getY()-playInfoBG_S.getHeight()/3f,
 							new IEntityModifierListener(){
@@ -218,8 +218,8 @@ public class HelpScene extends ManagedScene{
 								IEntity pItem) {
 							isArrowUp = true;
 						}
-			}));
-					arrowNum++;
+					}));
+					arrowNum--;
 				}
 			}
 		});
@@ -232,7 +232,7 @@ public class HelpScene extends ManagedScene{
 		arrowDownSprite.setOnClickListener(new OnClickListener(){
 			public void onClick(ButtonSprite pButtonSprite, float pTouchAreaLocalX, float pTouchAreaLocalY) {
 				SFXManager.getInstance().playSound("a_click");
-				if(arrowNum <= 3 && arrowNum > 1 && isArrowDown){
+				if(arrowNum < 3 && arrowNum >= 1 && isArrowDown){
 					isArrowDown = false;
 					playInfoBG_S.registerEntityModifier(new MoveYModifier(0.3F, playInfoBG_S.getY(), playInfoBG_S.getY()+playInfoBG_S.getHeight()/3f,
 							new IEntityModifierListener(){
@@ -250,8 +250,8 @@ public class HelpScene extends ManagedScene{
 								IEntity pItem) {
 							isArrowDown = true;
 						}
-			}));
-					arrowNum--;
+					}));
+					arrowNum++;
 				}
 			}
 		});
