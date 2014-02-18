@@ -287,7 +287,7 @@ public class ResourceManager extends Object{
 			mainMenuTitleTR = getLimitableTR("mainTitle.png",mNormalTextureOption);
 		}
 		if(mainMenuButtons == null){
-			mainMenuButtons = getLimitableTTR("mainMenu.png",1,3,mNormalTextureOption);
+			mainMenuButtons = getLimitableTTR("mainMenu.png",1,6,mNormalTextureOption);
 		}
 		if(menuClouds1 == null){
 			menuClouds1 = getLimitableTR("menuClouds1.png",mNormalTextureOption);

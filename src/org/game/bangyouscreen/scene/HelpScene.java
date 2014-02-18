@@ -337,7 +337,19 @@ public class HelpScene extends ManagedScene{
 
 	@Override
 	public void onUnloadScene() {
-		// TODO Auto-generated method stub
+		ResourceManager.getInstance().engine.runOnUpdateThread(new Runnable() {
+			public void run() {
+				detachChildren();
+				for(int i = 0; i < INSTANCE.getChildCount(); i++){
+					INSTANCE.getChildByIndex(i).dispose();
+					INSTANCE.getChildByIndex(i).clearEntityModifiers();
+					//INSTANCE.getChildByIndex(i).clearTouchAreas();
+					INSTANCE.getChildByIndex(i).clearUpdateHandlers();
+				}
+				INSTANCE.clearEntityModifiers();
+				INSTANCE.clearTouchAreas();
+				INSTANCE.clearUpdateHandlers();
+			}});
 		
 	}
 	

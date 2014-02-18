@@ -2,6 +2,8 @@ package org.game.bangyouscreen.scene;
 
 import org.andengine.entity.Entity;
 import org.andengine.entity.IEntity;
+import org.andengine.entity.modifier.FadeInModifier;
+import org.andengine.entity.modifier.FadeOutModifier;
 import org.andengine.entity.modifier.IEntityModifier.IEntityModifierListener;
 import org.andengine.entity.modifier.LoopEntityModifier;
 import org.andengine.entity.modifier.MoveModifier;
@@ -35,6 +37,13 @@ public class MainMenuScene extends ManagedScene{
 	
 	private Entity mainMenuScreen; //主菜单
 	private Sprite mainMenuTitleSprite;//主菜单标题
+	private Entity mainMenuTheme; //模式菜单
+	private ButtonSprite themeBS;
+	private ButtonSprite fingerBS;
+	private ButtonSprite backBS;
+	private ButtonSprite chooseModeBS;
+	private ButtonSprite shopModeBS;
+	private ButtonSprite helpModeBS;
 	
 	public static MainMenuScene getInstance(){
 		return INSTANCE;
@@ -155,25 +164,52 @@ public class MainMenuScene extends ManagedScene{
 					}},EaseElasticInOut.getInstance()));
 		mainMenuTitleSprite.setZIndex(-80);
 		
-		//主题模式
-		ButtonSprite themeModeBS = new ButtonSprite(0f,0f,ResourceManager.mainMenuButtons.getTextureRegion(0),mVertexBufferObjectManager);
+		//模式选择
+		chooseModeBS = new ButtonSprite(0f,0f,ResourceManager.mainMenuButtons.getTextureRegion(0),mVertexBufferObjectManager);
 		//singleModeBS.setSize(0.3f * mCameraWidth, (0.3f * mCameraWidth)/(singleModeBS.getWidth() / singleModeBS.getHeight()));
-		EntityUtil.setSize("height", 1f / 7f, themeModeBS);
-		themeModeBS.setPosition(mCameraWidth / 2f, mCameraHeight / 2f);
-		mainMenuScreen.attachChild(themeModeBS);
-		themeModeBS.setOnClickListener(new OnClickListener(){
+		EntityUtil.setSize("height", 1f / 7f, chooseModeBS);
+		chooseModeBS.setPosition(mCameraWidth / 2f, mCameraHeight / 2f);
+		mainMenuScreen.attachChild(chooseModeBS);
+		chooseModeBS.setOnClickListener(new OnClickListener(){
 			public void onClick(ButtonSprite pButtonSprite, float pTouchAreaLocalX, float pTouchAreaLocalY) {
 				SFXManager.getInstance().playSound("a_click");
-				SceneManager.getInstance().showScene(ThemeScene.getInstance());
+				mainMenuScreen.registerEntityModifier(new ScaleModifier(0.5f,1f,0f, new IEntityModifierListener(){
+
+						public void onModifierStarted(IModifier<IEntity> pModifier,IEntity pItem) {
+							// TODO Auto-generated method stub
+						}
+
+						@Override
+						public void onModifierFinished(IModifier<IEntity> pModifier,IEntity pItem) {
+							mainMenuScreen.setVisible(false);
+							mainMenuTheme.setVisible(true);
+							mainMenuTheme.registerEntityModifier(new ScaleModifier(0.5f,0f,1f,new IEntityModifierListener(){
+
+								public void onModifierStarted(IModifier<IEntity> pModifier,IEntity pItem) {
+									
+								}
+
+								public void onModifierFinished(IModifier<IEntity> pModifier,IEntity pItem) {
+									unregisterTouchArea(chooseModeBS);
+									unregisterTouchArea(shopModeBS);
+									unregisterTouchArea(helpModeBS);
+									registerTouchArea(themeBS);
+									registerTouchArea(fingerBS);
+									registerTouchArea(backBS);
+								}
+							}));
+						}
+					}));
+				
 			}
 		});
-		registerTouchArea(themeModeBS);
+		registerTouchArea(chooseModeBS);
 		
-		//装备库
-		ButtonSprite shopModeBS = new ButtonSprite(0f,0f,ResourceManager.mainMenuButtons.getTextureRegion(1),mVertexBufferObjectManager);
+		//商店
+		shopModeBS = new ButtonSprite(0f,0f,ResourceManager.mainMenuButtons.getTextureRegion(1),mVertexBufferObjectManager);
 		//singleModeBS.setSize(0.3f * mCameraWidth, (0.3f * mCameraWidth)/(singleModeBS.getWidth() / singleModeBS.getHeight()));
 		EntityUtil.setSize("height", 1f / 7f, shopModeBS);
-		shopModeBS.setPosition(mCameraWidth / 2f, themeModeBS.getY() - themeModeBS.getHeight() - 10f);
+		shopModeBS.setPosition(mCameraWidth / 2f, chooseModeBS.getY() - chooseModeBS.getHeight() - 10f);
 		mainMenuScreen.attachChild(shopModeBS);
 		shopModeBS.setOnClickListener(new OnClickListener(){
 			
@@ -184,13 +220,13 @@ public class MainMenuScene extends ManagedScene{
 		});
 		registerTouchArea(shopModeBS);
 		
-		//选项
-		ButtonSprite aboutModeBS = new ButtonSprite(0f,0f,ResourceManager.mainMenuButtons.getTextureRegion(2),mVertexBufferObjectManager);
+		//帮助
+		helpModeBS = new ButtonSprite(0f,0f,ResourceManager.mainMenuButtons.getTextureRegion(2),mVertexBufferObjectManager);
 		//singleModeBS.setSize(0.3f * mCameraWidth, (0.3f * mCameraWidth)/(singleModeBS.getWidth() / singleModeBS.getHeight()));
-		EntityUtil.setSize("height", 1f / 7f, aboutModeBS);
-		aboutModeBS.setPosition(mCameraWidth / 2f, shopModeBS.getY() - shopModeBS.getHeight() - 10f);
-		mainMenuScreen.attachChild(aboutModeBS);
-		aboutModeBS.setOnClickListener(new OnClickListener(){
+		EntityUtil.setSize("height", 1f / 7f, helpModeBS);
+		helpModeBS.setPosition(mCameraWidth / 2f, shopModeBS.getY() - shopModeBS.getHeight() - 10f);
+		mainMenuScreen.attachChild(helpModeBS);
+		helpModeBS.setOnClickListener(new OnClickListener(){
 			
 			public void onClick(ButtonSprite pButtonSprite, float pTouchAreaLocalX, float pTouchAreaLocalY) {
 				SFXManager.getInstance().playSound("a_click");
@@ -201,11 +237,83 @@ public class MainMenuScene extends ManagedScene{
 				
 			}
 		});
-		registerTouchArea(aboutModeBS);
+		registerTouchArea(helpModeBS);
 
-	
 		this.attachChild(mainMenuTitleSprite);
 		this.attachChild(this.mainMenuScreen);
+		
+		mainMenuTheme = new Entity(0f, 0f);
+		//主题模式
+		themeBS = new ButtonSprite(0f,0f,ResourceManager.mainMenuButtons.getTextureRegion(3),mVertexBufferObjectManager);
+		EntityUtil.setSize("height", 1f / 7f, themeBS);
+		themeBS.setPosition(mCameraWidth / 2f, mCameraHeight / 2f);
+		mainMenuTheme.attachChild(themeBS);
+		themeBS.setOnClickListener(new OnClickListener(){
+			public void onClick(ButtonSprite pButtonSprite, float pTouchAreaLocalX, float pTouchAreaLocalY) {
+				SFXManager.getInstance().playSound("a_click");
+				SceneManager.getInstance().showScene(ThemeScene.getInstance());
+			}
+		});
+		//指力模式
+		fingerBS = new ButtonSprite(0f,0f,ResourceManager.mainMenuButtons.getTextureRegion(4),mVertexBufferObjectManager);
+		EntityUtil.setSize("height", 1f / 7f, fingerBS);
+		fingerBS.setPosition(mCameraWidth / 2f, themeBS.getY()-10f-fingerBS.getHeight());
+		mainMenuTheme.attachChild(fingerBS);
+		fingerBS.setOnClickListener(new OnClickListener(){
+			public void onClick(ButtonSprite pButtonSprite, float pTouchAreaLocalX, float pTouchAreaLocalY) {
+				SFXManager.getInstance().playSound("a_click");
+				SceneManager.getInstance().showScene(FingerScene.getInstance());
+			}
+		});
+		//返回
+		backBS = new ButtonSprite(0f,0f,ResourceManager.mainMenuButtons.getTextureRegion(5),mVertexBufferObjectManager);
+		EntityUtil.setSize("height", 1f / 7f, backBS);
+		backBS.setPosition(mCameraWidth / 2f, fingerBS.getY()-10f-fingerBS.getHeight());
+		mainMenuTheme.attachChild(backBS);
+		backBS.setOnClickListener(new OnClickListener(){
+			public void onClick(ButtonSprite pButtonSprite, float pTouchAreaLocalX, float pTouchAreaLocalY) {
+				SFXManager.getInstance().playSound("a_click");
+				
+				mainMenuTheme.registerEntityModifier(new ScaleModifier(0.5f,1f,0f, new IEntityModifierListener(){
+
+					public void onModifierStarted(IModifier<IEntity> pModifier,IEntity pItem) {
+						// TODO Auto-generated method stub
+						
+					}
+
+					public void onModifierFinished(IModifier<IEntity> pModifier, IEntity pItem) {
+						unregisterTouchArea(themeBS);
+						unregisterTouchArea(fingerBS);
+						unregisterTouchArea(backBS);
+						registerTouchArea(chooseModeBS);
+						registerTouchArea(shopModeBS);
+						registerTouchArea(helpModeBS);
+						mainMenuTheme.setVisible(false);
+						mainMenuScreen.setVisible(true);
+						mainMenuScreen.registerEntityModifier(new ScaleModifier(0.5f,0f,1f, new IEntityModifierListener(){
+
+							public void onModifierStarted(IModifier<IEntity> pModifier, IEntity pItem) {
+								// TODO Auto-generated method stub
+								
+							}
+
+							public void onModifierFinished(IModifier<IEntity> pModifier, IEntity pItem) {
+								// TODO Auto-generated method stub
+								
+							}
+							
+						}));
+					}
+				}));
+			}
+		});
+		unregisterTouchArea(themeBS);
+		unregisterTouchArea(fingerBS);
+		unregisterTouchArea(backBS);
+		mainMenuTheme.setScale(0f);
+		mainMenuTheme.setVisible(false);
+		attachChild(mainMenuTheme);
+		
 	}
 	
 	@Override
@@ -223,6 +331,15 @@ public class MainMenuScene extends ManagedScene{
 		ResourceManager.getInstance().engine.runOnUpdateThread(new Runnable() {
 			public void run() {
 				detachChildren();
+				for(int i = 0; i < INSTANCE.getChildCount(); i++){
+					INSTANCE.getChildByIndex(i).dispose();
+					INSTANCE.getChildByIndex(i).clearEntityModifiers();
+					//INSTANCE.getChildByIndex(i).clearTouchAreas();
+					INSTANCE.getChildByIndex(i).clearUpdateHandlers();
+				}
+				INSTANCE.clearEntityModifiers();
+				INSTANCE.clearTouchAreas();
+				INSTANCE.clearUpdateHandlers();
 			}});
 		
 	}
