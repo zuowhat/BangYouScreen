@@ -12,11 +12,9 @@ import org.game.bangyouscreen.managers.ManagedLayer;
 import org.game.bangyouscreen.managers.ResourceManager;
 import org.game.bangyouscreen.managers.SFXManager;
 import org.game.bangyouscreen.managers.SceneManager;
+import org.game.bangyouscreen.scene.FingerScene;
 import org.game.bangyouscreen.scene.MainMenuScene;
-import org.game.bangyouscreen.util.AnimatedButtonSprite;
 import org.game.bangyouscreen.util.EntityUtil;
-
-import android.view.View;
 
 public class FingerPauseLayer extends ManagedLayer{
 	
@@ -84,7 +82,7 @@ public class FingerPauseLayer extends ManagedLayer{
 					float pTouchAreaLocalX, float pTouchAreaLocalY) {
 					SFXManager.getInstance().playSound("a_click");
 					onHideLayer();
-					SceneManager.getInstance().showScene(new GameLevel(GameLevel.bossModel,GameLevel.playerModel));
+					SceneManager.getInstance().showScene(new FingerScene());
 			}});
 		LayerBG.attachChild(restartBS);
 		registerTouchArea(restartBS);
@@ -98,7 +96,7 @@ public class FingerPauseLayer extends ManagedLayer{
 					float pTouchAreaLocalX, float pTouchAreaLocalY) {
 					SFXManager.getInstance().playSound("a_click");
 					onHideLayer();
-					((GameLevel) SceneManager.getInstance().mCurrentScene).onResumeGameLevel();
+					((FingerScene) SceneManager.getInstance().mCurrentScene).onResumeGameLevel();
 			}});
 		LayerBG.attachChild(continueBS);
 		registerTouchArea(continueBS);

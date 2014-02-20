@@ -258,7 +258,7 @@ public class MainMenuScene extends ManagedScene{
 		fingerBS.setOnClickListener(new OnClickListener(){
 			public void onClick(ButtonSprite pButtonSprite, float pTouchAreaLocalX, float pTouchAreaLocalY) {
 				SFXManager.getInstance().playSound("a_click");
-				SceneManager.getInstance().showScene(FingerScene.getInstance());
+				SceneManager.getInstance().showScene(new FingerScene());
 			}
 		});
 		//返回

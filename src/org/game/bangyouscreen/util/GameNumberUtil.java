@@ -20,6 +20,7 @@ public AnimatedSprite[] myGoldAS;
 public AnimatedSprite[] tiamatPotionNum;//魔龙之血数量
 public AnimatedSprite[] bingpoPotionNum;//蓝色冰魄数量
 public AnimatedSprite[] clockNum;//时光沙漏数量
+public AnimatedSprite[] upNum;//上升高度
 
 float mScale = 1.0F;
 private int mScore = 0;
@@ -209,6 +210,36 @@ public AnimatedSprite[] gameScoreNum(IEntity pEntity, int getGold){
 }
 
 /**
+ * 初始化上升高度(FingerScene)
+ * @author zuowhat 2014-2-20
+ * @param pEntity 父层
+ * @param sEntity 兄弟层
+ * @param initHigh 初始化高度
+ * @since 1.0
+ */
+public AnimatedSprite[] upHeightNum(IEntity pEntity, IEntity sEntity,int initHigh){
+	upNum = new AnimatedSprite[3];
+	for (int i = 0;i< upNum.length; i++){
+		upNum[i] = new AnimatedSprite(0f, 0f, ResourceManager.numberTTR.deepCopy(),mVertexBufferObjectManager);
+	    EntityUtil.setSizeInParent("height", 2f/5f, upNum[i],pEntity);
+	    upNum[i].setPosition(sEntity.getX()-sEntity.getWidth() - (upNum.length-i) * upNum[i].getWidth()/2f,sEntity.getY());
+	    pEntity.attachChild(upNum[i]);
+	}
+	dataSort(initHigh,upNum,0);
+	return upNum;
+}
+
+/**
+ * 更新上升高度(FingerScene)
+ * @author zuowhat 2014-2-20
+ * @param num   高度
+ * @since 1.0
+ */
+public void updateUpHighNum(int num){
+	dataSort(num,upNum,0);
+}
+
+/**
  * 显示最高得分(FingerScene)
  * @author zuowhat 2014-2-20
  * @param pEntity 父层
@@ -220,8 +251,8 @@ public void fingerHighestScore(IEntity pEntity,IEntity bEntity, int score){
 	AnimatedSprite[] scoreNum = new AnimatedSprite[3];
 	 for (int i = 0;i< scoreNum.length; i++){
 		 scoreNum[i] = new AnimatedSprite(0f, 0f, ResourceManager.numberTTR.deepCopy(),mVertexBufferObjectManager);
-	    EntityUtil.setSize("width", 15f/800f, scoreNum[i]);
-	    scoreNum[i].setPosition(bEntity.getX()+bEntity.getWidth() + i * scoreNum[i].getWidth(),bEntity.getY());
+	    EntityUtil.setSize("width", 20f/800f, scoreNum[i]);
+	    scoreNum[i].setPosition(bEntity.getX()-scoreNum[i].getWidth() + i * scoreNum[i].getWidth(),bEntity.getY()-bEntity.getHeight());
 	    pEntity.attachChild(scoreNum[i]);
 	}
 	 dataSort(score,scoreNum,0); 

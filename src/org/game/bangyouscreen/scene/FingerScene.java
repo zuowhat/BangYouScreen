@@ -3,12 +3,15 @@ package org.game.bangyouscreen.scene;
 import java.util.Arrays;
 
 import org.andengine.engine.handler.IUpdateHandler;
+import org.andengine.entity.primitive.Rectangle;
 import org.andengine.entity.scene.Scene;
 import org.andengine.entity.sprite.AnimatedSprite;
-import org.andengine.entity.sprite.ButtonSprite;
 import org.andengine.entity.sprite.AnimatedSprite.IAnimationListener;
+import org.andengine.entity.sprite.ButtonSprite;
 import org.andengine.entity.sprite.ButtonSprite.OnClickListener;
 import org.andengine.entity.sprite.Sprite;
+import org.andengine.input.touch.controller.MultiTouchController;
+import org.andengine.input.touch.controller.SingleTouchController;
 import org.andengine.opengl.vbo.VertexBufferObjectManager;
 import org.game.bangyouscreen.BangYouScreenActivity;
 import org.game.bangyouscreen.managers.ManagedScene;
@@ -34,10 +37,11 @@ public class FingerScene extends ManagedScene{
 	private ButtonSprite redButtonBS;
 	private boolean mTenSeconds = false;
 	private GameNumberUtil mGameNumber;
-	private int mScore = 0;
 	private AnimatedSprite clockTimeAS;
-	private String[] sounds = {"g_win","g_go"};
-	
+	private String[] sounds = {"g_win","g_go","a_CountDown"};
+	private Rectangle mRectangle;
+	private int currentHighestScore;
+	private boolean isBlister = false;
 	
 	public static FingerScene getInstance(){
 		return INSTANCE;
@@ -57,6 +61,9 @@ public class FingerScene extends ManagedScene{
 
 	@Override
 	public void onLoadScene() {
+		mGameNumber = new GameNumberUtil();
+		ResourceManager.getInstance().engine.getEngineOptions().getTouchOptions().setNeedsMultiTouch(true);
+		ResourceManager.getInstance().engine.setTouchController(new MultiTouchController());
 		Sprite backgroundSprite = new Sprite(0f,0f, ResourceManager.fingerBG[Math.round((float)Math.random()*2)],mVertexBufferObjectManager);
 		EntityUtil.setSize("width", 1f, backgroundSprite);
 		backgroundSprite.setPosition(mCameraWidth / 2f, mCameraHeight / 2f);
@@ -67,19 +74,26 @@ public class FingerScene extends ManagedScene{
 		mGameTime = new GameTimer(this);
 		mGameTime.addToLayer(this);
 		
-		submarineAS = new AnimatedSprite(0f,0f,ResourceManager.submarineTTR,mVertexBufferObjectManager){
-			protected void onManagedUpdate(final float pSecondsElapsed) {
-				submarineAS.setY(submarineAS.getHeight()/2f+5f+upHeight);
-				
-			}
-		};
-		EntityUtil.setSize("width", 1f/5f, submarineAS);
-		submarineAS.setPosition(mCameraWidth/2f, submarineAS.getHeight()/2f+1f);
-		attachChild(submarineAS);
-		//submarineAS.animate(300, true);
-		long[] frameDur = new long[3];
-		Arrays.fill(frameDur, 100);
-		submarineAS.animate(frameDur,0,2,true);
+		mRectangle = new Rectangle(0f,0f,mCameraWidth/2f,mCameraHeight/4f,mVertexBufferObjectManager);
+		mRectangle.setPosition(mCameraWidth/2f, mRectangle.getHeight()/2f);
+		mRectangle.setAlpha(0f);
+		attachChild(mRectangle);
+		//潜水艇
+		submarineAS = new AnimatedSprite(0f,0f,ResourceManager.submarineTTR,mVertexBufferObjectManager);
+		EntityUtil.setSizeInParent("height", 2f/3f, submarineAS,mRectangle);
+		submarineAS.setPosition(mRectangle.getWidth()/2f, submarineAS.getHeight()/2f);
+		//long[] frameDur = new long[2];
+		//Arrays.fill(frameDur, 300);
+		submarineAS.animate(300,true);
+		mRectangle.attachChild(submarineAS);
+		
+		//实时上升高度
+		Sprite mSprite = new Sprite(0f,0f,ResourceManager.mPic,mVertexBufferObjectManager);
+		EntityUtil.setSizeInParent("height", 2f/5f, mSprite, mRectangle);
+		mSprite.setPosition(submarineAS.getX()-submarineAS.getWidth()/2f-mSprite.getWidth()/2f, submarineAS.getY());
+		mRectangle.attachChild(mSprite);
+		mGameNumber.upHeightNum(mRectangle,mSprite,0);
+		
 		
 		
 		//左边按钮
@@ -92,6 +106,8 @@ public class FingerScene extends ManagedScene{
 					float pTouchAreaLocalX, float pTouchAreaLocalY) {
 					//SFXManager.getInstance().playSound("g_button");
 					upHeight = upHeight + 1f;
+					mGameNumber.updateUpHighNum(Math.round(upHeight));
+					mRectangle.setY(mRectangle.getHeight()/2f+upHeight);
 			}});
 		attachChild(greenButtonBS);
 		
@@ -107,17 +123,18 @@ public class FingerScene extends ManagedScene{
 					float pTouchAreaLocalX, float pTouchAreaLocalY) {
 					//SFXManager.getInstance().playSound("g_button");
 					upHeight = upHeight + 1f;
+					mGameNumber.updateUpHighNum(Math.round(upHeight));
+					mRectangle.setY(mRectangle.getHeight()/2f+upHeight);
 			}});
 		attachChild(redButtonBS);
 		
-		
 		Sprite highFont = new Sprite(0f,0f,ResourceManager.highScoreFont,mVertexBufferObjectManager);
-		EntityUtil.setSize("height", 1f/6f, highFont);
-		highFont.setPosition(5f+highFont.getWidth()/2f, mCameraHeight-3f-highFont.getHeight()/2f);
+		EntityUtil.setSize("width", 1f/5f, highFont);
+		highFont.setPosition(5f+highFont.getWidth()/2f, mCameraHeight-highFont.getHeight());
 		attachChild(highFont);
 		//最高得分
-		mGameNumber = new GameNumberUtil();
-		mGameNumber.fingerHighestScore(this, highFont, BangYouScreenActivity.getIntFromSharedPreferences(DataConstant.FINGER_HIGHESTSCORE));
+		currentHighestScore = BangYouScreenActivity.getIntFromSharedPreferences(DataConstant.FINGER_HIGHESTSCORE);
+		mGameNumber.fingerHighestScore(this, highFont, currentHighestScore);
 		
 		
 		
@@ -132,11 +149,12 @@ public class FingerScene extends ManagedScene{
 		
 		
 		//游戏开始倒计时动画
-		Arrays.fill(new long[3], 1000);
+		long [] frameDur1 = new long[3];
+		Arrays.fill(frameDur1, 1000);
 		clockTimeAS = new AnimatedSprite(0f,0f,ResourceManager.clockTime,mVertexBufferObjectManager);
 		clockTimeAS.setPosition(mCameraWidth/2f, mCameraHeight/2f);
 		EntityUtil.setSize("height", 1f / 4f, clockTimeAS);
-		clockTimeAS.animate(frameDur,0,2,0,new IAnimationListener(){
+		clockTimeAS.animate(frameDur1,0,2,0,new IAnimationListener(){
 
 			public void onAnimationStarted(AnimatedSprite pAnimatedSprite,
 					int pInitialLoopCount) {
@@ -145,6 +163,7 @@ public class FingerScene extends ManagedScene{
 
 			public void onAnimationFrameChanged(AnimatedSprite pAnimatedSprite,
 					int pOldFrameIndex, int pNewFrameIndex) {
+				SFXManager.getInstance().playSound("a_CountDown");
 			}
 
 			public void onAnimationLoopFinished(AnimatedSprite pAnimatedSprite,
@@ -155,6 +174,7 @@ public class FingerScene extends ManagedScene{
 				SFXManager.getInstance().playSound("g_go");
 				detachChild(clockTimeAS);
 				clockTimeAS = null;
+				blisterAnimation();
 				registerTouchArea(greenButtonBS);
 				registerTouchArea(redButtonBS);
 				registerUpdateHandler(gameRunTimer);
@@ -205,8 +225,6 @@ public class FingerScene extends ManagedScene{
 				mGameTime.adjustTime(gameTime);
 			}
 			
-			//统计得分
-			mGameNumber.addScore(mScore);
 		}
 
 		@Override
@@ -219,6 +237,11 @@ public class FingerScene extends ManagedScene{
 	 * @since 1.0
 	 */
 	private void gameOver(){
+		if(upHeight > currentHighestScore){
+			BangYouScreenActivity.writeIntToSharedPreferences(DataConstant.FINGER_HIGHESTSCORE, Math.round(upHeight));
+		}
+		
+		
 		
 	}
 	
@@ -245,6 +268,46 @@ public class FingerScene extends ManagedScene{
 		unregisterTouchArea(redButtonBS);
 		unregisterUpdateHandler(gameRunTimer);
 	}
+	
+	/**
+	 * 水泡动画
+	 * @author zuowhat 2014-2-20
+	 * @since 1.0
+	 */
+	public void blisterAnimation(){
+		AnimatedSprite b1 = new AnimatedSprite(0f,0f,ResourceManager.bubbleTTR,mVertexBufferObjectManager);
+		EntityUtil.setSize("width", 1f/10f, b1);
+		float randomX = (float)(Math.random()*((mCameraWidth-redButtonBS.getWidth())-redButtonBS.getWidth()))+redButtonBS.getWidth();
+		b1.setPosition(randomX, b1.getHeight()/2f);
+		b1.animate(200,false, new IAnimationListener(){
+
+			public void onAnimationStarted(AnimatedSprite pAnimatedSprite,
+					int pInitialLoopCount) {
+					//SFXManager.getInstance().playSound("g_countdown",3);
+			}
+
+			public void onAnimationFrameChanged(AnimatedSprite pAnimatedSprite,
+					int pOldFrameIndex, int pNewFrameIndex) {
+				if(pNewFrameIndex == 4){
+					blisterAnimation();
+				}
+			}
+
+			public void onAnimationLoopFinished(AnimatedSprite pAnimatedSprite,
+					int pRemainingLoopCount, int pInitialLoopCount) {
+			}
+
+			public void onAnimationFinished(AnimatedSprite pAnimatedSprite) {
+				//detachChild(pAnimatedSprite);
+				//pAnimatedSprite = null;
+				pAnimatedSprite.setVisible(false);
+			}
+		});
+		attachChild(b1);
+		
+		
+		
+	}
 
 	@Override
 	public void onShowScene() {
@@ -260,6 +323,8 @@ public class FingerScene extends ManagedScene{
 
 	@Override
 	public void onUnloadScene() {
+		ResourceManager.getInstance().engine.getEngineOptions().getTouchOptions().setNeedsMultiTouch(false);
+		ResourceManager.getInstance().engine.setTouchController(new SingleTouchController());
 		ResourceManager.getInstance().engine.runOnUpdateThread(new Runnable() {
 			public void run() {
 				detachChildren();

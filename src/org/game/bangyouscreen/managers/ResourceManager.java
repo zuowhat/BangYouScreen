@@ -104,7 +104,7 @@ public class ResourceManager extends Object{
 	public static TextureRegion highScorePic;
 	public static TextureRegion startPic;
 	public static TextureRegion mPic;
-	
+	public static TiledTextureRegion bubbleTTR;
 	
 	
 	//***************测试资源 start ********************//
@@ -384,7 +384,7 @@ public class ResourceManager extends Object{
 				fingerBG[2] = getLimitableTR("fingerBG3.jpg",mNormalTextureOption);
 			}
 			if(submarineTTR == null){
-				submarineTTR = getLimitableTTR("submarine.png",3,1,mNormalTextureOption);
+				submarineTTR = getLimitableTTR("submarine.png",2,1,mNormalTextureOption);
 			}
 			if(highScoreFont == null){
 				highScoreFont = getLimitableTR("highscoreFont.png",mNormalTextureOption);
@@ -397,6 +397,9 @@ public class ResourceManager extends Object{
 			}
 			if(mPic == null){
 				mPic = getLimitableTR("mPic.png",mNormalTextureOption);
+			}
+			if(bubbleTTR == null){
+				bubbleTTR = getLimitableTTR("bubble.png",5,2,mNormalTextureOption);
 			}
 			BitmapTextureAtlasTextureRegionFactory.setAssetBasePath(mPreviousAssetBasePath);
 		}

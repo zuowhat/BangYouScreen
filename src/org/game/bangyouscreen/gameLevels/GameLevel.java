@@ -68,7 +68,7 @@ public class GameLevel extends ManagedScene {
 	private int bossHP;
 	private int allBossHP;
 	private AnimatedSprite clockTimeAS;
-	private String[] sounds = {"g_win","g_fail","g_time","g_bomb","g_button","g_countdown","g_go","g_notenough"};
+	private String[] sounds = {"g_win","g_fail","g_time","g_bomb","g_button","a_CountDown","g_go","g_notenough"};
 	private Rectangle fadableBGRect;
 	private AnimatedSprite clockCooling;
 	private AnimatedSprite magicCooling;
@@ -404,11 +404,11 @@ public class GameLevel extends ManagedScene {
 
 			public void onAnimationStarted(AnimatedSprite pAnimatedSprite,
 					int pInitialLoopCount) {
-					//SFXManager.getInstance().playSound("g_countdown",3);
 			}
 
 			public void onAnimationFrameChanged(AnimatedSprite pAnimatedSprite,
 					int pOldFrameIndex, int pNewFrameIndex) {
+				SFXManager.getInstance().playSound("a_CountDown");
 			}
 
 			public void onAnimationLoopFinished(AnimatedSprite pAnimatedSprite,
