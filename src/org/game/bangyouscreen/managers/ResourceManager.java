@@ -98,7 +98,12 @@ public class ResourceManager extends Object{
 	public static TiledTextureRegion statPicTTR;
 	public static TiledTextureRegion numWhiteTTR;
 	public static TiledTextureRegion arrowTTR;
-	
+	public static TextureRegion[] fingerBG = new TextureRegion[3];
+	public static TiledTextureRegion submarineTTR;
+	public static TextureRegion highScoreFont;
+	public static TextureRegion highScorePic;
+	public static TextureRegion startPic;
+	public static TextureRegion mPic;
 	
 	
 	
@@ -228,6 +233,11 @@ public class ResourceManager extends Object{
 		getInstance().loadSharedResources();
 	}
 	
+	public static void loadFingerResources(){
+		getInstance().loadFingerTextures();
+		getInstance().loadSharedResources();
+	}
+	
 	public static void loadGameResources(){
 		getInstance().loadGameTextures();
 		getInstance().loadSharedResources();
@@ -334,7 +344,7 @@ public class ResourceManager extends Object{
 	}
 	
 	
-	// ============================ BOSS模式  ================= //
+	// ============================ 主题模式  ================= //
 	private void loadThemeTextures(){
 		mPreviousAssetBasePath = BitmapTextureAtlasTextureRegionFactory.getAssetBasePath();
 		BitmapTextureAtlasTextureRegionFactory.setAssetBasePath("gfx/theme/");
@@ -356,22 +366,40 @@ public class ResourceManager extends Object{
 		if(bossBlackBG == null){
 			bossBlackBG = getLimitableTTR("bossBlackBG.png",4,2,mNormalTextureOption);
 		}
-//		if(themeLevelBG == null){
-//			themeLevelBG = getLimitableTR("themeLevelBG.png",mNormalTextureOption);
-//		}
-//		if(themeLevelLock == null){
-//			themeLevelLock = getLimitableTR("themeLevelLock.png",mNormalTextureOption);
-//		}
-		//根据完成的关卡数来加载BOSS纹理
-//		int themeSceneOneBossTotal = BangYouScreenActivity.getIntFromSharedPreferences(BangYouScreenActivity.SHARED_PREFS_THEME_1);
-//		themeSceneOneBossTotalTT = new ArrayList<TiledTextureRegion>();
-//		for(int i=0; i<themeSceneOneBossTotal+1; i++){
-//			String bossTexture = "boss1" + i + ".png";
-//			themeSceneOneBossTotalTT.add(getLimitableTTR(bossTexture,3,2,mNormalTextureOption));
-//		}
 		
 		BitmapTextureAtlasTextureRegionFactory.setAssetBasePath(mPreviousAssetBasePath);
 	}
+	
+	// ============================ 指力模式  ================= //
+		private void loadFingerTextures(){
+			mPreviousAssetBasePath = BitmapTextureAtlasTextureRegionFactory.getAssetBasePath();
+			BitmapTextureAtlasTextureRegionFactory.setAssetBasePath("gfx/finger/");
+			if(fingerBG[0] == null){
+				fingerBG[0] = getLimitableTR("fingerBG1.jpg",mNormalTextureOption);
+			}
+			if(fingerBG[1] == null){
+				fingerBG[1] = getLimitableTR("fingerBG2.jpg",mNormalTextureOption);
+			}
+			if(fingerBG[2] == null){
+				fingerBG[2] = getLimitableTR("fingerBG3.jpg",mNormalTextureOption);
+			}
+			if(submarineTTR == null){
+				submarineTTR = getLimitableTTR("submarine.png",3,1,mNormalTextureOption);
+			}
+			if(highScoreFont == null){
+				highScoreFont = getLimitableTR("highscoreFont.png",mNormalTextureOption);
+			}
+			if(highScorePic == null){
+				highScorePic = getLimitableTR("highscorePic.png",mNormalTextureOption);
+			}
+			if(startPic == null){
+				startPic = getLimitableTR("startPic.png",mNormalTextureOption);
+			}
+			if(mPic == null){
+				mPic = getLimitableTR("mPic.png",mNormalTextureOption);
+			}
+			BitmapTextureAtlasTextureRegionFactory.setAssetBasePath(mPreviousAssetBasePath);
+		}
 	
 	private void loadThemeBoss(){
 		//下面一行是测试代码,待删除

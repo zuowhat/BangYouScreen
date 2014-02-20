@@ -50,6 +50,7 @@ public class DataConstant {
 	public static final int ALL_GOOD_INT = 15;//一共多少件装备
 	public static final String ALL_APPS = "AllApps";
 	public static final int ALL_APPS_INT = 18;//安装试用应用
+	public static final String FINGER_HIGHESTSCORE = "FingerHighScore";//指力模式最高纪录
 	
 	/** 冒险岛主题BOSS个数 */
 	public static final int THEME_1_BOSS_NUM = 8;

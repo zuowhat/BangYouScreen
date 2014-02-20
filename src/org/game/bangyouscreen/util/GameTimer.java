@@ -11,7 +11,7 @@ import org.andengine.entity.modifier.ScaleModifier;
 import org.andengine.entity.sprite.AnimatedSprite;
 import org.andengine.util.modifier.IModifier;
 import org.andengine.util.modifier.ease.EaseLinear;
-import org.game.bangyouscreen.gameLevels.GameLevel;
+import org.game.bangyouscreen.managers.ManagedScene;
 import org.game.bangyouscreen.managers.ResourceManager;
 
 public class GameTimer implements IUpdateHandler, IEntityModifier.IEntityModifierListener{
@@ -30,7 +30,7 @@ public ColorModifier mColorIn2 = new ColorModifier(0.5F, 1.0F, 1.0F, 0.2F, 1.0F,
 public ColorModifier mColorOut1 = new ColorModifier(0.5F, 1.0F, 1.0F, 1.0F, 0.2F, 1.0F, 0.2F);
 public ColorModifier mColorOut2 = new ColorModifier(0.5F, 1.0F, 1.0F, 1.0F, 0.2F, 1.0F, 0.2F);
 public AnimatedSprite[] mDigitsSprite = new AnimatedSprite[4];
-protected GameLevel mGameScene;
+protected ManagedScene mGameScene;
 protected int mLastTime = -1;
 int mNumberOfAlmonds = 5;
 int mNumberOfClocks = 4;
@@ -50,7 +50,7 @@ boolean mTenSeconds = false;
 protected boolean mTiggeredTimer = true;
 protected float mTriggerTime;
 
-public GameTimer(GameLevel paramBaseGameScene)
+public GameTimer(ManagedScene paramBaseGameScene)
 {
   //super(paramBaseGameScene, paramGameTextures, paramGameSounds);
   this.mGameScene = paramBaseGameScene;

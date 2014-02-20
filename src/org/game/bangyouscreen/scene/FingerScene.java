@@ -1,9 +1,23 @@
 package org.game.bangyouscreen.scene;
 
+import java.util.Arrays;
+
+import org.andengine.engine.handler.IUpdateHandler;
 import org.andengine.entity.scene.Scene;
+import org.andengine.entity.sprite.AnimatedSprite;
+import org.andengine.entity.sprite.ButtonSprite;
+import org.andengine.entity.sprite.AnimatedSprite.IAnimationListener;
+import org.andengine.entity.sprite.ButtonSprite.OnClickListener;
+import org.andengine.entity.sprite.Sprite;
 import org.andengine.opengl.vbo.VertexBufferObjectManager;
+import org.game.bangyouscreen.BangYouScreenActivity;
 import org.game.bangyouscreen.managers.ManagedScene;
 import org.game.bangyouscreen.managers.ResourceManager;
+import org.game.bangyouscreen.managers.SFXManager;
+import org.game.bangyouscreen.util.DataConstant;
+import org.game.bangyouscreen.util.EntityUtil;
+import org.game.bangyouscreen.util.GameNumberUtil;
+import org.game.bangyouscreen.util.GameTimer;
 
 public class FingerScene extends ManagedScene{
 
@@ -11,6 +25,19 @@ public class FingerScene extends ManagedScene{
 	private float mCameraWidth = ResourceManager.getCamera().getWidth();
 	private float mCameraHeight = ResourceManager.getCamera().getHeight();
 	private VertexBufferObjectManager mVertexBufferObjectManager = ResourceManager.getEngine().getVertexBufferObjectManager();
+	
+	private AnimatedSprite submarineAS;
+	private float upHeight = 0f;
+	private GameTimer mGameTime;
+	private float gameTime = DataConstant.GAMETIME_INIT;//初始游戏时间
+	private ButtonSprite greenButtonBS;
+	private ButtonSprite redButtonBS;
+	private boolean mTenSeconds = false;
+	private GameNumberUtil mGameNumber;
+	private int mScore = 0;
+	private AnimatedSprite clockTimeAS;
+	private String[] sounds = {"g_win","g_go"};
+	
 	
 	public static FingerScene getInstance(){
 		return INSTANCE;
@@ -30,8 +57,193 @@ public class FingerScene extends ManagedScene{
 
 	@Override
 	public void onLoadScene() {
-		// TODO Auto-generated method stub
+		Sprite backgroundSprite = new Sprite(0f,0f, ResourceManager.fingerBG[Math.round((float)Math.random()*2)],mVertexBufferObjectManager);
+		EntityUtil.setSize("width", 1f, backgroundSprite);
+		backgroundSprite.setPosition(mCameraWidth / 2f, mCameraHeight / 2f);
+		backgroundSprite.setZIndex(-5000);
+		attachChild(backgroundSprite);
+		SFXManager.getInstance().loadSounds(sounds, ResourceManager.getActivity().getSoundManager(), ResourceManager.getActivity());
 		
+		mGameTime = new GameTimer(this);
+		mGameTime.addToLayer(this);
+		
+		submarineAS = new AnimatedSprite(0f,0f,ResourceManager.submarineTTR,mVertexBufferObjectManager){
+			protected void onManagedUpdate(final float pSecondsElapsed) {
+				submarineAS.setY(submarineAS.getHeight()/2f+5f+upHeight);
+				
+			}
+		};
+		EntityUtil.setSize("width", 1f/5f, submarineAS);
+		submarineAS.setPosition(mCameraWidth/2f, submarineAS.getHeight()/2f+1f);
+		attachChild(submarineAS);
+		//submarineAS.animate(300, true);
+		long[] frameDur = new long[3];
+		Arrays.fill(frameDur, 100);
+		submarineAS.animate(frameDur,0,2,true);
+		
+		
+		//左边按钮
+		greenButtonBS = new ButtonSprite(0f,0f,ResourceManager.greenButtonTTR,mVertexBufferObjectManager);
+		EntityUtil.setSize("height", 1f / 4f, greenButtonBS);
+		greenButtonBS.setPosition(greenButtonBS.getWidth() / 2f, greenButtonBS.getHeight() / 2f);
+		greenButtonBS.setOnClickListener(new OnClickListener(){
+
+			public void onClick(ButtonSprite pButtonSprite,
+					float pTouchAreaLocalX, float pTouchAreaLocalY) {
+					//SFXManager.getInstance().playSound("g_button");
+					upHeight = upHeight + 1f;
+			}});
+		attachChild(greenButtonBS);
+		
+		
+		//右边按钮
+		redButtonBS = new ButtonSprite(0f,0f,ResourceManager.redButtonTTR,mVertexBufferObjectManager);
+		EntityUtil.setSize("height", 1f / 4f, redButtonBS);
+		redButtonBS.setPosition(mCameraWidth - redButtonBS.getWidth() / 2f, redButtonBS.getHeight() / 2f);
+		redButtonBS.setOnClickListener(new OnClickListener(){
+
+			@Override
+			public void onClick(ButtonSprite pButtonSprite,
+					float pTouchAreaLocalX, float pTouchAreaLocalY) {
+					//SFXManager.getInstance().playSound("g_button");
+					upHeight = upHeight + 1f;
+			}});
+		attachChild(redButtonBS);
+		
+		
+		Sprite highFont = new Sprite(0f,0f,ResourceManager.highScoreFont,mVertexBufferObjectManager);
+		EntityUtil.setSize("height", 1f/6f, highFont);
+		highFont.setPosition(5f+highFont.getWidth()/2f, mCameraHeight-3f-highFont.getHeight()/2f);
+		attachChild(highFont);
+		//最高得分
+		mGameNumber = new GameNumberUtil();
+		mGameNumber.fingerHighestScore(this, highFont, BangYouScreenActivity.getIntFromSharedPreferences(DataConstant.FINGER_HIGHESTSCORE));
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		//游戏开始倒计时动画
+		Arrays.fill(new long[3], 1000);
+		clockTimeAS = new AnimatedSprite(0f,0f,ResourceManager.clockTime,mVertexBufferObjectManager);
+		clockTimeAS.setPosition(mCameraWidth/2f, mCameraHeight/2f);
+		EntityUtil.setSize("height", 1f / 4f, clockTimeAS);
+		clockTimeAS.animate(frameDur,0,2,0,new IAnimationListener(){
+
+			public void onAnimationStarted(AnimatedSprite pAnimatedSprite,
+					int pInitialLoopCount) {
+					//SFXManager.getInstance().playSound("g_countdown",3);
+			}
+
+			public void onAnimationFrameChanged(AnimatedSprite pAnimatedSprite,
+					int pOldFrameIndex, int pNewFrameIndex) {
+			}
+
+			public void onAnimationLoopFinished(AnimatedSprite pAnimatedSprite,
+					int pRemainingLoopCount, int pInitialLoopCount) {
+			}
+
+			public void onAnimationFinished(AnimatedSprite pAnimatedSprite) {
+				SFXManager.getInstance().playSound("g_go");
+				detachChild(clockTimeAS);
+				clockTimeAS = null;
+				registerTouchArea(greenButtonBS);
+				registerTouchArea(redButtonBS);
+				registerUpdateHandler(gameRunTimer);
+			}
+		});
+		attachChild(clockTimeAS);
+	}
+	
+	/**
+	 * 实时更新游戏状态
+	 * @author zuowhat 2014-2-20
+	 * @since 1.0
+	 */
+	private IUpdateHandler gameRunTimer = new IUpdateHandler() {
+
+		public void onUpdate(float pSecondsElapsed) {
+			//倒计时
+			gameTime-=pSecondsElapsed;
+			if(gameTime<=0) {
+				mGameTime.adjustTime(0f);
+				unregisterTouchArea(greenButtonBS);
+				unregisterTouchArea(redButtonBS);
+				mGameTime.mDigitsSprite[3].clearEntityModifiers();
+				mGameTime.mDigitsSprite[2].clearEntityModifiers();
+				mGameTime.mDigitsSprite[3].setScale(1.0F);
+				mGameTime.mDigitsSprite[2].setScale(1.0F);
+				gameOver();
+			} else {
+				if((!mTenSeconds) && gameTime <= 10f){
+					mTenSeconds = true;
+					mGameTime.mBounceOut1.reset();
+					mGameTime.mBounceOut2.reset();
+					mGameTime.mDigitsSprite[3].registerEntityModifier(mGameTime.mBounceOut1);
+					mGameTime.mDigitsSprite[2].registerEntityModifier(mGameTime.mBounceOut2);
+					mGameTime.mColorOut1.reset();
+					mGameTime.mColorOut2.reset();
+					mGameTime.mDigitsSprite[3].registerEntityModifier(mGameTime.mColorOut1);
+					mGameTime.mDigitsSprite[2].registerEntityModifier(mGameTime.mColorOut2);
+				}else if(mTenSeconds && gameTime > 10f){
+					mTenSeconds = false;
+					//mGameTime.mDigitsSprite[3].registerEntityModifier(mGameTime.mColorOut1);
+					//mGameTime.mDigitsSprite[2].registerEntityModifier(mGameTime.mColorOut2);
+					mGameTime.mDigitsSprite[3].clearEntityModifiers();
+					mGameTime.mDigitsSprite[2].clearEntityModifiers();
+					mGameTime.mDigitsSprite[3].setScale(1.0F);
+					mGameTime.mDigitsSprite[2].setScale(1.0F);
+				}
+				mGameTime.adjustTime(gameTime);
+			}
+			
+			//统计得分
+			mGameNumber.addScore(mScore);
+		}
+
+		@Override
+		public void reset() {}
+	};
+	
+	/**
+	 * 游戏结束
+	 * @author zuowhat 2014-2-20
+	 * @since 1.0
+	 */
+	private void gameOver(){
+		
+	}
+	
+	/**
+	 * 继续游戏
+	 * @author zuowhat 2014-2-20
+	 * @since 1.0
+	 */
+	public void onResumeGameLevel(){
+		setIgnoreUpdate(false);
+		registerTouchArea(greenButtonBS);
+		registerTouchArea(redButtonBS);
+		registerUpdateHandler(gameRunTimer);
+	}
+	
+	/**
+	 * 暂停游戏
+	 * @author zuowhat 2014-2-20
+	 * @since 1.0
+	 */
+	public void onPauseGameLevel(){
+		setIgnoreUpdate(true);
+		unregisterTouchArea(greenButtonBS);
+		unregisterTouchArea(redButtonBS);
+		unregisterUpdateHandler(gameRunTimer);
 	}
 
 	@Override
@@ -48,8 +260,18 @@ public class FingerScene extends ManagedScene{
 
 	@Override
 	public void onUnloadScene() {
-		// TODO Auto-generated method stub
-		
+		ResourceManager.getInstance().engine.runOnUpdateThread(new Runnable() {
+			public void run() {
+				detachChildren();
+				for(int i = 0; i < INSTANCE.getChildCount(); i++){
+					INSTANCE.getChildByIndex(i).dispose();
+					INSTANCE.getChildByIndex(i).clearEntityModifiers();
+					INSTANCE.getChildByIndex(i).clearUpdateHandlers();
+				}
+				INSTANCE.clearEntityModifiers();
+				INSTANCE.clearTouchAreas();
+				INSTANCE.clearUpdateHandlers();
+			}});
 	}
 
 }

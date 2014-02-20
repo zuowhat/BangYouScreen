@@ -2,7 +2,6 @@ package org.game.bangyouscreen;
 
 
 import net.youmi.android.offers.PointsChangeNotify;
-import net.youmi.android.spot.SpotManager;
 
 import org.andengine.engine.Engine;
 import org.andengine.engine.FixedStepEngine;
@@ -15,10 +14,12 @@ import org.andengine.engine.options.resolutionpolicy.IResolutionPolicy;
 import org.andengine.entity.scene.Scene;
 import org.andengine.ui.activity.BaseGameActivity;
 import org.game.bangyouscreen.gameLevels.GameLevel;
+import org.game.bangyouscreen.layer.FingerPauseLayer;
 import org.game.bangyouscreen.layer.GamePauseLayer;
 import org.game.bangyouscreen.managers.ResourceManager;
 import org.game.bangyouscreen.managers.SFXManager;
 import org.game.bangyouscreen.managers.SceneManager;
+import org.game.bangyouscreen.scene.FingerScene;
 import org.game.bangyouscreen.scene.HelpScene;
 import org.game.bangyouscreen.scene.MainMenuScene;
 import org.game.bangyouscreen.scene.ShopScene;
@@ -236,6 +237,15 @@ public class BangYouScreenActivity extends BaseGameActivity implements PointsCha
 					  ((GameLevel) SceneManager.getInstance().mCurrentScene).onPauseGameLevel();
 					  SceneManager.getInstance().showLayer(GamePauseLayer.getInstance(), false, false, false);
 				  }
+			  }else if(SceneManager.getInstance().mCurrentScene.getClass().equals(FingerScene.class)){
+				  if(!SceneManager.getInstance().mIsLayerShown){
+					  ((FingerScene) SceneManager.getInstance().mCurrentScene).onPauseGameLevel();
+					  SceneManager.getInstance().showLayer(FingerPauseLayer.getInstance(), false, false, false);
+				  }
+			  }else if (SceneManager.getInstance().mIsLayerShown && SceneManager.getInstance().mCurrentLayer.getClass()
+					  .equals(FingerPauseLayer.class)) {
+				  SceneManager.getInstance().mCurrentLayer.onHideLayer();
+				  ((FingerScene) SceneManager.getInstance().mCurrentScene).onResumeGameLevel();
 			  }else if(SceneManager.getInstance().mCurrentScene.getClass().equals(ShopScene.class)){
 				  SceneManager.getInstance().showScene(MainMenuScene.getInstance());
 			  }else if(SceneManager.getInstance().mCurrentScene.getClass().equals(MainMenuScene.class)){

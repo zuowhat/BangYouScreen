@@ -18,16 +18,16 @@ import org.game.bangyouscreen.util.EntityUtil;
 
 import android.view.View;
 
-public class GamePauseLayer extends ManagedLayer{
+public class FingerPauseLayer extends ManagedLayer{
 	
-	private static final GamePauseLayer INSTANCE = new GamePauseLayer();
+	private static final FingerPauseLayer INSTANCE = new FingerPauseLayer();
 	//private static int themeNum = 0;
 	private float mCameraWidth = ResourceManager.getCamera().getWidth();
 	private float mCameraHeight = ResourceManager.getCamera().getHeight();
 	private VertexBufferObjectManager mVertexBufferObjectManager = ResourceManager.getEngine().getVertexBufferObjectManager();
 	private Sprite LayerBG;
 	
-	public static GamePauseLayer getInstance() {
+	public static FingerPauseLayer getInstance() {
 		//themeNum = theme;
 		return INSTANCE;
 	}

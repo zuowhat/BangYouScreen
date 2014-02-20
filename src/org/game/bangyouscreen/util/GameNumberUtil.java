@@ -209,6 +209,25 @@ public AnimatedSprite[] gameScoreNum(IEntity pEntity, int getGold){
 }
 
 /**
+ * 显示最高得分(FingerScene)
+ * @author zuowhat 2014-2-20
+ * @param pEntity 父层
+ * @param sEntity 兄弟层
+ * @param score 得分
+ * @since 1.0
+ */
+public void fingerHighestScore(IEntity pEntity,IEntity bEntity, int score){
+	AnimatedSprite[] scoreNum = new AnimatedSprite[3];
+	 for (int i = 0;i< scoreNum.length; i++){
+		 scoreNum[i] = new AnimatedSprite(0f, 0f, ResourceManager.numberTTR.deepCopy(),mVertexBufferObjectManager);
+	    EntityUtil.setSize("width", 15f/800f, scoreNum[i]);
+	    scoreNum[i].setPosition(bEntity.getX()+bEntity.getWidth() + i * scoreNum[i].getWidth(),bEntity.getY());
+	    pEntity.attachChild(scoreNum[i]);
+	}
+	 dataSort(score,scoreNum,0); 
+}
+
+/**
  * 数据统计(HelpScene)
  * @author zuowhat 2014-2-14
  * @param type 统计类型

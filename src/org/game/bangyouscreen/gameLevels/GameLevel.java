@@ -153,7 +153,7 @@ public class GameLevel extends ManagedScene {
 		fadableBGRect.setColor(0f, 0f, 0f, 0.5f);
 		attachChild(fadableBGRect);
 		
-		//绿色按钮
+		//左边按钮
 		greenButtonBS = new ButtonSprite(0f,0f,ResourceManager.greenButtonTTR,mVertexBufferObjectManager);
 		EntityUtil.setSize("height", 1f / 4f, greenButtonBS);
 		greenButtonBS.setPosition(greenButtonBS.getWidth() / 2f, greenButtonBS.getHeight() / 2f);
@@ -166,7 +166,7 @@ public class GameLevel extends ManagedScene {
 			}});
 		fadableBGRect.attachChild(greenButtonBS);
 		
-		//蓝色按钮
+		//右边按钮
 		redButtonBS = new ButtonSprite(0f,0f,ResourceManager.redButtonTTR,mVertexBufferObjectManager);
 		EntityUtil.setSize("height", 1f / 4f, redButtonBS);
 		redButtonBS.setPosition(mCameraWidth - redButtonBS.getWidth() / 2f, redButtonBS.getHeight() / 2f);
