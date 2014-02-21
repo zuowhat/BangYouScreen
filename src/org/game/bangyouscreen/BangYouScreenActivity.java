@@ -238,7 +238,7 @@ public class BangYouScreenActivity extends BaseGameActivity implements PointsCha
 					  SceneManager.getInstance().showLayer(GamePauseLayer.getInstance(), false, false, false);
 				  }
 			  }else if(SceneManager.getInstance().mCurrentScene.getClass().equals(FingerScene.class)){
-				  if(!SceneManager.getInstance().mIsLayerShown){
+				  if(!SceneManager.getInstance().mIsLayerShown && !FingerScene.isOver){
 					  ((FingerScene) SceneManager.getInstance().mCurrentScene).onPauseGameLevel();
 					  SceneManager.getInstance().showLayer(FingerPauseLayer.getInstance(), false, false, false);
 				  }

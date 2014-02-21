@@ -105,20 +105,19 @@ public class GameFailLayer extends ManagedLayer{
 		pWuya.setVelocityX(60f);
 		LayerBG.attachChild(wuyaAS);
 		
-		
 		//重新开始
-		ButtonSprite continueBS = new ButtonSprite(0f,0f,ResourceManager.gamePauseMenu.getTextureRegion(1),mVertexBufferObjectManager);
-		continueBS.setPosition(LayerBG.getWidth()*(3f/4f), LayerBG.getHeight()/4f);
-		EntityUtil.setSizeInParent("width", 1f/4f, continueBS, LayerBG);
-		continueBS.setOnClickListener(new OnClickListener(){
+		ButtonSprite restartBS = new ButtonSprite(0f,0f,ResourceManager.gamePauseMenu.getTextureRegion(1),mVertexBufferObjectManager);
+		restartBS.setPosition(LayerBG.getWidth()*(3f/4f), LayerBG.getHeight()/4f);
+		EntityUtil.setSizeInParent("width", 1f/4f, restartBS, LayerBG);
+		restartBS.setOnClickListener(new OnClickListener(){
 			public void onClick(ButtonSprite pButtonSprite,
 					float pTouchAreaLocalX, float pTouchAreaLocalY) {
 					SFXManager.getInstance().playSound("a_click");
 					onHideLayer();
 					SceneManager.getInstance().showScene(new GameLevel(GameLevel.bossModel,GameLevel.playerModel));
 			}});
-		LayerBG.attachChild(continueBS);
-		registerTouchArea(continueBS);
+		LayerBG.attachChild(restartBS);
+		registerTouchArea(restartBS);
 		
 		//返回菜单
 		ButtonSprite goBackBS = new ButtonSprite(0f,0f,ResourceManager.gamePauseMenu.getTextureRegion(2),mVertexBufferObjectManager);

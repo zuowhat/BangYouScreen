@@ -186,6 +186,7 @@ public class HelpScene extends ManagedScene{
 		playInfoBG.attachChild(playInfoBG_S);
 		
 		for(int i=0; i<3; i++){
+			//待修改，需要替换TTR
 			Sprite s = new Sprite(0f,0f,ResourceManager.statPicTTR.getTextureRegion(i),mVertexBufferObjectManager);
 			EntityUtil.setSizeInParent("width", 4f/5f, s, playInfoBG_S);
 			s.setPosition(playInfoBG_S.getWidth()/2f, playInfoBG_S.getHeight()*(5f/6f)-i*playInfoBG_S.getHeight()/3f);
@@ -257,10 +258,6 @@ public class HelpScene extends ManagedScene{
 		});
 		registerTouchArea(arrowDownSprite);
 		
-		
-		
-		
-		
 		//数据统计
 		statisticsInfoBG = new Sprite(0f,0f,ResourceManager.helpInfoBG,mVertexBufferObjectManager);
 		statisticsInfoBG.setSize(mCameraWidth-(3f/2f)*helpMenuBG.getWidth(), mCameraHeight);
@@ -301,7 +298,6 @@ public class HelpScene extends ManagedScene{
 			s.setPosition(5f+s.getWidth()/2f, infoArray[i].getHeight()/2f);
 			infoArray[i].attachChild(s);
 			float f = infoArray[i].getWidth()-(infoArray[i].getWidth()-(s.getX()+s.getWidth()/2f))/3f;
-			//待修改
 			gnUtil.addNumInHelpScene(i,f,infoArray[i], statAll[i]);
 		}
 		

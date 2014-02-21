@@ -210,6 +210,44 @@ public AnimatedSprite[] gameScoreNum(IEntity pEntity, int getGold){
 }
 
 /**
+ * 游戏结束后获得金币(FingerScene)
+ * @author zuowhat 2014-2-21
+ * @param pEntity 父层
+ * @param getGold 金币
+ * @since 1.0
+ */
+public AnimatedSprite[] fingerOverGold(IEntity pEntity, int getGold){
+	AnimatedSprite[] goldNum = new AnimatedSprite[3];
+	for (int i = 0;i< goldNum.length; i++){
+		goldNum[i] = new AnimatedSprite(0f, 0f, ResourceManager.numberTTR.deepCopy(),mVertexBufferObjectManager);
+	    EntityUtil.setSizeInParent("height", 3f/4f, goldNum[i],pEntity);
+	    goldNum[i].setPosition(pEntity.getWidth()/2f - (goldNum.length-i) * goldNum[i].getWidth()/2f,pEntity.getHeight()/2f);
+	    pEntity.attachChild(goldNum[i]);
+	}
+	dataSort(getGold,goldNum,0);
+	return goldNum;
+}
+
+/**
+ * 游戏结束后显示高度(FingerScene)
+ * @author zuowhat 2014-2-21
+ * @param pEntity 父层
+ * @param overScore 记录
+ * @since 1.0
+ */
+public AnimatedSprite[] fingerOverScore(IEntity pEntity, int overScore){
+	AnimatedSprite[] goldNum = new AnimatedSprite[3];
+	for (int i = 0;i< goldNum.length; i++){
+		goldNum[i] = new AnimatedSprite(0f, 0f, ResourceManager.numberTTR.deepCopy(),mVertexBufferObjectManager);
+	    EntityUtil.setSizeInParent("height", 50f/138f, goldNum[i],pEntity);
+	    goldNum[i].setPosition(pEntity.getWidth()/2f - (goldNum.length-i) * goldNum[i].getWidth()/2f,pEntity.getHeight()*45f/138f);
+	    pEntity.attachChild(goldNum[i]);
+	}
+	dataSort(overScore,goldNum,0);
+	return goldNum;
+}
+
+/**
  * 初始化上升高度(FingerScene)
  * @author zuowhat 2014-2-20
  * @param pEntity 父层
@@ -247,15 +285,16 @@ public void updateUpHighNum(int num){
  * @param score 得分
  * @since 1.0
  */
-public void fingerHighestScore(IEntity pEntity,IEntity bEntity, int score){
+public AnimatedSprite[] fingerHighestScore(IEntity pEntity,IEntity bEntity, int score){
 	AnimatedSprite[] scoreNum = new AnimatedSprite[3];
 	 for (int i = 0;i< scoreNum.length; i++){
 		 scoreNum[i] = new AnimatedSprite(0f, 0f, ResourceManager.numberTTR.deepCopy(),mVertexBufferObjectManager);
 	    EntityUtil.setSize("width", 20f/800f, scoreNum[i]);
-	    scoreNum[i].setPosition(bEntity.getX()-scoreNum[i].getWidth() + i * scoreNum[i].getWidth(),bEntity.getY()-bEntity.getHeight());
+	    scoreNum[i].setPosition(bEntity.getX()-scoreNum[i].getWidth()*3f/2f + i * scoreNum[i].getWidth(),bEntity.getY()-bEntity.getHeight());
 	    pEntity.attachChild(scoreNum[i]);
 	}
 	 dataSort(score,scoreNum,0); 
+	 return scoreNum;
 }
 
 /**

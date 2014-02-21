@@ -77,7 +77,7 @@ public class GameWinLayer extends ManagedLayer{
 	public void onLoadLayer() {
 		
 		//父背景变成半透明
-		final Rectangle fadableBGRect = new Rectangle(0f, 0f,mCameraWidth,mCameraHeight, mVertexBufferObjectManager);
+		Rectangle fadableBGRect = new Rectangle(0f, 0f,mCameraWidth,mCameraHeight, mVertexBufferObjectManager);
 		fadableBGRect.setPosition(mCameraWidth/2f, mCameraHeight/2f);
 		fadableBGRect.setColor(0f, 0f, 0f, 0.6f);
 		attachChild(fadableBGRect);
