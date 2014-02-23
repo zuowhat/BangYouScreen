@@ -75,7 +75,7 @@ public class HelpScene extends ManagedScene{
 		backgroundSprite.setZIndex(-100);
 		attachChild(backgroundSprite);
 		
-		//进入测试界面
+		//进入数据测试界面
 		ButtonSprite testBS = new ButtonSprite(0f,0f, ResourceManager.gameGold,mVertexBufferObjectManager);
 		testBS.setPosition(testBS.getWidth(), mCameraHeight-testBS.getHeight());
 		attachChild(testBS);
@@ -186,9 +186,8 @@ public class HelpScene extends ManagedScene{
 		playInfoBG.attachChild(playInfoBG_S);
 		
 		for(int i=0; i<3; i++){
-			//待修改，需要替换TTR
-			Sprite s = new Sprite(0f,0f,ResourceManager.statPicTTR.getTextureRegion(i),mVertexBufferObjectManager);
-			EntityUtil.setSizeInParent("width", 4f/5f, s, playInfoBG_S);
+			Sprite s = new Sprite(0f,0f,ResourceManager.helpExplanation[i],mVertexBufferObjectManager);
+			EntityUtil.setSizeInParent("width", 7f/8f, s, playInfoBG_S);
 			s.setPosition(playInfoBG_S.getWidth()/2f, playInfoBG_S.getHeight()*(5f/6f)-i*playInfoBG_S.getHeight()/3f);
 			playInfoBG_S.attachChild(s);
 		}

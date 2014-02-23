@@ -66,16 +66,16 @@ public class FingerPauseLayer extends ManagedLayer{
 		fadableBGRect.setColor(0f, 0f, 0f, 0.6f);
 		attachChild(fadableBGRect);
 		
-		LayerBG = new Sprite(0f, 0f,ResourceManager.gamePauseBG.getTextureRegion(0), mVertexBufferObjectManager);
-		//LayerBG.setSize(mCameraWidth/2f, mCameraHeight*(2f/3f));
-		EntityUtil.setSize("height", 2f/3f, LayerBG);
+		LayerBG = new Sprite(0f, 0f,ResourceManager.layerPauseBG, mVertexBufferObjectManager);
+		LayerBG.setSize(mCameraWidth/6f, mCameraHeight*(2f/3f));
+		//EntityUtil.setSize("height", 2f/3f, LayerBG);
 		LayerBG.setPosition(mCameraWidth/2f, (mCameraHeight / 2f) + (ResourceManager.loadingBG.getHeight() / 2f));
 		attachChild(LayerBG);
 		
 		//重新开始
 		ButtonSprite restartBS = new ButtonSprite(0f,0f,ResourceManager.gamePauseMenu.getTextureRegion(1),mVertexBufferObjectManager);
-		restartBS.setPosition(LayerBG.getWidth()*(3f/4f), LayerBG.getHeight()/2f);
-		EntityUtil.setSizeInParent("width", 1f/3f, restartBS, LayerBG);
+		restartBS.setPosition(LayerBG.getWidth()/2f, LayerBG.getHeight()/2f);
+		EntityUtil.setSizeInParent("width", 4f/5f, restartBS, LayerBG);
 		restartBS.setOnClickListener(new OnClickListener(){
 
 			public void onClick(ButtonSprite pButtonSprite,

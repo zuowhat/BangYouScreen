@@ -107,6 +107,9 @@ public class ResourceManager extends Object{
 	public static TiledTextureRegion bubbleTTR;
 	public static TextureRegion fingerScoreBG;
 	public static TextureRegion fingerGoldBG;
+	public static TextureRegion[] helpExplanation = new TextureRegion[3];
+	public static TextureRegion layerPauseBG;
+	
 	
 	//***************测试资源 start ********************//
 	public static TiledTextureRegion test_addOrSubtract;
@@ -281,11 +284,7 @@ public class ResourceManager extends Object{
 		if(loadingFont == null){
 			loadingFont = getLimitableTTR("loadingFont.png",1,3,mNormalTextureOption);
 		}
-		
-		
 	}
-	
-	
 	
 	// ============================ 菜单纹理  ================= //
 	private void loadMenuTextures(){
@@ -487,6 +486,15 @@ public class ResourceManager extends Object{
 		if(arrowTTR == null){
 			arrowTTR = getLimitableTTR("arrow.png",1,2,mNormalTextureOption);
 		}
+		if(helpExplanation[0] == null){
+			helpExplanation[0] = getLimitableTR("FingerSceneExplanation.jpg",mNormalTextureOption);
+		}
+		if(helpExplanation[1] == null){
+			helpExplanation[1] = getLimitableTR("GameSceneExplanation.jpg",mNormalTextureOption);
+		}
+		if(helpExplanation[2] == null){
+			helpExplanation[2] = getLimitableTR("ShopSceneExplanation.jpg",mNormalTextureOption);
+		}
 		BitmapTextureAtlasTextureRegionFactory.setAssetBasePath(mPreviousAssetBasePath);
 	}
 	
@@ -555,7 +563,9 @@ public class ResourceManager extends Object{
 		if(shopInfoRowsBG == null){
 			shopInfoRowsBG = getLimitableTTR("shopInfoRowsBG.png",1,2,mNormalTextureOption);
 		}
-		
+		if(layerPauseBG == null){
+			layerPauseBG = getLimitableTR("layerPauseBG.png",mNormalTextureOption);
+		}
 		
 		//未完待写
 		for(int i=0; i<magicASTTRArray.length; i++){

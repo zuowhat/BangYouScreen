@@ -5,7 +5,7 @@
 
     <uses-sdk
         android:minSdkVersion="10"
-        android:targetSdkVersion="15" />
+        android:targetSdkVersion="17" />
     
 <uses-permission android:name="android.permission.INTERNET"/> 
 <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
@@ -57,10 +57,6 @@
         android:name="net.youmi.android.offers.OffersReceiver"
         android:exported="false" >
     </receiver>
-    
-    <activity android:name=".util.BackDoorActivity"/>
-    
-    
     
 <!-- ==================   聚米Start   =================== -->
 

@@ -265,6 +265,7 @@ public class FingerScene extends ManagedScene{
 					BangYouScreenActivity.writeIntToSharedPreferences(DataConstant.FINGER_HIGHESTSCORE, Math.round(upHeight));
 					//打破记录后的效果
 					Sprite highestPic = new Sprite(pItem.getX()+pItem.getWidth()/2f,pItem.getY()+pItem.getHeight()/2f-(pItem.getHeight()*40f/138f),ResourceManager.highScorePic,mVertexBufferObjectManager);
+					EntityUtil.setSizeInParent("height", 8f/27f, highestPic, fadableBGRect);
 					fadableBGRect.attachChild(highestPic);
 					ScaleAtModifier highestPicScale = new ScaleAtModifier(0.5f, 25f, 1f, 0.5f, 0.5f);//实体缩放
 					FadeInModifier highestPicFadeIn = new FadeInModifier(0.5f);//在0.5秒内改变透明度由0f变为1f
