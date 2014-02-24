@@ -187,8 +187,8 @@ public class HelpScene extends ManagedScene{
 		
 		for(int i=0; i<3; i++){
 			Sprite s = new Sprite(0f,0f,ResourceManager.helpExplanation[i],mVertexBufferObjectManager);
-			EntityUtil.setSizeInParent("width", 7f/8f, s, playInfoBG_S);
-			s.setPosition(playInfoBG_S.getWidth()/2f, playInfoBG_S.getHeight()*(5f/6f)-i*playInfoBG_S.getHeight()/3f);
+			EntityUtil.setSizeInParent("width", 7f/8f, s, playInfoBG);
+			s.setPosition(playInfoBG.getWidth()/2f, playInfoBG_S.getHeight()*(5f/6f)-i*playInfoBG_S.getHeight()/3f);
 			playInfoBG_S.attachChild(s);
 		}
 		

@@ -1,6 +1,5 @@
 package org.game.bangyouscreen.scene;
 
-import org.andengine.entity.Entity;
 import org.andengine.entity.IEntity;
 import org.andengine.entity.modifier.IEntityModifier.IEntityModifierListener;
 import org.andengine.entity.modifier.LoopEntityModifier;
@@ -74,7 +73,7 @@ public class MainMenuScene extends ManagedScene{
 		ResourceManager.getInstance().loadAdResources();
 		ResourceManager.loadMenuResources();
 		ResourceManager.setupForMenus();
-		//SFXManager.getInstance().loadMusic("mainMusic", ResourceManager.getActivity().getMusicManager(), ResourceManager.getActivity());
+		SFXManager.getInstance().loadMusic("mainMusic", ResourceManager.getActivity().getMusicManager(), ResourceManager.getActivity());
 		SFXManager.getInstance().loadSound("a_click", ResourceManager.getActivity().getSoundManager(), ResourceManager.getActivity());
 		ResourceManager.loadThemeResources();
 		ResourceManager.loadBossResources();

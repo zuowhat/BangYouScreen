@@ -1,7 +1,6 @@
 package org.game.bangyouscreen.model;
 
 import org.andengine.opengl.texture.region.ITextureRegion;
-import org.andengine.opengl.texture.region.TextureRegion;
 import org.andengine.opengl.texture.region.TiledTextureRegion;
 
 /**

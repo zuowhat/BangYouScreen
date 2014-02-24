@@ -9,7 +9,6 @@ import org.andengine.entity.sprite.AnimatedSprite;
 import org.andengine.entity.sprite.ButtonSprite;
 import org.andengine.entity.sprite.ButtonSprite.OnClickListener;
 import org.andengine.entity.sprite.Sprite;
-import org.andengine.entity.text.Text;
 import org.andengine.opengl.vbo.VertexBufferObjectManager;
 import org.game.bangyouscreen.BangYouScreenActivity;
 import org.game.bangyouscreen.boss.ThemeBossForMXD;
@@ -153,6 +152,10 @@ public class GameWinLayer extends ManagedLayer{
 //		EntityUtil.setSizeInParent("height", 1f/7f, mGoldNum,LayerBG);
 //		mGoldNum.setPosition(goldNumAS[0].getX() - goldNumAS[2].getWidth()*2f, goldNumAS[2].getY());
 //		LayerBG.attachChild(mGoldNum);
+		Sprite addSprite = new Sprite(0f,0f,ResourceManager.numberTTR.getTextureRegion(11),mVertexBufferObjectManager);
+		addSprite.setSize(goldNumAS[2].getHeight()*(2f/3f), goldNumAS[2].getHeight()*(2f/3f));
+		addSprite.setPosition(goldNumAS[0].getX() - goldNumAS[0].getWidth()*2f, goldNumAS[2].getY());
+		LayerBG.attachChild(addSprite);
 		
 		goldSprite = new Sprite(0f,0f,ResourceManager.gameGold,mVertexBufferObjectManager);
 		EntityUtil.setSizeInParent("height", 1f/7f, goldSprite,LayerBG);

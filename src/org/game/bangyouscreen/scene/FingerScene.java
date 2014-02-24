@@ -51,7 +51,7 @@ public class FingerScene extends ManagedScene{
 	private boolean mTenSeconds = false;
 	private GameNumberUtil mGameNumber;
 	private AnimatedSprite clockTimeAS;
-	private String[] sounds = {"g_win","g_go","a_CountDown"};
+	private String[] sounds = {"g_win","g_go","a_CountDown","f_over"};
 	private Rectangle mRectangle;
 	private int currentHighestScore;
 	public static boolean isOver;
@@ -72,6 +72,7 @@ public class FingerScene extends ManagedScene{
 
 	@Override
 	public void onLoadScene() {
+		//SFXManager.getInstance().loadMusic("mainMusic", ResourceManager.getActivity().getMusicManager(), ResourceManager.getActivity());
 		isOver = false;
 		mGameNumber = new GameNumberUtil();
 		ResourceManager.getInstance().engine.getEngineOptions().getTouchOptions().setNeedsMultiTouch(true);
@@ -259,7 +260,7 @@ public class FingerScene extends ManagedScene{
 		fingerScoreBG.registerEntityModifier(new MoveYModifier(0.5f, fingerScoreBG.getY(), fadableBGRect.getHeight()*2f/3f, new IEntityModifierListener(){
 
 			public void onModifierStarted(IModifier<IEntity> pModifier,IEntity pItem) {
-				
+				SFXManager.getInstance().playSound("f_over");
 			}
 
 			public void onModifierFinished(IModifier<IEntity> pModifier, IEntity pItem) {
@@ -283,12 +284,17 @@ public class FingerScene extends ManagedScene{
 				EntityUtil.setSize("width", 1f/2f, fingerGoldBG);
 				fingerGoldBG.setPosition(-fingerGoldBG.getWidth(), pItem.getY()-pItem.getHeight()/2f-5f-fingerGoldBG.getHeight()/2f);
 				fadableBGRect.attachChild(fingerGoldBG);
-				System.out.println("222");
+				
 				AnimatedSprite[] goldNumAS = mGameNumber.fingerOverGold(fingerGoldBG, Math.round(upHeight/2f));
 				Sprite gLayerSprite = new Sprite(0f,0f,ResourceManager.gameGold,mVertexBufferObjectManager);
 				gLayerSprite.setSize(goldNumAS[2].getHeight(), goldNumAS[2].getHeight());
 				gLayerSprite.setPosition(goldNumAS[2].getX() + goldNumAS[2].getWidth()*2f, goldNumAS[2].getY());
 				fingerGoldBG.attachChild(gLayerSprite);
+				
+				Sprite addSprite = new Sprite(0f,0f,ResourceManager.numberTTR.getTextureRegion(11),mVertexBufferObjectManager);
+				EntityUtil.setSizeInParent("height", 4f/5f, addSprite, fingerGoldBG);
+				addSprite.setPosition(goldNumAS[0].getX() - goldNumAS[0].getWidth()*2f, goldNumAS[2].getY());
+				fingerGoldBG.attachChild(addSprite);
 				
 				AnimatedSprite[] scoreNumAS = mGameNumber.fingerOverScore(pItem, Math.round(upHeight));
 				Sprite mLayerSprite = new Sprite(0f,0f,ResourceManager.mPic,mVertexBufferObjectManager);

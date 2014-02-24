@@ -22,8 +22,6 @@ import android.content.Context;
 public class SFXManager {
 	
 	private static SFXManager INSTANCE = null;
-	
-	private Sound mClick;
 	private Music mMusic;
     private HashMap<String, Music> mMusicMap = new HashMap();
     private HashMap<String, Sound> mSoundsMap = new HashMap();

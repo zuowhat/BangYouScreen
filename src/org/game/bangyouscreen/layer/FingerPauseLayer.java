@@ -7,7 +7,6 @@ import org.andengine.entity.sprite.ButtonSprite;
 import org.andengine.entity.sprite.ButtonSprite.OnClickListener;
 import org.andengine.entity.sprite.Sprite;
 import org.andengine.opengl.vbo.VertexBufferObjectManager;
-import org.game.bangyouscreen.gameLevels.GameLevel;
 import org.game.bangyouscreen.managers.ManagedLayer;
 import org.game.bangyouscreen.managers.ResourceManager;
 import org.game.bangyouscreen.managers.SFXManager;
@@ -67,8 +66,8 @@ public class FingerPauseLayer extends ManagedLayer{
 		attachChild(fadableBGRect);
 		
 		LayerBG = new Sprite(0f, 0f,ResourceManager.layerPauseBG, mVertexBufferObjectManager);
-		LayerBG.setSize(mCameraWidth/6f, mCameraHeight*(2f/3f));
-		//EntityUtil.setSize("height", 2f/3f, LayerBG);
+		//LayerBG.setSize(mCameraWidth/6f, mCameraHeight*(2f/3f));
+		EntityUtil.setSize("height", 2f/3f, LayerBG);
 		LayerBG.setPosition(mCameraWidth/2f, (mCameraHeight / 2f) + (ResourceManager.loadingBG.getHeight() / 2f));
 		attachChild(LayerBG);
 		
