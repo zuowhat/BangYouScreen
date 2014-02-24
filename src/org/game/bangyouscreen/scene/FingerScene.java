@@ -78,6 +78,9 @@ public class FingerScene extends ManagedScene{
 		ResourceManager.getInstance().engine.setTouchController(new MultiTouchController());
 		Sprite backgroundSprite = new Sprite(0f,0f, ResourceManager.fingerBG[Math.round((float)Math.random()*2)],mVertexBufferObjectManager);
 		EntityUtil.setSize("width", 1f, backgroundSprite);
+		if(mCameraHeight > backgroundSprite.getHeight()){
+			backgroundSprite.setHeight(mCameraHeight);
+		}
 		backgroundSprite.setPosition(mCameraWidth / 2f, mCameraHeight / 2f);
 		backgroundSprite.setZIndex(-5000);
 		attachChild(backgroundSprite);
@@ -117,7 +120,7 @@ public class FingerScene extends ManagedScene{
 					//SFXManager.getInstance().playSound("g_button");
 					upHeight = upHeight + 1f;
 					mGameNumber.updateUpHighNum(Math.round(upHeight));
-					mRectangle.setY(mRectangle.getHeight()/2f+upHeight);
+					mRectangle.setY(mRectangle.getHeight()/2f+(4f*mCameraHeight/5f-mRectangle.getHeight()/2f)*upHeight/360f);
 			}});
 		attachChild(greenButtonBS);
 		
@@ -128,13 +131,12 @@ public class FingerScene extends ManagedScene{
 		redButtonBS.setPosition(mCameraWidth - redButtonBS.getWidth() / 2f, redButtonBS.getHeight() / 2f);
 		redButtonBS.setOnClickListener(new OnClickListener(){
 
-			@Override
 			public void onClick(ButtonSprite pButtonSprite,
 					float pTouchAreaLocalX, float pTouchAreaLocalY) {
 					//SFXManager.getInstance().playSound("g_button");
 					upHeight = upHeight + 1f;
 					mGameNumber.updateUpHighNum(Math.round(upHeight));
-					mRectangle.setY(mRectangle.getHeight()/2f+upHeight);
+					mRectangle.setY(mRectangle.getHeight()/2f+(4f*mCameraHeight/5f-mRectangle.getHeight()/2f)*upHeight/360f);
 			}});
 		attachChild(redButtonBS);
 		
