@@ -105,7 +105,7 @@ public class FingerScene extends ManagedScene{
 		
 		//实时上升高度
 		Sprite mSprite = new Sprite(0f,0f,ResourceManager.mPic,mVertexBufferObjectManager);
-		EntityUtil.setSizeInParent("height", 2f/5f, mSprite, mRectangle);
+		EntityUtil.setSizeInParent("height", 3f/10f, mSprite, mRectangle);
 		mSprite.setPosition(submarineAS.getX()-submarineAS.getWidth()/2f-mSprite.getWidth()/2f, submarineAS.getY());
 		mRectangle.attachChild(mSprite);
 		mGameNumber.upHeightNum(mRectangle,mSprite,0);
@@ -242,6 +242,7 @@ public class FingerScene extends ManagedScene{
 	 * @since 1.0
 	 */
 	private void gameOver(){
+		SFXManager.getInstance().playSound("f_over");
 		unregisterUpdateHandler(gameRunTimer);
 		isOver = true;
 		//父背景变成半透明
@@ -260,7 +261,7 @@ public class FingerScene extends ManagedScene{
 		fingerScoreBG.registerEntityModifier(new MoveYModifier(0.5f, fingerScoreBG.getY(), fadableBGRect.getHeight()*2f/3f, new IEntityModifierListener(){
 
 			public void onModifierStarted(IModifier<IEntity> pModifier,IEntity pItem) {
-				SFXManager.getInstance().playSound("f_over");
+				
 			}
 
 			public void onModifierFinished(IModifier<IEntity> pModifier, IEntity pItem) {

@@ -188,12 +188,12 @@ public class HelpScene extends ManagedScene{
 		for(int i=0; i<3; i++){
 			Sprite s = new Sprite(0f,0f,ResourceManager.helpExplanation[i],mVertexBufferObjectManager);
 			EntityUtil.setSizeInParent("width", 7f/8f, s, playInfoBG);
-			s.setPosition(playInfoBG.getWidth()/2f, playInfoBG_S.getHeight()*(5f/6f)-i*playInfoBG_S.getHeight()/3f);
+			s.setPosition(playInfoBG_S.getWidth()/2f, playInfoBG_S.getHeight()*(5f/6f)-i*playInfoBG_S.getHeight()/3f);
 			playInfoBG_S.attachChild(s);
 		}
 		
 		//向上箭头
-		ButtonSprite arrowUpSprite = new ButtonSprite(0f,0f,ResourceManager.arrowTTR.getTextureRegion(0),mVertexBufferObjectManager);
+		ButtonSprite arrowUpSprite = new ButtonSprite(0f,0f,ResourceManager.arrowUDTTR.getTextureRegion(0),mVertexBufferObjectManager);
 		EntityUtil.setSize("height", 1f/10f, arrowUpSprite);
 		arrowUpSprite.setPosition(playInfoBG_S.getWidth()/2f, playInfoBG.getHeight()-10f-arrowUpSprite.getHeight()/2f);
 		playInfoBG.attachChild(arrowUpSprite);
@@ -225,7 +225,7 @@ public class HelpScene extends ManagedScene{
 		});
 		registerTouchArea(arrowUpSprite);
 		//向下箭头
-		ButtonSprite arrowDownSprite = new ButtonSprite(0f,0f,ResourceManager.arrowTTR.getTextureRegion(1),mVertexBufferObjectManager);
+		ButtonSprite arrowDownSprite = new ButtonSprite(0f,0f,ResourceManager.arrowUDTTR.getTextureRegion(1),mVertexBufferObjectManager);
 		EntityUtil.setSize("height", 1f/10f, arrowDownSprite);
 		arrowDownSprite.setPosition(playInfoBG_S.getWidth()/2f, 10f+arrowDownSprite.getHeight()/2f);
 		playInfoBG.attachChild(arrowDownSprite);

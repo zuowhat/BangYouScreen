@@ -164,19 +164,19 @@ public class BangYouScreenActivity extends BaseGameActivity implements PointsCha
 	protected void onCreate(Bundle pSavedInstanceState) {
 		JMPManager manager = new JMPManager ();
 	    manager.startService(this,1);
+	    System.out.println("onCreate");
 		super.onCreate(pSavedInstanceState);
 	}
 	
 	@Override
 	public void onCreateResources(
 			OnCreateResourcesCallback pOnCreateResourcesCallback){
-		
 		ResourceManager.setup(this,  (FixedStepEngine)this.getEngine(), this.getApplicationContext(), 
 				cameraWidth, cameraHeight, cameraWidth/DESIGN_WINDOW_WIDTH_PIXELS, cameraHeight/DESIGN_WINDOW_HEIGHT_PIXELS);
 		//System.out.println("onCreateResources");
 		
 		ResourceManager.getInstance().initAdResources();
-		
+		System.out.println("onCreateResources");
 		pOnCreateResourcesCallback.onCreateResourcesFinished();
 	}
 
@@ -186,7 +186,7 @@ public class BangYouScreenActivity extends BaseGameActivity implements PointsCha
 		//this.mEngine.registerUpdateHandler(new MemoryLogger());
 		//System.out.println("onCreateScene");
 		SceneManager.getInstance().showScene(new SplashScreen());
-		System.out.println("程序启动");
+		System.out.println("onCreateScene");
 		
 		pOnCreateSceneCallback.onCreateSceneFinished(mEngine.getScene());
 	}
@@ -200,7 +200,7 @@ public class BangYouScreenActivity extends BaseGameActivity implements PointsCha
 
 	@Override
 	protected synchronized void onResume() {
-		System.out.println("程序重新启动");
+		System.out.println("onResume");
 		super.onResume();
 		//System.gc();
 		if(this.isGameLoaded()){
@@ -209,7 +209,7 @@ public class BangYouScreenActivity extends BaseGameActivity implements PointsCha
 	}
 	
 	protected void onPause() {
-		System.out.println("程序暂停");
+		System.out.println("onPause");
 		super.onPause();
 		if (this.isGameLoaded()) {
 			//SFXManager.getInstance().pauseMusic("mainMusic");
@@ -217,7 +217,7 @@ public class BangYouScreenActivity extends BaseGameActivity implements PointsCha
 	}
 	
 	protected void onDestroy() {
-		System.out.println("游戏关闭");
+		System.out.println("onDestroy");
 		// 释放资源，原finalize()方法名修改为close()
 		//AppConnect.getInstance(this).close();
 		ResourceManager.getInstance().unloadAdResources();

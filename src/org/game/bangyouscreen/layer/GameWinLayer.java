@@ -95,7 +95,7 @@ public class GameWinLayer extends ManagedLayer{
 		//继续游戏
 		ButtonSprite continueBS = new ButtonSprite(0f,0f,ResourceManager.gamePauseMenu.getTextureRegion(0),mVertexBufferObjectManager);
 		continueBS.setPosition(LayerBG.getWidth()*(3f/4f), LayerBG.getHeight()/4f);
-		EntityUtil.setSizeInParent("width", 1f/4f, continueBS, LayerBG);
+		EntityUtil.setSizeInParent("width", 3f/8f, continueBS, LayerBG);
 		continueBS.setOnClickListener(new OnClickListener(){
 			public void onClick(ButtonSprite pButtonSprite,
 					float pTouchAreaLocalX, float pTouchAreaLocalY) {
@@ -109,7 +109,7 @@ public class GameWinLayer extends ManagedLayer{
 		//返回菜单
 		ButtonSprite goBackBS = new ButtonSprite(0f,0f,ResourceManager.gamePauseMenu.getTextureRegion(2),mVertexBufferObjectManager);
 		goBackBS.setPosition(LayerBG.getWidth()/4f, LayerBG.getHeight()/4f);
-		EntityUtil.setSizeInParent("width", 1f/4f, goBackBS, LayerBG);
+		EntityUtil.setSizeInParent("width", 3f/8f, goBackBS, LayerBG);
 		goBackBS.setOnClickListener(new OnClickListener(){
 			public void onClick(ButtonSprite pButtonSprite,
 					float pTouchAreaLocalX, float pTouchAreaLocalY) {
@@ -119,24 +119,6 @@ public class GameWinLayer extends ManagedLayer{
 			}});
 		LayerBG.attachChild(goBackBS);
 		registerTouchArea(goBackBS);
-		
-		
-//		AnimatedButtonSprite closeButton = new AnimatedButtonSprite(0f, 0f,ResourceManager.themeSceneOneBossTotalTT[0], mVertexBufferObjectManager);
-//		closeButton.setPosition(LayerBG.getWidth()/2f, LayerBG.getHeight()/2f);
-//		closeButton.setScale(3f);
-//		long []frameDur = new long[4];
-//		Arrays.fill(frameDur, 300);
-//		closeButton.animate(frameDur,0,3,true);
-//		closeButton.setOnClickListener(new OnClickListener(){
-//
-//			public void onClick(AnimatedButtonSprite pButtonSprite,
-//					float pTouchAreaLocalX, float pTouchAreaLocalY) {
-//				onHideLayer();
-//				//SceneManager.getInstance().showScene(GameLevel.getInstance());
-//			}});
-//		LayerBG.attachChild(closeButton);
-//		registerTouchArea(closeButton);
-		
 	}
 	
 	public void onShowLayer() {
@@ -147,13 +129,8 @@ public class GameWinLayer extends ManagedLayer{
 		GameNumberUtil g = new GameNumberUtil();
 		goldNumAS = g.gameScoreNum(LayerBG, goldNum);
 		
-//		mGoldNum = new Text(0f,0f,ResourceManager.mFont,"获得",mVertexBufferObjectManager);
-//		mGoldNum.setColor(0f, 0f, 0f);
-//		EntityUtil.setSizeInParent("height", 1f/7f, mGoldNum,LayerBG);
-//		mGoldNum.setPosition(goldNumAS[0].getX() - goldNumAS[2].getWidth()*2f, goldNumAS[2].getY());
-//		LayerBG.attachChild(mGoldNum);
 		Sprite addSprite = new Sprite(0f,0f,ResourceManager.numberTTR.getTextureRegion(11),mVertexBufferObjectManager);
-		addSprite.setSize(goldNumAS[2].getHeight()*(2f/3f), goldNumAS[2].getHeight()*(2f/3f));
+		EntityUtil.setSizeInParent("height", 4f/3f, addSprite, goldNumAS[0]);
 		addSprite.setPosition(goldNumAS[0].getX() - goldNumAS[0].getWidth()*2f, goldNumAS[2].getY());
 		LayerBG.attachChild(addSprite);
 		

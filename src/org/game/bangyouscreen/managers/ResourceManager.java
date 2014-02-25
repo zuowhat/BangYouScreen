@@ -97,7 +97,8 @@ public class ResourceManager extends Object{
 	public static TextureRegion authorInfo;
 	public static TiledTextureRegion statPicTTR;
 	public static TiledTextureRegion numWhiteTTR;
-	public static TiledTextureRegion arrowTTR;
+	public static TiledTextureRegion arrowUDTTR;
+	public static TiledTextureRegion arrowLRTTR;
 	public static TextureRegion[] fingerBG = new TextureRegion[3];
 	public static TiledTextureRegion submarineTTR;
 	public static TextureRegion highScoreFont;
@@ -483,9 +484,6 @@ public class ResourceManager extends Object{
 		if(numWhiteTTR == null){
 			numWhiteTTR = getLimitableTTR("numwhite.png",12,1,mNormalTextureOption);
 		}
-		if(arrowTTR == null){
-			arrowTTR = getLimitableTTR("arrow.png",1,2,mNormalTextureOption);
-		}
 		if(helpExplanation[0] == null){
 			helpExplanation[0] = getLimitableTR("FingerSceneExplanation.jpg",mNormalTextureOption);
 		}
@@ -566,7 +564,12 @@ public class ResourceManager extends Object{
 		if(layerPauseBG == null){
 			layerPauseBG = getLimitableTR("layerPauseBG.png",mNormalTextureOption);
 		}
-		
+		if(arrowUDTTR == null){
+			arrowUDTTR = getLimitableTTR("arrowUD.png",1,2,mNormalTextureOption);
+		}
+		if(arrowLRTTR == null){
+			arrowLRTTR = getLimitableTTR("arrowLR.png",2,1,mNormalTextureOption);
+		}
 		//未完待写
 		for(int i=0; i<magicASTTRArray.length; i++){
 			if(magicASTTRArray[i] == null){

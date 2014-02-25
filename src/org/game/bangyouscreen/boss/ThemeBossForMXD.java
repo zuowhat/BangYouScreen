@@ -7,6 +7,7 @@ import org.andengine.entity.primitive.Rectangle;
 import org.andengine.entity.scene.Scene;
 import org.andengine.entity.sprite.ButtonSprite;
 import org.andengine.entity.sprite.Sprite;
+import org.andengine.entity.sprite.ButtonSprite.OnClickListener;
 import org.andengine.input.touch.TouchEvent;
 import org.andengine.input.touch.detector.ScrollDetector;
 import org.andengine.input.touch.detector.ScrollDetector.IScrollDetectorListener;
@@ -79,6 +80,7 @@ public class ThemeBossForMXD extends ManagedScene implements IScrollDetectorList
 		
 		//后退按钮
 		ButtonSprite backBS = new ButtonSprite(0f,0f,ResourceManager.backTR,mVertexBufferObjectManager);
+		EntityUtil.setSize("height", 1f / 8f, backBS);
 		backBS.setPosition(10f+backBS.getWidth()/2f, mCameraHeight-10f-backBS.getHeight()/2f);
 		attachChild(backBS);
 		backBS.setOnClickListener(new org.andengine.entity.sprite.ButtonSprite.OnClickListener(){
@@ -92,6 +94,7 @@ public class ThemeBossForMXD extends ManagedScene implements IScrollDetectorList
 		
 		//主页按钮
 		ButtonSprite homeBS = new ButtonSprite(0f,0f,ResourceManager.homeTR,mVertexBufferObjectManager);
+		homeBS.setSize(backBS.getWidth(), backBS.getHeight());
 		homeBS.setPosition(mCameraWidth-10f-homeBS.getWidth()/2f, backBS.getY());
 		attachChild(homeBS);
 		homeBS.setOnClickListener(new org.andengine.entity.sprite.ButtonSprite.OnClickListener(){
@@ -103,6 +106,44 @@ public class ThemeBossForMXD extends ManagedScene implements IScrollDetectorList
 		});
 		registerTouchArea(homeBS);
 		
+		//向左箭头
+		ButtonSprite arrowLeftSprite = new ButtonSprite(0f,0f,ResourceManager.arrowLRTTR.getTextureRegion(0),mVertexBufferObjectManager);
+		EntityUtil.setSize("height", 1f/8f, arrowLeftSprite);
+		arrowLeftSprite.setPosition(backBS.getX(), mCameraHeight/2f);
+		attachChild(arrowLeftSprite);
+		arrowLeftSprite.setOnClickListener(new OnClickListener(){
+			public void onClick(ButtonSprite pButtonSprite, float pTouchAreaLocalX, float pTouchAreaLocalY) {
+				SFXManager.getInstance().playSound("a_click");
+				mBossSlider.clearEntityModifiers();
+				if(mCurrentBoss == 1){
+					mBossSlider.registerEntityModifier(new MoveXModifier(0.3F, mBossSlider.getX(), mBossSlider.getWidth()/2f));
+				}else{
+					mCurrentBoss--;
+					themeRInitX = themeRInitX + mCameraWidth;
+					mBossSlider.registerEntityModifier(new MoveXModifier(0.3F, mBossSlider.getX(), themeRInitX));
+				}
+			}
+		});
+		registerTouchArea(arrowLeftSprite);
+		//向右箭头
+		ButtonSprite arrowRightSprite = new ButtonSprite(0f,0f,ResourceManager.arrowLRTTR.getTextureRegion(1),mVertexBufferObjectManager);
+		arrowRightSprite.setSize(arrowLeftSprite.getWidth(), arrowLeftSprite.getHeight());
+		arrowRightSprite.setPosition(homeBS.getX(), mCameraHeight/2f);
+		attachChild(arrowRightSprite);
+		arrowRightSprite.setOnClickListener(new OnClickListener(){
+			public void onClick(ButtonSprite pButtonSprite, float pTouchAreaLocalX, float pTouchAreaLocalY) {
+				SFXManager.getInstance().playSound("a_click");
+				mBossSlider.clearEntityModifiers();
+				if(mCurrentBoss == bossPics.length){
+					mBossSlider.registerEntityModifier(new MoveXModifier(0.3F, mBossSlider.getX(), mBossSlider.getWidth()/2f - mCameraWidth*(bossPics.length - 1)));
+				}else{
+					mCurrentBoss++;
+					themeRInitX = themeRInitX - mCameraWidth;
+					mBossSlider.registerEntityModifier(new MoveXModifier(0.3F, mBossSlider.getX(), themeRInitX));
+				}
+			}
+		});
+		registerTouchArea(arrowRightSprite);
 	}
 
 	@Override

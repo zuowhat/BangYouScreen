@@ -79,7 +79,7 @@ public class MainMenuScene extends ManagedScene{
 		ResourceManager.loadBossResources();
 		ResourceManager.loadGameResources();
 		ResourceManager.loadFingerResources();
-		//SFXManager.getInstance().playMusic("mainMusic");
+		SFXManager.getInstance().playMusic("mainMusic");
 		
 		//白云
 //		Sprite mMenuCloudsLayerOne = new Sprite(0.0F, mCameraHeight, ResourceManager.menuClouds1, mVertexBufferObjectManager);

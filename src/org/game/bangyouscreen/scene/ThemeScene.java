@@ -5,7 +5,10 @@ package org.game.bangyouscreen.scene;
  * @author zuowhat 2013-11-25
  * @version 1.0
  */
+import org.andengine.entity.IEntity;
 import org.andengine.entity.modifier.MoveXModifier;
+import org.andengine.entity.modifier.MoveYModifier;
+import org.andengine.entity.modifier.IEntityModifier.IEntityModifierListener;
 import org.andengine.entity.primitive.Rectangle;
 import org.andengine.entity.scene.Scene;
 import org.andengine.entity.sprite.ButtonSprite;
@@ -16,11 +19,13 @@ import org.andengine.input.touch.detector.ScrollDetector;
 import org.andengine.input.touch.detector.ScrollDetector.IScrollDetectorListener;
 import org.andengine.input.touch.detector.SurfaceScrollDetector;
 import org.andengine.opengl.vbo.VertexBufferObjectManager;
+import org.andengine.util.modifier.IModifier;
 import org.game.bangyouscreen.boss.ThemeBossForMXD;
 import org.game.bangyouscreen.managers.ManagedScene;
 import org.game.bangyouscreen.managers.ResourceManager;
 import org.game.bangyouscreen.managers.SFXManager;
 import org.game.bangyouscreen.managers.SceneManager;
+import org.game.bangyouscreen.util.EntityUtil;
 
 
 public class ThemeScene extends ManagedScene implements IScrollDetectorListener{
@@ -78,8 +83,7 @@ public class ThemeScene extends ManagedScene implements IScrollDetectorListener{
 		
 		//后退按钮
 		ButtonSprite backBS = new ButtonSprite(0f,0f,ResourceManager.backTR,mVertexBufferObjectManager);
-		//singleModeBS.setSize(0.3f * mCameraWidth, (0.3f * mCameraWidth)/(singleModeBS.getWidth() / singleModeBS.getHeight()));
-		//EntityUtil.setSize("height", 1f / 7f, themeModeBS);
+		EntityUtil.setSize("height", 1f / 8f, backBS);
 		backBS.setPosition(10f+backBS.getWidth()/2f, mCameraHeight-10f-backBS.getHeight()/2f);
 		attachChild(backBS);
 		backBS.setOnClickListener(new OnClickListener(){
@@ -93,8 +97,7 @@ public class ThemeScene extends ManagedScene implements IScrollDetectorListener{
 		
 		//主页按钮
 		ButtonSprite homeBS = new ButtonSprite(0f,0f,ResourceManager.homeTR,mVertexBufferObjectManager);
-		//singleModeBS.setSize(0.3f * mCameraWidth, (0.3f * mCameraWidth)/(singleModeBS.getWidth() / singleModeBS.getHeight()));
-		//EntityUtil.setSize("height", 1f / 7f, themeModeBS);
+		homeBS.setSize(backBS.getWidth(), backBS.getHeight());
 		homeBS.setPosition(mCameraWidth-10f-homeBS.getWidth()/2f, backBS.getY());
 		attachChild(homeBS);
 		homeBS.setOnClickListener(new OnClickListener(){
@@ -105,6 +108,46 @@ public class ThemeScene extends ManagedScene implements IScrollDetectorListener{
 			}
 		});
 		registerTouchArea(homeBS);
+		
+		//向左箭头
+		ButtonSprite arrowLeftSprite = new ButtonSprite(0f,0f,ResourceManager.arrowLRTTR.getTextureRegion(0),mVertexBufferObjectManager);
+		EntityUtil.setSize("height", 1f/8f, arrowLeftSprite);
+		arrowLeftSprite.setPosition(backBS.getX(), mCameraHeight/2f);
+		attachChild(arrowLeftSprite);
+		arrowLeftSprite.setOnClickListener(new OnClickListener(){
+			public void onClick(ButtonSprite pButtonSprite, float pTouchAreaLocalX, float pTouchAreaLocalY) {
+				SFXManager.getInstance().playSound("a_click");
+				mScensSlider.clearEntityModifiers();
+				if(mCurrentTheme == 1){
+					mScensSlider.registerEntityModifier(new MoveXModifier(0.3F, mScensSlider.getX(), mScensSlider.getWidth()/2f));
+				}else{
+					mCurrentTheme--;
+					themeRInitX = themeRInitX + mCameraWidth;
+					mScensSlider.registerEntityModifier(new MoveXModifier(0.3F, mScensSlider.getX(), themeRInitX));
+				}
+			}
+		});
+		registerTouchArea(arrowLeftSprite);
+		//向右箭头
+		ButtonSprite arrowRightSprite = new ButtonSprite(0f,0f,ResourceManager.arrowLRTTR.getTextureRegion(1),mVertexBufferObjectManager);
+		arrowRightSprite.setSize(arrowLeftSprite.getWidth(), arrowLeftSprite.getHeight());
+		arrowRightSprite.setPosition(homeBS.getX(), mCameraHeight/2f);
+		attachChild(arrowRightSprite);
+		arrowRightSprite.setOnClickListener(new OnClickListener(){
+			public void onClick(ButtonSprite pButtonSprite, float pTouchAreaLocalX, float pTouchAreaLocalY) {
+				SFXManager.getInstance().playSound("a_click");
+				mScensSlider.clearEntityModifiers();
+				if(mCurrentTheme == themePics.length){
+					mScensSlider.registerEntityModifier(new MoveXModifier(0.3F, mScensSlider.getX(), mScensSlider.getWidth()/2f - mCameraWidth*(themePics.length - 1)));
+				}else{
+					mCurrentTheme++;
+					themeRInitX = themeRInitX - mCameraWidth;
+					mScensSlider.registerEntityModifier(new MoveXModifier(0.3F, mScensSlider.getX(), themeRInitX));
+				}
+			}
+		});
+		registerTouchArea(arrowRightSprite);
+		
 	}
 
 	@Override

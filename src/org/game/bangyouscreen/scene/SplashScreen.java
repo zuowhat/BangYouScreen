@@ -21,7 +21,9 @@ import org.andengine.util.modifier.IModifier;
 import org.andengine.util.modifier.IModifier.IModifierListener;
 import org.game.bangyouscreen.managers.ManagedScene;
 import org.game.bangyouscreen.managers.ResourceManager;
+import org.game.bangyouscreen.managers.SFXManager;
 import org.game.bangyouscreen.managers.SceneManager;
+import org.game.bangyouscreen.util.EntityUtil;
 
 /**
  * 启动画面
@@ -94,11 +96,13 @@ public class SplashScreen extends ManagedScene{
 		beginOneTexture.load();
 		beginTwoTexture.load();
 		nimbusBG.load();
+		SFXManager.getInstance().playSound("splash");
 		ResourceManager.getCamera().setCenterDirect(ResourceManager.getInstance().cameraWidth / 2f, ResourceManager.getInstance().cameraHeight / 2f);
 		this.setBackgroundEnabled(true);
 		this.setBackground(new Background(0.1f, 0.1f, 0.1f));
 		
-		nimbusSprite.setScale(2f);
+		//nimbusSprite.setScale(2f);
+		EntityUtil.setSize("width", 1f, nimbusSprite);
 		nimbusSprite.registerEntityModifier(mRotationModifier);
 		attachChild(nimbusSprite);
 		this.attachChild(beginOneSprite);
