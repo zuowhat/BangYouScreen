@@ -73,7 +73,7 @@ public class ShopScene extends ManagedScene implements IScrollDetectorListener{
 	private int weaponPotionNum;
 	private int magicPotionNum;
 	private int clockNum;
-	private String[] sounds = {"s_nomoney"};
+	private String[] sounds = {"s_nomoney","a_coin"};
 	
 	public static ShopScene getInstance(){
 		return INSTANCE;
@@ -410,7 +410,7 @@ public class ShopScene extends ManagedScene implements IScrollDetectorListener{
 							float pTouchAreaLocalX, float pTouchAreaLocalY) {
 							if(myGold >= goodsPrice){
 								//pButtonSprite.setCurrentTileIndex(1);
-								SFXManager.getInstance().playSound("a_click");
+								SFXManager.getInstance().playSound("a_coin");
 								myGold = myGold - goodsPrice;
 								mGameNumber.addGoldToLayer(propTopBG, myGold);
 								//BangYouScreenActivity.writeIntToSharedPreferences(DataConstant.MY_GOLD, myGold);

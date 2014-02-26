@@ -437,6 +437,7 @@ public class FingerScene extends ManagedScene{
 				INSTANCE.clearEntityModifiers();
 				INSTANCE.clearTouchAreas();
 				INSTANCE.clearUpdateHandlers();
+				SFXManager.getInstance().unloadAllSound(sounds);
 			}});
 	}
 

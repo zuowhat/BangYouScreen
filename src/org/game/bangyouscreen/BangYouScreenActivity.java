@@ -176,6 +176,7 @@ public class BangYouScreenActivity extends BaseGameActivity implements PointsCha
 		//System.out.println("onCreateResources");
 		
 		ResourceManager.getInstance().initAdResources();
+		SFXManager.getInstance().loadMusic("splash", this.getMusicManager(), this);
 		System.out.println("onCreateResources");
 		pOnCreateResourcesCallback.onCreateResourcesFinished();
 	}
@@ -187,7 +188,6 @@ public class BangYouScreenActivity extends BaseGameActivity implements PointsCha
 		//System.out.println("onCreateScene");
 		SceneManager.getInstance().showScene(new SplashScreen());
 		System.out.println("onCreateScene");
-		
 		pOnCreateSceneCallback.onCreateSceneFinished(mEngine.getScene());
 	}
 

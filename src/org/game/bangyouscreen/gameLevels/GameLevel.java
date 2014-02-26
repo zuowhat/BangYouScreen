@@ -439,7 +439,7 @@ public class GameLevel extends ManagedScene {
 				INSTANCE.clearEntityModifiers();
 				INSTANCE.clearTouchAreas();
 				INSTANCE.clearUpdateHandlers();
-				//SFXManager.getInstance().unloadAllSound(sounds);
+				SFXManager.getInstance().unloadAllSound(sounds);
 			}});
 	}
 

@@ -26,19 +26,6 @@ public class SFXManager {
     private HashMap<String, Music> mMusicMap = new HashMap();
     private HashMap<String, Sound> mSoundsMap = new HashMap();
     
-    public SFXManager() {
-    	SoundFactory.setAssetBasePath("sfx/");
-    	try {
-    		if(!mSoundsMap.containsKey("splash")){
-        		mSoundsMap.put("splash", SoundFactory.createSoundFromAsset(ResourceManager
-    					.getActivity().getSoundManager(), ResourceManager
-    					.getActivity(), "splash.ogg"));	
-    		}
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-    }
-	
 	public static SFXManager getInstance(){
 	    if (INSTANCE == null)
 	    	INSTANCE = new SFXManager();

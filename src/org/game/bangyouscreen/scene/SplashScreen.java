@@ -96,7 +96,7 @@ public class SplashScreen extends ManagedScene{
 		beginOneTexture.load();
 		beginTwoTexture.load();
 		nimbusBG.load();
-		SFXManager.getInstance().playSound("splash");
+		SFXManager.getInstance().playMusic("splash");
 		ResourceManager.getCamera().setCenterDirect(ResourceManager.getInstance().cameraWidth / 2f, ResourceManager.getInstance().cameraHeight / 2f);
 		this.setBackgroundEnabled(true);
 		this.setBackground(new Background(0.1f, 0.1f, 0.1f));
@@ -162,6 +162,8 @@ public class SplashScreen extends ManagedScene{
 				beginOneTexture.unload();
 				beginTwoTexture.unload();
 				nimbusBG.unload();
+				SFXManager.getInstance().stopMusic("splash");
+				SFXManager.getInstance().unloadMusic("splash");
 			}});
 	}
 
