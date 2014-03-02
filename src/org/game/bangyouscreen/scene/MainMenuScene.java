@@ -42,6 +42,8 @@ public class MainMenuScene extends ManagedScene{
 	private ButtonSprite chooseModeBS;
 	private ButtonSprite shopModeBS;
 	private ButtonSprite helpModeBS;
+	private String[] musics = {"mainMusic","zhan","shi","ming","zhu"};
+	
 	
 	public static MainMenuScene getInstance(){
 		return INSTANCE;
@@ -51,13 +53,7 @@ public class MainMenuScene extends ManagedScene{
 		super(0.1f);
 	}
 	
-	@Override
 	public Scene onLoadingScreenLoadAndShown() {
-//		Sprite backgroundSprite = new Sprite(0f,0f, ResourceManager.mainMenuBackgroundTR,mVertexBufferObjectManager);
-//		backgroundSprite.setScale(ResourceManager.getInstance().cameraWidth / ResourceManager.mainMenuBackgroundTR.getWidth());
-//		backgroundSprite.setPosition(mCameraWidth / 2f, mCameraHeight / 2f);
-//		backgroundSprite.setZIndex(-5000);
-//		attachChild(backgroundSprite);
 		ResourceManager.loadLoadingResources();
 		LoadingScene.getInstance().onLoadScene();
 		return LoadingScene.getInstance();
@@ -70,10 +66,11 @@ public class MainMenuScene extends ManagedScene{
 	
 	@Override
 	public void onLoadScene() {
+		System.out.println("MainMenuScene---->onLoadScene");
 		ResourceManager.getInstance().loadAdResources();
 		ResourceManager.loadMenuResources();
 		ResourceManager.setupForMenus();
-		SFXManager.getInstance().loadMusic("mainMusic", ResourceManager.getActivity().getMusicManager(), ResourceManager.getActivity());
+		SFXManager.getInstance().loadMusics(musics, ResourceManager.getActivity().getMusicManager(), ResourceManager.getActivity());
 		SFXManager.getInstance().loadSound("a_click", ResourceManager.getActivity().getSoundManager(), ResourceManager.getActivity());
 		ResourceManager.loadThemeResources();
 		ResourceManager.loadBossResources();
@@ -314,6 +311,8 @@ public class MainMenuScene extends ManagedScene{
 	
 	@Override
 	public void onShowScene() {
+		System.out.println("MainMenuScene---->onShowScene");
+		//SFXManager.getInstance().playMusic("mainMusic");
 //		if(!this.backgroundSprite.hasParent()) {
 //			this.attachChild(this.backgroundSprite);
 //			this.sortChildren();
@@ -324,6 +323,7 @@ public class MainMenuScene extends ManagedScene{
 
 	@Override
 	public void onUnloadScene() {
+		System.out.println("MainMenuScene---->onUnloadScene");
 		ResourceManager.getInstance().engine.runOnUpdateThread(new Runnable() {
 			public void run() {
 				detachChildren();
@@ -341,7 +341,7 @@ public class MainMenuScene extends ManagedScene{
 
 	@Override
 	public void onHideScene() {
-		// TODO Auto-generated method stub
+		System.out.println("MainMenuScene---->onHideScene");
 		
 	}
 

@@ -52,6 +52,7 @@ public class FingerScene extends ManagedScene{
 	private GameNumberUtil mGameNumber;
 	private AnimatedSprite clockTimeAS;
 	private String[] sounds = {"g_win","g_go","a_CountDown","f_over"};
+	private String[] musics = {"zhan","zhu","ming","shi"};
 	private Rectangle mRectangle;
 	private int currentHighestScore;
 	public static boolean isOver;
@@ -72,7 +73,8 @@ public class FingerScene extends ManagedScene{
 
 	@Override
 	public void onLoadScene() {
-		//SFXManager.getInstance().loadMusic("mainMusic", ResourceManager.getActivity().getMusicManager(), ResourceManager.getActivity());
+		SFXManager.getInstance().stopMusic();
+		System.out.println("FingerScene---->onLoadScene");
 		isOver = false;
 		mGameNumber = new GameNumberUtil();
 		ResourceManager.getInstance().engine.getEngineOptions().getTouchOptions().setNeedsMultiTouch(true);
@@ -85,7 +87,7 @@ public class FingerScene extends ManagedScene{
 		backgroundSprite.setPosition(mCameraWidth / 2f, mCameraHeight / 2f);
 		backgroundSprite.setZIndex(-5000);
 		attachChild(backgroundSprite);
-		SFXManager.getInstance().loadSounds(sounds, ResourceManager.getActivity().getSoundManager(), ResourceManager.getActivity());
+		
 		
 		mGameTime = new GameTimer(this);
 		mGameTime.addToLayer(this);
@@ -105,7 +107,7 @@ public class FingerScene extends ManagedScene{
 		
 		//实时上升高度
 		Sprite mSprite = new Sprite(0f,0f,ResourceManager.mPic,mVertexBufferObjectManager);
-		EntityUtil.setSizeInParent("height", 3f/10f, mSprite, mRectangle);
+		EntityUtil.setSizeInParent("height", 4f/10f, mSprite, mRectangle);
 		mSprite.setPosition(submarineAS.getX()-submarineAS.getWidth()/2f-mSprite.getWidth()/2f, submarineAS.getY());
 		mRectangle.attachChild(mSprite);
 		mGameNumber.upHeightNum(mRectangle,mSprite,0);
@@ -163,7 +165,7 @@ public class FingerScene extends ManagedScene{
 
 			public void onAnimationStarted(AnimatedSprite pAnimatedSprite,
 					int pInitialLoopCount) {
-					//SFXManager.getInstance().playSound("g_countdown",3);
+				SFXManager.getInstance().loadSounds(sounds, ResourceManager.getActivity().getSoundManager(), ResourceManager.getActivity());
 			}
 
 			public void onAnimationFrameChanged(AnimatedSprite pAnimatedSprite,
@@ -177,6 +179,7 @@ public class FingerScene extends ManagedScene{
 
 			public void onAnimationFinished(AnimatedSprite pAnimatedSprite) {
 				SFXManager.getInstance().playSound("g_go");
+				SFXManager.getInstance().playMusic(musics);
 				detachChild(clockTimeAS);
 				clockTimeAS = null;
 				blisterAnimation();
@@ -242,6 +245,7 @@ public class FingerScene extends ManagedScene{
 	 * @since 1.0
 	 */
 	private void gameOver(){
+		SFXManager.getInstance().stopMusic();
 		SFXManager.getInstance().playSound("f_over");
 		unregisterUpdateHandler(gameRunTimer);
 		isOver = true;
@@ -355,6 +359,7 @@ public class FingerScene extends ManagedScene{
 	 * @since 1.0
 	 */
 	public void onResumeGameLevel(){
+		SFXManager.getInstance().playMusic();
 		setIgnoreUpdate(false);
 		registerTouchArea(greenButtonBS);
 		registerTouchArea(redButtonBS);
@@ -367,6 +372,7 @@ public class FingerScene extends ManagedScene{
 	 * @since 1.0
 	 */
 	public void onPauseGameLevel(){
+		SFXManager.getInstance().pauseMusic();
 		setIgnoreUpdate(true);
 		unregisterTouchArea(greenButtonBS);
 		unregisterTouchArea(redButtonBS);
@@ -412,18 +418,19 @@ public class FingerScene extends ManagedScene{
 
 	@Override
 	public void onShowScene() {
-		// TODO Auto-generated method stub
+		System.out.println("FingerScene---->onShowScene");
 		
 	}
 
 	@Override
 	public void onHideScene() {
-		// TODO Auto-generated method stub
+		System.out.println("FingerScene---->onHideScene");
 		
 	}
 
 	@Override
 	public void onUnloadScene() {
+		System.out.println("FingerScene---->onUnloadScene");
 		ResourceManager.getInstance().engine.getEngineOptions().getTouchOptions().setNeedsMultiTouch(false);
 		ResourceManager.getInstance().engine.setTouchController(new SingleTouchController());
 		ResourceManager.getInstance().engine.runOnUpdateThread(new Runnable() {

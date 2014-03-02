@@ -8,6 +8,7 @@ import java.util.Iterator;
 import org.andengine.audio.music.Music;
 import org.andengine.audio.music.MusicFactory;
 import org.andengine.audio.music.MusicManager;
+import org.andengine.audio.music.exception.MusicReleasedException;
 import org.andengine.audio.sound.Sound;
 import org.andengine.audio.sound.SoundFactory;
 import org.andengine.audio.sound.SoundManager;
@@ -41,17 +42,49 @@ public class SFXManager {
 	 */
     public void playMusic(String paramString){
     	mMusic = mMusicMap.get(paramString);
-    	mMusic.setLooping(true);
-    	mMusic.play();
+    	playMusic();
     }
     
-	/**
-	 * 音乐暂停
+    /**
+	 * 播放音乐
 	 * @author zuowhat 2013-12-06
 	 * @since 1.0
 	 */
-    public void pauseMusic(String paramString){
-    	//mMusic = mMusicMap.get(paramString);
+    public void playMusic(){
+    	if(!mMusic.isPlaying()){
+    		mMusic.setLooping(true);
+    		//mMusic.getMediaPlayer().reset();
+    		mMusic.play();
+    	}
+    }
+    
+    /**
+	 * 播放指定范围内的音乐
+	 * @author zuowhat 2013-12-06
+	 * @since 1.0
+	 */
+    public void playMusic(String[] paramArrayOfString){
+		int i = MathUtils.random(0, -1 + paramArrayOfString.length);
+		playMusic(paramArrayOfString[i]);
+	}
+    
+	/**
+	 * 暂停当前音乐
+	 * @author zuowhat 2013-12-06
+	 * @since 1.0
+	 */
+    public void pauseMusic(){
+        if (mMusic.isPlaying())
+        	mMusic.pause();
+    }
+    
+    /**
+	 * 暂停指定音乐
+	 * @author zuowhat 2013-12-06
+	 * @since 1.0
+	 */
+    public void pauseMusic(String s){
+    	mMusic = mMusicMap.get(s);
         if (mMusic.isPlaying())
         	mMusic.pause();
     }
@@ -106,12 +139,33 @@ public class SFXManager {
     }
     
 	/**
-	 * 停止音乐
+	 * 停止指定音乐
 	 * @author zuowhat 2013-12-06
 	 * @since 1.0
 	 */
     public void stopMusic(String paramString){
     	mMusicMap.get(paramString).stop();
+    	
+    }
+    
+    /**
+	 * 停止当前音乐
+	 * @author zuowhat 2013-12-06
+	 * @since 1.0
+	 */
+    public void stopMusic(){
+    	if (mMusic.isPlaying()){
+    		mMusic.stop();
+    		try {
+    			mMusic.getMediaPlayer().prepareAsync();
+    		} catch (MusicReleasedException e) {
+    			// TODO Auto-generated catch block
+    			e.printStackTrace();
+    		} catch (IllegalStateException e) {
+    			// TODO Auto-generated catch block
+    			e.printStackTrace();
+    		} 
+    	}
     }
     
 	/**

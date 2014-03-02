@@ -2,6 +2,7 @@ package org.game.bangyouscreen;
 
 
 import net.youmi.android.offers.PointsChangeNotify;
+import net.youmi.android.spot.SpotManager;
 
 import org.andengine.engine.Engine;
 import org.andengine.engine.FixedStepEngine;
@@ -249,7 +250,7 @@ public class BangYouScreenActivity extends BaseGameActivity implements PointsCha
 			  }else if(SceneManager.getInstance().mCurrentScene.getClass().equals(ShopScene.class)){
 				  SceneManager.getInstance().showScene(MainMenuScene.getInstance());
 			  }else if(SceneManager.getInstance().mCurrentScene.getClass().equals(MainMenuScene.class)){
-				  //SpotManager.getInstance(this).showSpotAds(this);
+				  SpotManager.getInstance(this).showSpotAds(this);
 				  AlertDialog.Builder exitBuilder = new AlertDialog.Builder(this);
 					exitBuilder.setMessage("确定要退出吗?");
 					exitBuilder.setCancelable(false); //返回键是否可以关闭对话框

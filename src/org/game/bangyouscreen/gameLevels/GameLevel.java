@@ -69,6 +69,7 @@ public class GameLevel extends ManagedScene {
 	private int allBossHP;
 	private AnimatedSprite clockTimeAS;
 	private String[] sounds = {"g_win","g_fail","g_time","g_bomb","g_button","a_CountDown","g_go","g_notenough"};
+	private String[] musics = {"zhan","zhu","ming","shi"};
 	private Rectangle fadableBGRect;
 	private AnimatedSprite clockCooling;
 	private AnimatedSprite magicCooling;
@@ -101,7 +102,6 @@ public class GameLevel extends ManagedScene {
 		weaponPotionNum = BangYouScreenActivity.getIntFromSharedPreferences(DataConstant.Prop_BUY+0);
 		magicPotionNum = BangYouScreenActivity.getIntFromSharedPreferences(DataConstant.Prop_BUY+1);
 		clockNum = BangYouScreenActivity.getIntFromSharedPreferences(DataConstant.Prop_BUY+2);
-		SFXManager.getInstance().loadSounds(sounds, ResourceManager.getActivity().getSoundManager(), ResourceManager.getActivity());
 		countDpsXS();
 		countAoeXS();
 		ResourceManager.getInstance().engine.getEngineOptions().getTouchOptions().setNeedsMultiTouch(true);
@@ -404,6 +404,7 @@ public class GameLevel extends ManagedScene {
 
 			public void onAnimationStarted(AnimatedSprite pAnimatedSprite,
 					int pInitialLoopCount) {
+				SFXManager.getInstance().loadSounds(sounds, ResourceManager.getActivity().getSoundManager(), ResourceManager.getActivity());
 			}
 
 			public void onAnimationFrameChanged(AnimatedSprite pAnimatedSprite,
@@ -417,6 +418,7 @@ public class GameLevel extends ManagedScene {
 
 			public void onAnimationFinished(AnimatedSprite pAnimatedSprite) {
 				SFXManager.getInstance().playSound("g_go");
+				SFXManager.getInstance().playMusic(musics);
 				detachChild(clockTimeAS);
 				clockTimeAS = null;
 				enableButtons();
@@ -528,6 +530,7 @@ public class GameLevel extends ManagedScene {
 	 * @since 1.0
 	 */
 	public void onPauseGameLevel(){
+		SFXManager.getInstance().pauseMusic();
 		disableButtons(true);
 	}
 	
@@ -537,6 +540,7 @@ public class GameLevel extends ManagedScene {
 	 * @since 1.0
 	 */
 	public void onResumeGameLevel(){
+		SFXManager.getInstance().playMusic();
 //		setIgnoreUpdate(false);
 //		clockTimeAS = new AnimatedSprite(0f,0f,ResourceManager.clockTime,mVertexBufferObjectManager);
 //		clockTimeAS.setPosition(mCameraWidth/2f, mCameraHeight/2f);
@@ -573,6 +577,7 @@ public class GameLevel extends ManagedScene {
 	 * @since 1.0
 	 */
 	private void gameWin(){
+		SFXManager.getInstance().stopMusic();
 		updateGameStatDPSNum();
 		BangYouScreenActivity.writeIntToSharedPreferences(DataConstant.SHARED_PREFS_THEME_MXD, bossModel.getBossLevel());
 		AnimatedSprite bigBang = new AnimatedSprite(0f,0f,ResourceManager.bigBang,mVertexBufferObjectManager);
@@ -607,6 +612,7 @@ public class GameLevel extends ManagedScene {
 	 * @since 1.0
 	 */
 	private void gameFail(){
+		SFXManager.getInstance().stopMusic();
 		updateGameStatDPSNum();
 //		AlphaModifier a = new AlphaModifier(3,0.1f,0.5f,new IEntityModifier.IEntityModifierListener(){
 //			public void onModifierStarted(IModifier<IEntity> pModifier,

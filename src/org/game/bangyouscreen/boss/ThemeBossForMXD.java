@@ -287,6 +287,7 @@ public class ThemeBossForMXD extends ManagedScene implements IScrollDetectorList
 					public void onClick(AnimatedButtonSprite pButtonSprite,
 							float pTouchAreaLocalX, float pTouchAreaLocalY) {
 						SFXManager.getInstance().playSound("a_click");
+						SFXManager.getInstance().stopMusic();
 						SceneManager.getInstance().showScene(new GameLevel(DataConstant.getMXDBoss(mCurrentBoss),DataConstant.getPlayerModel()));
 				}});
 				//BOSS图片和简介的位置
