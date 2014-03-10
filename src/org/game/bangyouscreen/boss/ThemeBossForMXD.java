@@ -227,7 +227,6 @@ public class ThemeBossForMXD extends ManagedScene implements IScrollDetectorList
 		 Rectangle themeR = new Rectangle(themeRWidth/2f,mCameraHeight/2f,themeRWidth,
 				 mCameraHeight*(2f/3f),mVertexBufferObjectManager);
 		 themeR.setAlpha(0f);
-		 long []frameDur;
 		
 		 for(int i=0; i<ResourceManager.mxdBoss_TTRArray.length; i++){
 			 if(ResourceManager.mxdBoss_TTRArray[i] != null){
@@ -237,50 +236,16 @@ public class ThemeBossForMXD extends ManagedScene implements IScrollDetectorList
 				//BOSS简介
 				//bossInfo[i] = new Sprite(0f, 0f,ResourceManager.mxdBoss_InfoTRArray[i], mVertexBufferObjectManager);
 				//EntityUtil.setSize("height", 1f/2f, bossInfo[i]);
-				
-				switch (i) {
-				case 0:
+				if(i == 0){
 					bossPics[i].setPosition(mCameraWidth/4f, themeR.getHeight()/2f);
-					frameDur = new long[6];
-					Arrays.fill(frameDur, 100);
-					bossPics[i].animate(frameDur,0,5,true);
 					//bossInfo[i].setPosition(3f*mCameraWidth/4f, themeR.getHeight()/2f);
-					break;
-				case 1:
-					frameDur = new long[6];
-					Arrays.fill(frameDur, 100);
-					bossPics[i].animate(frameDur,0,5,true);
-					break;
-				case 2:
-					frameDur = new long[12];
-					Arrays.fill(frameDur, 100);
-					bossPics[i].animate(frameDur,0,11,true);
-					break;
-				case 3:
-					frameDur = new long[8];
-					Arrays.fill(frameDur, 100);
-					bossPics[i].animate(frameDur,0,7,true);
-					break;
-				case 4:
-					frameDur = new long[8];
-					Arrays.fill(frameDur, 100);
-					bossPics[i].animate(frameDur,0,7,true);
-					break;
-				case 5:
-					frameDur = new long[6];
-					Arrays.fill(frameDur, 100);
-					bossPics[i].animate(frameDur,0,5,true);
-					break;
-				case 6:
-					frameDur = new long[6];
-					Arrays.fill(frameDur, 100);
-					bossPics[i].animate(frameDur,0,5,true);
-					break;	
-				case 7:
-					frameDur = new long[2];
+				}
+				if(i == 7){
+					long[] frameDur = new long[2];
 					Arrays.fill(frameDur, 300);
 					bossPics[i].animate(frameDur,0,1,true);
-					break;	
+				}else{
+					bossPics[i].animate(100,true);
 				}
 				
 				bossPics[i].setOnClickListenerABS(new OnClickListenerABS(){

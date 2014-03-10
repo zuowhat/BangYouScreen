@@ -18,9 +18,9 @@ public class DataConstant {
 	public static final int[] magicPrice = {500,1500,3000,650,1800,3500,800,2000,5000};//魔法价格
 	public static final int[] propPrice = {200,350,500};//道具价格
 	public static final float CLOCKTIME = 10f;//时光沙漏增益时间
-	public static final int ADD_DPS = 50;//魔龙之血增益效果
+	public static final float ADD_DPS = 0.2f;//魔龙之血增益效果
 	public static final float ADD_DPS_TIME = 10f;//魔龙之血增益时间
-	public static final int ADD_AOE = 80;//蓝色冰魄增益效果
+	public static final float ADD_AOE = 0.2f;//蓝色冰魄增益效果
 	public static final float GAMETIME_INIT = 30f;//初始化游戏时间
 	public static final float BOSS_VELOCITY = 50.0f;//BOSS移动速度
 	
@@ -79,7 +79,7 @@ public class DataConstant {
 	public static BossModel getMXDBoss(int bossNum){
 		BossModel b = new BossModel();
 		b.setBossLevel(bossNum);
-		b.setGameBGTR(ResourceManager.shareGameBG);
+		b.setGameBGTR(ResourceManager.mxdBoss_GameBG[bossNum-1]);
 		b.setBossTTR(ResourceManager.mxdBoss_TTRArray[bossNum-1]);
 		
 		//测试语句
@@ -96,13 +96,14 @@ public class DataConstant {
 				b.setBossDefType(3);
 				b.setMaxBossDEF(10);
 				b.setMinBossDEF(0);
+				OK
 			break;
 				
 			case 2:
-				b.setBossHP(3500);
-				b.setBossDefType(2);
-				b.setMaxBossDEF(10);
-				b.setMinBossDEF(5);
+				b.setBossHP(5000);
+				b.setBossDefType(1);
+				b.setMaxBossDEF(50);
+				b.setMinBossDEF(40);
 			break;
 			
 			case 3:
@@ -183,6 +184,7 @@ public class DataConstant {
 				p.setWeaponType(4);
 				p.setWeaponDPSMax(20);
 				p.setWeaponDPSMin(10);
+				OK
 			break;
 			
 			case 0:
@@ -248,12 +250,13 @@ public class DataConstant {
 				p.setMagicAOEMax(100);
 				p.setMagicAOEMin(50);
 				p.setMagicTTR(ResourceManager.magicASTTRArray[0]);
+				OK
 			break;
 		
 			case 0:
-				p.setMagicType(4);
-				p.setMagicAOEMax(20);
-				p.setMagicAOEMin(15);
+				p.setMagicType(3);
+				p.setMagicAOEMax(400);
+				p.setMagicAOEMin(200);
 				p.setMagicTTR(ResourceManager.magicASTTRArray[0]);
 			break;
 	

@@ -46,6 +46,7 @@ public abstract class ManagedLayer extends CameraScene {
 			this.mHasLoaded = true;
 			this.onLoadLayer();
 		}
+		//this.onLoadLayer();
 		this.setIgnoreUpdate(false);
 		this.onShowLayer();
 	}

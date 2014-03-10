@@ -100,6 +100,7 @@ public class GameWinLayer extends ManagedLayer{
 			public void onClick(ButtonSprite pButtonSprite,
 					float pTouchAreaLocalX, float pTouchAreaLocalY) {
 					SFXManager.getInstance().playSound("a_click");
+					SFXManager.getInstance().playMusic("mainMusic");
 					onHideLayer();
 					SceneManager.getInstance().showScene(ThemeBossForMXD.getInstance());
 			}});
@@ -160,11 +161,19 @@ public class GameWinLayer extends ManagedLayer{
 						a = null;
 					}
 					goldNumAS = null;
-					//LayerBG.detachChild(mGoldNum);
 					LayerBG.detachChild(goldSprite);
-					//mGoldNum = null;
 					goldSprite = null;
 				}
+				
+//				detachChildren();
+//				for(int i = 0; i < LayerBG.getChildCount(); i++){
+//					LayerBG.getChildByIndex(i).dispose();
+//					LayerBG.getChildByIndex(i).clearEntityModifiers();
+//					LayerBG.getChildByIndex(i).clearUpdateHandlers();
+//				}
+//				LayerBG.clearEntityModifiers();
+//				LayerBG.clearUpdateHandlers();
+//				detachChild(LayerBG);
 			}});
 	}
 

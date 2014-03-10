@@ -53,7 +53,6 @@ public class ResourceManager extends Object{
 	public static TextureRegion menuClouds2;
 	public static TiledTextureRegion greenButtonTTR;
 	public static TiledTextureRegion redButtonTTR;
-	public static TextureRegion shareGameBG;
 	public static TextureRegion xue1;
 	public static TextureRegion xue2;
 	public static TextureRegion theme1Temp;
@@ -64,6 +63,7 @@ public class ResourceManager extends Object{
 	public static TiledTextureRegion loadingBG2;
 	public static TiledTextureRegion loadingFont;
 	public static TiledTextureRegion[] mxdBoss_TTRArray = new TiledTextureRegion[DataConstant.THEME_1_BOSS_NUM];
+	public static TextureRegion[] mxdBoss_GameBG = new TextureRegion[DataConstant.THEME_1_BOSS_NUM];
 	public static TextureRegion[] mxdBoss_InfoTRArray = new TextureRegion[DataConstant.THEME_1_BOSS_NUM];
 	public static TextureRegion homeTR;
 	public static TextureRegion backTR;
@@ -423,39 +423,42 @@ public class ResourceManager extends Object{
 		int themeSceneOneBossTotal = BangYouScreenActivity.getIntFromSharedPreferences(DataConstant.SHARED_PREFS_THEME_MXD);
 		
 		for(int i=0; i<themeSceneOneBossTotal+1; i++){
-			if(mxdBoss_TTRArray[i] == null){
-				String bossTexture = "boss1" + i + ".png";
-				//String bossInfo = "infoboss1" + i + ".png";
-				//mxdBoss_InfoTRArray[i] = getLimitableTR(bossInfo,mNormalTextureOption);
-				switch (i) {
-				case 0:
-					mxdBoss_TTRArray[i] = getLimitableTTR(bossTexture,3,2,mNormalTextureOption);
-					break;
-				case 1:
-					mxdBoss_TTRArray[i] = getLimitableTTR(bossTexture,3,2,mNormalTextureOption);
-					break;
-				case 2:
-					mxdBoss_TTRArray[i] = getLimitableTTR(bossTexture,4,3,mNormalTextureOption);
-					break;
-				case 3:
-					mxdBoss_TTRArray[i] = getLimitableTTR(bossTexture,4,2,mNormalTextureOption);
-					break;
-				case 4:
-					mxdBoss_TTRArray[i] = getLimitableTTR(bossTexture,4,2,mNormalTextureOption);
-					break;
-				case 5:
-					mxdBoss_TTRArray[i] = getLimitableTTR(bossTexture,3,2,mNormalTextureOption);
-					break;
-				case 6:
-					mxdBoss_TTRArray[i] = getLimitableTTR(bossTexture,3,2,mNormalTextureOption);
-					break;
-				case 7:
-					mxdBoss_TTRArray[i] = getLimitableTTR(bossTexture,3,1,mNormalTextureOption);
-					break;
+			if(i < DataConstant.THEME_1_BOSS_NUM){
+				if(mxdBoss_TTRArray[i] == null){
+					String bossTexture = "boss1" + i + ".png";
+					//String bossInfo = "infoboss1" + i + ".png";
+					//mxdBoss_InfoTRArray[i] = getLimitableTR(bossInfo,mNormalTextureOption);
+					String gameBG = "gameBG_"+i+".jpg";
+					mxdBoss_GameBG[i] = getLimitableTR(gameBG,mNormalTextureOption);
+					switch (i) {
+					case 0:
+						mxdBoss_TTRArray[i] = getLimitableTTR(bossTexture,3,2,mNormalTextureOption);
+						break;
+					case 1:
+						mxdBoss_TTRArray[i] = getLimitableTTR(bossTexture,3,2,mNormalTextureOption);
+						break;
+					case 2:
+						mxdBoss_TTRArray[i] = getLimitableTTR(bossTexture,4,3,mNormalTextureOption);
+						break;
+					case 3:
+						mxdBoss_TTRArray[i] = getLimitableTTR(bossTexture,4,2,mNormalTextureOption);
+						break;
+					case 4:
+						mxdBoss_TTRArray[i] = getLimitableTTR(bossTexture,4,2,mNormalTextureOption);
+						break;
+					case 5:
+						mxdBoss_TTRArray[i] = getLimitableTTR(bossTexture,3,2,mNormalTextureOption);
+						break;
+					case 6:
+						mxdBoss_TTRArray[i] = getLimitableTTR(bossTexture,3,2,mNormalTextureOption);
+						break;
+					case 7:
+						mxdBoss_TTRArray[i] = getLimitableTTR(bossTexture,3,1,mNormalTextureOption);
+						break;
+					}
 				}
 			}
 		}
-		
 		BitmapTextureAtlasTextureRegionFactory.setAssetBasePath(mPreviousAssetBasePath);
 	}
 	
@@ -505,9 +508,6 @@ public class ResourceManager extends Object{
 		}
 		if(redButtonTTR == null){
 			redButtonTTR = getLimitableTTR("redbutton.png",2,1,mNormalTextureOption);
-		}
-		if(shareGameBG == null){
-			shareGameBG = getLimitableTR("shareGameBG.jpg",mNormalTextureOption);
 		}
 		if(xue1 == null){
 			xue1 = getLimitableTR("xue1.png",mNormalTextureOption);

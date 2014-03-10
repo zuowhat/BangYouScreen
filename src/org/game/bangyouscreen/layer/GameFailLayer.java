@@ -167,11 +167,19 @@ public class GameFailLayer extends ManagedLayer{
 						a = null;
 					}
 					goldNumAS = null;
-					//LayerBG.detachChild(mGoldNum);
 					LayerBG.detachChild(goldSprite);
-					//mGoldNum = null;
 					goldSprite = null;
 				}
+				
+//				detachChildren();
+//				for(int i = 0; i < LayerBG.getChildCount(); i++){
+//					LayerBG.getChildByIndex(i).dispose();
+//					LayerBG.getChildByIndex(i).clearEntityModifiers();
+//					LayerBG.getChildByIndex(i).clearUpdateHandlers();
+//				}
+//				LayerBG.clearEntityModifiers();
+//				LayerBG.clearUpdateHandlers();
+//				detachChild(LayerBG);
 			}});
 	}
 

@@ -47,7 +47,7 @@ public class GameLevel extends ManagedScene {
 	private AnimatedSprite magicAS;
 	private AnimatedSprite bossAS;
 	private PhysicsHandler mPhysicsHandler;
-	private long[] frameDur;
+	//private long[] frameDur;
 	private float xue3P;
 	private float xue3S;
 	private Sprite xue1Sprite;
@@ -137,11 +137,9 @@ public class GameLevel extends ManagedScene {
 		bossAS = new AnimatedSprite(0f,0f,bossModel.getBossTTR(),mVertexBufferObjectManager);
 		bossAS.setPosition(mCameraWidth/2f, mCameraHeight/2f);
 		EntityUtil.setSize("height", 0.5f, bossAS);
-		//bossAS.setScale(2f);
-		frameDur = new long[2];
-		Arrays.fill(frameDur, 300);
-		bossAS.animate(frameDur,0,1,true);
-		//bossAS.registerEntityModifier(pEntityModifier);
+		//frameDur = new long[2];
+		//Arrays.fill(frameDur, 300);
+		bossAS.animate(100,true);
 		mPhysicsHandler = new PhysicsHandler(bossAS);
 		bossAS.registerUpdateHandler(mPhysicsHandler);
 		mPhysicsHandler.setVelocity(DataConstant.BOSS_VELOCITY);
@@ -152,6 +150,12 @@ public class GameLevel extends ManagedScene {
 		fadableBGRect.setPosition(mCameraWidth/2f, mCameraHeight/8f);
 		fadableBGRect.setColor(0f, 0f, 0f, 0.5f);
 		attachChild(fadableBGRect);
+		
+		//草地
+//		Sprite meadowSprite = new Sprite(0f,0f,ResourceManager.meadow,mVertexBufferObjectManager);
+//		EntityUtil.setSize("width", 1f, meadowSprite);
+//		meadowSprite.setPosition(mCameraWidth/2f, fadableBGRect.getY()+fadableBGRect.getHeight()/2f);
+//		attachChild(meadowSprite);
 		
 		//左边按钮
 		greenButtonBS = new ButtonSprite(0f,0f,ResourceManager.greenButtonTTR,mVertexBufferObjectManager);
@@ -279,7 +283,7 @@ public class GameLevel extends ManagedScene {
 
 					public void onAnimationStarted(AnimatedSprite pAnimatedSprite,
 							int pInitialLoopCount) {
-						bossAS.stopAnimation(2);
+						//bossAS.stopAnimation(2);
 					}
 
 					public void onAnimationFrameChanged(AnimatedSprite pAnimatedSprite,
@@ -294,7 +298,7 @@ public class GameLevel extends ManagedScene {
 						if(gameTime > 0){
 							detachChild(magicAS);
 							magicAS = null;
-							bossAS.animate(frameDur,0,1,true);
+							//bossAS.animate(frameDur,0,1,true);
 							updateHP(2);
 						}
 					}
@@ -577,9 +581,13 @@ public class GameLevel extends ManagedScene {
 	 * @since 1.0
 	 */
 	private void gameWin(){
+		System.out.println("游戏胜利111111111");
 		SFXManager.getInstance().stopMusic();
 		updateGameStatDPSNum();
-		BangYouScreenActivity.writeIntToSharedPreferences(DataConstant.SHARED_PREFS_THEME_MXD, bossModel.getBossLevel());
+		int bossNumInSP = BangYouScreenActivity.getIntFromSharedPreferences(DataConstant.SHARED_PREFS_THEME_MXD);
+		if(bossModel.getBossLevel() > bossNumInSP){
+			BangYouScreenActivity.writeIntToSharedPreferences(DataConstant.SHARED_PREFS_THEME_MXD, bossModel.getBossLevel());
+		}
 		AnimatedSprite bigBang = new AnimatedSprite(0f,0f,ResourceManager.bigBang,mVertexBufferObjectManager);
 		bigBang.setPosition(bossAS.getX(), bossAS.getY());
 		EntityUtil.setSize("height", 0.5f, bigBang);
@@ -599,6 +607,7 @@ public class GameLevel extends ManagedScene {
 			}
 
 			public void onAnimationFinished(AnimatedSprite pAnimatedSprite) {
+				System.out.println("弹出11111111111111");
 				SceneManager.getInstance().showLayer(GameWinLayer.getInstance(mScore,Math.round(gameTime),allBossHP), false, false, false);
 				SFXManager.getInstance().playSound("g_win");
 			}
@@ -691,7 +700,7 @@ public class GameLevel extends ManagedScene {
 		float playerDPS = (float)(Math.random()*(playerModel.getWeaponDPSMax() - playerModel.getWeaponDPSMin())) + playerModel.getWeaponDPSMin();
 		float bossDEF = (float)(Math.random()*(bossModel.getMaxBossDEF() - bossModel.getMinBossDEF())) + bossModel.getMinBossDEF();
 		if(isAddDPS){
-			playerDPS = playerDPS + DataConstant.ADD_DPS;
+			playerDPS = playerDPS*(1f + DataConstant.ADD_DPS);
 		}
 		return Math.round(playerDPS * dpsXS - bossDEF);
 	}
@@ -776,7 +785,7 @@ public class GameLevel extends ManagedScene {
 		float playerAOE = (float)(Math.random()*(playerModel.getMagicAOEMax() - playerModel.getMagicAOEMin())) + playerModel.getMagicAOEMin();
 		float bossDEF = (float)(Math.random()*(bossModel.getMaxBossDEF() - bossModel.getMinBossDEF())) + bossModel.getMinBossDEF();
 		if(isAddAOE){
-			playerAOE = playerAOE + DataConstant.ADD_AOE;
+			playerAOE = playerAOE*(1f+DataConstant.ADD_AOE);
 		}
 		return Math.round(playerAOE * aoeXS - bossDEF);
 	}
