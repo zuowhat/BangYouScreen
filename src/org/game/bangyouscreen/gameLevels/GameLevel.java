@@ -81,6 +81,7 @@ public class GameLevel extends ManagedScene {
 	private int weaponPotionNum;
 	private int magicPotionNum;
 	private int clockNum;
+	private long[] frameDur = new long[8];
 	
 	public GameLevel (BossModel pBossModel, PlayerModel pPlayerModel){
 		bossModel = pBossModel;
@@ -106,6 +107,7 @@ public class GameLevel extends ManagedScene {
 		countAoeXS();
 		ResourceManager.getInstance().engine.getEngineOptions().getTouchOptions().setNeedsMultiTouch(true);
 		ResourceManager.getInstance().engine.setTouchController(new MultiTouchController());
+		//ResourceManager.getInstance().engine.getTouchController();
 		bossHP = bossModel.getBossHP();
 		allBossHP = bossModel.getBossHP();
 		//背景
@@ -203,7 +205,8 @@ public class GameLevel extends ManagedScene {
 					clockCooling.setPosition(clockBS.getWidth()/2f,clockBS.getHeight()/2f);
 					clockCooling.setSize(clockBS.getWidth(), clockBS.getHeight());
 					//时钟冷却时间10秒，待定
-					clockCooling.animate(2000,0,new IAnimationListener(){
+					Arrays.fill(frameDur, 2000);
+					clockCooling.animate(frameDur,0,7,false,new IAnimationListener(){
 	
 						public void onAnimationStarted(AnimatedSprite pAnimatedSprite,int pInitialLoopCount) {
 							
@@ -250,7 +253,8 @@ public class GameLevel extends ManagedScene {
 				magicCooling.setPosition(magicBS.getWidth()/2f,magicBS.getHeight()/2f);
 				magicCooling.setSize(magicBS.getWidth(), magicBS.getHeight());
 				//魔法冷却时间为9秒，待定
-				magicCooling.animate(1000, 0, new IAnimationListener(){
+				Arrays.fill(frameDur, 1000);
+				magicCooling.animate(frameDur, 0,7,false, new IAnimationListener(){
 					public void onAnimationStarted(
 							AnimatedSprite pAnimatedSprite,
 							int pInitialLoopCount) {
@@ -334,7 +338,8 @@ public class GameLevel extends ManagedScene {
 					tiamatCooling.setPosition(tiamatBS.getWidth()/2f,tiamatBS.getHeight()/2f);
 					tiamatCooling.setSize(tiamatBS.getWidth(), tiamatBS.getHeight());
 					//冷却时间为14秒，待定
-					tiamatCooling.animate(1500, 0, new IAnimationListener(){
+					Arrays.fill(frameDur, 1500);
+					tiamatCooling.animate(frameDur, 0,7,false, new IAnimationListener(){
 						public void onAnimationStarted(
 								AnimatedSprite pAnimatedSprite,
 								int pInitialLoopCount) {
@@ -434,6 +439,7 @@ public class GameLevel extends ManagedScene {
 	public void onUnloadScene() {
 		ResourceManager.getInstance().engine.getEngineOptions().getTouchOptions().setNeedsMultiTouch(false);
 		ResourceManager.getInstance().engine.setTouchController(new SingleTouchController());
+		System.out.println("GameLevel资源onUnloadScene");
 		ResourceManager.getInstance().engine.runOnUpdateThread(new Runnable() {
 			public void run() {
 				detachChildren();

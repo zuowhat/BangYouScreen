@@ -17,7 +17,7 @@ public class DataConstant {
 	public static final int[] weaponPrice = {500,1500,3000,650,1800,3500,800,2000,5000};//武器价格
 	public static final int[] magicPrice = {500,1500,3000,650,1800,3500,800,2000,5000};//魔法价格
 	public static final int[] propPrice = {200,350,500};//道具价格
-	public static final float CLOCKTIME = 10f;//时光沙漏增益时间
+	public static final float CLOCKTIME = 5f;//时光沙漏增益时间
 	public static final float ADD_DPS = 0.2f;//魔龙之血增益效果
 	public static final float ADD_DPS_TIME = 10f;//魔龙之血增益时间
 	public static final float ADD_AOE = 0.2f;//蓝色冰魄增益效果
@@ -100,31 +100,35 @@ public class DataConstant {
 			break;
 				
 			case 2:
-				b.setBossHP(5000);
+				b.setBossHP(9000);
 				b.setBossDefType(1);
-				b.setMaxBossDEF(50);
-				b.setMinBossDEF(40);
+				b.setMaxBossDEF(45);
+				b.setMinBossDEF(30);
+				OK
 			break;
 			
 			case 3:
-				b.setBossHP(120);
+				b.setBossHP(8500);
 				b.setBossDefType(3);
-				b.setMaxBossDEF(10);
-				b.setMinBossDEF(5);
+				b.setMaxBossDEF(45);
+				b.setMinBossDEF(30);
+				OK
 			break;
 			
 			case 4:
-				b.setBossHP(120);
-				b.setBossDefType(3);
-				b.setMaxBossDEF(10);
-				b.setMinBossDEF(5);
+				b.setBossHP(11000);
+				b.setBossDefType(2);
+				b.setMaxBossDEF(65);
+				b.setMinBossDEF(55);
+				OK
 			break;
 			
 			case 5:
-				b.setBossHP(120);
-				b.setBossDefType(3);
-				b.setMaxBossDEF(10);
-				b.setMinBossDEF(5);
+				b.setBossHP(20000);
+				b.setBossDefType(1);
+				b.setMaxBossDEF(140);
+				b.setMinBossDEF(120);
+				OK
 			break;
 			
 			case 6:
@@ -237,8 +241,8 @@ public class DataConstant {
 			
 			case 8:
 				p.setWeaponType(1);
-				p.setWeaponDPSMax(500);
-				p.setWeaponDPSMin(500);
+				p.setWeaponDPSMax(280);
+				p.setWeaponDPSMin(280);
 			break;
 		
 		}
@@ -258,20 +262,23 @@ public class DataConstant {
 				p.setMagicAOEMax(400);
 				p.setMagicAOEMin(200);
 				p.setMagicTTR(ResourceManager.magicASTTRArray[0]);
+				OK
 			break;
 	
 			case 1:
-				p.setMagicType(4);
-				p.setMagicAOEMax(20);
-				p.setMagicAOEMin(15);
+				p.setMagicType(2);
+				p.setMagicAOEMax(500);
+				p.setMagicAOEMin(100);
 				p.setMagicTTR(ResourceManager.magicASTTRArray[1]);
+				OK
 			break;
 			
 			case 2:
-				p.setMagicType(4);
-				p.setMagicAOEMax(20);
-				p.setMagicAOEMin(15);
+				p.setMagicType(1);
+				p.setMagicAOEMax(300);
+				p.setMagicAOEMin(300);
 				p.setMagicTTR(ResourceManager.magicASTTRArray[1]);
+				OK
 			break;
 			
 			case 3:

@@ -10,6 +10,7 @@ import org.andengine.entity.modifier.ParallelEntityModifier;
 import org.andengine.entity.modifier.RotationModifier;
 import org.andengine.entity.modifier.ScaleAtModifier;
 import org.andengine.entity.modifier.SequenceEntityModifier;
+import org.andengine.entity.primitive.Rectangle;
 import org.andengine.entity.scene.Scene;
 import org.andengine.entity.scene.background.Background;
 import org.andengine.entity.sprite.Sprite;
@@ -17,6 +18,7 @@ import org.andengine.opengl.texture.TextureOptions;
 import org.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlas;
 import org.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlasTextureRegionFactory;
 import org.andengine.opengl.texture.region.ITextureRegion;
+import org.andengine.opengl.vbo.VertexBufferObjectManager;
 import org.andengine.util.modifier.IModifier;
 import org.andengine.util.modifier.IModifier.IModifierListener;
 import org.game.bangyouscreen.managers.ManagedScene;
@@ -33,6 +35,9 @@ import org.game.bangyouscreen.util.EntityUtil;
 public class SplashScreen extends ManagedScene{
 	
 	public SplashScreen thisSplashScene = this;
+	private float mCameraWidth = ResourceManager.getCamera().getWidth();
+	private float mCameraHeight = ResourceManager.getCamera().getHeight();
+	private VertexBufferObjectManager mVertexBufferObjectManager = ResourceManager.getEngine().getVertexBufferObjectManager();
 	
 	//对显示的图片进行缩放
 	private static final float mEachScaleToSize = 2f * ResourceManager.getInstance().cameraScaleFactorY;
@@ -93,6 +98,10 @@ public class SplashScreen extends ManagedScene{
 	
 	@Override
 	public void onLoadScene() {
+		Rectangle b = new Rectangle(mCameraWidth/2f,mCameraHeight/2f,mCameraWidth,mCameraHeight,mVertexBufferObjectManager);
+		b.setColor(0.54901f, 0.78431f, 0.92941f);
+		attachChild(b);
+		
 		beginOneTexture.load();
 		beginTwoTexture.load();
 		nimbusBG.load();
@@ -104,12 +113,12 @@ public class SplashScreen extends ManagedScene{
 		//nimbusSprite.setScale(2f);
 		EntityUtil.setSize("width", 1.5f, nimbusSprite);
 		nimbusSprite.registerEntityModifier(mRotationModifier);
-		attachChild(nimbusSprite);
-		this.attachChild(beginOneSprite);
+		b.attachChild(nimbusSprite);
+		b.attachChild(beginOneSprite);
 		
 		beginTwoSprite.setAlpha(0.001f);
 		beginTwoSprite.setScale(0.01f);
-		this.attachChild(beginTwoSprite);
+		b.attachChild(beginTwoSprite);
 		
 		beginOneSequence.addModifierListener(new IModifierListener<IEntity>() {
 			@Override

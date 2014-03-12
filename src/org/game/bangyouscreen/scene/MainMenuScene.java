@@ -312,6 +312,7 @@ public class MainMenuScene extends ManagedScene{
 	@Override
 	public void onShowScene() {
 		System.out.println("MainMenuScene---->onShowScene");
+		//ResourceManager.getInstance().engine.getTouchController();
 		//SFXManager.getInstance().playMusic("mainMusic");
 //		if(!this.backgroundSprite.hasParent()) {
 //			this.attachChild(this.backgroundSprite);
