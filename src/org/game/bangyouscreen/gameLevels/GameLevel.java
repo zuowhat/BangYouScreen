@@ -105,8 +105,8 @@ public class GameLevel extends ManagedScene {
 		clockNum = BangYouScreenActivity.getIntFromSharedPreferences(DataConstant.Prop_BUY+2);
 		countDpsXS();
 		countAoeXS();
-		ResourceManager.getInstance().engine.getEngineOptions().getTouchOptions().setNeedsMultiTouch(true);
-		ResourceManager.getInstance().engine.setTouchController(new MultiTouchController());
+//		ResourceManager.getInstance().engine.getEngineOptions().getTouchOptions().setNeedsMultiTouch(true);
+//		ResourceManager.getInstance().engine.setTouchController(new MultiTouchController());
 		//ResourceManager.getInstance().engine.getTouchController();
 		bossHP = bossModel.getBossHP();
 		allBossHP = bossModel.getBossHP();
@@ -205,7 +205,7 @@ public class GameLevel extends ManagedScene {
 					clockCooling.setPosition(clockBS.getWidth()/2f,clockBS.getHeight()/2f);
 					clockCooling.setSize(clockBS.getWidth(), clockBS.getHeight());
 					//时钟冷却时间10秒，待定
-					Arrays.fill(frameDur, 2000);
+					Arrays.fill(frameDur, 1250);
 					clockCooling.animate(frameDur,0,7,false,new IAnimationListener(){
 	
 						public void onAnimationStarted(AnimatedSprite pAnimatedSprite,int pInitialLoopCount) {
@@ -457,7 +457,8 @@ public class GameLevel extends ManagedScene {
 
 	@Override
 	public void onShowScene() {
-
+		ResourceManager.getInstance().engine.getEngineOptions().getTouchOptions().setNeedsMultiTouch(true);
+		ResourceManager.getInstance().engine.setTouchController(new MultiTouchController());
 	}
 
 	@Override

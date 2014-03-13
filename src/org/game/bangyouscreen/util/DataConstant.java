@@ -83,20 +83,17 @@ public class DataConstant {
 		b.setBossTTR(ResourceManager.mxdBoss_TTRArray[bossNum-1]);
 		
 		//测试语句
-		b.setBossHP(BangYouScreenActivity.getIntFromSharedPreferences(TEST_BOSSHP));
-		b.setBossDefType(BangYouScreenActivity.getIntFromSharedPreferences(TEST_BOSSTYPE));
-		b.setMaxBossDEF(BangYouScreenActivity.getIntFromSharedPreferences(TEST_BOSSMAXDEF));
-		b.setMinBossDEF(BangYouScreenActivity.getIntFromSharedPreferences(TEST_BOSSMINDEF));
+//		b.setBossHP(BangYouScreenActivity.getIntFromSharedPreferences(TEST_BOSSHP));
+//		b.setBossDefType(BangYouScreenActivity.getIntFromSharedPreferences(TEST_BOSSTYPE));
+//		b.setMaxBossDEF(BangYouScreenActivity.getIntFromSharedPreferences(TEST_BOSSMAXDEF));
+//		b.setMinBossDEF(BangYouScreenActivity.getIntFromSharedPreferences(TEST_BOSSMINDEF));
 		
-		
-		/*
 		switch(bossNum){
 			case 1:
 				b.setBossHP(3000);
 				b.setBossDefType(3);
 				b.setMaxBossDEF(10);
 				b.setMinBossDEF(0);
-				OK
 			break;
 				
 			case 2:
@@ -104,7 +101,6 @@ public class DataConstant {
 				b.setBossDefType(1);
 				b.setMaxBossDEF(45);
 				b.setMinBossDEF(30);
-				OK
 			break;
 			
 			case 3:
@@ -112,7 +108,6 @@ public class DataConstant {
 				b.setBossDefType(3);
 				b.setMaxBossDEF(45);
 				b.setMinBossDEF(30);
-				OK
 			break;
 			
 			case 4:
@@ -120,7 +115,6 @@ public class DataConstant {
 				b.setBossDefType(2);
 				b.setMaxBossDEF(65);
 				b.setMinBossDEF(55);
-				OK
 			break;
 			
 			case 5:
@@ -128,32 +122,29 @@ public class DataConstant {
 				b.setBossDefType(1);
 				b.setMaxBossDEF(140);
 				b.setMinBossDEF(120);
-				OK
 			break;
 			
 			case 6:
-				b.setBossHP(120);
+				b.setBossHP(22000);
 				b.setBossDefType(3);
-				b.setMaxBossDEF(10);
-				b.setMinBossDEF(5);
+				b.setMaxBossDEF(145);
+				b.setMinBossDEF(125);
 			break;
 			
 			case 7:
-				b.setBossHP(120);
-				b.setBossDefType(3);
-				b.setMaxBossDEF(10);
-				b.setMinBossDEF(5);
+				b.setBossHP(24000);
+				b.setBossDefType(2);
+				b.setMaxBossDEF(150);
+				b.setMinBossDEF(130);
 			break;
 			
 			case 8:
-				b.setBossHP(18000);
+				b.setBossHP(42000);
 				b.setBossDefType(5);
-				b.setMaxBossDEF(300);
-				b.setMinBossDEF(200);
+				b.setMaxBossDEF(100);
+				b.setMinBossDEF(90);
 			break;
 		}
-		*/
-		
 		return b;
 	}
 	
@@ -172,23 +163,21 @@ public class DataConstant {
 		p.setMagicTR(ResourceManager.magicTTR.getTextureRegion(magicNum));
 		
 		//测试语句
-		p.setWeaponType(BangYouScreenActivity.getIntFromSharedPreferences(TEST_WEAPONTYPE));
-		p.setWeaponDPSMax(BangYouScreenActivity.getIntFromSharedPreferences(TEST_WEAPONMAXDPS));
-		p.setWeaponDPSMin(BangYouScreenActivity.getIntFromSharedPreferences(TEST_WEAPONMINDPS));
+//		p.setWeaponType(BangYouScreenActivity.getIntFromSharedPreferences(TEST_WEAPONTYPE));
+//		p.setWeaponDPSMax(BangYouScreenActivity.getIntFromSharedPreferences(TEST_WEAPONMAXDPS));
+//		p.setWeaponDPSMin(BangYouScreenActivity.getIntFromSharedPreferences(TEST_WEAPONMINDPS));
 		
 		p.setMagicType(BangYouScreenActivity.getIntFromSharedPreferences(TEST_MAGICTYPE));
 		p.setMagicAOEMax(BangYouScreenActivity.getIntFromSharedPreferences(TEST_MAGICMAXAOE));
 		p.setMagicAOEMin(BangYouScreenActivity.getIntFromSharedPreferences(TEST_MAGICMINAOE));
 		p.setMagicTTR(ResourceManager.magicASTTRArray[0]);
 		
-		/*
 		//武器属性
 		switch(weaponNum){
 			case 9:
 				p.setWeaponType(4);
 				p.setWeaponDPSMax(20);
 				p.setWeaponDPSMin(10);
-				OK
 			break;
 			
 			case 0:
@@ -247,6 +236,7 @@ public class DataConstant {
 		
 		}
 		
+		/*
 		//魔法属性
 		switch(magicNum){
 			case 9:
@@ -254,7 +244,6 @@ public class DataConstant {
 				p.setMagicAOEMax(100);
 				p.setMagicAOEMin(50);
 				p.setMagicTTR(ResourceManager.magicASTTRArray[0]);
-				OK
 			break;
 		
 			case 0:
@@ -262,7 +251,6 @@ public class DataConstant {
 				p.setMagicAOEMax(400);
 				p.setMagicAOEMin(200);
 				p.setMagicTTR(ResourceManager.magicASTTRArray[0]);
-				OK
 			break;
 	
 			case 1:
@@ -270,7 +258,6 @@ public class DataConstant {
 				p.setMagicAOEMax(500);
 				p.setMagicAOEMin(100);
 				p.setMagicTTR(ResourceManager.magicASTTRArray[1]);
-				OK
 			break;
 			
 			case 2:
@@ -278,7 +265,6 @@ public class DataConstant {
 				p.setMagicAOEMax(300);
 				p.setMagicAOEMin(300);
 				p.setMagicTTR(ResourceManager.magicASTTRArray[1]);
-				OK
 			break;
 			
 			case 3:
@@ -303,7 +289,6 @@ public class DataConstant {
 			break;
 		}
 		*/
-		
 		return p;
 	}
 
