@@ -98,9 +98,9 @@ public class SplashScreen extends ManagedScene{
 	
 	@Override
 	public void onLoadScene() {
-		Rectangle b = new Rectangle(mCameraWidth/2f,mCameraHeight/2f,mCameraWidth,mCameraHeight,mVertexBufferObjectManager);
-		b.setColor(0.54901f, 0.78431f, 0.92941f);
-		attachChild(b);
+//		Rectangle b = new Rectangle(mCameraWidth/2f,mCameraHeight/2f,mCameraWidth,mCameraHeight,mVertexBufferObjectManager);
+//		b.setColor(0.54901f, 0.78431f, 0.92941f);
+//		attachChild(b);
 		
 		beginOneTexture.load();
 		beginTwoTexture.load();
@@ -113,12 +113,12 @@ public class SplashScreen extends ManagedScene{
 		//nimbusSprite.setScale(2f);
 		EntityUtil.setSize("width", 1.5f, nimbusSprite);
 		nimbusSprite.registerEntityModifier(mRotationModifier);
-		b.attachChild(nimbusSprite);
-		b.attachChild(beginOneSprite);
+		attachChild(nimbusSprite);
+		attachChild(beginOneSprite);
 		
 		beginTwoSprite.setAlpha(0.001f);
 		beginTwoSprite.setScale(0.01f);
-		b.attachChild(beginTwoSprite);
+		attachChild(beginTwoSprite);
 		
 		beginOneSequence.addModifierListener(new IModifierListener<IEntity>() {
 			@Override

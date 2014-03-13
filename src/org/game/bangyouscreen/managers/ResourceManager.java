@@ -539,6 +539,25 @@ public class ResourceManager extends Object{
 		if(iconCooling == null){
 			iconCooling = getLimitableTTR("iconCooling.png",3,3,mNormalTextureOption);
 		}
+		//未完待写
+		for(int i=0; i<magicASTTRArray.length; i++){
+			if(magicASTTRArray[i] == null){
+				switch(i){
+				case 0:
+					magicASTTRArray[i] = getLimitableTTR("magicAS_0.png",5,4,mNormalTextureOption);
+				break;
+				case 1:
+					magicASTTRArray[i] = getLimitableTTR("magicAS_1.png",4,4,mNormalTextureOption);
+				break;
+				case 2:
+					magicASTTRArray[i] = getLimitableTTR("magicAS_2.png",5,4,mNormalTextureOption);
+				break;
+				case 3:
+					magicASTTRArray[i] = getLimitableTTR("magicAS_3.png",4,3,mNormalTextureOption);
+				break;
+				}
+			}
+		}
 		BitmapTextureAtlasTextureRegionFactory.setAssetBasePath(mPreviousAssetBasePath);
 	}
 	
@@ -570,22 +589,6 @@ public class ResourceManager extends Object{
 		if(arrowLRTTR == null){
 			arrowLRTTR = getLimitableTTR("arrowLR.png",2,1,mNormalTextureOption);
 		}
-		//未完待写
-		for(int i=0; i<magicASTTRArray.length; i++){
-			if(magicASTTRArray[i] == null){
-				switch(i){
-				case 0:
-					magicASTTRArray[i] = getLimitableTTR("magic_as_0.png",3,4,mNormalTextureOption);
-				break;
-				case 1:
-					magicASTTRArray[i] = getLimitableTTR("magic_as_11.png",3,4,mNormalTextureOption);
-				break;
-				}
-			}
-		}
-		
-		
-		
 		BitmapTextureAtlasTextureRegionFactory.setAssetBasePath(mPreviousAssetBasePath);
 	}
 	

@@ -282,8 +282,8 @@ public class GameLevel extends ManagedScene {
 				magicBS.attachChild(magicCooling);
 				//魔法效果
 				magicAS = new AnimatedSprite(mCameraWidth/2f,mCameraHeight/2f,playerModel.getMagicTTR(),mVertexBufferObjectManager);
-				EntityUtil.setSize("height", 1f / 2f, magicAS);
-				magicAS.animate(100,3,new IAnimationListener(){
+				EntityUtil.setSize("height", 2f / 3f, magicAS);
+				magicAS.animate(100,2,new IAnimationListener(){
 
 					public void onAnimationStarted(AnimatedSprite pAnimatedSprite,
 							int pInitialLoopCount) {

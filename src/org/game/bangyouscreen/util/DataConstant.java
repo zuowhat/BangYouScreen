@@ -27,7 +27,7 @@ public class DataConstant {
 	public static final int WEAPON_INIT = 9;//初始化武器编号
 	public static final int MAGIC_INIT = 9;//初始化魔法编号
 	public static final int WEAPON_NUM = 9;//装备库中武器的个数
-	public static final int MAGIC_NUM = 9;//装备库中魔法的个数
+	public static final int MAGIC_NUM = 4;//装备库中魔法的个数
 	public static final int PROP_NUM = 3;//装备库中道具的个数
 	public static final String WEAPON_NAME = "Weapon";//武器代号
 	public static final String MAGIC_NAME = "Magic";//魔法代号
@@ -170,7 +170,7 @@ public class DataConstant {
 		p.setMagicType(BangYouScreenActivity.getIntFromSharedPreferences(TEST_MAGICTYPE));
 		p.setMagicAOEMax(BangYouScreenActivity.getIntFromSharedPreferences(TEST_MAGICMAXAOE));
 		p.setMagicAOEMin(BangYouScreenActivity.getIntFromSharedPreferences(TEST_MAGICMINAOE));
-		p.setMagicTTR(ResourceManager.magicASTTRArray[0]);
+		p.setMagicTTR(ResourceManager.magicASTTRArray[3]);
 		
 		//武器属性
 		switch(weaponNum){
@@ -236,14 +236,13 @@ public class DataConstant {
 		
 		}
 		
-		/*
 		//魔法属性
 		switch(magicNum){
 			case 9:
 				p.setMagicType(4);
 				p.setMagicAOEMax(100);
 				p.setMagicAOEMin(50);
-				p.setMagicTTR(ResourceManager.magicASTTRArray[0]);
+				p.setMagicTTR(ResourceManager.magicASTTRArray[1]);
 			break;
 		
 			case 0:
@@ -264,31 +263,9 @@ public class DataConstant {
 				p.setMagicType(1);
 				p.setMagicAOEMax(300);
 				p.setMagicAOEMin(300);
-				p.setMagicTTR(ResourceManager.magicASTTRArray[1]);
-			break;
-			
-			case 3:
-				p.setMagicType(4);
-				p.setMagicAOEMax(20);
-				p.setMagicAOEMin(15);
-				p.setMagicTTR(ResourceManager.magicASTTRArray[1]);
-			break;
-			
-			case 4:
-				p.setMagicType(4);
-				p.setMagicAOEMax(20);
-				p.setMagicAOEMin(15);
-				p.setMagicTTR(ResourceManager.magicASTTRArray[1]);
-			break;
-			
-			case 5:
-				p.setMagicType(1);
-				p.setMagicAOEMax(900);
-				p.setMagicAOEMin(900);
-				p.setMagicTTR(ResourceManager.magicASTTRArray[1]);
+				p.setMagicTTR(ResourceManager.magicASTTRArray[2]);
 			break;
 		}
-		*/
 		return p;
 	}
 

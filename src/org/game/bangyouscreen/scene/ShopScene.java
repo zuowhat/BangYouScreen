@@ -110,7 +110,10 @@ public class ShopScene extends ManagedScene implements IScrollDetectorListener{
 		}
 		mScrollDetector.setTriggerScrollMinimumDistance(10f);
 		Sprite backgroundSprite = new Sprite(0f,0f, ResourceManager.shopBG,mVertexBufferObjectManager);
-		backgroundSprite.setScale(ResourceManager.getInstance().cameraWidth / ResourceManager.mainMenuBackgroundTR.getWidth());
+		EntityUtil.setSize("width", 1f, backgroundSprite);
+		if(mCameraHeight > backgroundSprite.getHeight()){
+			backgroundSprite.setHeight(mCameraHeight);
+		}
 		backgroundSprite.setPosition(mCameraWidth / 2f, mCameraHeight / 2f);
 		backgroundSprite.setZIndex(-100);
 		attachChild(backgroundSprite);
