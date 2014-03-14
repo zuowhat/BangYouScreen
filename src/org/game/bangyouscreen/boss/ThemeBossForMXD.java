@@ -13,6 +13,7 @@ import org.andengine.input.touch.detector.ScrollDetector;
 import org.andengine.input.touch.detector.ScrollDetector.IScrollDetectorListener;
 import org.andengine.input.touch.detector.SurfaceScrollDetector;
 import org.andengine.opengl.vbo.VertexBufferObjectManager;
+import org.game.bangyouscreen.BangYouScreenActivity;
 import org.game.bangyouscreen.gameLevels.GameLevel;
 import org.game.bangyouscreen.managers.ManagedScene;
 import org.game.bangyouscreen.managers.ResourceManager;
@@ -227,9 +228,17 @@ public class ThemeBossForMXD extends ManagedScene implements IScrollDetectorList
 		 Rectangle themeR = new Rectangle(themeRWidth/2f,mCameraHeight/2f,themeRWidth,
 				 mCameraHeight*(2f/3f),mVertexBufferObjectManager);
 		 themeR.setAlpha(0f);
-		
+		 int themeSceneOneBossTotal = BangYouScreenActivity.getIntFromSharedPreferences(DataConstant.SHARED_PREFS_THEME_MXD);
 		 for(int i=0; i<ResourceManager.mxdBoss_TTRArray.length; i++){
+			 if( i < themeSceneOneBossTotal){
+				//KO标志
+				 Sprite s = new Sprite(0f,0f,ResourceManager.ko,mVertexBufferObjectManager);
+				 EntityUtil.setSize("width", 1f/4f, s);
+				 s.setPosition((i+1f/2f)*mCameraWidth, themeR.getHeight()/2f);
+				 themeR.attachChild(s);
+			 }
 			 if(ResourceManager.mxdBoss_TTRArray[i] != null){
+				 
 				//BOSS动画
 				bossPics[i] = new AnimatedButtonSprite(0f, 0f,ResourceManager.mxdBoss_TTRArray[i], mVertexBufferObjectManager);
 				EntityUtil.setSize("height", 1f/2f, bossPics[i]);

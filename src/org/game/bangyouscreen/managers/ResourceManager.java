@@ -110,7 +110,7 @@ public class ResourceManager extends Object{
 	public static TextureRegion fingerGoldBG;
 	public static TextureRegion[] helpExplanation = new TextureRegion[3];
 	public static TextureRegion layerPauseBG;
-	
+	public static TextureRegion ko;
 	
 	//***************测试资源 start ********************//
 	public static TiledTextureRegion test_addOrSubtract;
@@ -367,7 +367,9 @@ public class ResourceManager extends Object{
 		if(bossBlackBG == null){
 			bossBlackBG = getLimitableTTR("bossBlackBG.png",4,2,mNormalTextureOption);
 		}
-		
+		if(ko == null){
+			ko = getLimitableTR("ko.png",mNormalTextureOption);
+		}
 		BitmapTextureAtlasTextureRegionFactory.setAssetBasePath(mPreviousAssetBasePath);
 	}
 	
