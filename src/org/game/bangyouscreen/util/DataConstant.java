@@ -25,9 +25,9 @@ public class DataConstant {
 	public static final float BOSS_VELOCITY = 50.0f;//BOSS移动速度
 	
 	public static final int WEAPON_INIT = 9;//初始化武器编号
-	public static final int MAGIC_INIT = 9;//初始化魔法编号
+	public static final int MAGIC_INIT = 3;//初始化魔法编号
 	public static final int WEAPON_NUM = 9;//装备库中武器的个数
-	public static final int MAGIC_NUM = 4;//装备库中魔法的个数
+	public static final int MAGIC_NUM = 3;//装备库中魔法的个数
 	public static final int PROP_NUM = 3;//装备库中道具的个数
 	public static final String WEAPON_NAME = "Weapon";//武器代号
 	public static final String MAGIC_NAME = "Magic";//魔法代号
@@ -161,16 +161,17 @@ public class DataConstant {
 		p.setMagicNum(magicNum);
 		p.setWeaponTR(ResourceManager.weaponTTR.getTextureRegion(weaponNum));
 		p.setMagicTR(ResourceManager.magicTTR.getTextureRegion(magicNum));
+		p.setMagicTTR(ResourceManager.magicASTTRArray[magicNum]);
 		
 		//测试语句
 //		p.setWeaponType(BangYouScreenActivity.getIntFromSharedPreferences(TEST_WEAPONTYPE));
 //		p.setWeaponDPSMax(BangYouScreenActivity.getIntFromSharedPreferences(TEST_WEAPONMAXDPS));
 //		p.setWeaponDPSMin(BangYouScreenActivity.getIntFromSharedPreferences(TEST_WEAPONMINDPS));
 		
-		p.setMagicType(BangYouScreenActivity.getIntFromSharedPreferences(TEST_MAGICTYPE));
-		p.setMagicAOEMax(BangYouScreenActivity.getIntFromSharedPreferences(TEST_MAGICMAXAOE));
-		p.setMagicAOEMin(BangYouScreenActivity.getIntFromSharedPreferences(TEST_MAGICMINAOE));
-		p.setMagicTTR(ResourceManager.magicASTTRArray[3]);
+//		p.setMagicType(BangYouScreenActivity.getIntFromSharedPreferences(TEST_MAGICTYPE));
+//		p.setMagicAOEMax(BangYouScreenActivity.getIntFromSharedPreferences(TEST_MAGICMAXAOE));
+//		p.setMagicAOEMin(BangYouScreenActivity.getIntFromSharedPreferences(TEST_MAGICMINAOE));
+//		p.setMagicTTR(ResourceManager.magicASTTRArray[3]);
 		
 		//武器属性
 		switch(weaponNum){
@@ -238,32 +239,32 @@ public class DataConstant {
 		
 		//魔法属性
 		switch(magicNum){
-			case 9:
+			case 3:
 				p.setMagicType(4);
 				p.setMagicAOEMax(100);
 				p.setMagicAOEMin(50);
-				p.setMagicTTR(ResourceManager.magicASTTRArray[1]);
+				p.setMagicSound("g_wind");
 			break;
 		
 			case 0:
 				p.setMagicType(3);
 				p.setMagicAOEMax(400);
 				p.setMagicAOEMin(200);
-				p.setMagicTTR(ResourceManager.magicASTTRArray[0]);
+				p.setMagicSound("g_dragon");
 			break;
 	
 			case 1:
 				p.setMagicType(2);
 				p.setMagicAOEMax(500);
 				p.setMagicAOEMin(100);
-				p.setMagicTTR(ResourceManager.magicASTTRArray[1]);
+				p.setMagicSound("g_ghost");
 			break;
 			
 			case 2:
 				p.setMagicType(1);
 				p.setMagicAOEMax(300);
 				p.setMagicAOEMin(300);
-				p.setMagicTTR(ResourceManager.magicASTTRArray[2]);
+				p.setMagicSound("g_pfire");
 			break;
 		}
 		return p;

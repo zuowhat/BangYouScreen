@@ -5,10 +5,7 @@ package org.game.bangyouscreen.scene;
  * @author zuowhat 2013-11-25
  * @version 1.0
  */
-import org.andengine.entity.IEntity;
 import org.andengine.entity.modifier.MoveXModifier;
-import org.andengine.entity.modifier.MoveYModifier;
-import org.andengine.entity.modifier.IEntityModifier.IEntityModifierListener;
 import org.andengine.entity.primitive.Rectangle;
 import org.andengine.entity.scene.Scene;
 import org.andengine.entity.sprite.ButtonSprite;
@@ -19,7 +16,6 @@ import org.andengine.input.touch.detector.ScrollDetector;
 import org.andengine.input.touch.detector.ScrollDetector.IScrollDetectorListener;
 import org.andengine.input.touch.detector.SurfaceScrollDetector;
 import org.andengine.opengl.vbo.VertexBufferObjectManager;
-import org.andengine.util.modifier.IModifier;
 import org.game.bangyouscreen.boss.ThemeBossForMXD;
 import org.game.bangyouscreen.managers.ManagedScene;
 import org.game.bangyouscreen.managers.ResourceManager;
@@ -251,7 +247,7 @@ public class ThemeScene extends ManagedScene implements IScrollDetectorListener{
 				@Override
 				public void onClick(ButtonSprite pButtonSprite, float pTouchAreaLocalX, float pTouchAreaLocalY) {
 					SFXManager.getInstance().playSound("a_click");
-					SceneManager.getInstance().showScene(ThemeBossForMXD.getInstance());
+					SceneManager.getInstance().showScene(ThemeBossForMXD.getInstance(false,1));
 				}
 			});
 			registerTouchArea(themePics[0]);

@@ -12,6 +12,7 @@ import org.andengine.entity.sprite.Sprite;
 import org.andengine.opengl.vbo.VertexBufferObjectManager;
 import org.game.bangyouscreen.BangYouScreenActivity;
 import org.game.bangyouscreen.boss.ThemeBossForMXD;
+import org.game.bangyouscreen.gameLevels.GameLevel;
 import org.game.bangyouscreen.managers.ManagedLayer;
 import org.game.bangyouscreen.managers.ResourceManager;
 import org.game.bangyouscreen.managers.SFXManager;
@@ -102,7 +103,8 @@ public class GameWinLayer extends ManagedLayer{
 					SFXManager.getInstance().playSound("a_click");
 					SFXManager.getInstance().playMusic("mainMusic");
 					onHideLayer();
-					SceneManager.getInstance().showScene(ThemeBossForMXD.getInstance());
+					//int bossNumInSP = BangYouScreenActivity.getIntFromSharedPreferences(DataConstant.SHARED_PREFS_THEME_MXD);
+					SceneManager.getInstance().showScene(ThemeBossForMXD.getInstance(true,GameLevel.bossModel.getBossLevel()));
 			}});
 		LayerBG.attachChild(continueBS);
 		registerTouchArea(continueBS);

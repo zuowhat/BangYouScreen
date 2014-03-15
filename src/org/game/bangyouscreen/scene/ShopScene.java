@@ -340,8 +340,7 @@ public class ShopScene extends ManagedScene implements IScrollDetectorListener{
 			currentInfoBG_S = infoBG_S;
 			addInfoByType(type,infoArray,ResourceManager.weaponInfosTTR);
 		}else if(DataConstant.MAGIC_NAME.equals(type)){
-			//待修改
-			addInfoByType(type,infoArray,ResourceManager.weaponInfosTTR);
+			addInfoByType(type,infoArray,ResourceManager.magicInfosTTR);
 		}else if(DataConstant.PROP_NAME.equals(type)){
 			addInfoByType(type,infoArray,ResourceManager.propInfosTTR);
 		}

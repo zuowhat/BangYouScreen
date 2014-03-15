@@ -68,7 +68,7 @@ public class GameLevel extends ManagedScene {
 	private int bossHP;
 	private int allBossHP;
 	private AnimatedSprite clockTimeAS;
-	private String[] sounds = {"g_win","g_fail","g_time","g_bomb","g_button","a_CountDown","g_go","g_notenough"};
+	private String[] sounds = {"g_win","g_fail","g_time","g_bomb","g_button","a_CountDown","g_go","g_notenough","g_drink"};
 	private String[] musics = {"zhan","zhu","ming","shi"};
 	private Rectangle fadableBGRect;
 	private AnimatedSprite clockCooling;
@@ -167,8 +167,10 @@ public class GameLevel extends ManagedScene {
 
 			public void onClick(ButtonSprite pButtonSprite,
 					float pTouchAreaLocalX, float pTouchAreaLocalY) {
-					//SFXManager.getInstance().playSound("g_button");
-					updateHP(1);
+					//SFXManager.getInstance().playSound("g_leftButton");
+					if(bossHP > 0){
+						updateHP(1);
+					}
 			}});
 		fadableBGRect.attachChild(greenButtonBS);
 		
@@ -181,8 +183,10 @@ public class GameLevel extends ManagedScene {
 			@Override
 			public void onClick(ButtonSprite pButtonSprite,
 					float pTouchAreaLocalX, float pTouchAreaLocalY) {
-					//SFXManager.getInstance().playSound("g_button");
-					updateHP(1);
+					//SFXManager.getInstance().playSound("g_rightButton");
+					if(bossHP > 0){
+						updateHP(1);
+					}
 			}});
 		fadableBGRect.attachChild(redButtonBS);
 		
@@ -247,7 +251,7 @@ public class GameLevel extends ManagedScene {
 			public void onClick(ButtonSprite pButtonSprite,
 					float pTouchAreaLocalX, float pTouchAreaLocalY) {
 				unregisterTouchArea(magicBS);
-				SFXManager.getInstance().playSound("a_click");
+				SFXManager.getInstance().playSound(playerModel.getMagicSound());
 				
 				magicCooling = new AnimatedSprite(0f,0f,ResourceManager.iconCooling,mVertexBufferObjectManager); 
 				magicCooling.setPosition(magicBS.getWidth()/2f,magicBS.getHeight()/2f);
@@ -303,7 +307,9 @@ public class GameLevel extends ManagedScene {
 							detachChild(magicAS);
 							magicAS = null;
 							//bossAS.animate(frameDur,0,1,true);
-							updateHP(2);
+							if(bossHP > 0){
+								updateHP(2);
+							}
 						}
 					}
 				});
@@ -328,7 +334,7 @@ public class GameLevel extends ManagedScene {
 					float pTouchAreaLocalX, float pTouchAreaLocalY) {
 				if(weaponPotionNum > 0){
 					unregisterTouchArea(tiamatBS);
-					SFXManager.getInstance().playSound("a_click");
+					SFXManager.getInstance().playSound("g_drink");
 					isAddDPS = true;
 					tiamatTime = DataConstant.ADD_DPS_TIME;
 					weaponPotionNum--;
@@ -384,7 +390,7 @@ public class GameLevel extends ManagedScene {
 					float pTouchAreaLocalX, float pTouchAreaLocalY) {
 				if(magicPotionNum > 0){
 					unregisterTouchArea(bingpoBS);
-					SFXManager.getInstance().playSound("a_click");
+					SFXManager.getInstance().playSound("g_drink");
 					isAddAOE = true;
 					magicPotionNum--;
 					mGameNumber.updateGoodsNum(DataConstant.MAGIC_NAME, magicPotionNum);
@@ -414,6 +420,7 @@ public class GameLevel extends ManagedScene {
 			public void onAnimationStarted(AnimatedSprite pAnimatedSprite,
 					int pInitialLoopCount) {
 				SFXManager.getInstance().loadSounds(sounds, ResourceManager.getActivity().getSoundManager(), ResourceManager.getActivity());
+				SFXManager.getInstance().loadSound(playerModel.getMagicSound(), ResourceManager.getActivity().getSoundManager(), ResourceManager.getActivity());
 			}
 
 			public void onAnimationFrameChanged(AnimatedSprite pAnimatedSprite,
@@ -588,6 +595,8 @@ public class GameLevel extends ManagedScene {
 	 * @since 1.0
 	 */
 	private void gameWin(){
+		detachChild(magicAS);
+		SFXManager.getInstance().stopSound(playerModel.getMagicSound());
 		System.out.println("游戏胜利111111111");
 		SFXManager.getInstance().stopMusic();
 		updateGameStatDPSNum();
@@ -614,7 +623,7 @@ public class GameLevel extends ManagedScene {
 			}
 
 			public void onAnimationFinished(AnimatedSprite pAnimatedSprite) {
-				System.out.println("弹出11111111111111");
+				//setIgnoreUpdate(true);
 				SceneManager.getInstance().showLayer(GameWinLayer.getInstance(mScore,Math.round(gameTime),allBossHP), false, false, false);
 				SFXManager.getInstance().playSound("g_win");
 			}

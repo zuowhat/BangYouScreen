@@ -41,13 +41,15 @@ public class ThemeBossForMXD extends ManagedScene implements IScrollDetectorList
 	private SurfaceScrollDetector mScrollDetector;
 	private float directionPath;//判断手势方向，正-向右滑动，负-向左滑动
 	private float themeRInitX;
-	private int mCurrentBoss;
-	
+	private static int mCurrentBoss;
+	private static boolean isKO;
 	private Rectangle mBossSlider;
 	private AnimatedButtonSprite[] bossPics;
 	
 	
-	public static ThemeBossForMXD getInstance(){
+	public static ThemeBossForMXD getInstance(boolean tempIsKO, int tempCurrentBoss){
+		isKO = tempIsKO;
+		mCurrentBoss = tempCurrentBoss;
 		return INSTANCE;
 	}
 	
@@ -64,7 +66,8 @@ public class ThemeBossForMXD extends ManagedScene implements IScrollDetectorList
 	}
 
 	public void onLoadScene() {
-		mCurrentBoss = 1;
+		//mCurrentBoss = 1;
+		System.out.println("mCurrentBoss --> "+mCurrentBoss);
 		Sprite themeBGSprite = new Sprite(0f,0f,ResourceManager.themeBG,mVertexBufferObjectManager);
 		//themeBGSprite.setScale(ResourceManager.getInstance().cameraHeight / ResourceManager.themeBG.getHeight());
 		themeBGSprite.setSize(mCameraWidth, mCameraHeight);
@@ -78,6 +81,11 @@ public class ThemeBossForMXD extends ManagedScene implements IScrollDetectorList
 		mScrollDetector.setTriggerScrollMinimumDistance(10f);
 		mBossSlider = getScensSlider();
 		attachChild(mBossSlider);
+		if(isKO){
+			themeRInitX = themeRInitX - mCameraWidth*(mCurrentBoss-1);
+			//mBossSlider.registerEntityModifier(new MoveXModifier(0.3F, mBossSlider.getX(), themeRInitX));
+			mBossSlider.setX(themeRInitX);
+		}
 		
 		//后退按钮
 		ButtonSprite backBS = new ButtonSprite(0f,0f,ResourceManager.backTR,mVertexBufferObjectManager);
@@ -123,6 +131,7 @@ public class ThemeBossForMXD extends ManagedScene implements IScrollDetectorList
 					themeRInitX = themeRInitX + mCameraWidth;
 					mBossSlider.registerEntityModifier(new MoveXModifier(0.3F, mBossSlider.getX(), themeRInitX));
 				}
+				System.out.println("mCurrentBoss --> "+mCurrentBoss);
 			}
 		});
 		registerTouchArea(arrowLeftSprite);
@@ -142,6 +151,7 @@ public class ThemeBossForMXD extends ManagedScene implements IScrollDetectorList
 					themeRInitX = themeRInitX - mCameraWidth;
 					mBossSlider.registerEntityModifier(new MoveXModifier(0.3F, mBossSlider.getX(), themeRInitX));
 				}
+				System.out.println("mCurrentBoss --> "+mCurrentBoss);
 			}
 		});
 		registerTouchArea(arrowRightSprite);
@@ -231,11 +241,21 @@ public class ThemeBossForMXD extends ManagedScene implements IScrollDetectorList
 		 int themeSceneOneBossTotal = BangYouScreenActivity.getIntFromSharedPreferences(DataConstant.SHARED_PREFS_THEME_MXD);
 		 for(int i=0; i<ResourceManager.mxdBoss_TTRArray.length; i++){
 			 if( i < themeSceneOneBossTotal){
-				//KO标志
-				 Sprite s = new Sprite(0f,0f,ResourceManager.ko,mVertexBufferObjectManager);
-				 EntityUtil.setSize("width", 1f/4f, s);
-				 s.setPosition((i+1f/2f)*mCameraWidth, themeR.getHeight()/2f);
-				 themeR.attachChild(s);
+				 if(isKO){
+					 if(i != (mCurrentBoss-1)){
+						//KO标志
+						 Sprite s = new Sprite(0f,0f,ResourceManager.ko,mVertexBufferObjectManager);
+						 EntityUtil.setSize("width", 1f/4f, s);
+						 s.setPosition((i+1f/2f)*mCameraWidth, themeR.getHeight()/2f);
+						 themeR.attachChild(s); 
+					 }
+				 }else{
+					//KO标志
+					 Sprite s = new Sprite(0f,0f,ResourceManager.ko,mVertexBufferObjectManager);
+					 EntityUtil.setSize("width", 1f/4f, s);
+					 s.setPosition((i+1f/2f)*mCameraWidth, themeR.getHeight()/2f);
+					 themeR.attachChild(s);
+				 }
 			 }
 			 if(ResourceManager.mxdBoss_TTRArray[i] != null){
 				 

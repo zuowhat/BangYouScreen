@@ -71,7 +71,7 @@ public class ResourceManager extends Object{
 	public static TiledTextureRegion gamePauseMenu;
 	public static TiledTextureRegion weaponTTR;
 	public static TiledTextureRegion magicTTR;
-	public static TiledTextureRegion[] magicASTTRArray = new TiledTextureRegion[DataConstant.MAGIC_NUM];
+	public static TiledTextureRegion[] magicASTTRArray = new TiledTextureRegion[4];
 	public static TiledTextureRegion propsTTR;
 	public static TiledTextureRegion bossBlackBG;
 	public static TiledTextureRegion layerTitle;
@@ -87,6 +87,7 @@ public class ResourceManager extends Object{
 	public static TiledTextureRegion shopInfoRowsBG;
 	public static TiledTextureRegion shopPropBG;
 	public static TiledTextureRegion weaponInfosTTR;
+	public static TiledTextureRegion magicInfosTTR;
 	public static TiledTextureRegion propInfosTTR;
 	public static TiledTextureRegion buyOrUse;
 	public static TextureRegion isUse;
@@ -326,6 +327,9 @@ public class ResourceManager extends Object{
 		if(weaponInfosTTR == null){
 			weaponInfosTTR = getLimitableTTR("weaponInfos.png",1,9,mNormalTextureOption);
 		}
+		if(magicInfosTTR == null){
+			magicInfosTTR = getLimitableTTR("magicInfos.png",1,3,mNormalTextureOption);
+		}
 		if(propInfosTTR == null){
 			propInfosTTR = getLimitableTTR("propInfos.png",1,4,mNormalTextureOption);
 		}
@@ -552,7 +556,7 @@ public class ResourceManager extends Object{
 					magicASTTRArray[i] = getLimitableTTR("magicAS_1.png",4,4,mNormalTextureOption);
 				break;
 				case 2:
-					magicASTTRArray[i] = getLimitableTTR("magicAS_2.png",5,4,mNormalTextureOption);
+					magicASTTRArray[i] = getLimitableTTR("magicAS_2.png",3,3,mNormalTextureOption);
 				break;
 				case 3:
 					magicASTTRArray[i] = getLimitableTTR("magicAS_3.png",4,3,mNormalTextureOption);
@@ -571,7 +575,7 @@ public class ResourceManager extends Object{
 			weaponTTR = getLimitableTTR("weapon.png",3,4,mNormalTextureOption);
 		}
 		if(magicTTR == null){
-			magicTTR = getLimitableTTR("magic.png",3,4,mNormalTextureOption);
+			magicTTR = getLimitableTTR("magic.png",3,2,mNormalTextureOption);
 		}
 		if(propsTTR == null){
 			propsTTR = getLimitableTTR("props.png",2,2,mNormalTextureOption);

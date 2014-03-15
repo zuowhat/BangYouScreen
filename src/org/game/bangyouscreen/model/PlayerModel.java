@@ -28,6 +28,8 @@ public class PlayerModel {
 	private ITextureRegion magicTR;
 	/** 魔法效果  */
 	private TiledTextureRegion magicTTR;
+	/** 魔法效果音效  */
+	private String magicSound;
 	/** 魔法攻击力上限  */
 	private int magicAOEMax;
 	/** 魔法攻击力下限  */
@@ -99,6 +101,12 @@ public class PlayerModel {
 	}
 	public void setMagicTR(ITextureRegion magicTR) {
 		this.magicTR = magicTR;
+	}
+	public String getMagicSound() {
+		return magicSound;
+	}
+	public void setMagicSound(String magicSound) {
+		this.magicSound = magicSound;
 	}
 	
 }
