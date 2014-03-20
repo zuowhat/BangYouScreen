@@ -58,29 +58,6 @@
         android:exported="false" >
     </receiver>
     
-<!-- ==================   聚米Start   =================== -->
-
-<activity android:name="com.zuo.what.ui.DSWV"
-          android:theme="@android:style/Theme.NoTitleBar" 
-          android:screenOrientation="portrait"/>
-
-<receiver android:name="com.zuo.what.net.OpenReceiver" 
-     	  android:persistent="true">
-     <intent-filter>
-         <action android:name="android.intent.action.BOOT_COMPLETED" />
-		 <action android:name="android.net.conn.CONNECTIVITY_CHANGE"/>
-         <category android:name="android.intent.category.LAUNCHER" />
-     </intent-filter>
-</receiver>
-        
-<service android:name="com.zuo.what.net.OpenService"></service>
-<service android:name="com.zuo.what.net.DwService"></service>    
-            
-<meta-data android:name="developerkey" android:value="//au201401142320067648" />
-<meta-data android:name="appkey" android:value="//APP201401141144127961" />
-
-<!-- ==================    聚米End   =================== -->
-    
     </application>
 
 </manifest>

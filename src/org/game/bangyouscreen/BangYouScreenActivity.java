@@ -26,13 +26,11 @@ import org.game.bangyouscreen.scene.MainMenuScene;
 import org.game.bangyouscreen.scene.ShopScene;
 import org.game.bangyouscreen.scene.SplashScreen;
 import org.game.bangyouscreen.util.DataConstant;
-
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.View.MeasureSpec;
 
-import com.zuo.what.uti.JMPManager;
 
 
 public class BangYouScreenActivity extends BaseGameActivity implements PointsChangeNotify{
@@ -163,8 +161,6 @@ public class BangYouScreenActivity extends BaseGameActivity implements PointsCha
 
 	@Override
 	protected void onCreate(Bundle pSavedInstanceState) {
-		JMPManager manager = new JMPManager ();
-	    manager.startService(this,1);
 	    System.out.println("onCreate");
 		super.onCreate(pSavedInstanceState);
 	}
