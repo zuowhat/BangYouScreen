@@ -90,7 +90,7 @@ public class DataConstant {
 		
 		switch(bossNum){
 			case 1:
-				b.setBossHP(4000);
+				b.setBossHP(3500);
 				b.setBossDefType(3);
 				b.setMaxBossDEF(10);
 				b.setMinBossDEF(0);

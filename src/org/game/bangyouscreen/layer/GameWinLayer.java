@@ -116,6 +116,7 @@ public class GameWinLayer extends ManagedLayer{
 		goBackBS.setOnClickListener(new OnClickListener(){
 			public void onClick(ButtonSprite pButtonSprite,
 					float pTouchAreaLocalX, float pTouchAreaLocalY) {
+					SFXManager.getInstance().unloadSound("t_ko");
 					SFXManager.getInstance().playSound("a_click");
 					onHideLayer();
 					SceneManager.getInstance().showScene(MainMenuScene.getInstance());
@@ -148,6 +149,7 @@ public class GameWinLayer extends ManagedLayer{
 		int goldNumTemp = BangYouScreenActivity.getIntFromSharedPreferences(DataConstant.ALL_GOLD) + goldNum;
 		BangYouScreenActivity.writeIntToSharedPreferences(DataConstant.ALL_GOLD, goldNumTemp);
 		registerUpdateHandler(mSlideInUpdateHandler);
+		SFXManager.getInstance().loadSound("t_ko", ResourceManager.getActivity().getSoundManager(), ResourceManager.getActivity());
 	}
 	
 	public void onHideLayer() {

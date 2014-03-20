@@ -88,18 +88,12 @@ public class MainMenuScene extends ManagedScene{
 //	    setBackground(localAutoParallaxBackground);
 //	    setBackgroundEnabled(true);
 
-		Sprite backgroundSprite = new Sprite(0f,0f, ResourceManager.mainMenuBackgroundTR,mVertexBufferObjectManager);
-		backgroundSprite.setScale(ResourceManager.getInstance().cameraWidth / ResourceManager.mainMenuBackgroundTR.getWidth());
-		backgroundSprite.setPosition(mCameraWidth / 2f, mCameraHeight / 2f);
-		backgroundSprite.setZIndex(-5000);
-		attachChild(backgroundSprite);
-		
 		Sprite[] CloudSprites; CloudSprites = new Sprite[20];
 		for(Sprite curCloudSprite: CloudSprites){
 			curCloudSprite = new Sprite(
 					MathUtils.random(-(this.getWidth()*this.getScaleX())/2,ResourceManager.getInstance().cameraWidth+(this.getWidth()*this.getScaleX())/2),
 					MathUtils.random(-(this.getHeight()*this.getScaleY())/2,ResourceManager.getInstance().cameraHeight + (this.getHeight()*this.getScaleY())/2),
-					ResourceManager.menuClouds1,mVertexBufferObjectManager) {
+					ResourceManager.menuClouds,mVertexBufferObjectManager) {
 				private float XSpeed = MathUtils.random(0.2f, 2f);
 				private boolean initialized = false;
 				@Override
@@ -125,6 +119,12 @@ public class MainMenuScene extends ManagedScene{
 			this.attachChild(curCloudSprite);
 		}
 	    
+		Sprite backgroundSprite = new Sprite(0f,0f, ResourceManager.mainMenuBackgroundTR,mVertexBufferObjectManager);
+		backgroundSprite.setScale(ResourceManager.getInstance().cameraWidth / ResourceManager.mainMenuBackgroundTR.getWidth());
+		backgroundSprite.setPosition(mCameraWidth / 2f, mCameraHeight / 2f);
+		backgroundSprite.setZIndex(-5000);
+		attachChild(backgroundSprite);
+		
 		mainMenuScreen = new Rectangle(mCameraWidth / 2f, -mCameraHeight/2f, mCameraWidth, mCameraHeight, mVertexBufferObjectManager){
 			boolean hasLoaded = false;
 			@Override

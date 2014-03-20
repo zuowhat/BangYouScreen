@@ -49,8 +49,7 @@ public class ResourceManager extends Object{
 	public static Font mFont;
 	public static Font sysFont;
 	public static TiledTextureRegion numberTTR;
-	public static TextureRegion menuClouds1;
-	public static TextureRegion menuClouds2;
+	public static TextureRegion menuClouds;
 	public static TiledTextureRegion greenButtonTTR;
 	public static TiledTextureRegion redButtonTTR;
 	public static TextureRegion xue1;
@@ -301,11 +300,8 @@ public class ResourceManager extends Object{
 		if(mainMenuButtons == null){
 			mainMenuButtons = getLimitableTTR("mainMenu.png",1,6,mNormalTextureOption);
 		}
-		if(menuClouds1 == null){
-			menuClouds1 = getLimitableTR("menuClouds1.png",mNormalTextureOption);
-		}
-		if(menuClouds2 == null){
-			menuClouds2 = getLimitableTR("menuClouds2.png",mNormalTextureOption);
+		if(menuClouds == null){
+			menuClouds = getLimitableTR("menuClouds.png",mNormalTextureOption);
 		}
 
 		BitmapTextureAtlasTextureRegionFactory.setAssetBasePath(mPreviousAssetBasePath);

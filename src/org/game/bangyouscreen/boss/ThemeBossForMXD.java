@@ -2,7 +2,12 @@ package org.game.bangyouscreen.boss;
 
 import java.util.Arrays;
 
+import org.andengine.entity.IEntity;
+import org.andengine.entity.modifier.FadeInModifier;
 import org.andengine.entity.modifier.MoveXModifier;
+import org.andengine.entity.modifier.ParallelEntityModifier;
+import org.andengine.entity.modifier.ScaleAtModifier;
+import org.andengine.entity.modifier.IEntityModifier.IEntityModifierListener;
 import org.andengine.entity.primitive.Rectangle;
 import org.andengine.entity.scene.Scene;
 import org.andengine.entity.sprite.ButtonSprite;
@@ -13,6 +18,7 @@ import org.andengine.input.touch.detector.ScrollDetector;
 import org.andengine.input.touch.detector.ScrollDetector.IScrollDetectorListener;
 import org.andengine.input.touch.detector.SurfaceScrollDetector;
 import org.andengine.opengl.vbo.VertexBufferObjectManager;
+import org.andengine.util.modifier.IModifier;
 import org.game.bangyouscreen.BangYouScreenActivity;
 import org.game.bangyouscreen.gameLevels.GameLevel;
 import org.game.bangyouscreen.managers.ManagedScene;
@@ -67,6 +73,7 @@ public class ThemeBossForMXD extends ManagedScene implements IScrollDetectorList
 
 	public void onLoadScene() {
 		//mCurrentBoss = 1;
+		//SFXManager.getInstance().loadSound("t_ko", ResourceManager.getActivity().getSoundManager(), ResourceManager.getActivity());
 		System.out.println("mCurrentBoss --> "+mCurrentBoss);
 		Sprite themeBGSprite = new Sprite(0f,0f,ResourceManager.themeBG,mVertexBufferObjectManager);
 		//themeBGSprite.setScale(ResourceManager.getInstance().cameraHeight / ResourceManager.themeBG.getHeight());
@@ -183,6 +190,7 @@ public class ThemeBossForMXD extends ManagedScene implements IScrollDetectorList
 				INSTANCE.clearEntityModifiers();
 				INSTANCE.clearTouchAreas();
 				INSTANCE.clearUpdateHandlers();
+				SFXManager.getInstance().unloadSound("t_ko");
 			}});
 	}
 	
@@ -248,6 +256,29 @@ public class ThemeBossForMXD extends ManagedScene implements IScrollDetectorList
 						 EntityUtil.setSize("width", 1f/4f, s);
 						 s.setPosition((i+1f/2f)*mCameraWidth, themeR.getHeight()/2f);
 						 themeR.attachChild(s); 
+					 }else{
+						 //KO动画
+						 Sprite s = new Sprite(0f,0f,ResourceManager.ko,mVertexBufferObjectManager);
+						 EntityUtil.setSize("width", 1f/4f, s);
+						 s.setPosition((i+1f/2f)*mCameraWidth, themeR.getHeight()/2f);
+						 themeR.attachChild(s); 
+						 ScaleAtModifier highestPicScale = new ScaleAtModifier(0.5f, 25f, 1f, 0.5f, 0.5f);//实体缩放
+						 FadeInModifier highestPicFadeIn = new FadeInModifier(0.5f);//在0.5秒内改变透明度由0f变为1f
+						 ParallelEntityModifier highestPicParalle = new ParallelEntityModifier(new IEntityModifierListener(){
+
+							public void onModifierStarted(
+									IModifier<IEntity> pModifier, IEntity pItem) {
+								SFXManager.getInstance().playSound("t_ko");
+								
+							}
+
+							public void onModifierFinished(
+									IModifier<IEntity> pModifier, IEntity pItem) {
+								// TODO Auto-generated method stub
+								
+							}},highestPicScale,highestPicFadeIn);//同时执行修饰符
+						 s.registerEntityModifier(highestPicParalle);
+						 
 					 }
 				 }else{
 					//KO标志
