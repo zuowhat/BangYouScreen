@@ -23,6 +23,7 @@ import org.game.bangyouscreen.util.DataConstant;
 
 import android.content.Context;
 import android.graphics.Typeface;
+import cn.sharesdk.framework.ShareSDK;
 
 
 /**
@@ -111,6 +112,8 @@ public class ResourceManager extends Object{
 	public static TextureRegion[] helpExplanation = new TextureRegion[3];
 	public static TextureRegion layerPauseBG;
 	public static TextureRegion ko;
+	public static TextureRegion sinaLogo;
+	public static TextureRegion qqLogo;
 	
 	//***************测试资源 start ********************//
 	public static TiledTextureRegion test_addOrSubtract;
@@ -373,7 +376,7 @@ public class ResourceManager extends Object{
 		BitmapTextureAtlasTextureRegionFactory.setAssetBasePath(mPreviousAssetBasePath);
 	}
 	
-	// ============================ 指力模式  ================= //
+	// ============================ 限时模式  ================= //
 		private void loadFingerTextures(){
 			mPreviousAssetBasePath = BitmapTextureAtlasTextureRegionFactory.getAssetBasePath();
 			BitmapTextureAtlasTextureRegionFactory.setAssetBasePath("gfx/finger/");
@@ -409,6 +412,12 @@ public class ResourceManager extends Object{
 			}
 			if(fingerGoldBG == null){
 				fingerGoldBG = getLimitableTR("fingerGoldBG.png",mNormalTextureOption);
+			}
+			if(sinaLogo == null){
+				sinaLogo = getLimitableTR("sinaLogo.png",mNormalTextureOption);
+			}
+			if(qqLogo == null){
+				qqLogo = getLimitableTR("qqLogo.png",mNormalTextureOption);
 			}
 			BitmapTextureAtlasTextureRegionFactory.setAssetBasePath(mPreviousAssetBasePath);
 		}
@@ -614,7 +623,7 @@ public class ResourceManager extends Object{
 	 public void initAdResources(){
 		 //JMPManager manager = new JMPManager ();
 	   //  manager.startService(activity,1);
-         
+		 //ShareSDK.initSDK(activity); 
 		 AdManager.getInstance(activity).init("46912f93a4a168af","1cd388ab8b458a36", true); 
 		 PointsManager.getInstance(activity).registerNotify(activity); 
 		 SpotManager.getInstance(activity).loadSpotAds();
@@ -629,7 +638,7 @@ public class ResourceManager extends Object{
 	 public void unloadAdResources(){
 		 OffersManager.getInstance(activity).onAppExit(); 
 		 PointsManager.getInstance(activity).unRegisterNotify(activity);
-		 
+		 ShareSDK.stopSDK(activity); 
 	 }
 	 
 	 //万普

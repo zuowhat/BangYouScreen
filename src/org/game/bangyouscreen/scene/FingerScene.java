@@ -31,6 +31,7 @@ import org.game.bangyouscreen.util.DataConstant;
 import org.game.bangyouscreen.util.EntityUtil;
 import org.game.bangyouscreen.util.GameNumberUtil;
 import org.game.bangyouscreen.util.GameTimer;
+import org.game.bangyouscreen.util.ShareUtil;
 
 public class FingerScene extends ManagedScene{
 
@@ -289,6 +290,21 @@ public class FingerScene extends ManagedScene{
 				EntityUtil.setSize("width", 1f/2f, fingerGoldBG);
 				fingerGoldBG.setPosition(-fingerGoldBG.getWidth(), pItem.getY()-pItem.getHeight()/2f-5f-fingerGoldBG.getHeight()/2f);
 				fadableBGRect.attachChild(fingerGoldBG);
+				
+				//新浪微博
+				ButtonSprite sinaLogo = new ButtonSprite(0f,0f,ResourceManager.sinaLogo,mVertexBufferObjectManager);
+				EntityUtil.setSizeInParent("height", 2f/3f, sinaLogo, fingerGoldBG);
+				sinaLogo.setPosition(5f+sinaLogo.getWidth()/2f, fingerGoldBG.getHeight()/2f);
+				fingerGoldBG.attachChild(sinaLogo);
+				sinaLogo.setOnClickListener(new OnClickListener() {
+					
+					public void onClick(ButtonSprite pButtonSprite, float pTouchAreaLocalX,
+							float pTouchAreaLocalY) {
+						ShareUtil.showShare(true, null);
+						
+					}
+				});
+				registerTouchArea(sinaLogo);
 				
 				AnimatedSprite[] goldNumAS = mGameNumber.fingerOverGold(fingerGoldBG, Math.round(upHeight/2f));
 				Sprite gLayerSprite = new Sprite(0f,0f,ResourceManager.gameGold,mVertexBufferObjectManager);

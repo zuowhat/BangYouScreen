@@ -1,5 +1,9 @@
 package org.game.bangyouscreen.util;
 
+import org.game.bangyouscreen.R;
+import org.game.bangyouscreen.managers.ResourceManager;
+import org.game.bangyouscreen.onekeyshare.OnekeyShare;
+
 
 public class ShareUtil {
 	
@@ -18,28 +22,28 @@ public class ShareUtil {
 	 * 2、在代码中配置各个微博平台的key，http://sharesdk.cn/androidDoc/cn/sharesdk/framework/ShareSDK.html
 	 * 3、在配置文件中配置，本例子里面的assets/ShareSDK.conf,
 	 */
-	private void showShare(boolean silent, String platform) {
-//		final OnekeyShare oks = new OnekeyShare();
-//		oks.setNotification(R.drawable.ic_launcher, getContext().getString(R.string.app_name));
-//		oks.setAddress("12345678901");
-//		oks.setTitle(getContext().getString(R.string.evenote_title));
-//		oks.setTitleUrl("http://sharesdk.cn");
-//		oks.setText(getContext().getString(R.string.share_content));
-//		oks.setImagePath(MainActivity.TEST_IMAGE);
-//		oks.setImageUrl(MainActivity.TEST_IMAGE_URL);
-//		oks.setUrl("http://www.sharesdk.cn");
-//		oks.setFilePath(MainActivity.TEST_IMAGE);
-//		oks.setComment(getContext().getString(R.string.share));
-//		oks.setSite(getContext().getString(R.string.app_name));
-//		oks.setSiteUrl("http://sharesdk.cn");
-//		oks.setVenueName("ShareSDK");
-//		oks.setVenueDescription("This is a beautiful place!");
-//		oks.setLatitude(23.056081f);
-//		oks.setLongitude(113.385708f);
-//		oks.setSilent(silent);
-//		if (platform != null) {
-//			oks.setPlatform(platform);
-//		}
+	public static void showShare(boolean silent, String platform) {
+		final OnekeyShare oks = new OnekeyShare();
+		//oks.setNotification(R.drawable.ic_launcher, ResourceManager.getContext().getString(R.string.app_name));
+		//oks.setAddress("12345678901");
+		//oks.setTitle(getContext().getString(R.string.evenote_title));
+		//oks.setTitleUrl("http://sharesdk.cn");
+		oks.setText("高分啊");
+		//oks.setImagePath(MainActivity.TEST_IMAGE);
+		//oks.setImageUrl(MainActivity.TEST_IMAGE_URL);
+		//oks.setUrl("http://www.sharesdk.cn");
+		//oks.setFilePath(MainActivity.TEST_IMAGE);
+		//oks.setComment(getContext().getString(R.string.share));
+		//oks.setSite(getContext().getString(R.string.app_name));
+		//oks.setSiteUrl("http://sharesdk.cn");
+		//oks.setVenueName("ShareSDK");
+		//oks.setVenueDescription("This is a beautiful place!");
+		//oks.setLatitude(23.056081f);
+		//oks.setLongitude(113.385708f);
+		oks.setSilent(silent);
+		if (platform != null) {
+			oks.setPlatform(platform);
+		}
 
 		// 去除注释，可令编辑页面显示为Dialog模式
 //		oks.setDialogMode();
@@ -67,7 +71,7 @@ public class ShareUtil {
 //		oks.addHiddenPlatform(SinaWeibo.NAME);
 //		oks.addHiddenPlatform(TencentWeibo.NAME);
 
-		//oks.show(getContext());
+		oks.show(ResourceManager.getContext());
 	}
 
 }
