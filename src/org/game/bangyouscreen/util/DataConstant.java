@@ -57,6 +57,9 @@ public class DataConstant {
 	/** 魔法效果个数 */
 	public static final int MAGIC_AS_NUM = 10;
 	
+	/**截屏文件名称*/
+	public static final String SCREENCAPTURE = "highscore.png";//BOSS血量
+	
 	/**测试数据*/
 	public static final String TEST_BOSSHP = "bossHP";//BOSS血量
 	public static final String TEST_BOSSTYPE = "bossType";//BOSS属性

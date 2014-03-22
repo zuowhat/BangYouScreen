@@ -80,6 +80,7 @@ public class HelpScene extends ManagedScene{
 		testBS.setPosition(testBS.getWidth(), mCameraHeight-testBS.getHeight());
 		attachChild(testBS);
 		testBS.setOnClickListener(new OnClickListener(){
+			@Override
 			public void onClick(ButtonSprite pButtonSprite, float pTouchAreaLocalX, float pTouchAreaLocalY) {
 				SFXManager.getInstance().playSound("a_click");
 				SceneManager.getInstance().showScene(new TestDataScene());
@@ -105,6 +106,7 @@ public class HelpScene extends ManagedScene{
 		authorBS.setPosition(helpMenuBG.getWidth()/2f, spaceHeight+authorBS.getHeight()/2f);
 		helpMenuBG.attachChild(authorBS);
 		authorBS.setOnClickListener(new OnClickListener(){
+			@Override
 			public void onClick(ButtonSprite pButtonSprite, float pTouchAreaLocalX, float pTouchAreaLocalY) {
 				SFXManager.getInstance().playSound("a_click");
 				clickMenu(authorBS,authorClickSprite,authorInfoBG);
@@ -128,6 +130,7 @@ public class HelpScene extends ManagedScene{
 		statisticsBS.setPosition(helpMenuBG.getWidth()/2f, authorBS.getY()+spaceHeight+authorBS.getHeight());
 		helpMenuBG.attachChild(statisticsBS);
 		statisticsBS.setOnClickListener(new OnClickListener(){
+			@Override
 			public void onClick(ButtonSprite pButtonSprite, float pTouchAreaLocalX, float pTouchAreaLocalY) {
 				SFXManager.getInstance().playSound("a_click");
 				clickMenu(statisticsBS,statisticsClickSprite,statisticsInfoBG);
@@ -159,6 +162,7 @@ public class HelpScene extends ManagedScene{
 		playBS.setVisible(false);
 		helpMenuBG.attachChild(playBS);
 		playBS.setOnClickListener(new OnClickListener(){
+			@Override
 			public void onClick(ButtonSprite pButtonSprite, float pTouchAreaLocalX, float pTouchAreaLocalY) {
 				SFXManager.getInstance().playSound("a_click");
 				clickMenu(playBS,playClickSprite,playInfoBG);
@@ -198,6 +202,7 @@ public class HelpScene extends ManagedScene{
 		arrowUpSprite.setPosition(playInfoBG_S.getWidth()/2f, playInfoBG.getHeight()-10f-arrowUpSprite.getHeight()/2f);
 		playInfoBG.attachChild(arrowUpSprite);
 		arrowUpSprite.setOnClickListener(new OnClickListener(){
+			@Override
 			public void onClick(ButtonSprite pButtonSprite, float pTouchAreaLocalX, float pTouchAreaLocalY) {
 				SFXManager.getInstance().playSound("a_click");
 				if(arrowNum > 1 && arrowNum <= 3 && isArrowUp){
@@ -230,6 +235,7 @@ public class HelpScene extends ManagedScene{
 		arrowDownSprite.setPosition(playInfoBG_S.getWidth()/2f, 10f+arrowDownSprite.getHeight()/2f);
 		playInfoBG.attachChild(arrowDownSprite);
 		arrowDownSprite.setOnClickListener(new OnClickListener(){
+			@Override
 			public void onClick(ButtonSprite pButtonSprite, float pTouchAreaLocalX, float pTouchAreaLocalY) {
 				SFXManager.getInstance().playSound("a_click");
 				if(arrowNum < 3 && arrowNum >= 1 && isArrowDown){
@@ -333,6 +339,7 @@ public class HelpScene extends ManagedScene{
 	@Override
 	public void onUnloadScene() {
 		ResourceManager.getInstance().engine.runOnUpdateThread(new Runnable() {
+			@Override
 			public void run() {
 				detachChildren();
 				for(int i = 0; i < INSTANCE.getChildCount(); i++){

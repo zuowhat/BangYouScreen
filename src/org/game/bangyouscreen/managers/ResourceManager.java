@@ -21,9 +21,10 @@ import org.andengine.util.adt.color.Color;
 import org.game.bangyouscreen.BangYouScreenActivity;
 import org.game.bangyouscreen.util.DataConstant;
 
+import com.sina.weibo.sdk.api.share.IWeiboShareAPI;
+
 import android.content.Context;
 import android.graphics.Typeface;
-import cn.sharesdk.framework.ShareSDK;
 
 
 /**
@@ -638,7 +639,7 @@ public class ResourceManager extends Object{
 	 public void unloadAdResources(){
 		 OffersManager.getInstance(activity).onAppExit(); 
 		 PointsManager.getInstance(activity).unRegisterNotify(activity);
-		 ShareSDK.stopSDK(activity); 
+		// ShareSDK.stopSDK(activity); 
 	 }
 	 
 	 //万普
@@ -663,11 +664,10 @@ public class ResourceManager extends Object{
 	
 	 //有米
 	 public void showYouMiAd(){
-		 activity.runOnUiThread(new Runnable() {
-				public void run() {
-					 //有米广告
-					SpotManager.getInstance(activity).showSpotAds(activity);
-				}});
+//		 activity.runOnUiThread(new Runnable() {
+//				public void run() {
+//					SpotManager.getInstance(activity).showSpotAds(activity);
+//				}});
 	  }
 	
 	

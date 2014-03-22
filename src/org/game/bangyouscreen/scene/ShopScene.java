@@ -79,14 +79,17 @@ public class ShopScene extends ManagedScene implements IScrollDetectorListener{
 		return INSTANCE;
 	}
 	
+	@Override
 	public Scene onLoadingScreenLoadAndShown() {
 		return null;
 	}
 
+	@Override
 	public void onLoadingScreenUnloadAndHidden() {
 		
 	}
 
+	@Override
 	public void onLoadScene() {
 		weaponPotionNum = BangYouScreenActivity.getIntFromSharedPreferences(DataConstant.Prop_BUY+0);
 		magicPotionNum = BangYouScreenActivity.getIntFromSharedPreferences(DataConstant.Prop_BUY+1);
@@ -148,6 +151,7 @@ public class ShopScene extends ManagedScene implements IScrollDetectorListener{
 		freeGoldBS.setPosition(shopMenuBG.getWidth()/2f, spaceHeight+freeGoldBS.getHeight()/2f);
 		shopMenuBG.attachChild(freeGoldBS);
 		freeGoldBS.setOnClickListener(new OnClickListener(){
+			@Override
 			public void onClick(ButtonSprite pButtonSprite, float pTouchAreaLocalX, float pTouchAreaLocalY) {
 				SFXManager.getInstance().playSound("a_click");
 				myApps = myGold;
@@ -166,6 +170,7 @@ public class ShopScene extends ManagedScene implements IScrollDetectorListener{
 		propFontBS.setPosition(shopMenuBG.getWidth()/2f, freeGoldBS.getY()+spaceHeight+freeGoldBS.getHeight());
 		shopMenuBG.attachChild(propFontBS);
 		propFontBS.setOnClickListener(new OnClickListener(){
+			@Override
 			public void onClick(ButtonSprite pButtonSprite, float pTouchAreaLocalX, float pTouchAreaLocalY) {
 				SFXManager.getInstance().playSound("a_click");
 				clickMenu(propFontBS,propFontClickSprite,propsInfoBG,propsInfoBG_S);
@@ -191,6 +196,7 @@ public class ShopScene extends ManagedScene implements IScrollDetectorListener{
 		magicFontBS.setPosition(shopMenuBG.getWidth()/2f, propFontBS.getY()+spaceHeight+propFontBS.getHeight());
 		shopMenuBG.attachChild(magicFontBS);
 		magicFontBS.setOnClickListener(new OnClickListener(){
+			@Override
 			public void onClick(ButtonSprite pButtonSprite, float pTouchAreaLocalX, float pTouchAreaLocalY) {
 				SFXManager.getInstance().playSound("a_click");
 				clickMenu(magicFontBS,magicFontClickSprite,magicInfoBG,magicInfoBG_S);
@@ -224,6 +230,7 @@ public class ShopScene extends ManagedScene implements IScrollDetectorListener{
 		weaponFontBS.setVisible(false);
 		shopMenuBG.attachChild(weaponFontBS);
 		weaponFontBS.setOnClickListener(new OnClickListener(){
+			@Override
 			public void onClick(ButtonSprite pButtonSprite, float pTouchAreaLocalX, float pTouchAreaLocalY) {
 				SFXManager.getInstance().playSound("a_click");
 				clickMenu(weaponFontBS,weaponFontClickSprite,weaponInfoBG,weaponInfoBG_S);
@@ -408,6 +415,7 @@ public class ShopScene extends ManagedScene implements IScrollDetectorListener{
 				s1 = new AnimatedButtonSprite(0f,0f,ResourceManager.buyOrUse,mVertexBufferObjectManager);
 				s1.setCurrentTileIndex(0);
 				s1.setOnClickListenerABS(new OnClickListenerABS(){
+					@Override
 					public void onClick(AnimatedButtonSprite pButtonSprite,
 							float pTouchAreaLocalX, float pTouchAreaLocalY) {
 							if(myGold >= goodsPrice){
@@ -469,6 +477,7 @@ public class ShopScene extends ManagedScene implements IScrollDetectorListener{
 	private void useGoods(final String type,AnimatedButtonSprite abs, final int goodsNum){
 		abs.setCurrentTileIndex(1);
 		abs.setOnClickListenerABS(new OnClickListenerABS(){
+			@Override
 			public void onClick(AnimatedButtonSprite pButtonSprite,
 					float pTouchAreaLocalX, float pTouchAreaLocalY) {
 					SFXManager.getInstance().playSound("a_click");
@@ -489,17 +498,21 @@ public class ShopScene extends ManagedScene implements IScrollDetectorListener{
 			}});
 	}
 
+	@Override
 	public void onShowScene() {
 		
 	}
 
+	@Override
 	public void onHideScene() {
 		// TODO Auto-generated method stub
 		
 	}
 
+	@Override
 	public void onUnloadScene() {
 		ResourceManager.getInstance().engine.runOnUpdateThread(new Runnable() {
+			@Override
 			public void run() {
 				detachChildren();
 				for(int i = 0; i < INSTANCE.getChildCount(); i++){
@@ -537,6 +550,7 @@ public class ShopScene extends ManagedScene implements IScrollDetectorListener{
 				mCameraWidth-infoBG_S.getWidth()/2f, mCameraHeight-infoBG_S.getHeight()/2f, EaseElasticInOut.getInstance()));
 	}
 
+	@Override
 	public boolean onSceneTouchEvent(TouchEvent paramTouchEvent){
 		if(paramTouchEvent.getX() > currentInfoBG.getX()-currentInfoBG.getWidth()/2f){
 			isScrolling = true;

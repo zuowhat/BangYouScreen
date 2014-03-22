@@ -1,11 +1,14 @@
 package org.game.bangyouscreen.scene;
 
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.Arrays;
 
 import org.andengine.engine.handler.IUpdateHandler;
 import org.andengine.entity.IEntity;
-import org.andengine.entity.modifier.IEntityModifier.IEntityModifierListener;
 import org.andengine.entity.modifier.FadeInModifier;
+import org.andengine.entity.modifier.IEntityModifier.IEntityModifierListener;
 import org.andengine.entity.modifier.MoveXModifier;
 import org.andengine.entity.modifier.MoveYModifier;
 import org.andengine.entity.modifier.ParallelEntityModifier;
@@ -17,9 +20,12 @@ import org.andengine.entity.sprite.AnimatedSprite.IAnimationListener;
 import org.andengine.entity.sprite.ButtonSprite;
 import org.andengine.entity.sprite.ButtonSprite.OnClickListener;
 import org.andengine.entity.sprite.Sprite;
+import org.andengine.entity.util.ScreenCapture;
+import org.andengine.entity.util.ScreenCapture.IScreenCaptureCallback;
 import org.andengine.input.touch.controller.MultiTouchController;
 import org.andengine.input.touch.controller.SingleTouchController;
 import org.andengine.opengl.vbo.VertexBufferObjectManager;
+import org.andengine.util.FileUtils;
 import org.andengine.util.modifier.IModifier;
 import org.andengine.util.modifier.ease.EaseElasticInOut;
 import org.game.bangyouscreen.BangYouScreenActivity;
@@ -27,11 +33,15 @@ import org.game.bangyouscreen.managers.ManagedScene;
 import org.game.bangyouscreen.managers.ResourceManager;
 import org.game.bangyouscreen.managers.SFXManager;
 import org.game.bangyouscreen.managers.SceneManager;
+import org.game.bangyouscreen.share.sinaSDK.SinaWeiboUtil;
 import org.game.bangyouscreen.util.DataConstant;
 import org.game.bangyouscreen.util.EntityUtil;
 import org.game.bangyouscreen.util.GameNumberUtil;
 import org.game.bangyouscreen.util.GameTimer;
-import org.game.bangyouscreen.util.ShareUtil;
+
+import android.graphics.Bitmap;
+import android.graphics.Bitmap.CompressFormat;
+import android.graphics.BitmapFactory;
 
 public class FingerScene extends ManagedScene{
 
@@ -58,7 +68,8 @@ public class FingerScene extends ManagedScene{
 	private int currentHighestScore;
 	public static boolean isOver;
 	private Rectangle fadableBGRect;
-	
+	private Bitmap bitmap;
+	private Sprite fingerScoreBG;
 	
 	@Override
 	public Scene onLoadingScreenLoadAndShown() {
@@ -119,6 +130,7 @@ public class FingerScene extends ManagedScene{
 		greenButtonBS.setPosition(greenButtonBS.getWidth() / 2f, greenButtonBS.getHeight() / 2f);
 		greenButtonBS.setOnClickListener(new OnClickListener(){
 
+			@Override
 			public void onClick(ButtonSprite pButtonSprite,
 					float pTouchAreaLocalX, float pTouchAreaLocalY) {
 					//SFXManager.getInstance().playSound("g_button");
@@ -135,6 +147,7 @@ public class FingerScene extends ManagedScene{
 		redButtonBS.setPosition(mCameraWidth - redButtonBS.getWidth() / 2f, redButtonBS.getHeight() / 2f);
 		redButtonBS.setOnClickListener(new OnClickListener(){
 
+			@Override
 			public void onClick(ButtonSprite pButtonSprite,
 					float pTouchAreaLocalX, float pTouchAreaLocalY) {
 					//SFXManager.getInstance().playSound("g_button");
@@ -164,20 +177,24 @@ public class FingerScene extends ManagedScene{
 		EntityUtil.setSize("height", 1f / 4f, clockTimeAS);
 		clockTimeAS.animate(frameDur1,0,2,0,new IAnimationListener(){
 
+			@Override
 			public void onAnimationStarted(AnimatedSprite pAnimatedSprite,
 					int pInitialLoopCount) {
 				SFXManager.getInstance().loadSounds(sounds, ResourceManager.getActivity().getSoundManager(), ResourceManager.getActivity());
 			}
 
+			@Override
 			public void onAnimationFrameChanged(AnimatedSprite pAnimatedSprite,
 					int pOldFrameIndex, int pNewFrameIndex) {
 				SFXManager.getInstance().playSound("a_CountDown");
 			}
 
+			@Override
 			public void onAnimationLoopFinished(AnimatedSprite pAnimatedSprite,
 					int pRemainingLoopCount, int pInitialLoopCount) {
 			}
 
+			@Override
 			public void onAnimationFinished(AnimatedSprite pAnimatedSprite) {
 				SFXManager.getInstance().playSound("g_go");
 				SFXManager.getInstance().playMusic(musics);
@@ -199,6 +216,7 @@ public class FingerScene extends ManagedScene{
 	 */
 	private IUpdateHandler gameRunTimer = new IUpdateHandler() {
 
+		@Override
 		public void onUpdate(float pSecondsElapsed) {
 			//倒计时
 			gameTime-=pSecondsElapsed;
@@ -249,6 +267,7 @@ public class FingerScene extends ManagedScene{
 		SFXManager.getInstance().stopMusic();
 		SFXManager.getInstance().playSound("f_over");
 		unregisterUpdateHandler(gameRunTimer);
+		
 		isOver = true;
 		//父背景变成半透明
 		fadableBGRect = new Rectangle(0f, 0f,mCameraWidth,mCameraHeight, mVertexBufferObjectManager);
@@ -256,8 +275,8 @@ public class FingerScene extends ManagedScene{
 		fadableBGRect.setColor(0f, 0f, 0f, 0.6f);
 		//fadableBGRect.setAlpha(0f);
 		attachChild(fadableBGRect);
-		//高度背景
-		Sprite fingerScoreBG = new Sprite(0f,0f,ResourceManager.fingerScoreBG,mVertexBufferObjectManager);
+		//得分背景
+		fingerScoreBG = new Sprite(0f,0f,ResourceManager.fingerScoreBG,mVertexBufferObjectManager);
 		EntityUtil.setSize("width", 1f/2f, fingerScoreBG);
 		fingerScoreBG.setPosition(mCameraWidth/2f, mCameraHeight+fingerScoreBG.getHeight());
 		fadableBGRect.attachChild(fingerScoreBG);
@@ -265,10 +284,12 @@ public class FingerScene extends ManagedScene{
 		
 		fingerScoreBG.registerEntityModifier(new MoveYModifier(0.5f, fingerScoreBG.getY(), fadableBGRect.getHeight()*2f/3f, new IEntityModifierListener(){
 
+			@Override
 			public void onModifierStarted(IModifier<IEntity> pModifier,IEntity pItem) {
 				
 			}
 
+			@Override
 			public void onModifierFinished(IModifier<IEntity> pModifier, IEntity pItem) {
 				if(upHeight > currentHighestScore){
 					BangYouScreenActivity.writeIntToSharedPreferences(DataConstant.FINGER_HIGHESTSCORE, Math.round(upHeight));
@@ -298,9 +319,13 @@ public class FingerScene extends ManagedScene{
 				fingerGoldBG.attachChild(sinaLogo);
 				sinaLogo.setOnClickListener(new OnClickListener() {
 					
+					@Override
 					public void onClick(ButtonSprite pButtonSprite, float pTouchAreaLocalX,
 							float pTouchAreaLocalY) {
-						ShareUtil.showShare(true, null);
+						//ShareUtil.singleShowShare(ResourceManager.getActivity(), "sina");
+						SinaWeiboUtil.showShare(bitmap);
+						//screenShot();
+						
 						
 					}
 				});
@@ -324,10 +349,12 @@ public class FingerScene extends ManagedScene{
 				pItem.attachChild(mLayerSprite);
 				fingerGoldBG.registerEntityModifier(new MoveXModifier(0.5f,fingerGoldBG.getX(),fadableBGRect.getWidth()/2f,new IEntityModifierListener(){
 
+					@Override
 					public void onModifierStarted(IModifier<IEntity> pModifier,IEntity pItem) {
 						
 					}
 
+					@Override
 					public void onModifierFinished(IModifier<IEntity> pModifier, IEntity pItem) {
 						Sprite fingerButtonBG = new Sprite(0f,0f,ResourceManager.fingerGoldBG,mVertexBufferObjectManager);
 						EntityUtil.setSize("width", 1f/2f, fingerButtonBG);
@@ -341,6 +368,7 @@ public class FingerScene extends ManagedScene{
 						fingerButtonBG.attachChild(backBS);
 						registerTouchArea(backBS);
 						backBS.setOnClickListener(new OnClickListener(){
+							@Override
 							public void onClick(ButtonSprite pButtonSprite,float pTouchAreaLocalX,
 									float pTouchAreaLocalY) {
 								SFXManager.getInstance().playSound("a_click");
@@ -355,18 +383,33 @@ public class FingerScene extends ManagedScene{
 						fingerButtonBG.attachChild(restartBS);
 						registerTouchArea(restartBS);
 						restartBS.setOnClickListener(new OnClickListener(){
+							@Override
 							public void onClick(ButtonSprite pButtonSprite,float pTouchAreaLocalX,
 									float pTouchAreaLocalY) {
 								SFXManager.getInstance().playSound("a_click");
 								SceneManager.getInstance().showScene(new FingerScene());
 							}
 						});
-						fingerButtonBG.registerEntityModifier(new MoveXModifier(0.5f,fingerButtonBG.getX(),fadableBGRect.getWidth()/2f,EaseElasticInOut.getInstance()));
+						fingerButtonBG.registerEntityModifier(new MoveXModifier(0.5f,fingerButtonBG.getX(),fadableBGRect.getWidth()/2f,new IEntityModifierListener(){
+
+							@Override
+							public void onModifierStarted(
+									IModifier<IEntity> pModifier, IEntity pItem) {
+								// TODO Auto-generated method stub
+								
+							}
+
+							@Override
+							public void onModifierFinished(
+									IModifier<IEntity> pModifier, IEntity pItem) {
+								//开始截屏
+								screenShot();
+							}},EaseElasticInOut.getInstance()));
+						
 					}
 					
 				},EaseElasticInOut.getInstance()));
 			}}, EaseElasticInOut.getInstance()));
-		
 	}
 	
 	/**
@@ -407,11 +450,13 @@ public class FingerScene extends ManagedScene{
 		b1.setPosition(randomX, b1.getHeight()/2f);
 		b1.animate(200,false, new IAnimationListener(){
 
+			@Override
 			public void onAnimationStarted(AnimatedSprite pAnimatedSprite,
 					int pInitialLoopCount) {
 					//SFXManager.getInstance().playSound("g_countdown",3);
 			}
 
+			@Override
 			public void onAnimationFrameChanged(AnimatedSprite pAnimatedSprite,
 					int pOldFrameIndex, int pNewFrameIndex) {
 				if(pNewFrameIndex == 4){
@@ -419,10 +464,12 @@ public class FingerScene extends ManagedScene{
 				}
 			}
 
+			@Override
 			public void onAnimationLoopFinished(AnimatedSprite pAnimatedSprite,
 					int pRemainingLoopCount, int pInitialLoopCount) {
 			}
 
+			@Override
 			public void onAnimationFinished(AnimatedSprite pAnimatedSprite) {
 				//detachChild(pAnimatedSprite);
 				//pAnimatedSprite = null;
@@ -450,6 +497,7 @@ public class FingerScene extends ManagedScene{
 		ResourceManager.getInstance().engine.getEngineOptions().getTouchOptions().setNeedsMultiTouch(false);
 		ResourceManager.getInstance().engine.setTouchController(new SingleTouchController());
 		ResourceManager.getInstance().engine.runOnUpdateThread(new Runnable() {
+			@Override
 			public void run() {
 				detachChildren();
 				for(int i = 0; i < INSTANCE.getChildCount(); i++){
@@ -462,6 +510,46 @@ public class FingerScene extends ManagedScene{
 				INSTANCE.clearUpdateHandlers();
 				SFXManager.getInstance().unloadAllSound(sounds);
 			}});
+	}
+	
+	private void screenShot(){
+		ScreenCapture screenCapture = new ScreenCapture();
+		attachChild(screenCapture);
+		final String path = FileUtils.getAbsolutePathOnExternalStorage(ResourceManager.getInstance().getActivity(), DataConstant.SCREENCAPTURE);
+//		int cx = Math.round(fingerScoreBG.getX()-fingerScoreBG.getWidth()/2f);
+//		int cy = Math.round(fingerScoreBG.getY()-fingerScoreBG.getHeight()/2f);
+//		int cw = Math.round(fingerScoreBG.getWidth());
+//		int ch = Math.round(fingerScoreBG.getHeight());
+		
+		int cx = Math.round(fingerScoreBG.getX()-fingerScoreBG.getWidth()/2f);
+		int cy = Math.round(fingerScoreBG.getY()-fingerScoreBG.getHeight()/2f);
+		int cw = Math.round(mCameraWidth);
+		int ch = Math.round(mCameraHeight);
+		
+		screenCapture.capture(0, 0, cw, ch, path, new IScreenCaptureCallback() {  
+		      @Override  
+		      public void onScreenCaptured(final String pFilePath) {  
+		        System.out.println("success --> "+pFilePath);
+		        bitmap = BitmapFactory.decodeFile(path);
+		        try {
+					FileOutputStream fos = new FileOutputStream(path);
+					bitmap.compress(CompressFormat.JPEG, 100, fos);
+					fos.flush();
+					fos.close();
+				} catch (FileNotFoundException e) {
+					e.printStackTrace();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+		        
+		      }  
+		  
+		      @Override  
+		      public void onScreenCaptureFailed(final String pFilePath, final Exception pException) {  
+		    	  System.out.println("failed --> "+pFilePath);
+		      }  
+		     });
+		//GLES20.glReadPixels(0, 0, 800, 400 , GLES20.GL_RGBA, GLES20.GL_UNSIGNED_BYTE, sourceBuffer); 
 	}
 
 }

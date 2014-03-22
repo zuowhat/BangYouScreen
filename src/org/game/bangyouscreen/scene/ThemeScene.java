@@ -84,6 +84,7 @@ public class ThemeScene extends ManagedScene implements IScrollDetectorListener{
 		attachChild(backBS);
 		backBS.setOnClickListener(new OnClickListener(){
 			
+			@Override
 			public void onClick(ButtonSprite pButtonSprite, float pTouchAreaLocalX, float pTouchAreaLocalY) {
 				SFXManager.getInstance().playSound("a_click");
 				SceneManager.getInstance().showScene(MainMenuScene.getInstance());
@@ -98,6 +99,7 @@ public class ThemeScene extends ManagedScene implements IScrollDetectorListener{
 		attachChild(homeBS);
 		homeBS.setOnClickListener(new OnClickListener(){
 			
+			@Override
 			public void onClick(ButtonSprite pButtonSprite, float pTouchAreaLocalX, float pTouchAreaLocalY) {
 				SFXManager.getInstance().playSound("a_click");
 				SceneManager.getInstance().showScene(MainMenuScene.getInstance());
@@ -111,6 +113,7 @@ public class ThemeScene extends ManagedScene implements IScrollDetectorListener{
 		arrowLeftSprite.setPosition(backBS.getX(), mCameraHeight/2f);
 		attachChild(arrowLeftSprite);
 		arrowLeftSprite.setOnClickListener(new OnClickListener(){
+			@Override
 			public void onClick(ButtonSprite pButtonSprite, float pTouchAreaLocalX, float pTouchAreaLocalY) {
 				SFXManager.getInstance().playSound("a_click");
 				mScensSlider.clearEntityModifiers();
@@ -130,6 +133,7 @@ public class ThemeScene extends ManagedScene implements IScrollDetectorListener{
 		arrowRightSprite.setPosition(homeBS.getX(), mCameraHeight/2f);
 		attachChild(arrowRightSprite);
 		arrowRightSprite.setOnClickListener(new OnClickListener(){
+			@Override
 			public void onClick(ButtonSprite pButtonSprite, float pTouchAreaLocalX, float pTouchAreaLocalY) {
 				SFXManager.getInstance().playSound("a_click");
 				mScensSlider.clearEntityModifiers();
@@ -149,6 +153,7 @@ public class ThemeScene extends ManagedScene implements IScrollDetectorListener{
 	@Override
 	public void onUnloadScene() {
 		ResourceManager.getInstance().engine.runOnUpdateThread(new Runnable() {
+			@Override
 			public void run() {
 				detachChildren();
 				for(int i = 0; i < INSTANCE.getChildCount(); i++){
@@ -261,6 +266,7 @@ public class ThemeScene extends ManagedScene implements IScrollDetectorListener{
 		 themeR.attachChild(themePics[1]);
 		 themePics[1].setOnClickListener(new OnClickListener(){
 				
+				@Override
 				public void onClick(ButtonSprite pButtonSprite, float pTouchAreaLocalX, float pTouchAreaLocalY) {
 					//AppConnect.getInstance(ResourceManager.getInstance().activity).showPopAd(ResourceManager.getInstance().activity); 
 					//mCurrentScreen = ThemeSceneScreens.LevelSelector;

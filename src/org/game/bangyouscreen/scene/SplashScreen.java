@@ -10,7 +10,6 @@ import org.andengine.entity.modifier.ParallelEntityModifier;
 import org.andengine.entity.modifier.RotationModifier;
 import org.andengine.entity.modifier.ScaleAtModifier;
 import org.andengine.entity.modifier.SequenceEntityModifier;
-import org.andengine.entity.primitive.Rectangle;
 import org.andengine.entity.scene.Scene;
 import org.andengine.entity.scene.background.Background;
 import org.andengine.entity.sprite.Sprite;
@@ -137,12 +136,14 @@ public class SplashScreen extends ManagedScene{
 				SceneManager.getInstance().showScene(MainMenuScene.getInstance());
 			}
 			
+			@Override
 			public void onModifierStarted(final IModifier<IEntity> pModifier, final IEntity pItem) {}
 		});
 		
 		this.registerUpdateHandler(new IUpdateHandler() {
 			int counter = 0;
 			
+			@Override
 			public void onUpdate(final float pSecondsElapsed) {
 				this.counter++;
 				if(this.counter > 2) {

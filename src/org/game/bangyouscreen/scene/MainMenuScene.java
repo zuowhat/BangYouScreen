@@ -53,6 +53,7 @@ public class MainMenuScene extends ManagedScene{
 		super(0.1f);
 	}
 	
+	@Override
 	public Scene onLoadingScreenLoadAndShown() {
 		ResourceManager.loadLoadingResources();
 		LoadingScene.getInstance().onLoadScene();
@@ -144,10 +145,12 @@ public class MainMenuScene extends ManagedScene{
 		mainMenuTitleSprite.registerEntityModifier(new MoveModifier(0.5f, mCameraWidth / 2f, 
 				mainMenuTitleSprite.getY(), mCameraWidth / 2f, mCameraHeight*(4f/5f),new IEntityModifierListener(){
 
+					@Override
 					public void onModifierStarted(IModifier<IEntity> pModifier,IEntity pItem) {
 						
 					}
 
+					@Override
 					public void onModifierFinished(IModifier<IEntity> pModifier, IEntity pItem) {
 						pItem.registerEntityModifier(new LoopEntityModifier(new SequenceEntityModifier(
 								new ScaleModifier(2, 1f, 1.1f),
@@ -164,23 +167,28 @@ public class MainMenuScene extends ManagedScene{
 		chooseModeBS.setPosition(mCameraWidth / 2f, mCameraHeight / 2f);
 		mainMenuScreen.attachChild(chooseModeBS);
 		chooseModeBS.setOnClickListener(new OnClickListener(){
+			@Override
 			public void onClick(ButtonSprite pButtonSprite, float pTouchAreaLocalX, float pTouchAreaLocalY) {
 				SFXManager.getInstance().playSound("a_click");
 				mainMenuScreen.registerEntityModifier(new ScaleModifier(0.3f,1f,0f, new IEntityModifierListener(){
 
+						@Override
 						public void onModifierStarted(IModifier<IEntity> pModifier,IEntity pItem) {
 							// TODO Auto-generated method stub
 						}
 
+						@Override
 						public void onModifierFinished(IModifier<IEntity> pModifier,IEntity pItem) {
 							mainMenuScreen.setVisible(false);
 							mainMenuTheme.setVisible(true);
 							mainMenuTheme.registerEntityModifier(new ScaleModifier(0.3f,0f,1f,new IEntityModifierListener(){
 
+								@Override
 								public void onModifierStarted(IModifier<IEntity> pModifier,IEntity pItem) {
 									
 								}
 
+								@Override
 								public void onModifierFinished(IModifier<IEntity> pModifier,IEntity pItem) {
 									unregisterTouchArea(chooseModeBS);
 									unregisterTouchArea(shopModeBS);
@@ -205,6 +213,7 @@ public class MainMenuScene extends ManagedScene{
 		mainMenuScreen.attachChild(shopModeBS);
 		shopModeBS.setOnClickListener(new OnClickListener(){
 			
+			@Override
 			public void onClick(ButtonSprite pButtonSprite, float pTouchAreaLocalX, float pTouchAreaLocalY) {
 				SFXManager.getInstance().playSound("a_click");
 				SceneManager.getInstance().showScene(ShopScene.getInstance());
@@ -220,6 +229,7 @@ public class MainMenuScene extends ManagedScene{
 		mainMenuScreen.attachChild(helpModeBS);
 		helpModeBS.setOnClickListener(new OnClickListener(){
 			
+			@Override
 			public void onClick(ButtonSprite pButtonSprite, float pTouchAreaLocalX, float pTouchAreaLocalY) {
 				SFXManager.getInstance().playSound("a_click");
 				SceneManager.getInstance().showScene(new HelpScene());
@@ -241,6 +251,7 @@ public class MainMenuScene extends ManagedScene{
 		themeBS.setPosition(mCameraWidth / 2f, mCameraHeight / 2f);
 		mainMenuTheme.attachChild(themeBS);
 		themeBS.setOnClickListener(new OnClickListener(){
+			@Override
 			public void onClick(ButtonSprite pButtonSprite, float pTouchAreaLocalX, float pTouchAreaLocalY) {
 				SFXManager.getInstance().playSound("a_click");
 				SceneManager.getInstance().showScene(ThemeScene.getInstance());
@@ -252,6 +263,7 @@ public class MainMenuScene extends ManagedScene{
 		fingerBS.setPosition(mCameraWidth / 2f, themeBS.getY()-10f-fingerBS.getHeight());
 		mainMenuTheme.attachChild(fingerBS);
 		fingerBS.setOnClickListener(new OnClickListener(){
+			@Override
 			public void onClick(ButtonSprite pButtonSprite, float pTouchAreaLocalX, float pTouchAreaLocalY) {
 				SFXManager.getInstance().playSound("a_click");
 				SceneManager.getInstance().showScene(new FingerScene());
@@ -263,16 +275,19 @@ public class MainMenuScene extends ManagedScene{
 		backBS.setPosition(mCameraWidth / 2f, fingerBS.getY()-10f-fingerBS.getHeight());
 		mainMenuTheme.attachChild(backBS);
 		backBS.setOnClickListener(new OnClickListener(){
+			@Override
 			public void onClick(ButtonSprite pButtonSprite, float pTouchAreaLocalX, float pTouchAreaLocalY) {
 				SFXManager.getInstance().playSound("a_click");
 				
 				mainMenuTheme.registerEntityModifier(new ScaleModifier(0.3f,1f,0f, new IEntityModifierListener(){
 
+					@Override
 					public void onModifierStarted(IModifier<IEntity> pModifier,IEntity pItem) {
 						// TODO Auto-generated method stub
 						
 					}
 
+					@Override
 					public void onModifierFinished(IModifier<IEntity> pModifier, IEntity pItem) {
 						unregisterTouchArea(themeBS);
 						unregisterTouchArea(fingerBS);
@@ -284,11 +299,13 @@ public class MainMenuScene extends ManagedScene{
 						mainMenuScreen.setVisible(true);
 						mainMenuScreen.registerEntityModifier(new ScaleModifier(0.3f,0f,1f, new IEntityModifierListener(){
 
+							@Override
 							public void onModifierStarted(IModifier<IEntity> pModifier, IEntity pItem) {
 								// TODO Auto-generated method stub
 								
 							}
 
+							@Override
 							public void onModifierFinished(IModifier<IEntity> pModifier, IEntity pItem) {
 								// TODO Auto-generated method stub
 								
@@ -326,6 +343,7 @@ public class MainMenuScene extends ManagedScene{
 	public void onUnloadScene() {
 		System.out.println("MainMenuScene---->onUnloadScene");
 		ResourceManager.getInstance().engine.runOnUpdateThread(new Runnable() {
+			@Override
 			public void run() {
 				detachChildren();
 				for(int i = 0; i < INSTANCE.getChildCount(); i++){

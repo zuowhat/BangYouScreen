@@ -31,6 +31,7 @@ public class FingerPauseLayer extends ManagedLayer{
 	
 	IUpdateHandler mSlideInUpdateHandler = new IUpdateHandler() {
 		
+		@Override
 		public void onUpdate(final float pSecondsElapsed) {
 			if (LayerBG.getY() > (mCameraHeight / 2f)) {
 				LayerBG.setY(Math.max(LayerBG.getY() - (pSecondsElapsed * mSLIDE_PIXELS_PER_SECONDS),0f));
@@ -40,6 +41,7 @@ public class FingerPauseLayer extends ManagedLayer{
 			}
 		}
 
+		@Override
 		public void reset() {}
 	};
 
@@ -55,9 +57,11 @@ public class FingerPauseLayer extends ManagedLayer{
 			}
 		}
 
+		@Override
 		public void reset() {}
 	};
 
+	@Override
 	public void onLoadLayer() {
 		//父背景变成半透明
 		final Rectangle fadableBGRect = new Rectangle(0f, 0f,mCameraWidth,mCameraHeight, mVertexBufferObjectManager);
@@ -77,6 +81,7 @@ public class FingerPauseLayer extends ManagedLayer{
 		EntityUtil.setSizeInParent("width", 4f/5f, restartBS, LayerBG);
 		restartBS.setOnClickListener(new OnClickListener(){
 
+			@Override
 			public void onClick(ButtonSprite pButtonSprite,
 					float pTouchAreaLocalX, float pTouchAreaLocalY) {
 					SFXManager.getInstance().playSound("a_click");
@@ -91,6 +96,7 @@ public class FingerPauseLayer extends ManagedLayer{
 		continueBS.setPosition(restartBS.getX(), LayerBG.getHeight()*(5f/6f));
 		continueBS.setSize(restartBS.getWidth(), restartBS.getHeight());
 		continueBS.setOnClickListener(new OnClickListener(){
+			@Override
 			public void onClick(ButtonSprite pButtonSprite,
 					float pTouchAreaLocalX, float pTouchAreaLocalY) {
 					SFXManager.getInstance().playSound("a_click");
@@ -105,6 +111,7 @@ public class FingerPauseLayer extends ManagedLayer{
 		goBackBS.setPosition(restartBS.getX(), LayerBG.getHeight()/6f);
 		goBackBS.setSize(restartBS.getWidth(), restartBS.getHeight());
 		goBackBS.setOnClickListener(new OnClickListener(){
+			@Override
 			public void onClick(ButtonSprite pButtonSprite,
 					float pTouchAreaLocalX, float pTouchAreaLocalY) {
 					SFXManager.getInstance().playSound("a_click");
@@ -120,15 +127,18 @@ public class FingerPauseLayer extends ManagedLayer{
 		
 	}
 	
+	@Override
 	public void onShowLayer() {
 		registerUpdateHandler(mSlideInUpdateHandler);
 		//ResourceManager.getInstance().showPopAd();
 	}
 	
+	@Override
 	public void onHideLayer() {
 		registerUpdateHandler(mSlideOutUpdateHandler);
 	}
 
+	@Override
 	public void onUnloadLayer() {
 		// TODO Auto-generated method stub
 		

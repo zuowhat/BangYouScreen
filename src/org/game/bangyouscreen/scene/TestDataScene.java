@@ -123,6 +123,7 @@ public class TestDataScene extends ManagedScene{
 		saveBS.setPosition(mCameraWidth*(1f/4f), mCameraHeight*(1f/12f));
 		attachChild(saveBS);
 		saveBS.setOnClickListener(new OnClickListener(){
+			@Override
 			public void onClick(ButtonSprite pButtonSprite, float pTouchAreaLocalX, float pTouchAreaLocalY) {
 				SFXManager.getInstance().playSound("a_click");
 				BangYouScreenActivity.writeIntToSharedPreferences(DataConstant.TEST_BOSSHP, boss_hp);
@@ -149,6 +150,7 @@ public class TestDataScene extends ManagedScene{
 		backBS.setPosition(mCameraWidth*(3f/4f), saveBS.getY());
 		attachChild(backBS);
 		backBS.setOnClickListener(new OnClickListener(){
+			@Override
 			public void onClick(ButtonSprite pButtonSprite, float pTouchAreaLocalX, float pTouchAreaLocalY) {
 				SFXManager.getInstance().playSound("a_click");
 				SceneManager.getInstance().showScene(MainMenuScene.getInstance());
@@ -170,6 +172,7 @@ public class TestDataScene extends ManagedScene{
 		goldAddBS.setSize(goldTitle.getHeight(), goldTitle.getHeight());
 		goldAddBS.setPosition(backBS.getX()-backBS.getWidth(), goldAddBS.getHeight());
 		goldAddBS.setOnClickListener(new OnClickListener(){
+			@Override
 			public void onClick(ButtonSprite pButtonSprite, float pTouchAreaLocalX, float pTouchAreaLocalY) {
 				SFXManager.getInstance().playSound("a_click");
 				PointsManager.getInstance(ResourceManager.getActivity()).awardPoints(1000);
@@ -234,6 +237,7 @@ public class TestDataScene extends ManagedScene{
 		addBossHPButton.setPosition(bossHPValue.getX()+2*subtractBossHPButton.getWidth(), bossHPText.getY());
 		attachChild(addBossHPButton);
 		addBossHPButton.setOnClickListener(new OnClickListener(){
+			@Override
 			public void onClick(ButtonSprite pButtonSprite, float pTouchAreaLocalX, float pTouchAreaLocalY) {
 				if(type == 11){
 					boss_hp = boss_hp + 100;
@@ -286,6 +290,7 @@ public class TestDataScene extends ManagedScene{
 		registerTouchArea(addBossHPButton);
 		
 		subtractBossHPButton.setOnClickListener(new OnClickListener(){
+			@Override
 			public void onClick(ButtonSprite pButtonSprite, float pTouchAreaLocalX, float pTouchAreaLocalY) {
 				if(type == 11){
 					boss_hp = boss_hp - 100;

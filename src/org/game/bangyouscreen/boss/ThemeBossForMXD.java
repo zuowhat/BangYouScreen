@@ -71,6 +71,7 @@ public class ThemeBossForMXD extends ManagedScene implements IScrollDetectorList
 		
 	}
 
+	@Override
 	public void onLoadScene() {
 		//mCurrentBoss = 1;
 		//SFXManager.getInstance().loadSound("t_ko", ResourceManager.getActivity().getSoundManager(), ResourceManager.getActivity());
@@ -101,6 +102,7 @@ public class ThemeBossForMXD extends ManagedScene implements IScrollDetectorList
 		attachChild(backBS);
 		backBS.setOnClickListener(new org.andengine.entity.sprite.ButtonSprite.OnClickListener(){
 			
+			@Override
 			public void onClick(ButtonSprite pButtonSprite, float pTouchAreaLocalX, float pTouchAreaLocalY) {
 				SFXManager.getInstance().playSound("a_click");
 				SceneManager.getInstance().showScene(ThemeScene.getInstance());
@@ -115,6 +117,7 @@ public class ThemeBossForMXD extends ManagedScene implements IScrollDetectorList
 		attachChild(homeBS);
 		homeBS.setOnClickListener(new org.andengine.entity.sprite.ButtonSprite.OnClickListener(){
 			
+			@Override
 			public void onClick(ButtonSprite pButtonSprite, float pTouchAreaLocalX, float pTouchAreaLocalY) {
 				SFXManager.getInstance().playSound("a_click");
 				SceneManager.getInstance().showScene(MainMenuScene.getInstance());
@@ -128,6 +131,7 @@ public class ThemeBossForMXD extends ManagedScene implements IScrollDetectorList
 		arrowLeftSprite.setPosition(backBS.getX(), mCameraHeight/2f);
 		attachChild(arrowLeftSprite);
 		arrowLeftSprite.setOnClickListener(new OnClickListener(){
+			@Override
 			public void onClick(ButtonSprite pButtonSprite, float pTouchAreaLocalX, float pTouchAreaLocalY) {
 				SFXManager.getInstance().playSound("a_click");
 				mBossSlider.clearEntityModifiers();
@@ -148,6 +152,7 @@ public class ThemeBossForMXD extends ManagedScene implements IScrollDetectorList
 		arrowRightSprite.setPosition(homeBS.getX(), mCameraHeight/2f);
 		attachChild(arrowRightSprite);
 		arrowRightSprite.setOnClickListener(new OnClickListener(){
+			@Override
 			public void onClick(ButtonSprite pButtonSprite, float pTouchAreaLocalX, float pTouchAreaLocalY) {
 				SFXManager.getInstance().playSound("a_click");
 				mBossSlider.clearEntityModifiers();
@@ -179,6 +184,7 @@ public class ThemeBossForMXD extends ManagedScene implements IScrollDetectorList
 	@Override
 	public void onUnloadScene() {
 		ResourceManager.getInstance().engine.runOnUpdateThread(new Runnable() {
+			@Override
 			public void run() {
 				detachChildren();
 				for(int i = 0; i < INSTANCE.getChildCount(); i++){
@@ -194,17 +200,20 @@ public class ThemeBossForMXD extends ManagedScene implements IScrollDetectorList
 			}});
 	}
 	
+	@Override
 	public void onScrollStarted(ScrollDetector pScollDetector, int pPointerID,
 			float pDistanceX, float pDistanceY) {
 		directionPath = pDistanceX;
 	}
 
+	@Override
 	public void onScroll(ScrollDetector pScollDetector, int pPointerID,
 			float pDistanceX, float pDistanceY) {
 		float f1 = mBossSlider.getX() + pDistanceX;
 		mBossSlider.setPosition(f1, mBossSlider.getY());
 	}
 
+	@Override
 	public void onScrollFinished(ScrollDetector pScollDetector, int pPointerID,
 			float pDistanceX, float pDistanceY) {
 		mBossSlider.clearEntityModifiers();
@@ -227,6 +236,7 @@ public class ThemeBossForMXD extends ManagedScene implements IScrollDetectorList
 		}
 	}
 	
+	@Override
 	public boolean onSceneTouchEvent(TouchEvent paramTouchEvent){
 	    this.mScrollDetector.onTouchEvent(paramTouchEvent);
 	    return super.onSceneTouchEvent(paramTouchEvent);
@@ -266,12 +276,14 @@ public class ThemeBossForMXD extends ManagedScene implements IScrollDetectorList
 						 FadeInModifier highestPicFadeIn = new FadeInModifier(0.5f);//在0.5秒内改变透明度由0f变为1f
 						 ParallelEntityModifier highestPicParalle = new ParallelEntityModifier(new IEntityModifierListener(){
 
+							@Override
 							public void onModifierStarted(
 									IModifier<IEntity> pModifier, IEntity pItem) {
 								SFXManager.getInstance().playSound("t_ko");
 								
 							}
 
+							@Override
 							public void onModifierFinished(
 									IModifier<IEntity> pModifier, IEntity pItem) {
 								// TODO Auto-generated method stub
@@ -309,6 +321,7 @@ public class ThemeBossForMXD extends ManagedScene implements IScrollDetectorList
 				}
 				
 				bossPics[i].setOnClickListenerABS(new OnClickListenerABS(){
+					@Override
 					public void onClick(AnimatedButtonSprite pButtonSprite,
 							float pTouchAreaLocalX, float pTouchAreaLocalY) {
 						SFXManager.getInstance().playSound("a_click");

@@ -2,8 +2,6 @@ package org.game.bangyouscreen;
 
 
 import net.youmi.android.offers.PointsChangeNotify;
-import net.youmi.android.spot.SpotManager;
-
 import org.andengine.engine.Engine;
 import org.andengine.engine.FixedStepEngine;
 import org.andengine.engine.camera.SmoothCamera;
@@ -25,17 +23,25 @@ import org.game.bangyouscreen.scene.HelpScene;
 import org.game.bangyouscreen.scene.MainMenuScene;
 import org.game.bangyouscreen.scene.ShopScene;
 import org.game.bangyouscreen.scene.SplashScreen;
+import org.game.bangyouscreen.share.sinaSDK.SinaWeiboUtil;
 import org.game.bangyouscreen.util.DataConstant;
+
+import com.sina.weibo.sdk.api.share.BaseResponse;
+import com.sina.weibo.sdk.api.share.IWeiboDownloadListener;
+import com.sina.weibo.sdk.api.share.IWeiboHandler.Response;
+import com.sina.weibo.sdk.api.share.IWeiboShareAPI;
+import com.sina.weibo.sdk.api.share.WeiboShareSDK;
+import com.sina.weibo.sdk.constant.WBConstants;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.View.MeasureSpec;
-import cn.sharesdk.framework.ShareSDK;
+import android.widget.Toast;
 
 
 
-public class BangYouScreenActivity extends BaseGameActivity implements PointsChangeNotify{
+public class BangYouScreenActivity extends BaseGameActivity implements PointsChangeNotify, Response{
 	
 	public static boolean getBooleanFromSharedPreferences(final String pStr) {
 		return ResourceManager.getActivity()
@@ -163,7 +169,8 @@ public class BangYouScreenActivity extends BaseGameActivity implements PointsCha
 
 	@Override
 	protected void onCreate(Bundle pSavedInstanceState) {
-		ShareSDK.initSDK(this);
+		
+		SinaWeiboUtil.initShare(this, pSavedInstanceState);
 	    System.out.println("onCreate");
 		super.onCreate(pSavedInstanceState);
 	}
@@ -208,6 +215,7 @@ public class BangYouScreenActivity extends BaseGameActivity implements PointsCha
 		}
 	}
 	
+	@Override
 	protected void onPause() {
 		System.out.println("onPause");
 		super.onPause();
@@ -216,6 +224,7 @@ public class BangYouScreenActivity extends BaseGameActivity implements PointsCha
 		}
 	}
 	
+	@Override
 	protected void onDestroy() {
 		System.out.println("onDestroy");
 		// 释放资源，原finalize()方法名修改为close()
@@ -225,7 +234,8 @@ public class BangYouScreenActivity extends BaseGameActivity implements PointsCha
 		System.exit(0);
 	}
 	
-	  public void onBackPressed() {
+	  @Override
+	public void onBackPressed() {
 		  SFXManager.getInstance().playSound("a_click");
 		  if (ResourceManager.getInstance().engine != null) {
 			  if (SceneManager.getInstance().mIsLayerShown && SceneManager.getInstance().mCurrentLayer.getClass()
@@ -249,11 +259,12 @@ public class BangYouScreenActivity extends BaseGameActivity implements PointsCha
 			  }else if(SceneManager.getInstance().mCurrentScene.getClass().equals(ShopScene.class)){
 				  SceneManager.getInstance().showScene(MainMenuScene.getInstance());
 			  }else if(SceneManager.getInstance().mCurrentScene.getClass().equals(MainMenuScene.class)){
-				  SpotManager.getInstance(this).showSpotAds(this);
+				  //SpotManager.getInstance(this).showSpotAds(this);
 				  AlertDialog.Builder exitBuilder = new AlertDialog.Builder(this);
 					exitBuilder.setMessage("确定要退出吗?");
 					exitBuilder.setCancelable(false); //返回键是否可以关闭对话框
 					exitBuilder.setPositiveButton("是", new DialogInterface.OnClickListener() {
+						@Override
 						public void onClick(DialogInterface dialog, int which) {
 							//playSoundPool.playSound(1);
 							System.exit(0);
@@ -261,6 +272,7 @@ public class BangYouScreenActivity extends BaseGameActivity implements PointsCha
 					});
 					
 					exitBuilder.setNegativeButton("否", new DialogInterface.OnClickListener() {
+						@Override
 						public void onClick(DialogInterface dialog, int which) {
 							//playSoundPool.playSound(1);
 							dialog.cancel();
@@ -276,6 +288,7 @@ public class BangYouScreenActivity extends BaseGameActivity implements PointsCha
 		  }
 	  }
 
+	@Override
 	public void onPointBalanceChange(int arg0) {
 		System.out.println("积分变动");
 		ShopScene.getInstance().myGold = arg0;
@@ -286,6 +299,22 @@ public class BangYouScreenActivity extends BaseGameActivity implements PointsCha
 			System.out.println("安装应用数 +1");
 		}
 		ShopScene.getInstance().myApps = -1;
+	}
+
+	@Override
+	public void onResponse(BaseResponse baseResp) {
+		switch (baseResp.errCode) {
+        case WBConstants.ErrorCode.ERR_OK:
+        	BangYouScreenActivity.this.toastOnUiThread(SinaWeiboUtil.weibosdk_share_success, Toast.LENGTH_LONG);
+            break;
+        case WBConstants.ErrorCode.ERR_CANCEL:
+        	BangYouScreenActivity.this.toastOnUiThread(SinaWeiboUtil.weibosdk_share_canceled, Toast.LENGTH_LONG);
+            break;
+        case WBConstants.ErrorCode.ERR_FAIL:
+            BangYouScreenActivity.this.toastOnUiThread(SinaWeiboUtil.weibosdk_share_failed+ "Error Message: " + baseResp.errMsg, Toast.LENGTH_LONG);
+            break;
+        }
+		
 	}
 	  
 }

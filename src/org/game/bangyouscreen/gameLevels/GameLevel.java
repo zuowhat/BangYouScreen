@@ -165,6 +165,7 @@ public class GameLevel extends ManagedScene {
 		greenButtonBS.setPosition(greenButtonBS.getWidth() / 2f, greenButtonBS.getHeight() / 2f);
 		greenButtonBS.setOnClickListener(new OnClickListener(){
 
+			@Override
 			public void onClick(ButtonSprite pButtonSprite,
 					float pTouchAreaLocalX, float pTouchAreaLocalY) {
 					//SFXManager.getInstance().playSound("g_leftButton");
@@ -196,6 +197,7 @@ public class GameLevel extends ManagedScene {
 		clockBS.setPosition((1f/2f)*mCameraWidth, redButtonBS.getY());
 		clockBS.setOnClickListener(new OnClickListener(){
 
+			@Override
 			public void onClick(ButtonSprite pButtonSprite,
 					float pTouchAreaLocalX, float pTouchAreaLocalY) {
 				if(clockNum > 0){
@@ -212,18 +214,22 @@ public class GameLevel extends ManagedScene {
 					Arrays.fill(frameDur, 1250);
 					clockCooling.animate(frameDur,0,7,false,new IAnimationListener(){
 	
+						@Override
 						public void onAnimationStarted(AnimatedSprite pAnimatedSprite,int pInitialLoopCount) {
 							
 						}
 	
+						@Override
 						public void onAnimationFrameChanged(AnimatedSprite pAnimatedSprite, int pOldFrameIndex,int pNewFrameIndex) {
 							
 						}
 	
+						@Override
 						public void onAnimationLoopFinished(AnimatedSprite pAnimatedSprite,int pRemainingLoopCount, int pInitialLoopCount) {
 							
 						}
 	
+						@Override
 						public void onAnimationFinished(AnimatedSprite pAnimatedSprite) {
 							clockBS.detachChild(clockCooling);
 							clockCooling = null;
@@ -248,6 +254,7 @@ public class GameLevel extends ManagedScene {
 		magicBS.setPosition(clockBS.getX()-(53f/400f)*mCameraWidth, clockBS.getY());
 		magicBS.setOnClickListener(new OnClickListener(){
 
+			@Override
 			public void onClick(ButtonSprite pButtonSprite,
 					float pTouchAreaLocalX, float pTouchAreaLocalY) {
 				unregisterTouchArea(magicBS);
@@ -259,21 +266,25 @@ public class GameLevel extends ManagedScene {
 				//魔法冷却时间为9秒，待定
 				Arrays.fill(frameDur, 1000);
 				magicCooling.animate(frameDur, 0,7,false, new IAnimationListener(){
+					@Override
 					public void onAnimationStarted(
 							AnimatedSprite pAnimatedSprite,
 							int pInitialLoopCount) {
 					}
 
+					@Override
 					public void onAnimationFrameChanged(
 							AnimatedSprite pAnimatedSprite, int pOldFrameIndex,
 							int pNewFrameIndex) {
 					}
 
+					@Override
 					public void onAnimationLoopFinished(
 							AnimatedSprite pAnimatedSprite,
 							int pRemainingLoopCount, int pInitialLoopCount) {
 					}
 
+					@Override
 					public void onAnimationFinished(
 							AnimatedSprite pAnimatedSprite) {
 						magicBS.detachChild(magicCooling);
@@ -289,19 +300,23 @@ public class GameLevel extends ManagedScene {
 				EntityUtil.setSize("height", 2f / 3f, magicAS);
 				magicAS.animate(100,2,new IAnimationListener(){
 
+					@Override
 					public void onAnimationStarted(AnimatedSprite pAnimatedSprite,
 							int pInitialLoopCount) {
 						//bossAS.stopAnimation(2);
 					}
 
+					@Override
 					public void onAnimationFrameChanged(AnimatedSprite pAnimatedSprite,
 							int pOldFrameIndex, int pNewFrameIndex) {
 					}
 
+					@Override
 					public void onAnimationLoopFinished(AnimatedSprite pAnimatedSprite,
 							int pRemainingLoopCount, int pInitialLoopCount) {
 					}
 
+					@Override
 					public void onAnimationFinished(AnimatedSprite pAnimatedSprite) {
 						if(gameTime > 0){
 							detachChild(magicAS);
@@ -330,6 +345,7 @@ public class GameLevel extends ManagedScene {
 		tiamatBS.setPosition(clockBS.getX()+(53f/400f)*mCameraWidth, clockBS.getY());
 		tiamatBS.setOnClickListener(new OnClickListener(){
 
+			@Override
 			public void onClick(ButtonSprite pButtonSprite,
 					float pTouchAreaLocalX, float pTouchAreaLocalY) {
 				if(weaponPotionNum > 0){
@@ -346,21 +362,25 @@ public class GameLevel extends ManagedScene {
 					//冷却时间为14秒，待定
 					Arrays.fill(frameDur, 1500);
 					tiamatCooling.animate(frameDur, 0,7,false, new IAnimationListener(){
+						@Override
 						public void onAnimationStarted(
 								AnimatedSprite pAnimatedSprite,
 								int pInitialLoopCount) {
 						}
 
+						@Override
 						public void onAnimationFrameChanged(
 								AnimatedSprite pAnimatedSprite, int pOldFrameIndex,
 								int pNewFrameIndex) {
 						}
 
+						@Override
 						public void onAnimationLoopFinished(
 								AnimatedSprite pAnimatedSprite,
 								int pRemainingLoopCount, int pInitialLoopCount) {
 						}
 
+						@Override
 						public void onAnimationFinished(
 								AnimatedSprite pAnimatedSprite) {
 							tiamatBS.detachChild(tiamatCooling);
@@ -386,6 +406,7 @@ public class GameLevel extends ManagedScene {
 		bingpoBS.setPosition(tiamatBS.getX()+(53f/400f)*mCameraWidth, clockBS.getY());
 		bingpoBS.setOnClickListener(new OnClickListener(){
 
+			@Override
 			public void onClick(ButtonSprite pButtonSprite,
 					float pTouchAreaLocalX, float pTouchAreaLocalY) {
 				if(magicPotionNum > 0){
@@ -417,21 +438,25 @@ public class GameLevel extends ManagedScene {
 		EntityUtil.setSize("height", 1f / 4f, clockTimeAS);
 		clockTimeAS.animate(frameDur,0,2,0,new IAnimationListener(){
 
+			@Override
 			public void onAnimationStarted(AnimatedSprite pAnimatedSprite,
 					int pInitialLoopCount) {
 				SFXManager.getInstance().loadSounds(sounds, ResourceManager.getActivity().getSoundManager(), ResourceManager.getActivity());
 				SFXManager.getInstance().loadSound(playerModel.getMagicSound(), ResourceManager.getActivity().getSoundManager(), ResourceManager.getActivity());
 			}
 
+			@Override
 			public void onAnimationFrameChanged(AnimatedSprite pAnimatedSprite,
 					int pOldFrameIndex, int pNewFrameIndex) {
 				SFXManager.getInstance().playSound("a_CountDown");
 			}
 
+			@Override
 			public void onAnimationLoopFinished(AnimatedSprite pAnimatedSprite,
 					int pRemainingLoopCount, int pInitialLoopCount) {
 			}
 
+			@Override
 			public void onAnimationFinished(AnimatedSprite pAnimatedSprite) {
 				SFXManager.getInstance().playSound("g_go");
 				SFXManager.getInstance().playMusic(musics);
@@ -443,11 +468,13 @@ public class GameLevel extends ManagedScene {
 		attachChild(clockTimeAS);
 	}
 
+	@Override
 	public void onUnloadScene() {
 		ResourceManager.getInstance().engine.getEngineOptions().getTouchOptions().setNeedsMultiTouch(false);
 		ResourceManager.getInstance().engine.setTouchController(new SingleTouchController());
 		System.out.println("GameLevel资源onUnloadScene");
 		ResourceManager.getInstance().engine.runOnUpdateThread(new Runnable() {
+			@Override
 			public void run() {
 				detachChildren();
 				for(int i = 0; i < INSTANCE.getChildCount(); i++){
@@ -480,6 +507,7 @@ public class GameLevel extends ManagedScene {
 	 */
 	private IUpdateHandler gameRunTimer = new IUpdateHandler() {
 
+		@Override
 		public void onUpdate(float pSecondsElapsed) {
 			//倒计时
 			gameTime-=pSecondsElapsed;
@@ -609,19 +637,23 @@ public class GameLevel extends ManagedScene {
 		EntityUtil.setSize("height", 0.5f, bigBang);
 		bigBang.animate(100,3,new IAnimationListener(){
 
+			@Override
 			public void onAnimationStarted(AnimatedSprite pAnimatedSprite,
 					int pInitialLoopCount) {
 				SFXManager.getInstance().playSound("g_bomb",2);
 			}
 
+			@Override
 			public void onAnimationFrameChanged(AnimatedSprite pAnimatedSprite,
 					int pOldFrameIndex, int pNewFrameIndex) {
 			}
 
+			@Override
 			public void onAnimationLoopFinished(AnimatedSprite pAnimatedSprite,
 					int pRemainingLoopCount, int pInitialLoopCount) {
 			}
 
+			@Override
 			public void onAnimationFinished(AnimatedSprite pAnimatedSprite) {
 				//setIgnoreUpdate(true);
 				SceneManager.getInstance().showLayer(GameWinLayer.getInstance(mScore,Math.round(gameTime),allBossHP), false, false, false);

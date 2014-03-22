@@ -46,6 +46,7 @@ public class GameWinLayer extends ManagedLayer{
 	
 	IUpdateHandler mSlideInUpdateHandler = new IUpdateHandler() {
 		
+		@Override
 		public void onUpdate(final float pSecondsElapsed) {
 			if (LayerBG.getY() > (mCameraHeight / 2f)) {
 				LayerBG.setY(Math.max(LayerBG.getY() - (pSecondsElapsed * mSLIDE_PIXELS_PER_SECONDS),0f));
@@ -55,6 +56,7 @@ public class GameWinLayer extends ManagedLayer{
 			}
 		}
 
+		@Override
 		public void reset() {}
 	};
 
@@ -74,6 +76,7 @@ public class GameWinLayer extends ManagedLayer{
 		public void reset() {}
 	};
 
+	@Override
 	public void onLoadLayer() {
 		
 		//父背景变成半透明
@@ -98,6 +101,7 @@ public class GameWinLayer extends ManagedLayer{
 		continueBS.setPosition(LayerBG.getWidth()*(3f/4f), LayerBG.getHeight()/4f);
 		EntityUtil.setSizeInParent("width", 3f/8f, continueBS, LayerBG);
 		continueBS.setOnClickListener(new OnClickListener(){
+			@Override
 			public void onClick(ButtonSprite pButtonSprite,
 					float pTouchAreaLocalX, float pTouchAreaLocalY) {
 					SFXManager.getInstance().playSound("a_click");
@@ -114,6 +118,7 @@ public class GameWinLayer extends ManagedLayer{
 		goBackBS.setPosition(LayerBG.getWidth()/4f, LayerBG.getHeight()/4f);
 		EntityUtil.setSizeInParent("width", 3f/8f, goBackBS, LayerBG);
 		goBackBS.setOnClickListener(new OnClickListener(){
+			@Override
 			public void onClick(ButtonSprite pButtonSprite,
 					float pTouchAreaLocalX, float pTouchAreaLocalY) {
 					SFXManager.getInstance().unloadSound("t_ko");
@@ -125,6 +130,7 @@ public class GameWinLayer extends ManagedLayer{
 		registerTouchArea(goBackBS);
 	}
 	
+	@Override
 	public void onShowLayer() {
 		//加载新BOSS
 		ResourceManager.loadBossResources();
@@ -152,12 +158,15 @@ public class GameWinLayer extends ManagedLayer{
 		SFXManager.getInstance().loadSound("t_ko", ResourceManager.getActivity().getSoundManager(), ResourceManager.getActivity());
 	}
 	
+	@Override
 	public void onHideLayer() {
 		registerUpdateHandler(mSlideOutUpdateHandler);
 	}
 
+	@Override
 	public void onUnloadLayer() {
 		ResourceManager.getInstance().engine.runOnUpdateThread(new Runnable() {
+			@Override
 			public void run() {
 				if(goldNumAS != null){
 					for(AnimatedSprite a:goldNumAS){

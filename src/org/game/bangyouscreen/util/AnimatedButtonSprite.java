@@ -369,6 +369,7 @@ public class AnimatedButtonSprite extends TiledSprite {
 		this.mOnClickListener = pOnClickListener;
 	}
 	
+	@Override
 	public boolean onAreaTouched(final TouchEvent pSceneTouchEvent, final float pTouchAreaLocalX, final float pTouchAreaLocalY) {
 		if (!this.isEnabled()) {
 			this.changeState(State.DISABLED);
