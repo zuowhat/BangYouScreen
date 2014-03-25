@@ -114,7 +114,7 @@ public class ResourceManager extends Object{
 	public static TextureRegion layerPauseBG;
 	public static TextureRegion ko;
 	public static TextureRegion sinaLogo;
-	public static TextureRegion qqLogo;
+	public static TextureRegion tencentLogo;
 	
 	//***************测试资源 start ********************//
 	public static TiledTextureRegion test_addOrSubtract;
@@ -417,8 +417,8 @@ public class ResourceManager extends Object{
 			if(sinaLogo == null){
 				sinaLogo = getLimitableTR("sinaLogo.png",mNormalTextureOption);
 			}
-			if(qqLogo == null){
-				qqLogo = getLimitableTR("qqLogo.png",mNormalTextureOption);
+			if(tencentLogo == null){
+				tencentLogo = getLimitableTR("tencentLogo.png",mNormalTextureOption);
 			}
 			BitmapTextureAtlasTextureRegionFactory.setAssetBasePath(mPreviousAssetBasePath);
 		}

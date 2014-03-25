@@ -18,12 +18,9 @@ package org.game.bangyouscreen.share.sinaSDK;
 
 import org.game.bangyouscreen.BangYouScreenActivity;
 import org.game.bangyouscreen.managers.ResourceManager;
-
 import android.graphics.Bitmap;
-import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.widget.Toast;
-
 import com.sina.weibo.sdk.api.ImageObject;
 import com.sina.weibo.sdk.api.TextObject;
 import com.sina.weibo.sdk.api.WeiboMessage;
@@ -42,9 +39,17 @@ import com.sina.weibo.sdk.exception.WeiboShareException;
  * @since 2013-09-29
  */
 public class SinaWeiboUtil {
+	
+	public static SinaWeiboUtil INSTANCE;
+	public static SinaWeiboUtil getInstance(){
+		if(INSTANCE == null){
+			INSTANCE = new SinaWeiboUtil();
+		}
+		return INSTANCE;
+	}
 
     /** 当前 DEMO 应用的 APP_KEY，第三方应用应该使用自己的 APP_KEY 替换该 APP_KEY */
-    public static final String APP_KEY = "3974289953";
+    private String APP_KEY = "3974289953";
 
     /** 
      * 当前 DEMO 应用的回调页，第三方应用可以使用自己的回调页。
@@ -55,7 +60,7 @@ public class SinaWeiboUtil {
      * 建议使用默认回调页：https://api.weibo.com/oauth2/default.html
      * </p>
      */
-    public static final String REDIRECT_URL = "http://www.sina.com";
+    //private String REDIRECT_URL = "http://www.sina.com";
 
     /**
      * Scope 是 OAuth2.0 授权机制中 authorize 接口的一个参数。通过 Scope，平台将开放更多的微博
@@ -70,16 +75,16 @@ public class SinaWeiboUtil {
      * 有关哪些 OpenAPI 需要权限申请，请查看：http://open.weibo.com/wiki/%E5%BE%AE%E5%8D%9AAPI
      * 关于 Scope 概念及注意事项，请查看：http://open.weibo.com/wiki/Scope
      */
-    public static final String SCOPE = 
-            "email,direct_messages_read,direct_messages_write,"
-            + "friendships_groups_read,friendships_groups_write,statuses_to_me_read,"
-            + "follow_app_official_microblog," + "invitation_write";
+//    private String SCOPE = 
+//            "email,direct_messages_read,direct_messages_write,"
+//            + "friendships_groups_read,friendships_groups_write,statuses_to_me_read,"
+//            + "follow_app_official_microblog," + "invitation_write";
     
-    public static final String weibosdk_not_support_api_hint = "微博客户端不支持 SDK 分享或微博客户端未安装或微博客户端是非官方版本";
+    private String weibosdk_not_support_api_hint = "微博客户端不支持 SDK 分享或微博客户端未安装或微博客户端是非官方版本";
     
-    public static final String weiboText = "我在(天天爆你屏APP)中创造了新纪录,你能超过我吗?";
+    private String weiboText = "我在(APP)中创造了新纪录,你能超过我吗?测试图片尺寸,图片坐标:0,0,532,384";
     
-    public static final String weibosdk_cancel_download = "取消下载";
+    private String weibosdk_cancel_download = "取消下载";
     
     public static final String weibosdk_share_success = "分享成功";
     
@@ -88,11 +93,11 @@ public class SinaWeiboUtil {
     public static final String weibosdk_share_canceled = "取消分享";
     
     /** 微博微博分享接口实例 */
-    private static IWeiboShareAPI  mWeiboShareAPI = null;
+    private IWeiboShareAPI  mWeiboShareAPI = null;
     
-    public static void initShare(final BangYouScreenActivity activity, Bundle pSavedInstanceState){
+    public void initShare(final BangYouScreenActivity activity, Bundle pSavedInstanceState){
     	// 创建微博分享接口实例
-        mWeiboShareAPI = WeiboShareSDK.createWeiboAPI(activity, SinaWeiboUtil.APP_KEY);
+        mWeiboShareAPI = WeiboShareSDK.createWeiboAPI(activity, APP_KEY);
         
         // 注册第三方应用到微博客户端中，注册成功后该应用将显示在微博的应用列表中。
         // 但该附件栏集成分享权限需要合作申请，详情请查看 Demo 提示
@@ -107,7 +112,7 @@ public class SinaWeiboUtil {
 //                    Toast.makeText(BangYouScreenActivity.this, 
 //                            R.string.weibosdk_demo_cancel_download_weibo, 
 //                            Toast.LENGTH_SHORT).show();
-                	activity.toastOnUiThread(SinaWeiboUtil.weibosdk_cancel_download, Toast.LENGTH_LONG);
+                	activity.toastOnUiThread(weibosdk_cancel_download, Toast.LENGTH_LONG);
                 }
             });
         }
@@ -122,7 +127,7 @@ public class SinaWeiboUtil {
     	
     }
     
-    public static void showShare(Bitmap bitmap){
+    public void showShare(Bitmap bitmap){
     	try {
             // 检查微博客户端环境是否正常，如果未安装微博，弹出对话框询问用户下载微博客户端
             if (mWeiboShareAPI.checkEnvironment(true)) {                    
@@ -134,7 +139,7 @@ public class SinaWeiboUtil {
                         sendSingleMessage(true, true);
                     }
                 } else {
-                    ResourceManager.getActivity().toastOnUiThread(SinaWeiboUtil.weibosdk_not_support_api_hint, Toast.LENGTH_SHORT);
+                    ResourceManager.getActivity().toastOnUiThread(weibosdk_not_support_api_hint, Toast.LENGTH_SHORT);
                 }
             }
         } catch (WeiboShareException e) {
@@ -156,13 +161,13 @@ public class SinaWeiboUtil {
      * @param hasVideo   分享的内容是否有视频
      * @param hasVoice   分享的内容是否有声音
      */
-    private static void sendMultiMessage(boolean hasText, boolean hasImage, Bitmap bitmap) {
+    private void sendMultiMessage(boolean hasText, boolean hasImage, Bitmap bitmap) {
         
         // 1. 初始化微博的分享消息
         WeiboMultiMessage weiboMessage = new WeiboMultiMessage();
         if (hasText) {
             TextObject textObject = new TextObject();
-            textObject.text = SinaWeiboUtil.weiboText;
+            textObject.text = weiboText;
             weiboMessage.textObject = textObject;
         }
         
@@ -193,14 +198,14 @@ public class SinaWeiboUtil {
      * @param hasMusic   分享的内容是否有音乐
      * @param hasVideo   分享的内容是否有视频
      */
-    private static void sendSingleMessage(boolean hasText, boolean hasImage) {
+    private void sendSingleMessage(boolean hasText, boolean hasImage) {
         
         // 1. 初始化微博的分享消息
         // 用户可以分享文本、图片、网页、音乐、视频中的一种
         WeiboMessage weiboMessage = new WeiboMessage();
         if (hasText) {
             TextObject textObject = new TextObject();
-            textObject.text = SinaWeiboUtil.weiboText;
+            textObject.text = weiboText;
             weiboMessage.mediaObject = textObject;
         }
         if (hasImage) {

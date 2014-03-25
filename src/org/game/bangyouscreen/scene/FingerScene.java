@@ -34,6 +34,7 @@ import org.game.bangyouscreen.managers.ResourceManager;
 import org.game.bangyouscreen.managers.SFXManager;
 import org.game.bangyouscreen.managers.SceneManager;
 import org.game.bangyouscreen.share.sinaSDK.SinaWeiboUtil;
+import org.game.bangyouscreen.share.tencentSDK.TencentWeiboUtil;
 import org.game.bangyouscreen.util.DataConstant;
 import org.game.bangyouscreen.util.EntityUtil;
 import org.game.bangyouscreen.util.GameNumberUtil;
@@ -312,25 +313,6 @@ public class FingerScene extends ManagedScene{
 				fingerGoldBG.setPosition(-fingerGoldBG.getWidth(), pItem.getY()-pItem.getHeight()/2f-5f-fingerGoldBG.getHeight()/2f);
 				fadableBGRect.attachChild(fingerGoldBG);
 				
-				//新浪微博
-				ButtonSprite sinaLogo = new ButtonSprite(0f,0f,ResourceManager.sinaLogo,mVertexBufferObjectManager);
-				EntityUtil.setSizeInParent("height", 2f/3f, sinaLogo, fingerGoldBG);
-				sinaLogo.setPosition(5f+sinaLogo.getWidth()/2f, fingerGoldBG.getHeight()/2f);
-				fingerGoldBG.attachChild(sinaLogo);
-				sinaLogo.setOnClickListener(new OnClickListener() {
-					
-					@Override
-					public void onClick(ButtonSprite pButtonSprite, float pTouchAreaLocalX,
-							float pTouchAreaLocalY) {
-						//ShareUtil.singleShowShare(ResourceManager.getActivity(), "sina");
-						SinaWeiboUtil.showShare(bitmap);
-						//screenShot();
-						
-						
-					}
-				});
-				registerTouchArea(sinaLogo);
-				
 				AnimatedSprite[] goldNumAS = mGameNumber.fingerOverGold(fingerGoldBG, Math.round(upHeight/2f));
 				Sprite gLayerSprite = new Sprite(0f,0f,ResourceManager.gameGold,mVertexBufferObjectManager);
 				gLayerSprite.setSize(goldNumAS[2].getHeight(), goldNumAS[2].getHeight());
@@ -358,12 +340,13 @@ public class FingerScene extends ManagedScene{
 					public void onModifierFinished(IModifier<IEntity> pModifier, IEntity pItem) {
 						Sprite fingerButtonBG = new Sprite(0f,0f,ResourceManager.fingerGoldBG,mVertexBufferObjectManager);
 						EntityUtil.setSize("width", 1f/2f, fingerButtonBG);
+						fingerButtonBG.setHeight(fingerButtonBG.getHeight()*2f);
 						fingerButtonBG.setPosition(-fingerButtonBG.getWidth(), pItem.getY()-pItem.getHeight()/2f-5f-fingerButtonBG.getHeight()/2f);
 						fadableBGRect.attachChild(fingerButtonBG);
 						
 						//返回菜单
 						ButtonSprite backBS = new ButtonSprite(0f,0f,ResourceManager.gamePauseMenu.getTextureRegion(2),mVertexBufferObjectManager);
-						EntityUtil.setSizeInParent("height", 3f/4f, backBS, fingerButtonBG);
+						EntityUtil.setSizeInParent("height", 2f/5f, backBS, fingerButtonBG);
 						backBS.setPosition(fingerButtonBG.getWidth()/4f, fingerButtonBG.getHeight()/2f);
 						fingerButtonBG.attachChild(backBS);
 						registerTouchArea(backBS);
@@ -378,7 +361,7 @@ public class FingerScene extends ManagedScene{
 						
 						//重新开始
 						ButtonSprite restartBS = new ButtonSprite(0f,0f,ResourceManager.gamePauseMenu.getTextureRegion(1),mVertexBufferObjectManager);
-						EntityUtil.setSizeInParent("height", 3f/4f, restartBS, fingerButtonBG);
+						EntityUtil.setSizeInParent("height", 2f/5f, restartBS, fingerButtonBG);
 						restartBS.setPosition(fingerButtonBG.getWidth()*3f/4f, backBS.getY());
 						fingerButtonBG.attachChild(restartBS);
 						registerTouchArea(restartBS);
@@ -390,6 +373,45 @@ public class FingerScene extends ManagedScene{
 								SceneManager.getInstance().showScene(new FingerScene());
 							}
 						});
+						
+						//新浪微博
+						ButtonSprite sinaLogo = new ButtonSprite(0f,0f,ResourceManager.sinaLogo,mVertexBufferObjectManager);
+						EntityUtil.setSizeInParent("height", 2f/5f, sinaLogo, fingerButtonBG);
+						sinaLogo.setPosition(backBS.getX(), backBS.getY()+backBS.getHeight()/2f+5f+sinaLogo.getHeight()/2f);
+						fingerButtonBG.attachChild(sinaLogo);
+						sinaLogo.setOnClickListener(new OnClickListener() {
+							
+							@Override
+							public void onClick(ButtonSprite pButtonSprite, float pTouchAreaLocalX,
+									float pTouchAreaLocalY) {
+								//ShareUtil.singleShowShare(ResourceManager.getActivity(), "sina");
+								SinaWeiboUtil.getInstance().showShare(bitmap);
+								//screenShot();
+								
+								
+							}
+						});
+						registerTouchArea(sinaLogo);
+						
+						//腾讯微博
+						ButtonSprite tencentLogo = new ButtonSprite(0f,0f,ResourceManager.tencentLogo,mVertexBufferObjectManager);
+						//EntityUtil.setSizeInParent("height", 2f/5f, tencentLogo, fingerButtonBG);
+						tencentLogo.setSize(sinaLogo.getWidth(), sinaLogo.getHeight());
+						tencentLogo.setPosition(restartBS.getX(),sinaLogo.getY());
+						fingerButtonBG.attachChild(tencentLogo);
+						tencentLogo.setOnClickListener(new OnClickListener() {
+							
+							@Override
+							public void onClick(ButtonSprite pButtonSprite, float pTouchAreaLocalX,
+									float pTouchAreaLocalY) {
+								//ShareUtil.singleShowShare(ResourceManager.getActivity(), "sina");
+								TencentWeiboUtil.getInstance().showShare(bitmap);
+								
+								
+							}
+						});
+						registerTouchArea(tencentLogo);
+						
 						fingerButtonBG.registerEntityModifier(new MoveXModifier(0.5f,fingerButtonBG.getX(),fadableBGRect.getWidth()/2f,new IEntityModifierListener(){
 
 							@Override

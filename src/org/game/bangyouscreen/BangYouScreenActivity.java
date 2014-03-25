@@ -170,7 +170,7 @@ public class BangYouScreenActivity extends BaseGameActivity implements PointsCha
 	@Override
 	protected void onCreate(Bundle pSavedInstanceState) {
 		
-		SinaWeiboUtil.initShare(this, pSavedInstanceState);
+		SinaWeiboUtil.getInstance().initShare(this, pSavedInstanceState);
 	    System.out.println("onCreate");
 		super.onCreate(pSavedInstanceState);
 	}

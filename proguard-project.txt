@@ -20,6 +20,4 @@
 #}
 -dontwarn net.youmi.android.**
 -keep class net.youmi.android.** {*;}
--keep class cn.sharesdk.**{*;} 
 -keep class com.sina.**{*;} 
--keep class m.framework.**{*;} 
