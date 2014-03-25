@@ -18,6 +18,8 @@ package org.game.bangyouscreen.share.sinaSDK;
 
 import org.game.bangyouscreen.BangYouScreenActivity;
 import org.game.bangyouscreen.managers.ResourceManager;
+import org.game.bangyouscreen.util.DataConstant;
+
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.widget.Toast;
@@ -81,8 +83,6 @@ public class SinaWeiboUtil {
 //            + "follow_app_official_microblog," + "invitation_write";
     
     private String weibosdk_not_support_api_hint = "微博客户端不支持 SDK 分享或微博客户端未安装或微博客户端是非官方版本";
-    
-    private String weiboText = "我在(APP)中创造了新纪录,你能超过我吗?测试图片尺寸,图片坐标:0,0,532,384";
     
     private String weibosdk_cancel_download = "取消下载";
     
@@ -167,7 +167,7 @@ public class SinaWeiboUtil {
         WeiboMultiMessage weiboMessage = new WeiboMultiMessage();
         if (hasText) {
             TextObject textObject = new TextObject();
-            textObject.text = weiboText;
+            textObject.text = DataConstant.weiboText;
             weiboMessage.textObject = textObject;
         }
         
@@ -205,7 +205,7 @@ public class SinaWeiboUtil {
         WeiboMessage weiboMessage = new WeiboMessage();
         if (hasText) {
             TextObject textObject = new TextObject();
-            textObject.text = weiboText;
+            textObject.text = DataConstant.weiboText;
             weiboMessage.mediaObject = textObject;
         }
         if (hasImage) {

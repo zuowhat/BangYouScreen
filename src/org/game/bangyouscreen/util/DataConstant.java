@@ -52,13 +52,15 @@ public class DataConstant {
 	public static final int ALL_APPS_INT = 18;//安装试用应用
 	public static final String FINGER_HIGHESTSCORE = "FingerHighScore";//指力模式最高纪录
 	
+	public static final String weiboText = "测试《???》APP腾讯微博分享,得分截图坐标392,329,400,100@金瑾";
+	
 	/** 冒险岛主题BOSS个数 */
 	public static final int THEME_1_BOSS_NUM = 8;
 	/** 魔法效果个数 */
 	public static final int MAGIC_AS_NUM = 10;
 	
 	/**截屏文件名称*/
-	public static final String SCREENCAPTURE = "highscore.png";//BOSS血量
+	public static final String SCREENCAPTURE = "highscore.jpg";//BOSS血量
 	
 	/**测试数据*/
 	public static final String TEST_BOSSHP = "bossHP";//BOSS血量

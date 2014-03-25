@@ -340,14 +340,14 @@ public class FingerScene extends ManagedScene{
 					public void onModifierFinished(IModifier<IEntity> pModifier, IEntity pItem) {
 						Sprite fingerButtonBG = new Sprite(0f,0f,ResourceManager.fingerGoldBG,mVertexBufferObjectManager);
 						EntityUtil.setSize("width", 1f/2f, fingerButtonBG);
-						fingerButtonBG.setHeight(fingerButtonBG.getHeight()*2f);
+						fingerButtonBG.setHeight(fingerButtonBG.getHeight()*9f/4f);
 						fingerButtonBG.setPosition(-fingerButtonBG.getWidth(), pItem.getY()-pItem.getHeight()/2f-5f-fingerButtonBG.getHeight()/2f);
 						fadableBGRect.attachChild(fingerButtonBG);
 						
 						//返回菜单
 						ButtonSprite backBS = new ButtonSprite(0f,0f,ResourceManager.gamePauseMenu.getTextureRegion(2),mVertexBufferObjectManager);
 						EntityUtil.setSizeInParent("height", 2f/5f, backBS, fingerButtonBG);
-						backBS.setPosition(fingerButtonBG.getWidth()/4f, fingerButtonBG.getHeight()/2f);
+						backBS.setPosition(fingerButtonBG.getWidth()/4f, fingerButtonBG.getHeight()/5f+5f);
 						fingerButtonBG.attachChild(backBS);
 						registerTouchArea(backBS);
 						backBS.setOnClickListener(new OnClickListener(){
@@ -384,11 +384,7 @@ public class FingerScene extends ManagedScene{
 							@Override
 							public void onClick(ButtonSprite pButtonSprite, float pTouchAreaLocalX,
 									float pTouchAreaLocalY) {
-								//ShareUtil.singleShowShare(ResourceManager.getActivity(), "sina");
 								SinaWeiboUtil.getInstance().showShare(bitmap);
-								//screenShot();
-								
-								
 							}
 						});
 						registerTouchArea(sinaLogo);
@@ -404,10 +400,7 @@ public class FingerScene extends ManagedScene{
 							@Override
 							public void onClick(ButtonSprite pButtonSprite, float pTouchAreaLocalX,
 									float pTouchAreaLocalY) {
-								//ShareUtil.singleShowShare(ResourceManager.getActivity(), "sina");
-								TencentWeiboUtil.getInstance().showShare(bitmap);
-								
-								
+								TencentWeiboUtil.getInstance().authToken(bitmap);
 							}
 						});
 						registerTouchArea(tencentLogo);
@@ -537,25 +530,22 @@ public class FingerScene extends ManagedScene{
 	private void screenShot(){
 		ScreenCapture screenCapture = new ScreenCapture();
 		attachChild(screenCapture);
-		final String path = FileUtils.getAbsolutePathOnExternalStorage(ResourceManager.getInstance().getActivity(), DataConstant.SCREENCAPTURE);
-//		int cx = Math.round(fingerScoreBG.getX()-fingerScoreBG.getWidth()/2f);
-//		int cy = Math.round(fingerScoreBG.getY()-fingerScoreBG.getHeight()/2f);
-//		int cw = Math.round(fingerScoreBG.getWidth());
-//		int ch = Math.round(fingerScoreBG.getHeight());
+		final String path = FileUtils.getAbsolutePathOnExternalStorage(ResourceManager.getInstance().activity, DataConstant.SCREENCAPTURE);
+		int viewWidth = ResourceManager.getInstance().screenWidth;
+	    int viewHeight = ResourceManager.getInstance().screenHeight;
+		int cx = Math.round((fingerScoreBG.getX()-fingerScoreBG.getWidth()/2f)*viewWidth/mCameraWidth);
+		int cy = Math.round((fingerScoreBG.getY()-fingerScoreBG.getHeight()/2f)*viewHeight/mCameraHeight);
+		int cw = Math.round(fingerScoreBG.getWidth()*viewWidth/mCameraWidth);
+		int ch = Math.round(fingerScoreBG.getHeight()*viewHeight/mCameraHeight);
 		
-		int cx = Math.round(fingerScoreBG.getX()-fingerScoreBG.getWidth()/2f);
-		int cy = Math.round(fingerScoreBG.getY()-fingerScoreBG.getHeight()/2f);
-		int cw = Math.round(mCameraWidth);
-		int ch = Math.round(mCameraHeight);
-		
-		screenCapture.capture(0, 0, cw, ch, path, new IScreenCaptureCallback() {  
+		screenCapture.capture(cx, cy, cw, ch, path, new IScreenCaptureCallback() {  
 		      @Override  
 		      public void onScreenCaptured(final String pFilePath) {  
 		        System.out.println("success --> "+pFilePath);
 		        bitmap = BitmapFactory.decodeFile(path);
 		        try {
 					FileOutputStream fos = new FileOutputStream(path);
-					bitmap.compress(CompressFormat.JPEG, 100, fos);
+					bitmap.compress(CompressFormat.JPEG, 50, fos);
 					fos.flush();
 					fos.close();
 				} catch (FileNotFoundException e) {
@@ -563,7 +553,6 @@ public class FingerScene extends ManagedScene{
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
-		        
 		      }  
 		  
 		      @Override  

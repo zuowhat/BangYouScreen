@@ -42,6 +42,8 @@ public class ResourceManager extends Object{
 	public float cameraHeight;
 	public float cameraScaleFactorX;
 	public float cameraScaleFactorY;
+	public int screenWidth;
+	public int screenHeight;
 	private String mPreviousAssetBasePath = ""; //这个变量将被用来恢复TextureFactory的默认路径
 	private TextureOptions mNormalTextureOption = TextureOptions.BILINEAR;
 	
@@ -178,7 +180,7 @@ public class ResourceManager extends Object{
 		sc.clearUpdateHandlers();
 	}
 
-	public static void setup(BangYouScreenActivity pActivity, FixedStepEngine pEngine, Context pContext, float pCameraWidth, float pCameraHeight, float pCameraScaleX, float pCameraScaleY){
+	public static void setup(BangYouScreenActivity pActivity, FixedStepEngine pEngine, Context pContext, float pCameraWidth, float pCameraHeight, float pCameraScaleX, float pCameraScaleY,int pScreenWidth,int pScreenHeight){
 		getInstance().activity = pActivity;
 		getInstance().engine = pEngine;
 		getInstance().context = pContext;
@@ -186,6 +188,8 @@ public class ResourceManager extends Object{
 		getInstance().cameraHeight = pCameraHeight;
 		getInstance().cameraScaleFactorX = pCameraScaleX;
 		getInstance().cameraScaleFactorY = pCameraScaleY;
+		getInstance().screenWidth = pScreenWidth;
+		getInstance().screenHeight = pScreenHeight;
 	}
 	
 	private TextureRegion getLimitableTR(final String pTextureRegionPath,

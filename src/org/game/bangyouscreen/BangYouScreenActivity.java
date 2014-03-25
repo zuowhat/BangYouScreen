@@ -179,7 +179,8 @@ public class BangYouScreenActivity extends BaseGameActivity implements PointsCha
 	public void onCreateResources(
 			OnCreateResourcesCallback pOnCreateResourcesCallback){
 		ResourceManager.setup(this,  (FixedStepEngine)this.getEngine(), this.getApplicationContext(), 
-				cameraWidth, cameraHeight, cameraWidth/DESIGN_WINDOW_WIDTH_PIXELS, cameraHeight/DESIGN_WINDOW_HEIGHT_PIXELS);
+				cameraWidth, cameraHeight, cameraWidth/DESIGN_WINDOW_WIDTH_PIXELS, cameraHeight/DESIGN_WINDOW_HEIGHT_PIXELS,
+				mRenderSurfaceView.getWidth(),mRenderSurfaceView.getHeight());
 		//System.out.println("onCreateResources");
 		
 		ResourceManager.getInstance().initAdResources();
@@ -193,6 +194,8 @@ public class BangYouScreenActivity extends BaseGameActivity implements PointsCha
 		//this.mEngine.registerUpdateHandler(new FPSLogger());
 		//this.mEngine.registerUpdateHandler(new MemoryLogger());
 		//System.out.println("onCreateScene");
+//	    int viewWidth = mRenderSurfaceView.getWidth();
+//		int viewHeight = mRenderSurfaceView.getHeight();
 		SceneManager.getInstance().showScene(new SplashScreen());
 		System.out.println("onCreateScene");
 		pOnCreateSceneCallback.onCreateSceneFinished(mEngine.getScene());
