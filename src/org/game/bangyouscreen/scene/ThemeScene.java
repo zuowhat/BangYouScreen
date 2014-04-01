@@ -21,6 +21,7 @@ import org.game.bangyouscreen.managers.ManagedScene;
 import org.game.bangyouscreen.managers.ResourceManager;
 import org.game.bangyouscreen.managers.SFXManager;
 import org.game.bangyouscreen.managers.SceneManager;
+import org.game.bangyouscreen.util.Constants;
 import org.game.bangyouscreen.util.EntityUtil;
 
 
@@ -33,7 +34,7 @@ public class ThemeScene extends ManagedScene implements IScrollDetectorListener{
 	
 	private SurfaceScrollDetector mScrollDetector;
 	private Rectangle mScensSlider;
-	private ButtonSprite[] themePics = new ButtonSprite[4];
+	private ButtonSprite[] themePics = new ButtonSprite[Constants.THEME_NUM];
 	private float themeRInitX;
 	private int mCurrentTheme = 1;
 	private float directionPath;//判断手势方向，正-向右滑动，负-向左滑动
@@ -275,13 +276,12 @@ public class ThemeScene extends ManagedScene implements IScrollDetectorListener{
 			});
 			registerTouchArea(themePics[1]);
 		 
-		 themePics[2] = new ButtonSprite(0f,0f,ResourceManager.theme1Temp,mVertexBufferObjectManager);
-		 themePics[2].setPosition(themePics[1].getX()+mCameraWidth, themeR.getHeight()/2f);
-		 themeR.attachChild(themePics[2]);
-		 
-		 themePics[3] = new ButtonSprite(0f,0f,ResourceManager.theme2Temp,mVertexBufferObjectManager);
-		 themePics[3].setPosition(themePics[2].getX()+mCameraWidth, themeR.getHeight()/2f);
-		 themeR.attachChild(themePics[3]);
+//		 themePics[2] = new ButtonSprite(0f,0f,ResourceManager.theme1Temp,mVertexBufferObjectManager);
+//		 themePics[2].setPosition(themePics[1].getX()+mCameraWidth, themeR.getHeight()/2f);
+//		 themeR.attachChild(themePics[2]);
+//		 themePics[3] = new ButtonSprite(0f,0f,ResourceManager.theme2Temp,mVertexBufferObjectManager);
+//		 themePics[3].setPosition(themePics[2].getX()+mCameraWidth, themeR.getHeight()/2f);
+//		 themeR.attachChild(themePics[3]);
 		 
 		 return themeR;
 	 }

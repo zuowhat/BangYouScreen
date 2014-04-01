@@ -19,7 +19,7 @@ import org.andengine.opengl.texture.region.TextureRegion;
 import org.andengine.opengl.texture.region.TiledTextureRegion;
 import org.andengine.util.adt.color.Color;
 import org.game.bangyouscreen.BangYouScreenActivity;
-import org.game.bangyouscreen.util.DataConstant;
+import org.game.bangyouscreen.util.Constants;
 
 import com.sina.weibo.sdk.api.share.IWeiboShareAPI;
 
@@ -65,9 +65,9 @@ public class ResourceManager extends Object{
 	public static TextureRegion loadingBG1;
 	public static TiledTextureRegion loadingBG2;
 	public static TiledTextureRegion loadingFont;
-	public static TiledTextureRegion[] mxdBoss_TTRArray = new TiledTextureRegion[DataConstant.THEME_1_BOSS_NUM];
-	public static TextureRegion[] mxdBoss_GameBG = new TextureRegion[DataConstant.THEME_1_BOSS_NUM];
-	public static TextureRegion[] mxdBoss_InfoTRArray = new TextureRegion[DataConstant.THEME_1_BOSS_NUM];
+	public static TiledTextureRegion[] mxdBoss_TTRArray = new TiledTextureRegion[Constants.THEME_1_BOSS_NUM];
+	public static TextureRegion[] mxdBoss_GameBG = new TextureRegion[Constants.THEME_1_BOSS_NUM];
+	public static TextureRegion[] mxdBoss_InfoTRArray = new TextureRegion[Constants.THEME_1_BOSS_NUM];
 	public static TextureRegion homeTR;
 	public static TextureRegion backTR;
 	public static TiledTextureRegion gamePauseBG;
@@ -364,10 +364,10 @@ public class ResourceManager extends Object{
 			backTR = getLimitableTR("back.png",mNormalTextureOption);
 		}
 		if(theme1Temp == null){
-			theme1Temp = getLimitableTR("theme1.png",mNormalTextureOption);
+			theme1Temp = getLimitableTR("theme1.jpg",mNormalTextureOption);
 		}
 		if(theme2Temp == null){
-			theme2Temp = getLimitableTR("theme2.png",mNormalTextureOption);
+			theme2Temp = getLimitableTR("theme2.jpg",mNormalTextureOption);
 		}
 		if(themeBG == null){
 			themeBG = getLimitableTR("themeBG.png",mNormalTextureOption);
@@ -436,14 +436,14 @@ public class ResourceManager extends Object{
 		mPreviousAssetBasePath = BitmapTextureAtlasTextureRegionFactory.getAssetBasePath();
 		BitmapTextureAtlasTextureRegionFactory.setAssetBasePath("gfx/theme/");
 		
-		int themeSceneOneBossTotal = BangYouScreenActivity.getIntFromSharedPreferences(DataConstant.SHARED_PREFS_THEME_MXD);
+		int themeSceneOneBossTotal = BangYouScreenActivity.getIntFromSharedPreferences(Constants.SHARED_PREFS_THEME_MXD);
 		
 		for(int i=0; i<themeSceneOneBossTotal+1; i++){
-			if(i < DataConstant.THEME_1_BOSS_NUM){
+			if(i < Constants.THEME_1_BOSS_NUM){
 				if(mxdBoss_TTRArray[i] == null){
 					String bossTexture = "boss1" + i + ".png";
-					//String bossInfo = "infoboss1" + i + ".png";
-					//mxdBoss_InfoTRArray[i] = getLimitableTR(bossInfo,mNormalTextureOption);
+					String bossInfo = "infoboss1" + i + ".jpg";
+					mxdBoss_InfoTRArray[i] = getLimitableTR(bossInfo,mNormalTextureOption);
 					String gameBG = "gameBG_"+i+".jpg";
 					mxdBoss_GameBG[i] = getLimitableTR(gameBG,mNormalTextureOption);
 					switch (i) {

@@ -23,7 +23,7 @@ import org.game.bangyouscreen.managers.SFXManager;
 import org.game.bangyouscreen.managers.SceneManager;
 import org.game.bangyouscreen.model.BossModel;
 import org.game.bangyouscreen.model.PlayerModel;
-import org.game.bangyouscreen.util.DataConstant;
+import org.game.bangyouscreen.util.Constants;
 import org.game.bangyouscreen.util.EntityUtil;
 import org.game.bangyouscreen.util.GameNumberUtil;
 import org.game.bangyouscreen.util.GameTimer;
@@ -38,7 +38,7 @@ public class GameLevel extends ManagedScene {
 	
 	//private static final String TIME_FORMAT = "00:00";
 	//private Text mTimeText;
-	private float gameTime = DataConstant.GAMETIME_INIT;//初始游戏时间
+	private float gameTime = Constants.GAMETIME_INIT;//初始游戏时间
 	private int mScore = 0;
 	private int clickNum = 0;
 	private GameTimer mGameTime;
@@ -100,9 +100,9 @@ public class GameLevel extends ManagedScene {
 
 	@Override
 	public void onLoadScene() {
-		weaponPotionNum = BangYouScreenActivity.getIntFromSharedPreferences(DataConstant.Prop_BUY+0);
-		magicPotionNum = BangYouScreenActivity.getIntFromSharedPreferences(DataConstant.Prop_BUY+1);
-		clockNum = BangYouScreenActivity.getIntFromSharedPreferences(DataConstant.Prop_BUY+2);
+		weaponPotionNum = BangYouScreenActivity.getIntFromSharedPreferences(Constants.Prop_BUY+0);
+		magicPotionNum = BangYouScreenActivity.getIntFromSharedPreferences(Constants.Prop_BUY+1);
+		clockNum = BangYouScreenActivity.getIntFromSharedPreferences(Constants.Prop_BUY+2);
 		countDpsXS();
 		countAoeXS();
 //		ResourceManager.getInstance().engine.getEngineOptions().getTouchOptions().setNeedsMultiTouch(true);
@@ -144,7 +144,7 @@ public class GameLevel extends ManagedScene {
 		bossAS.animate(100,true);
 		mPhysicsHandler = new PhysicsHandler(bossAS);
 		bossAS.registerUpdateHandler(mPhysicsHandler);
-		mPhysicsHandler.setVelocity(DataConstant.BOSS_VELOCITY);
+		mPhysicsHandler.setVelocity(Constants.BOSS_VELOCITY);
 		attachChild(bossAS);
 		
 		//操作区半透明背景
@@ -203,10 +203,10 @@ public class GameLevel extends ManagedScene {
 				if(clockNum > 0){
 					unregisterTouchArea(clockBS);
 					SFXManager.getInstance().playSound("g_time");
-					gameTime+=DataConstant.CLOCKTIME;
+					gameTime+=Constants.CLOCKTIME;
 					clockNum--;
-					mGameNumber.updateGoodsNum(DataConstant.PROP_NAME, clockNum);
-					BangYouScreenActivity.writeIntToSharedPreferences(DataConstant.Prop_BUY+2, clockNum);
+					mGameNumber.updateGoodsNum(Constants.PROP_NAME, clockNum);
+					BangYouScreenActivity.writeIntToSharedPreferences(Constants.Prop_BUY+2, clockNum);
 					clockCooling = new AnimatedSprite(0f,0f,ResourceManager.iconCooling,mVertexBufferObjectManager);
 					clockCooling.setPosition(clockBS.getWidth()/2f,clockBS.getHeight()/2f);
 					clockCooling.setSize(clockBS.getWidth(), clockBS.getHeight());
@@ -245,8 +245,8 @@ public class GameLevel extends ManagedScene {
 				}
 			}});
 		fadableBGRect.attachChild(clockBS);
-		mGameNumber.addGoodsNumInGameLevel(DataConstant.PROP_NAME, clockBS);
-		mGameNumber.updateGoodsNum(DataConstant.PROP_NAME, clockNum);
+		mGameNumber.addGoodsNumInGameLevel(Constants.PROP_NAME, clockBS);
+		mGameNumber.updateGoodsNum(Constants.PROP_NAME, clockNum);
 		
 		//魔法按钮
 		magicBS = new ButtonSprite(0f,0f,playerModel.getMagicTR(),mVertexBufferObjectManager);
@@ -352,10 +352,10 @@ public class GameLevel extends ManagedScene {
 					unregisterTouchArea(tiamatBS);
 					SFXManager.getInstance().playSound("g_drink");
 					isAddDPS = true;
-					tiamatTime = DataConstant.ADD_DPS_TIME;
+					tiamatTime = Constants.ADD_DPS_TIME;
 					weaponPotionNum--;
-					mGameNumber.updateGoodsNum(DataConstant.WEAPON_NAME, weaponPotionNum);
-					BangYouScreenActivity.writeIntToSharedPreferences(DataConstant.Prop_BUY+0, weaponPotionNum);
+					mGameNumber.updateGoodsNum(Constants.WEAPON_NAME, weaponPotionNum);
+					BangYouScreenActivity.writeIntToSharedPreferences(Constants.Prop_BUY+0, weaponPotionNum);
 					tiamatCooling = new AnimatedSprite(0f,0f,ResourceManager.iconCooling,mVertexBufferObjectManager); 
 					tiamatCooling.setPosition(tiamatBS.getWidth()/2f,tiamatBS.getHeight()/2f);
 					tiamatCooling.setSize(tiamatBS.getWidth(), tiamatBS.getHeight());
@@ -397,8 +397,8 @@ public class GameLevel extends ManagedScene {
 				}
 			}});
 		fadableBGRect.attachChild(tiamatBS);
-		mGameNumber.addGoodsNumInGameLevel(DataConstant.WEAPON_NAME, tiamatBS);
-		mGameNumber.updateGoodsNum(DataConstant.WEAPON_NAME, weaponPotionNum);
+		mGameNumber.addGoodsNumInGameLevel(Constants.WEAPON_NAME, tiamatBS);
+		mGameNumber.updateGoodsNum(Constants.WEAPON_NAME, weaponPotionNum);
 
 		//冰魄
 		bingpoBS = new ButtonSprite(0f,0f,ResourceManager.propsTTR.getTextureRegion(1),mVertexBufferObjectManager);
@@ -414,8 +414,8 @@ public class GameLevel extends ManagedScene {
 					SFXManager.getInstance().playSound("g_drink");
 					isAddAOE = true;
 					magicPotionNum--;
-					mGameNumber.updateGoodsNum(DataConstant.MAGIC_NAME, magicPotionNum);
-					BangYouScreenActivity.writeIntToSharedPreferences(DataConstant.Prop_BUY+1, magicPotionNum);
+					mGameNumber.updateGoodsNum(Constants.MAGIC_NAME, magicPotionNum);
+					BangYouScreenActivity.writeIntToSharedPreferences(Constants.Prop_BUY+1, magicPotionNum);
 					bingpoCooling = new Sprite(0f,0f,ResourceManager.iconCooling.getTextureRegion(0),mVertexBufferObjectManager);
 					bingpoCooling.setSize(bingpoBS.getWidth(), bingpoBS.getHeight());
 					bingpoCooling.setPosition(bingpoBS.getWidth()/2f, bingpoBS.getHeight()/2f);
@@ -427,8 +427,8 @@ public class GameLevel extends ManagedScene {
 				}
 			}});
 		fadableBGRect.attachChild(bingpoBS);
-		mGameNumber.addGoodsNumInGameLevel(DataConstant.MAGIC_NAME, bingpoBS);
-		mGameNumber.updateGoodsNum(DataConstant.MAGIC_NAME, magicPotionNum);
+		mGameNumber.addGoodsNumInGameLevel(Constants.MAGIC_NAME, bingpoBS);
+		mGameNumber.updateGoodsNum(Constants.MAGIC_NAME, magicPotionNum);
 		
 		//游戏开始倒计时动画
 		long [] frameDur = new long[3];
@@ -552,14 +552,14 @@ public class GameLevel extends ManagedScene {
 			
 			//BOSS移动
 			if(bossAS.getY() - bossAS.getHeight()/2f < redButtonBS.getY() + redButtonBS.getHeight()/2f) {
-				mPhysicsHandler.setVelocityY(DataConstant.BOSS_VELOCITY);
+				mPhysicsHandler.setVelocityY(Constants.BOSS_VELOCITY);
 			} else if(bossAS.getY() + (bossAS.getHeight() * 0.5f) > xue1Sprite.getY() - xue1Sprite.getHeight()/2f) {
-				mPhysicsHandler.setVelocityY(-DataConstant.BOSS_VELOCITY);
+				mPhysicsHandler.setVelocityY(-Constants.BOSS_VELOCITY);
 			}
 			if(bossAS.getX() - bossAS.getWidth()/2f < 2f) {
-				mPhysicsHandler.setVelocityX(DataConstant.BOSS_VELOCITY);
+				mPhysicsHandler.setVelocityX(Constants.BOSS_VELOCITY);
 			} else if(bossAS.getX() + (bossAS.getWidth() * 0.5f) > mCameraWidth - 2f) {
-				mPhysicsHandler.setVelocityX(-DataConstant.BOSS_VELOCITY);
+				mPhysicsHandler.setVelocityX(-Constants.BOSS_VELOCITY);
 			}
 			
 			//统计得分
@@ -628,9 +628,9 @@ public class GameLevel extends ManagedScene {
 		System.out.println("游戏胜利111111111");
 		SFXManager.getInstance().stopMusic();
 		updateGameStatDPSNum();
-		int bossNumInSP = BangYouScreenActivity.getIntFromSharedPreferences(DataConstant.SHARED_PREFS_THEME_MXD);
+		int bossNumInSP = BangYouScreenActivity.getIntFromSharedPreferences(Constants.SHARED_PREFS_THEME_MXD);
 		if(bossModel.getBossLevel() > bossNumInSP){
-			BangYouScreenActivity.writeIntToSharedPreferences(DataConstant.SHARED_PREFS_THEME_MXD, bossModel.getBossLevel());
+			BangYouScreenActivity.writeIntToSharedPreferences(Constants.SHARED_PREFS_THEME_MXD, bossModel.getBossLevel());
 		}
 		AnimatedSprite bigBang = new AnimatedSprite(0f,0f,ResourceManager.bigBang,mVertexBufferObjectManager);
 		bigBang.setPosition(bossAS.getX(), bossAS.getY());
@@ -748,7 +748,7 @@ public class GameLevel extends ManagedScene {
 		float playerDPS = (float)(Math.random()*(playerModel.getWeaponDPSMax() - playerModel.getWeaponDPSMin())) + playerModel.getWeaponDPSMin();
 		float bossDEF = (float)(Math.random()*(bossModel.getMaxBossDEF() - bossModel.getMinBossDEF())) + bossModel.getMinBossDEF();
 		if(isAddDPS){
-			playerDPS = playerDPS*(1f + DataConstant.ADD_DPS);
+			playerDPS = playerDPS*(1f + Constants.ADD_DPS);
 		}
 		return Math.round(playerDPS * dpsXS - bossDEF);
 	}
@@ -833,7 +833,7 @@ public class GameLevel extends ManagedScene {
 		float playerAOE = (float)(Math.random()*(playerModel.getMagicAOEMax() - playerModel.getMagicAOEMin())) + playerModel.getMagicAOEMin();
 		float bossDEF = (float)(Math.random()*(bossModel.getMaxBossDEF() - bossModel.getMinBossDEF())) + bossModel.getMinBossDEF();
 		if(isAddAOE){
-			playerAOE = playerAOE*(1f+DataConstant.ADD_AOE);
+			playerAOE = playerAOE*(1f+Constants.ADD_AOE);
 		}
 		return Math.round(playerAOE * aoeXS - bossDEF);
 	}
@@ -932,8 +932,8 @@ public class GameLevel extends ManagedScene {
 	}
 	
 	private void updateGameStatDPSNum(){
-		int num = BangYouScreenActivity.getIntFromSharedPreferences(DataConstant.ALL_DPS) + clickNum;
-		BangYouScreenActivity.writeIntToSharedPreferences(DataConstant.ALL_DPS, num);
+		int num = BangYouScreenActivity.getIntFromSharedPreferences(Constants.ALL_DPS) + clickNum;
+		BangYouScreenActivity.writeIntToSharedPreferences(Constants.ALL_DPS, num);
 	}
 
 }

@@ -24,7 +24,7 @@ import org.game.bangyouscreen.scene.MainMenuScene;
 import org.game.bangyouscreen.scene.ShopScene;
 import org.game.bangyouscreen.scene.SplashScreen;
 import org.game.bangyouscreen.share.sinaSDK.SinaWeiboUtil;
-import org.game.bangyouscreen.util.DataConstant;
+import org.game.bangyouscreen.util.Constants;
 
 import com.sina.weibo.sdk.api.share.BaseResponse;
 import com.sina.weibo.sdk.api.share.IWeiboDownloadListener;
@@ -45,44 +45,44 @@ public class BangYouScreenActivity extends BaseGameActivity implements PointsCha
 	
 	public static boolean getBooleanFromSharedPreferences(final String pStr) {
 		return ResourceManager.getActivity()
-				.getSharedPreferences(DataConstant.SHARED_PREFS_MAIN, 0)
+				.getSharedPreferences(Constants.SHARED_PREFS_MAIN, 0)
 				.getBoolean(pStr, false);
 	}
 
 	public static int getIntFromSharedPreferences(final String pStr) {
 		return ResourceManager.getActivity()
-				.getSharedPreferences(DataConstant.SHARED_PREFS_MAIN, 0).getInt(pStr, 0);
+				.getSharedPreferences(Constants.SHARED_PREFS_MAIN, 0).getInt(pStr, 0);
 	}
 	
 	//第一次进入游戏时获取初始化金币
 	public static int getGoldFromSharedPreferences() {
 		return ResourceManager.getActivity()
-				.getSharedPreferences(DataConstant.SHARED_PREFS_MAIN, 0).getInt(DataConstant.MY_GOLD, DataConstant.GOLD_INIT);
+				.getSharedPreferences(Constants.SHARED_PREFS_MAIN, 0).getInt(Constants.MY_GOLD, Constants.GOLD_INIT);
 	}
 	
 	//第一次进入游戏时获取初始化武器
 	public static int getWeaponFromSharedPreferences() {
 		return ResourceManager.getActivity()
-				.getSharedPreferences(DataConstant.SHARED_PREFS_MAIN, 0).getInt(DataConstant.CURRENT_WEAPON, DataConstant.WEAPON_INIT);
+				.getSharedPreferences(Constants.SHARED_PREFS_MAIN, 0).getInt(Constants.CURRENT_WEAPON, Constants.WEAPON_INIT);
 	}
 	
 	//第一次进入游戏时获取初始化魔法
 	public static int getMagicFromSharedPreferences() {
 		return ResourceManager.getActivity()
-				.getSharedPreferences(DataConstant.SHARED_PREFS_MAIN, 0).getInt(DataConstant.CURRENT_MAGIC, DataConstant.MAGIC_INIT);
+				.getSharedPreferences(Constants.SHARED_PREFS_MAIN, 0).getInt(Constants.CURRENT_MAGIC, Constants.MAGIC_INIT);
 	}
 
 	public static void writeBooleanToSharedPreferences(final String pStr,
 			final boolean pValue) {
 		ResourceManager.getActivity()
-				.getSharedPreferences(DataConstant.SHARED_PREFS_MAIN, 0).edit()
+				.getSharedPreferences(Constants.SHARED_PREFS_MAIN, 0).edit()
 				.putBoolean(pStr, pValue).apply();
 	}
 
 	public static void writeIntToSharedPreferences(final String pStr,
 			final int pValue) {
 		ResourceManager.getActivity()
-				.getSharedPreferences(DataConstant.SHARED_PREFS_MAIN, 0).edit()
+				.getSharedPreferences(Constants.SHARED_PREFS_MAIN, 0).edit()
 				.putInt(pStr, pValue).apply();
 	}
 	
@@ -297,8 +297,8 @@ public class BangYouScreenActivity extends BaseGameActivity implements PointsCha
 		ShopScene.getInstance().myGold = arg0;
 		ShopScene.getInstance().mGameNumber.addGoldToLayer(ShopScene.getInstance().propTopBG, ShopScene.getInstance().myGold);
 		if(ShopScene.getInstance().myApps != -1 && ShopScene.getInstance().myApps != arg0){
-			int appNum = BangYouScreenActivity.getIntFromSharedPreferences(DataConstant.ALL_APPS) + 1;
-			BangYouScreenActivity.writeIntToSharedPreferences(DataConstant.ALL_APPS, appNum);
+			int appNum = BangYouScreenActivity.getIntFromSharedPreferences(Constants.ALL_APPS) + 1;
+			BangYouScreenActivity.writeIntToSharedPreferences(Constants.ALL_APPS, appNum);
 			System.out.println("安装应用数 +1");
 		}
 		ShopScene.getInstance().myApps = -1;

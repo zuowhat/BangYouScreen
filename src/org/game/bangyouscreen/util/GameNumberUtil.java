@@ -126,10 +126,10 @@ public void addGoldToLayer(IEntity paramEntity,int mGold){
  */
 public void addGoodsNumInShopScene(String type, IEntity pEntity,IEntity bEntity){
 	AnimatedSprite[] goodsNum = null;
-	if(DataConstant.WEAPON_NAME.equals(type)){
+	if(Constants.WEAPON_NAME.equals(type)){
 		tiamatPotionNum  = new AnimatedSprite[3];
 		goodsNum = tiamatPotionNum;
-	}else if(DataConstant.MAGIC_NAME.equals(type)){
+	}else if(Constants.MAGIC_NAME.equals(type)){
 		bingpoPotionNum  = new AnimatedSprite[3];
 		goodsNum = bingpoPotionNum;
 	}else{
@@ -153,9 +153,9 @@ public void addGoodsNumInShopScene(String type, IEntity pEntity,IEntity bEntity)
  */
 public void updateGoodsNum(String type, int num){
 	AnimatedSprite[] goodsNum = null;
-	if(DataConstant.WEAPON_NAME.equals(type)){
+	if(Constants.WEAPON_NAME.equals(type)){
 		goodsNum = tiamatPotionNum;
-	}else if(DataConstant.MAGIC_NAME.equals(type)){
+	}else if(Constants.MAGIC_NAME.equals(type)){
 		goodsNum = bingpoPotionNum;
 	}else{
 		goodsNum = clockNum;
@@ -172,10 +172,10 @@ public void updateGoodsNum(String type, int num){
  */
 public void addGoodsNumInGameLevel(String type, IEntity pEntity){
 	AnimatedSprite[] goodsNum = null;
-	if(DataConstant.WEAPON_NAME.equals(type)){
+	if(Constants.WEAPON_NAME.equals(type)){
 		tiamatPotionNum  = new AnimatedSprite[3];
 		goodsNum = tiamatPotionNum;
-	}else if(DataConstant.MAGIC_NAME.equals(type)){
+	}else if(Constants.MAGIC_NAME.equals(type)){
 		bingpoPotionNum  = new AnimatedSprite[3];
 		goodsNum = bingpoPotionNum;
 	}else{
@@ -332,9 +332,9 @@ public void addNumInHelpScene(int type, float pWidth, IEntity pEntity, int num){
 		}
 		
 		if(type == 3){
-			dataSort(DataConstant.ALL_GOOD_INT,goodsNumAll,2);
+			dataSort(Constants.ALL_GOOD_INT,goodsNumAll,2);
 		}else if(type == 4){
-			dataSort(DataConstant.ALL_APPS_INT,goodsNumAll,2);
+			dataSort(Constants.ALL_APPS_INT,goodsNumAll,2);
 		}
 	}
 }

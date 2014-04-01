@@ -10,7 +10,7 @@ import org.game.bangyouscreen.model.PlayerModel;
  * @author zuowhat 2013-11-25
  * @version 1.0
  */
-public class DataConstant {
+public class Constants {
 	
 	/**游戏初始化数据*/
 	public static final int GOLD_INIT = 10000;//初始化游戏金币
@@ -24,6 +24,7 @@ public class DataConstant {
 	public static final float GAMETIME_INIT = 5f;//初始化游戏时间
 	public static final float BOSS_VELOCITY = 50.0f;//BOSS移动速度
 	
+	public static final int THEME_NUM = 2;//主题个数
 	public static final int WEAPON_INIT = 9;//初始化武器编号
 	public static final int MAGIC_INIT = 3;//初始化魔法编号
 	public static final int WEAPON_NUM = 9;//装备库中武器的个数

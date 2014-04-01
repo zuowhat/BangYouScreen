@@ -18,7 +18,7 @@ package org.game.bangyouscreen.share.sinaSDK;
 
 import org.game.bangyouscreen.BangYouScreenActivity;
 import org.game.bangyouscreen.managers.ResourceManager;
-import org.game.bangyouscreen.util.DataConstant;
+import org.game.bangyouscreen.util.Constants;
 
 import android.graphics.Bitmap;
 import android.os.Bundle;
@@ -167,7 +167,7 @@ public class SinaWeiboUtil {
         WeiboMultiMessage weiboMessage = new WeiboMultiMessage();
         if (hasText) {
             TextObject textObject = new TextObject();
-            textObject.text = DataConstant.weiboText;
+            textObject.text = Constants.weiboText;
             weiboMessage.textObject = textObject;
         }
         
@@ -205,7 +205,7 @@ public class SinaWeiboUtil {
         WeiboMessage weiboMessage = new WeiboMessage();
         if (hasText) {
             TextObject textObject = new TextObject();
-            textObject.text = DataConstant.weiboText;
+            textObject.text = Constants.weiboText;
             weiboMessage.mediaObject = textObject;
         }
         if (hasImage) {

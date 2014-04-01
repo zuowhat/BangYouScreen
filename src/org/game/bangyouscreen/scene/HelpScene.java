@@ -19,7 +19,7 @@ import org.game.bangyouscreen.managers.ManagedScene;
 import org.game.bangyouscreen.managers.ResourceManager;
 import org.game.bangyouscreen.managers.SFXManager;
 import org.game.bangyouscreen.managers.SceneManager;
-import org.game.bangyouscreen.util.DataConstant;
+import org.game.bangyouscreen.util.Constants;
 import org.game.bangyouscreen.util.EntityUtil;
 import org.game.bangyouscreen.util.GameNumberUtil;
 
@@ -278,11 +278,11 @@ public class HelpScene extends ManagedScene{
 		
 		GameNumberUtil gnUtil = new GameNumberUtil();
 		int[] statAll = new int[5];
-		statAll[0] = BangYouScreenActivity.getIntFromSharedPreferences(DataConstant.ALL_BOSS);
-		statAll[1] = BangYouScreenActivity.getIntFromSharedPreferences(DataConstant.ALL_GOLD);
-		statAll[2] = BangYouScreenActivity.getIntFromSharedPreferences(DataConstant.ALL_DPS);
-		statAll[3] = BangYouScreenActivity.getIntFromSharedPreferences(DataConstant.ALL_GOOD);
-		statAll[4] = BangYouScreenActivity.getIntFromSharedPreferences(DataConstant.ALL_APPS);
+		statAll[0] = BangYouScreenActivity.getIntFromSharedPreferences(Constants.ALL_BOSS);
+		statAll[1] = BangYouScreenActivity.getIntFromSharedPreferences(Constants.ALL_GOLD);
+		statAll[2] = BangYouScreenActivity.getIntFromSharedPreferences(Constants.ALL_DPS);
+		statAll[3] = BangYouScreenActivity.getIntFromSharedPreferences(Constants.ALL_GOOD);
+		statAll[4] = BangYouScreenActivity.getIntFromSharedPreferences(Constants.ALL_APPS);
 		
 		Sprite[] infoArray = new Sprite[5];
 		for(int i=0; i<infoArray.length; i++){

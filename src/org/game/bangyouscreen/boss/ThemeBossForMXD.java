@@ -29,7 +29,7 @@ import org.game.bangyouscreen.scene.MainMenuScene;
 import org.game.bangyouscreen.scene.ThemeScene;
 import org.game.bangyouscreen.util.AnimatedButtonSprite;
 import org.game.bangyouscreen.util.AnimatedButtonSprite.OnClickListenerABS;
-import org.game.bangyouscreen.util.DataConstant;
+import org.game.bangyouscreen.util.Constants;
 import org.game.bangyouscreen.util.EntityUtil;
 
 /**
@@ -250,13 +250,13 @@ public class ThemeBossForMXD extends ManagedScene implements IScrollDetectorList
 	 private Rectangle getScensSlider(){
 		 bossPics = new AnimatedButtonSprite[ResourceManager.mxdBoss_TTRArray.length];
 		 Sprite[] bossBlackBG = new Sprite[bossPics.length];
-		 //Sprite[] bossInfo = new Sprite[bossPics.length];
+		 Sprite[] bossInfo = new Sprite[bossPics.length];
 		 float themeRWidth = mCameraWidth*bossPics.length;
 		 themeRInitX = themeRWidth/2f;
 		 Rectangle themeR = new Rectangle(themeRWidth/2f,mCameraHeight/2f,themeRWidth,
 				 mCameraHeight*(2f/3f),mVertexBufferObjectManager);
 		 themeR.setAlpha(0f);
-		 int themeSceneOneBossTotal = BangYouScreenActivity.getIntFromSharedPreferences(DataConstant.SHARED_PREFS_THEME_MXD);
+		 int themeSceneOneBossTotal = BangYouScreenActivity.getIntFromSharedPreferences(Constants.SHARED_PREFS_THEME_MXD);
 		 for(int i=0; i<ResourceManager.mxdBoss_TTRArray.length; i++){
 			 if( i < themeSceneOneBossTotal){
 				 if(isKO){
@@ -306,11 +306,11 @@ public class ThemeBossForMXD extends ManagedScene implements IScrollDetectorList
 				bossPics[i] = new AnimatedButtonSprite(0f, 0f,ResourceManager.mxdBoss_TTRArray[i], mVertexBufferObjectManager);
 				EntityUtil.setSize("height", 1f/2f, bossPics[i]);
 				//BOSS简介
-				//bossInfo[i] = new Sprite(0f, 0f,ResourceManager.mxdBoss_InfoTRArray[i], mVertexBufferObjectManager);
-				//EntityUtil.setSize("height", 1f/2f, bossInfo[i]);
+				bossInfo[i] = new Sprite(0f, 0f,ResourceManager.mxdBoss_InfoTRArray[i], mVertexBufferObjectManager);
+				EntityUtil.setSize("height", 1f/2f, bossInfo[i]);
 				if(i == 0){
 					bossPics[i].setPosition(mCameraWidth/4f, themeR.getHeight()/2f);
-					//bossInfo[i].setPosition(3f*mCameraWidth/4f, themeR.getHeight()/2f);
+					bossInfo[i].setPosition(3f*mCameraWidth/4f, themeR.getHeight()/2f);
 				}
 				if(i == 7){
 					long[] frameDur = new long[2];
@@ -326,31 +326,25 @@ public class ThemeBossForMXD extends ManagedScene implements IScrollDetectorList
 							float pTouchAreaLocalX, float pTouchAreaLocalY) {
 						SFXManager.getInstance().playSound("a_click");
 						SFXManager.getInstance().stopMusic();
-						SceneManager.getInstance().showScene(new GameLevel(DataConstant.getMXDBoss(mCurrentBoss),DataConstant.getPlayerModel()));
+						SceneManager.getInstance().showScene(new GameLevel(Constants.getMXDBoss(mCurrentBoss),Constants.getPlayerModel()));
 				}});
 				//BOSS图片和简介的位置
 				if(i > 0){
 					bossPics[i].setPosition(mCameraWidth+bossPics[i-1].getX(), themeR.getHeight()/2f);
-					//bossInfo[i].setPosition(mCameraWidth+bossInfo[i-1].getX(), themeR.getHeight()/2f);
+					bossInfo[i].setPosition(mCameraWidth+bossInfo[i-1].getX(), themeR.getHeight()/2f);
 				}
 				themeR.attachChild(bossPics[i]);
 				registerTouchArea(bossPics[i]);
-				//themeR.attachChild(bossInfo[i]);
+				themeR.attachChild(bossInfo[i]);
 			 }else{
+				//未开启的BOSS
 				bossBlackBG[i] = new Sprite(0f,0f,ResourceManager.bossBlackBG.getTextureRegion(i),mVertexBufferObjectManager);
 				EntityUtil.setSize("height", 1f/2f, bossBlackBG[i]); 
 				bossBlackBG[i].setPosition(mCameraWidth*(i+1f/4f), themeR.getHeight()/2f);
-				
-				switch (i) {
-				case 0:
-					
-					break;
-
-				case 1:
-					
-					break;
-				}
 				themeR.attachChild(bossBlackBG[i]);
+				
+				
+				
 			 }
 		 }
 		 

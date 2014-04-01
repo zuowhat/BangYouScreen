@@ -25,7 +25,7 @@ import org.game.bangyouscreen.managers.ResourceManager;
 import org.game.bangyouscreen.managers.SFXManager;
 import org.game.bangyouscreen.util.AnimatedButtonSprite;
 import org.game.bangyouscreen.util.AnimatedButtonSprite.OnClickListenerABS;
-import org.game.bangyouscreen.util.DataConstant;
+import org.game.bangyouscreen.util.Constants;
 import org.game.bangyouscreen.util.EntityUtil;
 import org.game.bangyouscreen.util.GameNumberUtil;
 
@@ -91,9 +91,9 @@ public class ShopScene extends ManagedScene implements IScrollDetectorListener{
 
 	@Override
 	public void onLoadScene() {
-		weaponPotionNum = BangYouScreenActivity.getIntFromSharedPreferences(DataConstant.Prop_BUY+0);
-		magicPotionNum = BangYouScreenActivity.getIntFromSharedPreferences(DataConstant.Prop_BUY+1);
-		clockNum = BangYouScreenActivity.getIntFromSharedPreferences(DataConstant.Prop_BUY+2);
+		weaponPotionNum = BangYouScreenActivity.getIntFromSharedPreferences(Constants.Prop_BUY+0);
+		magicPotionNum = BangYouScreenActivity.getIntFromSharedPreferences(Constants.Prop_BUY+1);
+		clockNum = BangYouScreenActivity.getIntFromSharedPreferences(Constants.Prop_BUY+2);
 		currentWeapon = BangYouScreenActivity.getWeaponFromSharedPreferences();
 		currentMagic =BangYouScreenActivity.getMagicFromSharedPreferences();
 		//myGold = BangYouScreenActivity.getGoldFromSharedPreferences();
@@ -263,8 +263,8 @@ public class ShopScene extends ManagedScene implements IScrollDetectorListener{
 		clockSprite.setSize(goldSprite.getWidth(), goldSprite.getHeight());
 		clockSprite.setPosition(goldSprite.getX()+2*goldSprite.getWidth(), goldSprite.getY());
 		propTopBG.attachChild(clockSprite);
-		mGameNumber.addGoodsNumInShopScene(DataConstant.PROP_NAME,propTopBG, clockSprite);
-		mGameNumber.updateGoodsNum(DataConstant.PROP_NAME,clockNum);
+		mGameNumber.addGoodsNumInShopScene(Constants.PROP_NAME,propTopBG, clockSprite);
+		mGameNumber.updateGoodsNum(Constants.PROP_NAME,clockNum);
 		
 		//底部云
 		propBottomBG = new Sprite(0f,0f,ResourceManager.shopPropBG.getTextureRegion(1),mVertexBufferObjectManager);
@@ -279,21 +279,21 @@ public class ShopScene extends ManagedScene implements IScrollDetectorListener{
 		weaponPotion.setSize(goldSprite.getWidth(), goldSprite.getHeight());
 		weaponPotion.setPosition(propBottomBG.getWidth()*(2f/8f), propBottomBG.getHeight()*(1f/3f));
 		propBottomBG.attachChild(weaponPotion);
-		mGameNumber.addGoodsNumInShopScene(DataConstant.WEAPON_NAME,propBottomBG, weaponPotion);
-		mGameNumber.updateGoodsNum(DataConstant.WEAPON_NAME,weaponPotionNum);
+		mGameNumber.addGoodsNumInShopScene(Constants.WEAPON_NAME,propBottomBG, weaponPotion);
+		mGameNumber.updateGoodsNum(Constants.WEAPON_NAME,weaponPotionNum);
 		
 		//蓝色冰魄
 		Sprite magicPotion = new Sprite(0f,0f,ResourceManager.propsTTR.getTextureRegion(1),mVertexBufferObjectManager);
 		magicPotion.setSize(goldSprite.getWidth(), goldSprite.getHeight());
 		magicPotion.setPosition(propBottomBG.getWidth()*(5f/8f), propBottomBG.getHeight()*(1f/3f));
 		propBottomBG.attachChild(magicPotion);
-		mGameNumber.addGoodsNumInShopScene(DataConstant.MAGIC_NAME,propBottomBG, magicPotion);
-		mGameNumber.updateGoodsNum(DataConstant.MAGIC_NAME,magicPotionNum);
+		mGameNumber.addGoodsNumInShopScene(Constants.MAGIC_NAME,propBottomBG, magicPotion);
+		mGameNumber.updateGoodsNum(Constants.MAGIC_NAME,magicPotionNum);
 		
 		
-		addInfoBGByType(DataConstant.WEAPON_NAME,weaponInfoBG,weaponInfoBG_S,DataConstant.WEAPON_NUM);
-		addInfoBGByType(DataConstant.MAGIC_NAME,magicInfoBG,magicInfoBG_S,DataConstant.MAGIC_NUM);
-		addInfoBGByType(DataConstant.PROP_NAME,propsInfoBG,propsInfoBG_S,DataConstant.PROP_NUM);
+		addInfoBGByType(Constants.WEAPON_NAME,weaponInfoBG,weaponInfoBG_S,Constants.WEAPON_NUM);
+		addInfoBGByType(Constants.MAGIC_NAME,magicInfoBG,magicInfoBG_S,Constants.MAGIC_NUM);
+		addInfoBGByType(Constants.PROP_NAME,propsInfoBG,propsInfoBG_S,Constants.PROP_NUM);
 		attachChild(shopMenuBG);
 	}
 	
@@ -338,7 +338,7 @@ public class ShopScene extends ManagedScene implements IScrollDetectorListener{
 			infoBG_S.attachChild(infoArray[i]);
 		}
 		
-		if(DataConstant.WEAPON_NAME.equals(type)){
+		if(Constants.WEAPON_NAME.equals(type)){
 			infoBG.registerEntityModifier(new MoveModifier(0.5f, infoBG.getX(), infoBG.getY(),
 					mCameraWidth-infoBG.getWidth()/2f, infoBG.getY(), EaseElasticInOut.getInstance()));
 			infoBG_S.registerEntityModifier(new MoveModifier(0.5f, infoBG_S.getX(), infoBG_S.getY(),
@@ -346,9 +346,9 @@ public class ShopScene extends ManagedScene implements IScrollDetectorListener{
 			currentInfoBG = infoBG;
 			currentInfoBG_S = infoBG_S;
 			addInfoByType(type,infoArray,ResourceManager.weaponInfosTTR);
-		}else if(DataConstant.MAGIC_NAME.equals(type)){
+		}else if(Constants.MAGIC_NAME.equals(type)){
 			addInfoByType(type,infoArray,ResourceManager.magicInfosTTR);
-		}else if(DataConstant.PROP_NAME.equals(type)){
+		}else if(Constants.PROP_NAME.equals(type)){
 			addInfoByType(type,infoArray,ResourceManager.propInfosTTR);
 		}
 		
@@ -373,8 +373,8 @@ public class ShopScene extends ManagedScene implements IScrollDetectorListener{
 			
 			//购买或装备
 			boolean isBuy;
-			if(DataConstant.WEAPON_NAME.equals(type)){
-				isBuy = BangYouScreenActivity.getBooleanFromSharedPreferences(DataConstant.WEAPON_BUY+i);
+			if(Constants.WEAPON_NAME.equals(type)){
+				isBuy = BangYouScreenActivity.getBooleanFromSharedPreferences(Constants.WEAPON_BUY+i);
 				if(currentWeapon == i){
 					EntityUtil.setSizeInParent("height", 3f/5f, isUseWeaponSprite, infoSpriteArray[i]);
 					isUseWeaponSprite.setPosition(infoSpriteArray[i].getWidth()/2f, infoSpriteArray[i].getHeight()/2f);
@@ -383,8 +383,8 @@ public class ShopScene extends ManagedScene implements IScrollDetectorListener{
 					}
 					infoSpriteArray[i].attachChild(isUseWeaponSprite);
 				}
-			}else if(DataConstant.MAGIC_NAME.equals(type)){
-				isBuy = BangYouScreenActivity.getBooleanFromSharedPreferences(DataConstant.MAGIC_BUY+i);
+			}else if(Constants.MAGIC_NAME.equals(type)){
+				isBuy = BangYouScreenActivity.getBooleanFromSharedPreferences(Constants.MAGIC_BUY+i);
 				if(currentMagic == i){
 					EntityUtil.setSizeInParent("height", 3f/5f, isUseMagicSprite, infoSpriteArray[i]);
 					isUseMagicSprite.setPosition(infoSpriteArray[i].getWidth()/2f, infoSpriteArray[i].getHeight()/2f);
@@ -404,12 +404,12 @@ public class ShopScene extends ManagedScene implements IScrollDetectorListener{
 			}else{
 				//购买
 				final int goodsPrice;//物品价格
-				if(DataConstant.WEAPON_NAME.equals(type)){
-					goodsPrice = DataConstant.weaponPrice[i];
-				}else if(DataConstant.MAGIC_NAME.equals(type)){
-					goodsPrice = DataConstant.magicPrice[i];
+				if(Constants.WEAPON_NAME.equals(type)){
+					goodsPrice = Constants.weaponPrice[i];
+				}else if(Constants.MAGIC_NAME.equals(type)){
+					goodsPrice = Constants.magicPrice[i];
 				}else{
-					goodsPrice = DataConstant.propPrice[i];
+					goodsPrice = Constants.propPrice[i];
 				}
 				final int goodsNum = i;
 				s1 = new AnimatedButtonSprite(0f,0f,ResourceManager.buyOrUse,mVertexBufferObjectManager);
@@ -425,33 +425,33 @@ public class ShopScene extends ManagedScene implements IScrollDetectorListener{
 								mGameNumber.addGoldToLayer(propTopBG, myGold);
 								//BangYouScreenActivity.writeIntToSharedPreferences(DataConstant.MY_GOLD, myGold);
 								PointsManager.getInstance(ResourceManager.getActivity()).spendPoints(goodsPrice);
-								int goodNumTemp = BangYouScreenActivity.getIntFromSharedPreferences(DataConstant.ALL_GOOD);
-								if(DataConstant.WEAPON_NAME.equals(type)){
+								int goodNumTemp = BangYouScreenActivity.getIntFromSharedPreferences(Constants.ALL_GOOD);
+								if(Constants.WEAPON_NAME.equals(type)){
 									goodNumTemp++;
-									BangYouScreenActivity.writeBooleanToSharedPreferences(DataConstant.WEAPON_BUY+goodsNum, true);
+									BangYouScreenActivity.writeBooleanToSharedPreferences(Constants.WEAPON_BUY+goodsNum, true);
 									useGoods(type,pButtonSprite,goodsNum);
-								}else if(DataConstant.MAGIC_NAME.equals(type)){
+								}else if(Constants.MAGIC_NAME.equals(type)){
 									goodNumTemp++;
-									BangYouScreenActivity.writeBooleanToSharedPreferences(DataConstant.MAGIC_BUY+goodsNum, true);
+									BangYouScreenActivity.writeBooleanToSharedPreferences(Constants.MAGIC_BUY+goodsNum, true);
 									useGoods(type,pButtonSprite,goodsNum);
-								}else if(DataConstant.PROP_NAME.equals(type)){
+								}else if(Constants.PROP_NAME.equals(type)){
 									//购买道具
 									if(goodsNum == 0){
 										weaponPotionNum++;
-										mGameNumber.updateGoodsNum(DataConstant.WEAPON_NAME,weaponPotionNum);
-										BangYouScreenActivity.writeIntToSharedPreferences(DataConstant.Prop_BUY+0, weaponPotionNum);
+										mGameNumber.updateGoodsNum(Constants.WEAPON_NAME,weaponPotionNum);
+										BangYouScreenActivity.writeIntToSharedPreferences(Constants.Prop_BUY+0, weaponPotionNum);
 									}else if(goodsNum == 1){
 										magicPotionNum++;
-										mGameNumber.updateGoodsNum(DataConstant.MAGIC_NAME,magicPotionNum);
-										BangYouScreenActivity.writeIntToSharedPreferences(DataConstant.Prop_BUY+1, magicPotionNum);
+										mGameNumber.updateGoodsNum(Constants.MAGIC_NAME,magicPotionNum);
+										BangYouScreenActivity.writeIntToSharedPreferences(Constants.Prop_BUY+1, magicPotionNum);
 									}else if(goodsNum == 2){
 										clockNum++;
-										mGameNumber.updateGoodsNum(DataConstant.PROP_NAME,clockNum);
-										BangYouScreenActivity.writeIntToSharedPreferences(DataConstant.Prop_BUY+2, clockNum);
+										mGameNumber.updateGoodsNum(Constants.PROP_NAME,clockNum);
+										BangYouScreenActivity.writeIntToSharedPreferences(Constants.Prop_BUY+2, clockNum);
 									}
 									
 								}
-								BangYouScreenActivity.writeIntToSharedPreferences(DataConstant.ALL_GOOD, goodNumTemp);
+								BangYouScreenActivity.writeIntToSharedPreferences(Constants.ALL_GOOD, goodNumTemp);
 							}else{
 								//不能购买的音效
 								SFXManager.getInstance().playSound("s_nomoney");
@@ -482,11 +482,11 @@ public class ShopScene extends ManagedScene implements IScrollDetectorListener{
 					float pTouchAreaLocalX, float pTouchAreaLocalY) {
 					SFXManager.getInstance().playSound("a_click");
 					Sprite isUseSprite;
-					if(DataConstant.WEAPON_NAME.equals(type)){
-						BangYouScreenActivity.writeIntToSharedPreferences(DataConstant.CURRENT_WEAPON, goodsNum);
+					if(Constants.WEAPON_NAME.equals(type)){
+						BangYouScreenActivity.writeIntToSharedPreferences(Constants.CURRENT_WEAPON, goodsNum);
 						isUseSprite = isUseWeaponSprite;
 					}else{
-						BangYouScreenActivity.writeIntToSharedPreferences(DataConstant.CURRENT_MAGIC, goodsNum);
+						BangYouScreenActivity.writeIntToSharedPreferences(Constants.CURRENT_MAGIC, goodsNum);
 						isUseSprite = isUseMagicSprite;
 					}
 					if(isUseSprite.hasParent()){

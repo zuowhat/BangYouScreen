@@ -35,7 +35,7 @@ import org.game.bangyouscreen.managers.SFXManager;
 import org.game.bangyouscreen.managers.SceneManager;
 import org.game.bangyouscreen.share.sinaSDK.SinaWeiboUtil;
 import org.game.bangyouscreen.share.tencentSDK.TencentWeiboUtil;
-import org.game.bangyouscreen.util.DataConstant;
+import org.game.bangyouscreen.util.Constants;
 import org.game.bangyouscreen.util.EntityUtil;
 import org.game.bangyouscreen.util.GameNumberUtil;
 import org.game.bangyouscreen.util.GameTimer;
@@ -57,7 +57,7 @@ public class FingerScene extends ManagedScene{
 	private AnimatedSprite submarineAS;
 	private float upHeight = 0f;
 	private GameTimer mGameTime;
-	private float gameTime = DataConstant.GAMETIME_INIT;//初始游戏时间
+	private float gameTime = Constants.GAMETIME_INIT;//初始游戏时间
 	private ButtonSprite greenButtonBS;
 	private ButtonSprite redButtonBS;
 	private boolean mTenSeconds = false;
@@ -163,7 +163,7 @@ public class FingerScene extends ManagedScene{
 		highFont.setPosition(5f+highFont.getWidth()/2f, mCameraHeight-highFont.getHeight());
 		attachChild(highFont);
 		//当前最高得分
-		currentHighestScore = BangYouScreenActivity.getIntFromSharedPreferences(DataConstant.FINGER_HIGHESTSCORE);
+		currentHighestScore = BangYouScreenActivity.getIntFromSharedPreferences(Constants.FINGER_HIGHESTSCORE);
 		AnimatedSprite[] highestScoreAS = mGameNumber.fingerHighestScore(this, highFont, currentHighestScore);
 		Sprite highestScoreM = new Sprite(0f,0f,ResourceManager.mPic,mVertexBufferObjectManager);
 		highestScoreM.setSize(highestScoreAS[2].getHeight()*4f/7f, highestScoreAS[2].getHeight()*2f/3f);
@@ -293,7 +293,7 @@ public class FingerScene extends ManagedScene{
 			@Override
 			public void onModifierFinished(IModifier<IEntity> pModifier, IEntity pItem) {
 				if(upHeight > currentHighestScore){
-					BangYouScreenActivity.writeIntToSharedPreferences(DataConstant.FINGER_HIGHESTSCORE, Math.round(upHeight));
+					BangYouScreenActivity.writeIntToSharedPreferences(Constants.FINGER_HIGHESTSCORE, Math.round(upHeight));
 					//打破记录后的效果
 					Sprite highestPic = new Sprite(pItem.getX()+pItem.getWidth()/2f,pItem.getY()+pItem.getHeight()/2f-(pItem.getHeight()*40f/138f),ResourceManager.highScorePic,mVertexBufferObjectManager);
 					EntityUtil.setSizeInParent("height", 8f/27f, highestPic, fadableBGRect);
@@ -530,7 +530,7 @@ public class FingerScene extends ManagedScene{
 	private void screenShot(){
 		ScreenCapture screenCapture = new ScreenCapture();
 		attachChild(screenCapture);
-		final String path = FileUtils.getAbsolutePathOnExternalStorage(ResourceManager.getInstance().activity, DataConstant.SCREENCAPTURE);
+		final String path = FileUtils.getAbsolutePathOnExternalStorage(ResourceManager.getInstance().activity, Constants.SCREENCAPTURE);
 		int viewWidth = ResourceManager.getInstance().screenWidth;
 	    int viewHeight = ResourceManager.getInstance().screenHeight;
 		int cx = Math.round((fingerScoreBG.getX()-fingerScoreBG.getWidth()/2f)*viewWidth/mCameraWidth);

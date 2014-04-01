@@ -1,7 +1,7 @@
 package org.game.bangyouscreen.share.tencentSDK;
 
 import org.game.bangyouscreen.managers.ResourceManager;
-import org.game.bangyouscreen.util.DataConstant;
+import org.game.bangyouscreen.util.Constants;
 
 import android.content.Context;
 import android.content.Intent;
@@ -122,7 +122,7 @@ public class TencentWeiboUtil {
 		WeiboAPI weiboAPI = new WeiboAPI(account);
 		try{
 			//Bitmap bm = BitmapFactory.decodeStream(context.getAssets().open("logo.png"));//BitmapFactory.decodeFile(pic);
-			weiboAPI.addPic(context, DataConstant.weiboText, requestFormat, longitude, latitude, bitmap, 0, 0, mCallBack, null, BaseVO.TYPE_JSON);	
+			weiboAPI.addPic(context, Constants.weiboText, requestFormat, longitude, latitude, bitmap, 0, 0, mCallBack, null, BaseVO.TYPE_JSON);	
 		}catch(Exception e){
 			e.printStackTrace();
 		}

@@ -12,7 +12,7 @@ import org.game.bangyouscreen.managers.ManagedScene;
 import org.game.bangyouscreen.managers.ResourceManager;
 import org.game.bangyouscreen.managers.SFXManager;
 import org.game.bangyouscreen.managers.SceneManager;
-import org.game.bangyouscreen.util.DataConstant;
+import org.game.bangyouscreen.util.Constants;
 import org.game.bangyouscreen.util.EntityUtil;
 import android.widget.Toast;
 
@@ -60,18 +60,18 @@ public class TestDataScene extends ManagedScene{
 	@Override
 	public void onLoadScene() {
 		ResourceManager.getInstance().loadTestResources();
-		boss_hp = BangYouScreenActivity.getIntFromSharedPreferences(DataConstant.TEST_BOSSHP);
-		boss_type = BangYouScreenActivity.getIntFromSharedPreferences(DataConstant.TEST_BOSSTYPE);
-		boss_maxdef = BangYouScreenActivity.getIntFromSharedPreferences(DataConstant.TEST_BOSSMAXDEF);
-		boss_mindef = BangYouScreenActivity.getIntFromSharedPreferences(DataConstant.TEST_BOSSMINDEF);
+		boss_hp = BangYouScreenActivity.getIntFromSharedPreferences(Constants.TEST_BOSSHP);
+		boss_type = BangYouScreenActivity.getIntFromSharedPreferences(Constants.TEST_BOSSTYPE);
+		boss_maxdef = BangYouScreenActivity.getIntFromSharedPreferences(Constants.TEST_BOSSMAXDEF);
+		boss_mindef = BangYouScreenActivity.getIntFromSharedPreferences(Constants.TEST_BOSSMINDEF);
 		
-		weapon_type = BangYouScreenActivity.getIntFromSharedPreferences(DataConstant.TEST_WEAPONTYPE);
-		weapon_maxdps = BangYouScreenActivity.getIntFromSharedPreferences(DataConstant.TEST_WEAPONMAXDPS);
-		weapon_mindps = BangYouScreenActivity.getIntFromSharedPreferences(DataConstant.TEST_WEAPONMINDPS);
+		weapon_type = BangYouScreenActivity.getIntFromSharedPreferences(Constants.TEST_WEAPONTYPE);
+		weapon_maxdps = BangYouScreenActivity.getIntFromSharedPreferences(Constants.TEST_WEAPONMAXDPS);
+		weapon_mindps = BangYouScreenActivity.getIntFromSharedPreferences(Constants.TEST_WEAPONMINDPS);
 		
-		magic_type = BangYouScreenActivity.getIntFromSharedPreferences(DataConstant.TEST_MAGICTYPE);
-		magic_maxaoe = BangYouScreenActivity.getIntFromSharedPreferences(DataConstant.TEST_MAGICMAXAOE);
-		magic_minaoe = BangYouScreenActivity.getIntFromSharedPreferences(DataConstant.TEST_MAGICMINAOE);
+		magic_type = BangYouScreenActivity.getIntFromSharedPreferences(Constants.TEST_MAGICTYPE);
+		magic_maxaoe = BangYouScreenActivity.getIntFromSharedPreferences(Constants.TEST_MAGICMAXAOE);
+		magic_minaoe = BangYouScreenActivity.getIntFromSharedPreferences(Constants.TEST_MAGICMINAOE);
 		
 		gold = PointsManager.getInstance(ResourceManager.getActivity()).queryPoints();
 		
@@ -126,18 +126,18 @@ public class TestDataScene extends ManagedScene{
 			@Override
 			public void onClick(ButtonSprite pButtonSprite, float pTouchAreaLocalX, float pTouchAreaLocalY) {
 				SFXManager.getInstance().playSound("a_click");
-				BangYouScreenActivity.writeIntToSharedPreferences(DataConstant.TEST_BOSSHP, boss_hp);
-				BangYouScreenActivity.writeIntToSharedPreferences(DataConstant.TEST_BOSSTYPE, boss_type);
-				BangYouScreenActivity.writeIntToSharedPreferences(DataConstant.TEST_BOSSMAXDEF, boss_maxdef);
-				BangYouScreenActivity.writeIntToSharedPreferences(DataConstant.TEST_BOSSMINDEF, boss_mindef);
+				BangYouScreenActivity.writeIntToSharedPreferences(Constants.TEST_BOSSHP, boss_hp);
+				BangYouScreenActivity.writeIntToSharedPreferences(Constants.TEST_BOSSTYPE, boss_type);
+				BangYouScreenActivity.writeIntToSharedPreferences(Constants.TEST_BOSSMAXDEF, boss_maxdef);
+				BangYouScreenActivity.writeIntToSharedPreferences(Constants.TEST_BOSSMINDEF, boss_mindef);
 				
-				BangYouScreenActivity.writeIntToSharedPreferences(DataConstant.TEST_WEAPONTYPE, weapon_type);
-				BangYouScreenActivity.writeIntToSharedPreferences(DataConstant.TEST_WEAPONMAXDPS, weapon_maxdps);
-				BangYouScreenActivity.writeIntToSharedPreferences(DataConstant.TEST_WEAPONMINDPS, weapon_mindps);
+				BangYouScreenActivity.writeIntToSharedPreferences(Constants.TEST_WEAPONTYPE, weapon_type);
+				BangYouScreenActivity.writeIntToSharedPreferences(Constants.TEST_WEAPONMAXDPS, weapon_maxdps);
+				BangYouScreenActivity.writeIntToSharedPreferences(Constants.TEST_WEAPONMINDPS, weapon_mindps);
 				
-				BangYouScreenActivity.writeIntToSharedPreferences(DataConstant.TEST_MAGICTYPE, magic_type);
-				BangYouScreenActivity.writeIntToSharedPreferences(DataConstant.TEST_MAGICMAXAOE, magic_maxaoe);
-				BangYouScreenActivity.writeIntToSharedPreferences(DataConstant.TEST_MAGICMINAOE, magic_minaoe);
+				BangYouScreenActivity.writeIntToSharedPreferences(Constants.TEST_MAGICTYPE, magic_type);
+				BangYouScreenActivity.writeIntToSharedPreferences(Constants.TEST_MAGICMAXAOE, magic_maxaoe);
+				BangYouScreenActivity.writeIntToSharedPreferences(Constants.TEST_MAGICMINAOE, magic_minaoe);
 				
 				ResourceManager.getActivity().toastOnUiThread("保存成功!", Toast.LENGTH_SHORT);
 			}
