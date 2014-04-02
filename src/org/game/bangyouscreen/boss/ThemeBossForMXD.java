@@ -298,7 +298,7 @@ public class ThemeBossForMXD extends ManagedScene implements IScrollDetectorList
 					//KO标志
 					 Sprite s = new Sprite(0f,0f,ResourceManager.ko,mVertexBufferObjectManager);
 					 EntityUtil.setSize("width", 1f/4f, s);
-					 s.setPosition((i+1f/2f)*mCameraWidth, themeR.getHeight()/2f);
+					 s.setPosition((i+1f/2f)*mCameraWidth, mCameraHeight-s.getHeight());
 					 themeR.attachChild(s);
 				 }
 			 }
