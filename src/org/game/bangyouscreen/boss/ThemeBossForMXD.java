@@ -51,6 +51,8 @@ public class ThemeBossForMXD extends ManagedScene implements IScrollDetectorList
 	private static boolean isKO;
 	private Rectangle mBossSlider;
 	private AnimatedButtonSprite[] bossPics;
+	private ButtonSprite arrowLeftSprite;
+	private ButtonSprite arrowRightSprite;
 	
 	
 	public static ThemeBossForMXD getInstance(boolean tempIsKO, int tempCurrentBoss){
@@ -83,18 +85,6 @@ public class ThemeBossForMXD extends ManagedScene implements IScrollDetectorList
 		themeBGSprite.setZIndex(-90);
 		attachChild(themeBGSprite);
 		
-		if(mScrollDetector == null){
-			mScrollDetector = new SurfaceScrollDetector(this);
-		}
-		mScrollDetector.setTriggerScrollMinimumDistance(10f);
-		mBossSlider = getScensSlider();
-		attachChild(mBossSlider);
-		if(isKO){
-			themeRInitX = themeRInitX - mCameraWidth*(mCurrentBoss-1);
-			//mBossSlider.registerEntityModifier(new MoveXModifier(0.3F, mBossSlider.getX(), themeRInitX));
-			mBossSlider.setX(themeRInitX);
-		}
-		
 		//后退按钮
 		ButtonSprite backBS = new ButtonSprite(0f,0f,ResourceManager.backTR,mVertexBufferObjectManager);
 		EntityUtil.setSize("height", 1f / 8f, backBS);
@@ -126,7 +116,7 @@ public class ThemeBossForMXD extends ManagedScene implements IScrollDetectorList
 		registerTouchArea(homeBS);
 		
 		//向左箭头
-		ButtonSprite arrowLeftSprite = new ButtonSprite(0f,0f,ResourceManager.arrowLRTTR.getTextureRegion(0),mVertexBufferObjectManager);
+		arrowLeftSprite = new ButtonSprite(0f,0f,ResourceManager.arrowLRTTR.getTextureRegion(0),mVertexBufferObjectManager);
 		EntityUtil.setSize("height", 1f/8f, arrowLeftSprite);
 		arrowLeftSprite.setPosition(backBS.getX(), mCameraHeight/2f);
 		attachChild(arrowLeftSprite);
@@ -147,7 +137,7 @@ public class ThemeBossForMXD extends ManagedScene implements IScrollDetectorList
 		});
 		registerTouchArea(arrowLeftSprite);
 		//向右箭头
-		ButtonSprite arrowRightSprite = new ButtonSprite(0f,0f,ResourceManager.arrowLRTTR.getTextureRegion(1),mVertexBufferObjectManager);
+		arrowRightSprite = new ButtonSprite(0f,0f,ResourceManager.arrowLRTTR.getTextureRegion(1),mVertexBufferObjectManager);
 		arrowRightSprite.setSize(arrowLeftSprite.getWidth(), arrowLeftSprite.getHeight());
 		arrowRightSprite.setPosition(homeBS.getX(), mCameraHeight/2f);
 		attachChild(arrowRightSprite);
@@ -167,6 +157,18 @@ public class ThemeBossForMXD extends ManagedScene implements IScrollDetectorList
 			}
 		});
 		registerTouchArea(arrowRightSprite);
+		
+		if(mScrollDetector == null){
+			mScrollDetector = new SurfaceScrollDetector(this);
+		}
+		mScrollDetector.setTriggerScrollMinimumDistance(10f);
+		mBossSlider = getScensSlider();
+		attachChild(mBossSlider);
+		if(isKO){
+			themeRInitX = themeRInitX - mCameraWidth*(mCurrentBoss-1);
+			//mBossSlider.registerEntityModifier(new MoveXModifier(0.3F, mBossSlider.getX(), themeRInitX));
+			mBossSlider.setX(themeRInitX);
+		}
 	}
 
 	@Override
@@ -309,8 +311,10 @@ public class ThemeBossForMXD extends ManagedScene implements IScrollDetectorList
 				bossInfo[i] = new Sprite(0f, 0f,ResourceManager.mxdBoss_InfoTRArray[i], mVertexBufferObjectManager);
 				EntityUtil.setSize("height", 1f/2f, bossInfo[i]);
 				if(i == 0){
-					bossPics[i].setPosition(mCameraWidth/4f, themeR.getHeight()/2f);
-					bossInfo[i].setPosition(3f*mCameraWidth/4f, themeR.getHeight()/2f);
+//					bossPics[i].setPosition(mCameraWidth/4f, themeR.getHeight()/2f);
+//					bossInfo[i].setPosition(3f*mCameraWidth/4f, themeR.getHeight()/2f);
+					bossPics[i].setPosition(arrowLeftSprite.getX()+arrowLeftSprite.getWidth()*3f/2f+bossPics[i].getWidth()/2f, themeR.getHeight()/2f);
+					bossInfo[i].setPosition(arrowRightSprite.getX()-arrowRightSprite.getWidth()*3f/2f-bossInfo[i].getWidth()/2f, themeR.getHeight()/2f);
 				}
 				if(i == 7){
 					long[] frameDur = new long[2];
@@ -343,16 +347,15 @@ public class ThemeBossForMXD extends ManagedScene implements IScrollDetectorList
 				bossBlackBG[i].setPosition(mCameraWidth*(i+1f/4f), themeR.getHeight()/2f);
 				themeR.attachChild(bossBlackBG[i]);
 				
-				
+				//未开启BOSS的简介
+				Sprite weizhiSprite = new Sprite(0f,0f,ResourceManager.weizhi,mVertexBufferObjectManager);
+				EntityUtil.setSize("height", 1f/2f, weizhiSprite);
+				weizhiSprite.setPosition(mCameraWidth*(i+1)-10f-arrowRightSprite.getWidth()/2f-arrowRightSprite.getWidth()*3f/2f-weizhiSprite.getWidth()/2f, themeR.getHeight()/2f);
+				themeR.attachChild(weizhiSprite);
 				
 			 }
 		 }
-		 
-		 
 		 return themeR;
 	 }
-	 
-	 
-	 
 	 
 }

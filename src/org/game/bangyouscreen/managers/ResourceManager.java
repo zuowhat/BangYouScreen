@@ -58,8 +58,8 @@ public class ResourceManager extends Object{
 	public static TiledTextureRegion redButtonTTR;
 	public static TextureRegion xue1;
 	public static TextureRegion xue2;
-	public static TextureRegion theme1Temp;
-	public static TextureRegion theme2Temp;
+	public static TextureRegion theme1;
+	public static TextureRegion theme2;
 	public static TextureRegion themeBG;
 	public static TextureRegion loadingBG;
 	public static TextureRegion loadingBG1;
@@ -117,6 +117,7 @@ public class ResourceManager extends Object{
 	public static TextureRegion ko;
 	public static TextureRegion sinaLogo;
 	public static TextureRegion tencentLogo;
+	public static TextureRegion weizhi;
 	
 	//***************测试资源 start ********************//
 	public static TiledTextureRegion test_addOrSubtract;
@@ -363,11 +364,11 @@ public class ResourceManager extends Object{
 		if(backTR == null){
 			backTR = getLimitableTR("back.png",mNormalTextureOption);
 		}
-		if(theme1Temp == null){
-			theme1Temp = getLimitableTR("theme1.jpg",mNormalTextureOption);
+		if(theme1 == null){
+			theme1 = getLimitableTR("theme1.png",mNormalTextureOption);
 		}
-		if(theme2Temp == null){
-			theme2Temp = getLimitableTR("theme2.jpg",mNormalTextureOption);
+		if(theme2 == null){
+			theme2 = getLimitableTR("theme2.png",mNormalTextureOption);
 		}
 		if(themeBG == null){
 			themeBG = getLimitableTR("themeBG.png",mNormalTextureOption);
@@ -377,6 +378,9 @@ public class ResourceManager extends Object{
 		}
 		if(ko == null){
 			ko = getLimitableTR("ko.png",mNormalTextureOption);
+		}
+		if(weizhi == null){
+			weizhi = getLimitableTR("weizhi.png",mNormalTextureOption);
 		}
 		BitmapTextureAtlasTextureRegionFactory.setAssetBasePath(mPreviousAssetBasePath);
 	}
@@ -442,7 +446,7 @@ public class ResourceManager extends Object{
 			if(i < Constants.THEME_1_BOSS_NUM){
 				if(mxdBoss_TTRArray[i] == null){
 					String bossTexture = "boss1" + i + ".png";
-					String bossInfo = "infoboss1" + i + ".jpg";
+					String bossInfo = "infoboss1" + i + ".png";
 					mxdBoss_InfoTRArray[i] = getLimitableTR(bossInfo,mNormalTextureOption);
 					String gameBG = "gameBG_"+i+".jpg";
 					mxdBoss_GameBG[i] = getLimitableTR(gameBG,mNormalTextureOption);

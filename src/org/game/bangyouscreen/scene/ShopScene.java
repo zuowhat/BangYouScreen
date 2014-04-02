@@ -204,7 +204,7 @@ public class ShopScene extends ManagedScene implements IScrollDetectorListener{
 				currentFontBS = magicFontBS;	
 				currentInfoBG = magicInfoBG;
 				currentInfoBG_S = magicInfoBG_S;
-				isTouch = true;
+				isTouch = false;
 			}
 		});
 		registerTouchArea(magicFontBS);
@@ -462,8 +462,6 @@ public class ShopScene extends ManagedScene implements IScrollDetectorListener{
 			s1.setPosition((infoSpriteArray[i].getWidth()+s.getWidth())/2f, infoSpriteArray[i].getHeight()/2f);
 			infoSpriteArray[i].attachChild(s1);
 			registerTouchArea(s1);
-			
-			
 		}
 	}
 	

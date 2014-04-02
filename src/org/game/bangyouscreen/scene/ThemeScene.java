@@ -242,12 +242,13 @@ public class ThemeScene extends ManagedScene implements IScrollDetectorListener{
 		 float themeRWidth = mCameraWidth*themePics.length;
 		 themeRInitX = themeRWidth/2f;
 		 Rectangle themeR = new Rectangle(themeRWidth/2f,mCameraHeight/2f,themeRWidth,
-				 ResourceManager.theme1Temp.getHeight(),mVertexBufferObjectManager);
+				 ResourceManager.theme1.getHeight(),mVertexBufferObjectManager);
 		 themeR.setAlpha(0f);
 		 //冒险岛主题
-		 themePics[0] = new ButtonSprite(0f,0f,ResourceManager.theme1Temp,mVertexBufferObjectManager);
+		 themePics[0] = new ButtonSprite(0f,0f,ResourceManager.theme1,mVertexBufferObjectManager);
 		 themePics[0].setPosition(mCameraWidth/2f, themeR.getHeight()/2f);
-		 themePics[0].setSize(mCameraWidth/2f, mCameraHeight*(2f/3f));
+		 //themePics[0].setSize(mCameraWidth/2f, mCameraHeight*(2f/3f));
+		 EntityUtil.setSize("height", 2f/3f, themePics[0]);
 		 themeR.attachChild(themePics[0]);
 		 themePics[0].setOnClickListener(new OnClickListener(){
 				@Override
@@ -258,12 +259,11 @@ public class ThemeScene extends ManagedScene implements IScrollDetectorListener{
 			});
 			registerTouchArea(themePics[0]);
 		 
-		 
-		 
 		 //主题2
-		 themePics[1] = new ButtonSprite(0f,0f,ResourceManager.theme2Temp,mVertexBufferObjectManager);
+		 themePics[1] = new ButtonSprite(0f,0f,ResourceManager.theme2,mVertexBufferObjectManager);
 		 themePics[1].setPosition(themePics[0].getX()+mCameraWidth, themeR.getHeight()/2f);
-		 themePics[1].setSize(mCameraWidth/2f, mCameraHeight*(2f/3f));
+		 //themePics[1].setSize(mCameraWidth/2f, mCameraHeight*(2f/3f));
+		 EntityUtil.setSize("height", 2f/3f, themePics[1]);
 		 themeR.attachChild(themePics[1]);
 		 themePics[1].setOnClickListener(new OnClickListener(){
 				

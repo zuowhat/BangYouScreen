@@ -49,7 +49,7 @@ public class TencentWeiboUtil {
 				//如果当前设备没有安装腾讯微博客户端，走这里
 				@Override
 				public void onWeiBoNotInstalled() {
-					ResourceManager.getActivity().toastOnUiThread("onWeiBoNotInstalled", Toast.LENGTH_LONG);
+					ResourceManager.getActivity().toastOnUiThread("请先授权...", Toast.LENGTH_LONG);
 					AuthHelper.unregister(ResourceManager.getActivity());
 					Intent i = new Intent(ResourceManager.getActivity(),Authorize.class);
 					ResourceManager.getActivity().startActivity(i);
