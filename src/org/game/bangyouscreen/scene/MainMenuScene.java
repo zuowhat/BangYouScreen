@@ -72,7 +72,7 @@ public class MainMenuScene extends ManagedScene{
 		ResourceManager.loadMenuResources();
 		ResourceManager.setupForMenus();
 		SFXManager.getInstance().loadMusics(musics, ResourceManager.getActivity().getMusicManager(), ResourceManager.getActivity());
-		SFXManager.getInstance().loadSound("a_click", ResourceManager.getActivity().getSoundManager(), ResourceManager.getActivity());
+		
 		ResourceManager.loadThemeResources();
 		ResourceManager.loadBossResources();
 		ResourceManager.loadGameResources();

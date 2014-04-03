@@ -21,3 +21,5 @@
 -dontwarn net.youmi.android.**
 -keep class net.youmi.android.** {*;}
 -keep class com.sina.**{*;} 
+-keep class com.qq.e.** {public protected *;}   
+-keep class com.tencent.gdt.**{public protected *;}

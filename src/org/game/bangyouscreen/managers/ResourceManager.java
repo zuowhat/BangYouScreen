@@ -633,7 +633,7 @@ public class ResourceManager extends Object{
 		 //JMPManager manager = new JMPManager ();
 	   //  manager.startService(activity,1);
 		 //ShareSDK.initSDK(activity); 
-		 AdManager.getInstance(activity).init("46912f93a4a168af","1cd388ab8b458a36", true); 
+		 AdManager.getInstance(activity).init("46912f93a4a168af","1cd388ab8b458a36", false); 
 		 PointsManager.getInstance(activity).registerNotify(activity); 
 		 SpotManager.getInstance(activity).loadSpotAds();
 	 }

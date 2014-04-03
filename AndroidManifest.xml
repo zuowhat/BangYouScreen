@@ -17,7 +17,7 @@
 <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" /> 
 <uses-permission android:name="android.permission.MANAGE_ACCOUNTS"/>
 <uses-permission android:name="android.permission.GET_ACCOUNTS"/>
-
+<uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     
     <application
         android:icon="@drawable/ic_launcher"
@@ -67,9 +67,19 @@
         android:exported="false" >
     </receiver>
     
-   
+   <activity 
+            android:name="com.qq.e.ads.InterstitialAdActivity" 
+            android:configChanges="keyboard|keyboardHidden|orientation" 
+            android:theme="@android:style/Theme.Translucent.NoTitleBar" > 
+</activity> 
+<activity android:name="com.qq.e.ads.GdtBrowserActivity" > 
+</activity> 
+<service 
+            android:name="com.qq.e.comm.DownloadService" 
+            android:exported="false" > 
+</service> 
     
-
+<meta-data  android:name="GDT_AD_APPID"    android:value="1101283691" /> 
     
     
     

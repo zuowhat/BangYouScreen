@@ -102,16 +102,13 @@ public class SinaWeiboUtil {
         // 注册第三方应用到微博客户端中，注册成功后该应用将显示在微博的应用列表中。
         // 但该附件栏集成分享权限需要合作申请，详情请查看 Demo 提示
         // NOTE：请务必提前注册，即界面初始化的时候或是应用程序初始化时，进行注册
-        mWeiboShareAPI.registerApp();
+        //mWeiboShareAPI.registerApp();
         
         // 如果未安装微博客户端，设置下载微博对应的回调
         if (!mWeiboShareAPI.isWeiboAppInstalled()) {
             mWeiboShareAPI.registerWeiboDownloadListener(new IWeiboDownloadListener() {
                 @Override
                 public void onCancel() {
-//                    Toast.makeText(BangYouScreenActivity.this, 
-//                            R.string.weibosdk_demo_cancel_download_weibo, 
-//                            Toast.LENGTH_SHORT).show();
                 	activity.toastOnUiThread(weibosdk_cancel_download, Toast.LENGTH_LONG);
                 }
             });

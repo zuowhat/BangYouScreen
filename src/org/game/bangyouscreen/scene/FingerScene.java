@@ -5,6 +5,8 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.Arrays;
 
+import net.youmi.android.offers.PointsManager;
+
 import org.andengine.engine.handler.IUpdateHandler;
 import org.andengine.entity.IEntity;
 import org.andengine.entity.modifier.FadeInModifier;
@@ -313,6 +315,7 @@ public class FingerScene extends ManagedScene{
 				fingerGoldBG.setPosition(-fingerGoldBG.getWidth(), pItem.getY()-pItem.getHeight()/2f-5f-fingerGoldBG.getHeight()/2f);
 				fadableBGRect.attachChild(fingerGoldBG);
 				
+				PointsManager.getInstance(ResourceManager.getActivity()).awardPoints(Math.round(upHeight/2f));
 				AnimatedSprite[] goldNumAS = mGameNumber.fingerOverGold(fingerGoldBG, Math.round(upHeight/2f));
 				Sprite gLayerSprite = new Sprite(0f,0f,ResourceManager.gameGold,mVertexBufferObjectManager);
 				gLayerSprite.setSize(goldNumAS[2].getHeight(), goldNumAS[2].getHeight());

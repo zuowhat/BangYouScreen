@@ -14,14 +14,14 @@ public class Constants {
 	
 	/**游戏初始化数据*/
 	public static final int GOLD_INIT = 10000;//初始化游戏金币
-	public static final int[] weaponPrice = {500,1500,3000,650,1800,3500,800,2000,5000};//武器价格
-	public static final int[] magicPrice = {500,1500,3000,650,1800,3500,800,2000,5000};//魔法价格
-	public static final int[] propPrice = {200,350,500};//道具价格
+	public static final int[] weaponPrice = {1500,3500,6000,1650,3800,6500,1800,4000,7500};//武器价格
+	public static final int[] magicPrice = {3000,4000,5000};//魔法价格
+	public static final int[] propPrice = {600,300,600};//道具价格
 	public static final float CLOCKTIME = 5f;//时光沙漏增益时间
 	public static final float ADD_DPS = 0.2f;//魔龙之血增益效果
 	public static final float ADD_DPS_TIME = 10f;//魔龙之血增益时间
 	public static final float ADD_AOE = 0.2f;//蓝色冰魄增益效果
-	public static final float GAMETIME_INIT = 30f;//初始化游戏时间
+	public static final float GAMETIME_INIT = 5f;//初始化游戏时间
 	public static final float BOSS_VELOCITY = 50.0f;//BOSS移动速度
 	
 	public static final int THEME_NUM = 2;//主题个数
@@ -53,7 +53,7 @@ public class Constants {
 	public static final int ALL_APPS_INT = 18;//安装试用应用
 	public static final String FINGER_HIGHESTSCORE = "FingerHighScore";//指力模式最高纪录
 	
-	public static final String weiboText = "测试《???》APP腾讯微博分享,得分截图坐标392,329,400,100@金瑾";
+	public static final String weiboText = "《天天爆你屏》APP真是太好玩了,这是我的限时模式记录,你能超过我吗?点赞!@左what";
 	
 	/** 冒险岛主题BOSS个数 */
 	public static final int THEME_1_BOSS_NUM = 8;

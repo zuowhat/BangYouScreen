@@ -26,6 +26,7 @@ import org.game.bangyouscreen.scene.SplashScreen;
 import org.game.bangyouscreen.share.sinaSDK.SinaWeiboUtil;
 import org.game.bangyouscreen.util.Constants;
 
+import com.qq.e.ads.InterstitialAd;
 import com.sina.weibo.sdk.api.share.BaseResponse;
 import com.sina.weibo.sdk.api.share.IWeiboDownloadListener;
 import com.sina.weibo.sdk.api.share.IWeiboHandler.Response;
@@ -103,6 +104,7 @@ public class BangYouScreenActivity extends BaseGameActivity implements PointsCha
 	public float actualWindowWidthInches;
 	public float actualWindowHeightInches;
 	public SmoothCamera mCamera;
+	public InterstitialAd iad;
 
 	@Override
 	public Engine onCreateEngine(EngineOptions pEngineOptions) { 
@@ -169,7 +171,8 @@ public class BangYouScreenActivity extends BaseGameActivity implements PointsCha
 
 	@Override
 	protected void onCreate(Bundle pSavedInstanceState) {
-		
+		iad = new InterstitialAd(this, "1101283691","9007479617362745346");
+	    iad.loadAd();
 		SinaWeiboUtil.getInstance().initShare(this, pSavedInstanceState);
 	    System.out.println("onCreate");
 		super.onCreate(pSavedInstanceState);
@@ -182,7 +185,7 @@ public class BangYouScreenActivity extends BaseGameActivity implements PointsCha
 				cameraWidth, cameraHeight, cameraWidth/DESIGN_WINDOW_WIDTH_PIXELS, cameraHeight/DESIGN_WINDOW_HEIGHT_PIXELS,
 				mRenderSurfaceView.getWidth(),mRenderSurfaceView.getHeight());
 		//System.out.println("onCreateResources");
-		
+		SFXManager.getInstance().loadSound("a_click", ResourceManager.getActivity().getSoundManager(), ResourceManager.getActivity());
 		ResourceManager.getInstance().initAdResources();
 		SFXManager.getInstance().loadMusic("splash", this.getMusicManager(), this);
 		System.out.println("onCreateResources");
@@ -239,8 +242,8 @@ public class BangYouScreenActivity extends BaseGameActivity implements PointsCha
 	
 	  @Override
 	public void onBackPressed() {
-		  SFXManager.getInstance().playSound("a_click");
 		  if (ResourceManager.getInstance().engine != null) {
+			  SFXManager.getInstance().playSound("a_click");
 			  if (SceneManager.getInstance().mIsLayerShown && SceneManager.getInstance().mCurrentLayer.getClass()
 					  .equals(GamePauseLayer.class)) {
 				  SceneManager.getInstance().mCurrentLayer.onHideLayer();
@@ -262,7 +265,9 @@ public class BangYouScreenActivity extends BaseGameActivity implements PointsCha
 			  }else if(SceneManager.getInstance().mCurrentScene.getClass().equals(ShopScene.class)){
 				  SceneManager.getInstance().showScene(MainMenuScene.getInstance());
 			  }else if(SceneManager.getInstance().mCurrentScene.getClass().equals(MainMenuScene.class)){
+				  //应用结束广告位置
 				  //SpotManager.getInstance(this).showSpotAds(this);
+				  iad.show();
 				  AlertDialog.Builder exitBuilder = new AlertDialog.Builder(this);
 					exitBuilder.setMessage("确定要退出吗?");
 					exitBuilder.setCancelable(false); //返回键是否可以关闭对话框
