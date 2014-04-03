@@ -92,6 +92,8 @@ public class SinaWeiboUtil {
     
     public static final String weibosdk_share_canceled = "取消分享";
     
+    public static final String weibosdk_share_install = "未安装新浪微博客户端...";
+    
     /** 微博微博分享接口实例 */
     private IWeiboShareAPI  mWeiboShareAPI = null;
     
@@ -105,14 +107,14 @@ public class SinaWeiboUtil {
         //mWeiboShareAPI.registerApp();
         
         // 如果未安装微博客户端，设置下载微博对应的回调
-        if (!mWeiboShareAPI.isWeiboAppInstalled()) {
-            mWeiboShareAPI.registerWeiboDownloadListener(new IWeiboDownloadListener() {
-                @Override
-                public void onCancel() {
-                	activity.toastOnUiThread(weibosdk_cancel_download, Toast.LENGTH_LONG);
-                }
-            });
-        }
+//        if (!mWeiboShareAPI.isWeiboAppInstalled()) {
+//            mWeiboShareAPI.registerWeiboDownloadListener(new IWeiboDownloadListener() {
+//                @Override
+//                public void onCancel() {
+//                	activity.toastOnUiThread(weibosdk_cancel_download, Toast.LENGTH_LONG);
+//                }
+//            });
+//        }
         
 		// 当 Activity 被重新初始化时（该 Activity 处于后台时，可能会由于内存不足被杀掉了），
         // 需要调用 {@link IWeiboShareAPI#handleWeiboResponse} 来接收微博客户端返回的数据。
@@ -127,18 +129,22 @@ public class SinaWeiboUtil {
     public void showShare(Bitmap bitmap){
     	try {
             // 检查微博客户端环境是否正常，如果未安装微博，弹出对话框询问用户下载微博客户端
-            if (mWeiboShareAPI.checkEnvironment(true)) {                    
-            	if (mWeiboShareAPI.isWeiboAppSupportAPI()) {
-                    int supportApi = mWeiboShareAPI.getWeiboAppSupportAPI();
-                    if (supportApi >= 10351 /*ApiUtils.BUILD_INT_VER_2_2*/) {
-                        sendMultiMessage(true, true,bitmap);
+    		if(mWeiboShareAPI.isWeiboAppInstalled()){
+    			if (mWeiboShareAPI.checkEnvironment(true)) {                    
+                	if (mWeiboShareAPI.isWeiboAppSupportAPI()) {
+                        int supportApi = mWeiboShareAPI.getWeiboAppSupportAPI();
+                        if (supportApi >= 10351 /*ApiUtils.BUILD_INT_VER_2_2*/) {
+                            sendMultiMessage(true, true,bitmap);
+                        } else {
+                            sendSingleMessage(true, true);
+                        }
                     } else {
-                        sendSingleMessage(true, true);
+                        ResourceManager.getActivity().toastOnUiThread(weibosdk_not_support_api_hint, Toast.LENGTH_SHORT);
                     }
-                } else {
-                    ResourceManager.getActivity().toastOnUiThread(weibosdk_not_support_api_hint, Toast.LENGTH_SHORT);
                 }
-            }
+    		}else{
+    			ResourceManager.getActivity().toastOnUiThread(weibosdk_share_install, Toast.LENGTH_LONG);
+    		}
         } catch (WeiboShareException e) {
             e.printStackTrace();
             ResourceManager.getActivity().toastOnUiThread(e.getMessage(), Toast.LENGTH_LONG);
