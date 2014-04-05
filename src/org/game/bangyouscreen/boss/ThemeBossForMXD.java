@@ -260,50 +260,7 @@ public class ThemeBossForMXD extends ManagedScene implements IScrollDetectorList
 		 themeR.setAlpha(0f);
 		 int themeSceneOneBossTotal = BangYouScreenActivity.getIntFromSharedPreferences(Constants.SHARED_PREFS_THEME_MXD);
 		 for(int i=0; i<ResourceManager.mxdBoss_TTRArray.length; i++){
-			 if( i < themeSceneOneBossTotal){
-				 if(isKO){
-					 if(i != (mCurrentBoss-1)){
-						//KO标志
-						 Sprite s = new Sprite(0f,0f,ResourceManager.ko,mVertexBufferObjectManager);
-						 EntityUtil.setSize("width", 1f/4f, s);
-						 s.setPosition((i+1f/2f)*mCameraWidth, themeR.getHeight()/2f);
-						 themeR.attachChild(s); 
-					 }else{
-						 //KO动画
-						 Sprite s = new Sprite(0f,0f,ResourceManager.ko,mVertexBufferObjectManager);
-						 EntityUtil.setSize("width", 1f/4f, s);
-						 s.setPosition((i+1f/2f)*mCameraWidth, themeR.getHeight()/2f);
-						 themeR.attachChild(s); 
-						 ScaleAtModifier highestPicScale = new ScaleAtModifier(0.5f, 25f, 1f, 0.5f, 0.5f);//实体缩放
-						 FadeInModifier highestPicFadeIn = new FadeInModifier(0.5f);//在0.5秒内改变透明度由0f变为1f
-						 ParallelEntityModifier highestPicParalle = new ParallelEntityModifier(new IEntityModifierListener(){
-
-							@Override
-							public void onModifierStarted(
-									IModifier<IEntity> pModifier, IEntity pItem) {
-								SFXManager.getInstance().playSound("t_ko");
-								
-							}
-
-							@Override
-							public void onModifierFinished(
-									IModifier<IEntity> pModifier, IEntity pItem) {
-								// TODO Auto-generated method stub
-								
-							}},highestPicScale,highestPicFadeIn);//同时执行修饰符
-						 s.registerEntityModifier(highestPicParalle);
-						 
-					 }
-				 }else{
-					//KO标志
-					 Sprite s = new Sprite(0f,0f,ResourceManager.ko,mVertexBufferObjectManager);
-					 EntityUtil.setSize("width", 1f/4f, s);
-					 s.setPosition((i+1f/2f)*mCameraWidth, mCameraHeight-s.getHeight());
-					 attachChild(s);
-				 }
-			 }
 			 if(ResourceManager.mxdBoss_TTRArray[i] != null){
-				 
 				//BOSS动画
 				bossPics[i] = new AnimatedButtonSprite(0f, 0f,ResourceManager.mxdBoss_TTRArray[i], mVertexBufferObjectManager);
 				EntityUtil.setSize("height", 1f/2f, bossPics[i]);
@@ -352,7 +309,49 @@ public class ThemeBossForMXD extends ManagedScene implements IScrollDetectorList
 				EntityUtil.setSize("height", 1f/2f, weizhiSprite);
 				weizhiSprite.setPosition(mCameraWidth*(i+1)-10f-arrowRightSprite.getWidth()/2f-arrowRightSprite.getWidth()*3f/2f-weizhiSprite.getWidth()/2f, themeR.getHeight()/2f);
 				themeR.attachChild(weizhiSprite);
-				
+			 }
+			 
+			 if( i < themeSceneOneBossTotal){
+				 if(isKO){
+					 if(i != (mCurrentBoss-1)){
+						//KO标志
+						 Sprite s = new Sprite(0f,0f,ResourceManager.ko,mVertexBufferObjectManager);
+						 EntityUtil.setSize("width", 1f/4f, s);
+						 s.setPosition((i+1f/2f)*mCameraWidth, themeR.getHeight()/2f);
+						 themeR.attachChild(s); 
+					 }else{
+						 //KO动画
+						 Sprite s = new Sprite(0f,0f,ResourceManager.ko,mVertexBufferObjectManager);
+						 EntityUtil.setSize("width", 1f/4f, s);
+						 s.setPosition((i+1f/2f)*mCameraWidth, themeR.getHeight()/2f);
+						 themeR.attachChild(s); 
+						 ScaleAtModifier highestPicScale = new ScaleAtModifier(0.5f, 25f, 1f, 0.5f, 0.5f);//实体缩放
+						 FadeInModifier highestPicFadeIn = new FadeInModifier(0.5f);//在0.5秒内改变透明度由0f变为1f
+						 ParallelEntityModifier highestPicParalle = new ParallelEntityModifier(new IEntityModifierListener(){
+
+							@Override
+							public void onModifierStarted(
+									IModifier<IEntity> pModifier, IEntity pItem) {
+								SFXManager.getInstance().playSound("t_ko");
+								
+							}
+
+							@Override
+							public void onModifierFinished(
+									IModifier<IEntity> pModifier, IEntity pItem) {
+								// TODO Auto-generated method stub
+								
+							}},highestPicScale,highestPicFadeIn);//同时执行修饰符
+						 s.registerEntityModifier(highestPicParalle);
+						 
+					 }
+				 }else{
+					//KO标志
+					 Sprite s = new Sprite(0f,0f,ResourceManager.ko,mVertexBufferObjectManager);
+					 EntityUtil.setSize("width", 1f/4f, s);
+					 s.setPosition((i+1f/2f)*mCameraWidth, themeR.getHeight()/2f);
+					 themeR.attachChild(s);
+				 }
 			 }
 		 }
 		 return themeR;

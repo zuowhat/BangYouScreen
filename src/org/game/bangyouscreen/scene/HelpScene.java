@@ -76,16 +76,16 @@ public class HelpScene extends ManagedScene{
 		attachChild(backgroundSprite);
 		
 		//进入数据测试界面
-//		ButtonSprite testBS = new ButtonSprite(0f,0f, ResourceManager.gameGold,mVertexBufferObjectManager);
-//		testBS.setPosition(testBS.getWidth(), mCameraHeight-testBS.getHeight());
-//		attachChild(testBS);
-//		testBS.setOnClickListener(new OnClickListener(){
-//			public void onClick(ButtonSprite pButtonSprite, float pTouchAreaLocalX, float pTouchAreaLocalY) {
-//				SFXManager.getInstance().playSound("a_click");
-//				SceneManager.getInstance().showScene(new TestDataScene());
-//			}
-//		});
-//		registerTouchArea(testBS);
+		ButtonSprite testBS = new ButtonSprite(0f,0f, ResourceManager.gameGold,mVertexBufferObjectManager);
+		testBS.setPosition(testBS.getWidth(), mCameraHeight-testBS.getHeight());
+		attachChild(testBS);
+		testBS.setOnClickListener(new OnClickListener(){
+			public void onClick(ButtonSprite pButtonSprite, float pTouchAreaLocalX, float pTouchAreaLocalY) {
+				SFXManager.getInstance().playSound("a_click");
+				SceneManager.getInstance().showScene(new TestDataScene());
+			}
+		});
+		registerTouchArea(testBS);
 		
 		
 		

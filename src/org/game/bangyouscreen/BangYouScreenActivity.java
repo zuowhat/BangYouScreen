@@ -275,6 +275,7 @@ public class BangYouScreenActivity extends BaseGameActivity implements PointsCha
 						@Override
 						public void onClick(DialogInterface dialog, int which) {
 							//playSoundPool.playSound(1);
+							//ResourceManager.getInstance().unloadAdResources();
 							System.exit(0);
 						}
 					});

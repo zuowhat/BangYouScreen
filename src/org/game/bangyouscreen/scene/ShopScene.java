@@ -91,6 +91,7 @@ public class ShopScene extends ManagedScene implements IScrollDetectorListener{
 
 	@Override
 	public void onLoadScene() {
+		isTouch = true;
 		weaponPotionNum = BangYouScreenActivity.getIntFromSharedPreferences(Constants.Prop_BUY+0);
 		magicPotionNum = BangYouScreenActivity.getIntFromSharedPreferences(Constants.Prop_BUY+1);
 		clockNum = BangYouScreenActivity.getIntFromSharedPreferences(Constants.Prop_BUY+2);
@@ -498,7 +499,7 @@ public class ShopScene extends ManagedScene implements IScrollDetectorListener{
 
 	@Override
 	public void onShowScene() {
-		
+		isTouch = true;
 	}
 
 	@Override
