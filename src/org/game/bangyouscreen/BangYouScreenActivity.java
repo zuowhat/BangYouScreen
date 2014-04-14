@@ -2,6 +2,7 @@ package org.game.bangyouscreen;
 
 
 import net.youmi.android.offers.PointsChangeNotify;
+
 import org.andengine.engine.Engine;
 import org.andengine.engine.FixedStepEngine;
 import org.andengine.engine.camera.SmoothCamera;
@@ -26,19 +27,19 @@ import org.game.bangyouscreen.scene.SplashScreen;
 import org.game.bangyouscreen.share.sinaSDK.SinaWeiboUtil;
 import org.game.bangyouscreen.util.Constants;
 
-import com.qq.e.ads.InterstitialAd;
-import com.sina.weibo.sdk.api.share.BaseResponse;
-import com.sina.weibo.sdk.api.share.IWeiboDownloadListener;
-import com.sina.weibo.sdk.api.share.IWeiboHandler.Response;
-import com.sina.weibo.sdk.api.share.IWeiboShareAPI;
-import com.sina.weibo.sdk.api.share.WeiboShareSDK;
-import com.sina.weibo.sdk.constant.WBConstants;
-
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.view.View.MeasureSpec;
 import android.widget.Toast;
+
+import com.qq.e.ads.InterstitialAd;
+import com.sina.weibo.sdk.api.share.BaseResponse;
+import com.sina.weibo.sdk.api.share.IWeiboHandler.Response;
+import com.sina.weibo.sdk.constant.WBConstants;
 
 
 
@@ -267,7 +268,12 @@ public class BangYouScreenActivity extends BaseGameActivity implements PointsCha
 			  }else if(SceneManager.getInstance().mCurrentScene.getClass().equals(MainMenuScene.class)){
 				  //应用结束广告位置
 				  //SpotManager.getInstance(this).showSpotAds(this);
-				  iad.show();
+				  //判断是否联网
+				  ConnectivityManager cwjManager =(ConnectivityManager)getSystemService(Context.CONNECTIVITY_SERVICE);
+				  NetworkInfo info = cwjManager.getActiveNetworkInfo();
+				  if (info != null && info.isAvailable()){
+					  iad.show();
+				  }
 				  AlertDialog.Builder exitBuilder = new AlertDialog.Builder(this);
 					exitBuilder.setMessage("确定要退出吗?");
 					exitBuilder.setCancelable(false); //返回键是否可以关闭对话框
