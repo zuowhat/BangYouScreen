@@ -54,6 +54,10 @@
         android:name="net.youmi.android.AdService"
         android:exported="false" >
     </service>
+    <service
+    android:name="net.youmi.android.ExpService"
+    android:exported="false" >
+</service>
     <receiver 
         android:name="net.youmi.android.AdReceiver" >
         <intent-filter>
@@ -80,8 +84,8 @@
 </service> 
     
 <meta-data  android:name="GDT_AD_APPID"    android:value="1101283691" /> 
-    
-    
+ <meta-data android:name="TA_APPKEY" android:value="A24USLQK8M7Y" />
+    <meta-data android:name="InstallChannel" android:value="zuowhat" /> 
     
     
     </application>

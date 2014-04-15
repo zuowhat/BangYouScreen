@@ -5,8 +5,9 @@
 	<classpathentry kind="con" path="com.android.ide.eclipse.adt.ANDROID_FRAMEWORK"/>
 	<classpathentry kind="con" path="com.android.ide.eclipse.adt.LIBRARIES"/>
 	<classpathentry kind="lib" path="libs/gdt_mob_release_v4.1.424.jar"/>
-	<classpathentry kind="lib" path="libs/weibosdkcore.jar"/>
 	<classpathentry kind="lib" path="libs/commons-httpclient-3.0.1.jar"/>
 	<classpathentry kind="lib" path="libs/YoumiSdk_v4.08_2014-04-09.jar"/>
+	<classpathentry kind="lib" path="libs/mta-sdk-1.6.2.jar"/>
+	<classpathentry kind="lib" path="libs/weibosdkcore.jar"/>
 	<classpathentry kind="output" path="bin/classes"/>
 </classpath>

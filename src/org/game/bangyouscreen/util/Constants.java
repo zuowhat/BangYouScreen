@@ -53,7 +53,8 @@ public class Constants {
 	public static final int ALL_APPS_INT = 18;//安装试用应用
 	public static final String FINGER_HIGHESTSCORE = "FingerHighScore";//指力模式最高纪录
 	
-	public static final String weiboText = "《天天爆你屏》APP真是太好玩了,这是我的限时模式记录,你能超过我吗?点赞!@左what";
+	public static final String weiboTextS = "《天天爆你屏》APP真是太好玩了,这是我的限时模式记录,你能超过我吗?点赞!@左what";
+	public static final String weiboTextT = "《天天爆你屏》APP真是太好玩了,这是我的限时模式记录,你能超过我吗?点赞!@zuocheng_1985";
 	//public static final String weiboText = "Test";
 	
 	/** 冒险岛主题BOSS个数 */

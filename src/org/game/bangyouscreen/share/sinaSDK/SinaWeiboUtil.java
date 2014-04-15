@@ -50,7 +50,6 @@ public class SinaWeiboUtil {
 		return INSTANCE;
 	}
 
-    /** 当前 DEMO 应用的 APP_KEY，第三方应用应该使用自己的 APP_KEY 替换该 APP_KEY */
     private String APP_KEY = "3974289953";
 
     /** 
@@ -62,7 +61,7 @@ public class SinaWeiboUtil {
      * 建议使用默认回调页：https://api.weibo.com/oauth2/default.html
      * </p>
      */
-    //private String REDIRECT_URL = "http://www.sina.com";
+    private String REDIRECT_URL = "http://www.sina.com";
 
     /**
      * Scope 是 OAuth2.0 授权机制中 authorize 接口的一个参数。通过 Scope，平台将开放更多的微博
@@ -95,7 +94,7 @@ public class SinaWeiboUtil {
     public static final String weibosdk_share_install = "未安装新浪微博客户端...";
     
     /** 微博微博分享接口实例 */
-    private IWeiboShareAPI  mWeiboShareAPI = null;
+    public IWeiboShareAPI  mWeiboShareAPI = null;
     
     public void initShare(final BangYouScreenActivity activity, Bundle pSavedInstanceState){
     	// 创建微博分享接口实例
@@ -170,7 +169,7 @@ public class SinaWeiboUtil {
         WeiboMultiMessage weiboMessage = new WeiboMultiMessage();
         if (hasText) {
             TextObject textObject = new TextObject();
-            textObject.text = Constants.weiboText;
+            textObject.text = Constants.weiboTextS;
             weiboMessage.textObject = textObject;
         }
         
@@ -208,7 +207,7 @@ public class SinaWeiboUtil {
         WeiboMessage weiboMessage = new WeiboMessage();
         if (hasText) {
             TextObject textObject = new TextObject();
-            textObject.text = Constants.weiboText;
+            textObject.text = Constants.weiboTextS;
             weiboMessage.mediaObject = textObject;
         }
         if (hasImage) {

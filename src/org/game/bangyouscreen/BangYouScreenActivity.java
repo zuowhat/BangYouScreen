@@ -30,6 +30,7 @@ import org.game.bangyouscreen.util.Constants;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
@@ -38,8 +39,13 @@ import android.widget.Toast;
 
 import com.qq.e.ads.InterstitialAd;
 import com.sina.weibo.sdk.api.share.BaseResponse;
+import com.sina.weibo.sdk.api.share.IWeiboShareAPI;
+import com.sina.weibo.sdk.api.share.WeiboShareSDK;
 import com.sina.weibo.sdk.api.share.IWeiboHandler.Response;
+import com.sina.weibo.sdk.auth.WeiboAuth;
+import com.sina.weibo.sdk.auth.sso.SsoHandler;
 import com.sina.weibo.sdk.constant.WBConstants;
+import com.tencent.stat.StatService;
 
 
 
@@ -106,6 +112,12 @@ public class BangYouScreenActivity extends BaseGameActivity implements PointsCha
 	public float actualWindowHeightInches;
 	public SmoothCamera mCamera;
 	public InterstitialAd iad;
+	/** 微博微博分享接口实例 */
+    //public IWeiboShareAPI  mWeiboShareAPI = null;
+    /** 微博 Web 授权类，提供登陆等功能  */
+    private WeiboAuth mWeiboAuth;
+    /** 注意：SsoHandler 仅当 SDK 支持 SSO 时有效 */
+    private SsoHandler mSsoHandler;
 
 	@Override
 	public Engine onCreateEngine(EngineOptions pEngineOptions) { 
@@ -174,7 +186,17 @@ public class BangYouScreenActivity extends BaseGameActivity implements PointsCha
 	protected void onCreate(Bundle pSavedInstanceState) {
 		iad = new InterstitialAd(this, "1101283691","9007479617362745346");
 	    iad.loadAd();
+	    
+	    
+	 // 创建微博实例
+        //mWeiboAuth = new WeiboAuth(this, Constants.APP_KEY, Constants.REDIRECT_URL, Constants.SCOPE);
 		SinaWeiboUtil.getInstance().initShare(this, pSavedInstanceState);
+//	    mWeiboShareAPI = WeiboShareSDK.createWeiboAPI(this, "3974289953");
+//	    if (pSavedInstanceState != null) {
+//            mWeiboShareAPI.handleWeiboResponse(getIntent(), this);
+//        }
+	    
+		StatService.trackCustomEvent(this, "onCreate", "");
 	    System.out.println("onCreate");
 		super.onCreate(pSavedInstanceState);
 	}
@@ -329,7 +351,15 @@ public class BangYouScreenActivity extends BaseGameActivity implements PointsCha
             BangYouScreenActivity.this.toastOnUiThread(SinaWeiboUtil.weibosdk_share_failed+ "Error Message: " + baseResp.errMsg, Toast.LENGTH_LONG);
             break;
         }
-		
 	}
+	
+	 protected void onNewIntent(Intent intent) {
+	        super.onNewIntent(intent);
+	        
+	        // 从当前应用唤起微博并进行分享后，返回到当前应用时，需要在此处调用该函数
+	        // 来接收微博客户端返回的数据；执行成功，返回 true，并调用
+	        // {@link IWeiboHandler.Response#onResponse}；失败返回 false，不调用上述回调
+	        SinaWeiboUtil.getInstance().mWeiboShareAPI.handleWeiboResponse(intent, this);
+	    }
 	  
 }
