@@ -1,8 +1,8 @@
 package org.game.bangyouscreen;
 
-
+import net.youmi.android.offers.OffersManager;
 import net.youmi.android.offers.PointsChangeNotify;
-
+import net.youmi.android.offers.PointsManager;
 import org.andengine.engine.Engine;
 import org.andengine.engine.FixedStepEngine;
 import org.andengine.engine.camera.SmoothCamera;
@@ -24,30 +24,16 @@ import org.game.bangyouscreen.scene.HelpScene;
 import org.game.bangyouscreen.scene.MainMenuScene;
 import org.game.bangyouscreen.scene.ShopScene;
 import org.game.bangyouscreen.scene.SplashScreen;
-import org.game.bangyouscreen.share.sinaSDK.SinaWeiboUtil;
 import org.game.bangyouscreen.util.Constants;
-
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.view.View.MeasureSpec;
-import android.widget.Toast;
-
 import com.qq.e.ads.InterstitialAd;
-import com.sina.weibo.sdk.api.share.BaseResponse;
-import com.sina.weibo.sdk.api.share.IWeiboShareAPI;
-import com.sina.weibo.sdk.api.share.WeiboShareSDK;
-import com.sina.weibo.sdk.api.share.IWeiboHandler.Response;
-import com.sina.weibo.sdk.auth.WeiboAuth;
-import com.sina.weibo.sdk.auth.sso.SsoHandler;
-import com.sina.weibo.sdk.constant.WBConstants;
 import com.tencent.stat.StatService;
-
-
 
 public class BangYouScreenActivity extends BaseGameActivity implements PointsChangeNotify{
 	
@@ -112,12 +98,6 @@ public class BangYouScreenActivity extends BaseGameActivity implements PointsCha
 	public float actualWindowHeightInches;
 	public SmoothCamera mCamera;
 	public InterstitialAd iad;
-	/** 微博微博分享接口实例 */
-    //public IWeiboShareAPI  mWeiboShareAPI = null;
-    /** 微博 Web 授权类，提供登陆等功能  */
-   // private WeiboAuth mWeiboAuth;
-    /** 注意：SsoHandler 仅当 SDK 支持 SSO 时有效 */
-   // private SsoHandler mSsoHandler;
 
 	@Override
 	public Engine onCreateEngine(EngineOptions pEngineOptions) { 
@@ -223,7 +203,6 @@ public class BangYouScreenActivity extends BaseGameActivity implements PointsCha
 //	    int viewWidth = mRenderSurfaceView.getWidth();
 //		int viewHeight = mRenderSurfaceView.getHeight();
 		SceneManager.getInstance().showScene(new SplashScreen());
-		System.out.println("onCreateScene");
 		pOnCreateSceneCallback.onCreateSceneFinished(mEngine.getScene());
 	}
 
@@ -236,9 +215,7 @@ public class BangYouScreenActivity extends BaseGameActivity implements PointsCha
 
 	@Override
 	protected synchronized void onResume() {
-		System.out.println("onResume");
 		super.onResume();
-		//System.gc();
 		if(this.isGameLoaded()){
 			//SFXManager.getInstance().playMusic("mainMusic");
 		}
@@ -246,7 +223,6 @@ public class BangYouScreenActivity extends BaseGameActivity implements PointsCha
 	
 	@Override
 	protected void onPause() {
-		System.out.println("onPause");
 		super.onPause();
 		if (this.isGameLoaded()) {
 			//SFXManager.getInstance().pauseMusic("mainMusic");
@@ -255,10 +231,7 @@ public class BangYouScreenActivity extends BaseGameActivity implements PointsCha
 	
 	@Override
 	protected void onDestroy() {
-		System.out.println("onDestroy");
-		// 释放资源，原finalize()方法名修改为close()
-		//AppConnect.getInstance(this).close();
-		ResourceManager.getInstance().unloadAdResources();
+		//ResourceManager.getInstance().unloadAdResources();
 		super.onDestroy();
 		System.exit(0);
 	}
@@ -302,11 +275,9 @@ public class BangYouScreenActivity extends BaseGameActivity implements PointsCha
 					exitBuilder.setPositiveButton("是", new DialogInterface.OnClickListener() {
 						@Override
 						public void onClick(DialogInterface dialog, int which) {
-							//playSoundPool.playSound(1);
-							//ResourceManager.getInstance().unloadAdResources();
-							//System.exit(0);
+							OffersManager.getInstance(BangYouScreenActivity.this).onAppExit(); 
+							PointsManager.getInstance(BangYouScreenActivity.this).unRegisterNotify(BangYouScreenActivity.this);
 							BangYouScreenActivity.this.finish();
-							
 						}
 					});
 					
@@ -339,29 +310,5 @@ public class BangYouScreenActivity extends BaseGameActivity implements PointsCha
 		}
 		ShopScene.getInstance().myApps = -1;
 	}
-
-//	public void onResponse(BaseResponse baseResp) {
-//		System.out.println("BangYouScreenActivity --> onResponse --> "+baseResp.errCode);
-//		switch (baseResp.errCode) {
-//        case WBConstants.ErrorCode.ERR_OK:
-//        	BangYouScreenActivity.this.toastOnUiThread(SinaWeiboUtil.weibosdk_share_success, Toast.LENGTH_LONG);
-//            break;
-//        case WBConstants.ErrorCode.ERR_CANCEL:
-//        	BangYouScreenActivity.this.toastOnUiThread(SinaWeiboUtil.weibosdk_share_canceled, Toast.LENGTH_LONG);
-//            break;
-//        case WBConstants.ErrorCode.ERR_FAIL:
-//            BangYouScreenActivity.this.toastOnUiThread(SinaWeiboUtil.weibosdk_share_failed+ "Error Message: " + baseResp.errMsg, Toast.LENGTH_LONG);
-//            break;
-//        }
-//	}
-	
-//	 protected void onNewIntent(Intent intent) {
-//	        super.onNewIntent(intent);
-//	        
-//	        // 从当前应用唤起微博并进行分享后，返回到当前应用时，需要在此处调用该函数
-//	        // 来接收微博客户端返回的数据；执行成功，返回 true，并调用
-//	        // {@link IWeiboHandler.Response#onResponse}；失败返回 false，不调用上述回调
-//	        mWeiboShareAPI.handleWeiboResponse(intent, this);
-//	    }
 	  
 }

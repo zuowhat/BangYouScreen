@@ -17,7 +17,6 @@ import org.andengine.opengl.texture.TextureOptions;
 import org.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlas;
 import org.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlasTextureRegionFactory;
 import org.andengine.opengl.texture.region.ITextureRegion;
-import org.andengine.opengl.vbo.VertexBufferObjectManager;
 import org.andengine.util.modifier.IModifier;
 import org.andengine.util.modifier.IModifier.IModifierListener;
 import org.game.bangyouscreen.managers.ManagedScene;
@@ -34,9 +33,6 @@ import org.game.bangyouscreen.util.EntityUtil;
 public class SplashScreen extends ManagedScene{
 	
 	public SplashScreen thisSplashScene = this;
-	private float mCameraWidth = ResourceManager.getCamera().getWidth();
-	private float mCameraHeight = ResourceManager.getCamera().getHeight();
-	private VertexBufferObjectManager mVertexBufferObjectManager = ResourceManager.getEngine().getVertexBufferObjectManager();
 	
 	//对显示的图片进行缩放
 	private static final float mEachScaleToSize = 2f * ResourceManager.getInstance().cameraScaleFactorY;

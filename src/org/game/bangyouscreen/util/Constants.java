@@ -21,7 +21,7 @@ public class Constants {
 	public static final float ADD_DPS = 0.2f;//魔龙之血增益效果
 	public static final float ADD_DPS_TIME = 10f;//魔龙之血增益时间
 	public static final float ADD_AOE = 0.2f;//蓝色冰魄增益效果
-	public static final float GAMETIME_INIT = 5f;//初始化游戏时间
+	public static final float GAMETIME_INIT = 30f;//初始化游戏时间
 	public static final float BOSS_VELOCITY = 50.0f;//BOSS移动速度
 	
 	public static final int THEME_NUM = 2;//主题个数

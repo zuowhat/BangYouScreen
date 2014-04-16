@@ -4,7 +4,6 @@ import net.youmi.android.AdManager;
 import net.youmi.android.offers.OffersManager;
 import net.youmi.android.offers.PointsManager;
 import net.youmi.android.spot.SpotManager;
-
 import org.andengine.engine.FixedStepEngine;
 import org.andengine.engine.camera.SmoothCamera;
 import org.andengine.opengl.font.Font;
@@ -20,12 +19,8 @@ import org.andengine.opengl.texture.region.TiledTextureRegion;
 import org.andengine.util.adt.color.Color;
 import org.game.bangyouscreen.BangYouScreenActivity;
 import org.game.bangyouscreen.util.Constants;
-
-import com.sina.weibo.sdk.api.share.IWeiboShareAPI;
-
 import android.content.Context;
 import android.graphics.Typeface;
-
 
 /**
  * 游戏资源管理 

@@ -60,8 +60,6 @@ public class SinaWeiboUtil{
 
     private String weibosdk_not_support_api_hint = "微博客户端不支持 SDK 分享或微博客户端未安装或微博客户端是非官方版本";
     
-    private String weibosdk_cancel_download = "取消下载";
-    
     public static final String weibosdk_share_success = "分享成功";
     
     public static final String weibosdk_share_failed = "分享失败";
@@ -171,9 +169,6 @@ public class SinaWeiboUtil{
     		} catch (IOException e) {
     			e.printStackTrace();
     		}
-        	
-        	
-        	
         	ImageObject imageObject = new ImageObject();
             imageObject.setImageObject(bitmap);
             weiboMessage.imageObject = imageObject;

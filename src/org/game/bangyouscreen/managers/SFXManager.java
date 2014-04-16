@@ -24,8 +24,8 @@ public class SFXManager {
 	
 	private static SFXManager INSTANCE = new SFXManager();
 	private Music mMusic;
-    private HashMap<String, Music> mMusicMap = new HashMap();
-    private HashMap<String, Sound> mSoundsMap = new HashMap();
+	private HashMap<String, Music> mMusicMap = new HashMap();
+	private HashMap<String, Sound> mSoundsMap = new HashMap();
     
 	public static SFXManager getInstance(){
 	    if (INSTANCE == null)
@@ -129,7 +129,8 @@ public class SFXManager {
 	 * @since 1.0
 	 */
     public void pauseAllMusic(){
-        Iterator localIterator = this.mMusicMap.keySet().iterator();
+        @SuppressWarnings("rawtypes")
+		Iterator localIterator = this.mMusicMap.keySet().iterator();
         while (true){
           boolean bool = localIterator.hasNext();
           if (!bool)

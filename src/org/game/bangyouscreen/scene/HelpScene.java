@@ -18,7 +18,6 @@ import org.game.bangyouscreen.BangYouScreenActivity;
 import org.game.bangyouscreen.managers.ManagedScene;
 import org.game.bangyouscreen.managers.ResourceManager;
 import org.game.bangyouscreen.managers.SFXManager;
-import org.game.bangyouscreen.managers.SceneManager;
 import org.game.bangyouscreen.util.Constants;
 import org.game.bangyouscreen.util.EntityUtil;
 import org.game.bangyouscreen.util.GameNumberUtil;
