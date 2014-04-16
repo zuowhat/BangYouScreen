@@ -35,13 +35,14 @@ import org.game.bangyouscreen.managers.ManagedScene;
 import org.game.bangyouscreen.managers.ResourceManager;
 import org.game.bangyouscreen.managers.SFXManager;
 import org.game.bangyouscreen.managers.SceneManager;
-import org.game.bangyouscreen.share.sinaSDK.SinaWeiboUtil;
+import org.game.bangyouscreen.share.sinaSDK.AuthActivity;
 import org.game.bangyouscreen.share.tencentSDK.TencentWeiboUtil;
 import org.game.bangyouscreen.util.Constants;
 import org.game.bangyouscreen.util.EntityUtil;
 import org.game.bangyouscreen.util.GameNumberUtil;
 import org.game.bangyouscreen.util.GameTimer;
 
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Bitmap.CompressFormat;
 import android.graphics.BitmapFactory;
@@ -71,7 +72,7 @@ public class FingerScene extends ManagedScene{
 	private int currentHighestScore;
 	public static boolean isOver;
 	private Rectangle fadableBGRect;
-	private Bitmap bitmap;
+	public Bitmap bitmap;
 	private Sprite fingerScoreBG;
 	
 	@Override
@@ -387,7 +388,11 @@ public class FingerScene extends ManagedScene{
 							@Override
 							public void onClick(ButtonSprite pButtonSprite, float pTouchAreaLocalX,
 									float pTouchAreaLocalY) {
-								SinaWeiboUtil.getInstance().showShare(bitmap);
+								//SinaWeiboUtil.getInstance().showShare(bitmap);
+								
+								
+								Intent i = new Intent(ResourceManager.getActivity(),AuthActivity.class);
+								ResourceManager.getActivity().startActivity(i);
 							}
 						});
 						registerTouchArea(sinaLogo);

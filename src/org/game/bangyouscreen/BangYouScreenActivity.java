@@ -49,7 +49,7 @@ import com.tencent.stat.StatService;
 
 
 
-public class BangYouScreenActivity extends BaseGameActivity implements PointsChangeNotify, Response{
+public class BangYouScreenActivity extends BaseGameActivity implements PointsChangeNotify{
 	
 	public static boolean getBooleanFromSharedPreferences(final String pStr) {
 		return ResourceManager.getActivity()
@@ -115,9 +115,9 @@ public class BangYouScreenActivity extends BaseGameActivity implements PointsCha
 	/** 微博微博分享接口实例 */
     //public IWeiboShareAPI  mWeiboShareAPI = null;
     /** 微博 Web 授权类，提供登陆等功能  */
-    private WeiboAuth mWeiboAuth;
+   // private WeiboAuth mWeiboAuth;
     /** 注意：SsoHandler 仅当 SDK 支持 SSO 时有效 */
-    private SsoHandler mSsoHandler;
+   // private SsoHandler mSsoHandler;
 
 	@Override
 	public Engine onCreateEngine(EngineOptions pEngineOptions) { 
@@ -190,7 +190,7 @@ public class BangYouScreenActivity extends BaseGameActivity implements PointsCha
 	    
 	 // 创建微博实例
         //mWeiboAuth = new WeiboAuth(this, Constants.APP_KEY, Constants.REDIRECT_URL, Constants.SCOPE);
-		SinaWeiboUtil.getInstance().initShare(this, pSavedInstanceState);
+		//SinaWeiboUtil.getInstance().initShare(this, pSavedInstanceState);
 //	    mWeiboShareAPI = WeiboShareSDK.createWeiboAPI(this, "3974289953");
 //	    if (pSavedInstanceState != null) {
 //            mWeiboShareAPI.handleWeiboResponse(getIntent(), this);
@@ -304,7 +304,9 @@ public class BangYouScreenActivity extends BaseGameActivity implements PointsCha
 						public void onClick(DialogInterface dialog, int which) {
 							//playSoundPool.playSound(1);
 							//ResourceManager.getInstance().unloadAdResources();
-							System.exit(0);
+							//System.exit(0);
+							BangYouScreenActivity.this.finish();
+							
 						}
 					});
 					
@@ -338,28 +340,28 @@ public class BangYouScreenActivity extends BaseGameActivity implements PointsCha
 		ShopScene.getInstance().myApps = -1;
 	}
 
-	@Override
-	public void onResponse(BaseResponse baseResp) {
-		switch (baseResp.errCode) {
-        case WBConstants.ErrorCode.ERR_OK:
-        	BangYouScreenActivity.this.toastOnUiThread(SinaWeiboUtil.weibosdk_share_success, Toast.LENGTH_LONG);
-            break;
-        case WBConstants.ErrorCode.ERR_CANCEL:
-        	BangYouScreenActivity.this.toastOnUiThread(SinaWeiboUtil.weibosdk_share_canceled, Toast.LENGTH_LONG);
-            break;
-        case WBConstants.ErrorCode.ERR_FAIL:
-            BangYouScreenActivity.this.toastOnUiThread(SinaWeiboUtil.weibosdk_share_failed+ "Error Message: " + baseResp.errMsg, Toast.LENGTH_LONG);
-            break;
-        }
-	}
+//	public void onResponse(BaseResponse baseResp) {
+//		System.out.println("BangYouScreenActivity --> onResponse --> "+baseResp.errCode);
+//		switch (baseResp.errCode) {
+//        case WBConstants.ErrorCode.ERR_OK:
+//        	BangYouScreenActivity.this.toastOnUiThread(SinaWeiboUtil.weibosdk_share_success, Toast.LENGTH_LONG);
+//            break;
+//        case WBConstants.ErrorCode.ERR_CANCEL:
+//        	BangYouScreenActivity.this.toastOnUiThread(SinaWeiboUtil.weibosdk_share_canceled, Toast.LENGTH_LONG);
+//            break;
+//        case WBConstants.ErrorCode.ERR_FAIL:
+//            BangYouScreenActivity.this.toastOnUiThread(SinaWeiboUtil.weibosdk_share_failed+ "Error Message: " + baseResp.errMsg, Toast.LENGTH_LONG);
+//            break;
+//        }
+//	}
 	
-	 protected void onNewIntent(Intent intent) {
-	        super.onNewIntent(intent);
-	        
-	        // 从当前应用唤起微博并进行分享后，返回到当前应用时，需要在此处调用该函数
-	        // 来接收微博客户端返回的数据；执行成功，返回 true，并调用
-	        // {@link IWeiboHandler.Response#onResponse}；失败返回 false，不调用上述回调
-	        SinaWeiboUtil.getInstance().mWeiboShareAPI.handleWeiboResponse(intent, this);
-	    }
+//	 protected void onNewIntent(Intent intent) {
+//	        super.onNewIntent(intent);
+//	        
+//	        // 从当前应用唤起微博并进行分享后，返回到当前应用时，需要在此处调用该函数
+//	        // 来接收微博客户端返回的数据；执行成功，返回 true，并调用
+//	        // {@link IWeiboHandler.Response#onResponse}；失败返回 false，不调用上述回调
+//	        mWeiboShareAPI.handleWeiboResponse(intent, this);
+//	    }
 	  
 }

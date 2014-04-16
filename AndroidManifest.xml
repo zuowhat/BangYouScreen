@@ -34,7 +34,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
             
-            <intent-filter>
+           <intent-filter>
 				<action android:name="com.sina.weibo.sdk.action.ACTION_SDK_REQ_ACTIVITY" />
 				<category android:name="android.intent.category.DEFAULT" />
 			</intent-filter>
@@ -43,6 +43,12 @@
         
         <activity android:name="com.tencent.weibo.sdk.android.component.Authorize" >
         </activity>
+        <activity android:name="org.game.bangyouscreen.share.sinaSDK.AuthActivity" 
+            android:theme="@android:style/Theme.Light.NoTitleBar"
+            >
+             
+        </activity>
+        
         
         <activity
         android:name="net.youmi.android.AdBrowser"
